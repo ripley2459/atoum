@@ -1,9 +1,9 @@
 <?php
 
 	function get_themes(){
-		global $links, $option_value, $THEME;
+		global $LINKS, $option_value, $THEME;
 		
-		$themes = scandir($links['themes']);	
+		$themes = scandir($LINKS['THEMES']);	
 		$themes_folder_size = count($themes) - 1;
 
 		for($i = 2; $i <= $themes_folder_size; $i++){
@@ -19,7 +19,7 @@
 				<img src="http:/'.'/cms/content/themes/'.$themes[$i].'/preview.png" class="theme-preview"/>
 				<div class="theme-infos">';
 
-			$infos = fopen($links['themes'].$themes[$i].'/infos.txt','r');
+			$infos = fopen($LINKS['THEMES'].$themes[$i].'/infos.txt','r');
 			while(!feof($infos))  {
 				$line = fgets($infos);
 				

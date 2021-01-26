@@ -1,9 +1,9 @@
 <?php
 
 	function get_plugins(){
-		global $links;
+		global $LINKS;
 		
-		$plugins = scandir($links['plugins']);	
+		$plugins = scandir($LINKS['PLUGINS']);	
 		$pluginsFolderSize = count($plugins) - 1;
 
 		for($i = 2; $i <= $pluginsFolderSize; $i++){
@@ -19,7 +19,7 @@
 				<img src="http:/'.'/cms/content/plugins/'.$plugins[$i].'/preview.png" class="plugin-preview"/>
 				<ul class="plugin-infos">';
 
-			$infos = fopen($links['plugins'].$plugins[$i].'/infos.txt','r');
+			$infos = fopen($LINKS['PLUGINS'].$plugins[$i].'/infos.txt','r');
 			while(! feof($infos))  {
 				$line = fgets($infos);
 				echo '<li>'.$line.'</li>';

@@ -5,9 +5,9 @@
 
 	//Renvoie un tableau contenant tout les posts d'un certains type
 	function get_content($content_type, $order_by, $order_direction){
-		global $bdd, $folder, $page, $links;
+		global $bdd, $folder, $page, $LINKS;
 
-		$content_request = $bdd -> prepare('SELECT * FROM rp_content WHERE content_type = :content_type ORDER BY :order_by :order_direction');
+		$content_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type ORDER BY :order_by :order_direction');
 		$content_request -> execute(array(':content_type' => $content_type,':order_by' => $order_by,':order_direction' => $order_direction));
 
 		echo '<table class="full">
@@ -20,7 +20,7 @@
 			<th><a href="'.'/admin/'.$folder.'/'.$page.'.php?order_by=content_date_modified&order_direction='.$order_direction.'">Last modification date<i class="icon '.$order_direction.'"></i></a></th>
 		</tr>';
 		
-		$users_request = $bdd -> prepare('SELECT user_display_name FROM rp_users WHERE user_id = :user_id');
+		$users_request = $bdd -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
 		
 		while($content = $content_request -> fetch()){
 
@@ -28,7 +28,7 @@
 				$user = $users_request -> fetch();
 
 				echo '<tr>
-		<td class="spoiler-container">'.$content['content_title'].'</br><div class="spoiler"><a title="Display" href="'.$links['url'].'/index.php?type='.$content['content_type'].'&content='.$content['content_slug'].'">Display</a> | <a title="Edit" href="#">Edit</a> | <a title="Quick edit" href="#">Quick edit</a> | <a title="Delete" href="#" class="warning">Delete</a></div></td>
+		<td class="spoiler-container">'.$content['content_title'].'</br><div class="spoiler"><a title="Display" href="'.$LINKS['URL'].'/index.php?type='.$content['content_type'].'&content='.$content['content_slug'].'">Display</a> | <a title="Edit" href="#">Edit</a> | <a title="Quick edit" href="#">Quick edit</a> | <a title="Delete" href="#" class="warning">Delete</a></div></td>
 					<td>'.$user['user_display_name'].'</td>
 					<td></td>
 					<td></td>
@@ -46,7 +46,7 @@
 
 	function get_terms($term_type, $order_by, $order_direction){
 		global $bdd, $folder, $page;
-		$terms_request = $bdd -> prepare('SELECT * FROM rp_terms WHERE term_type = :term_type ORDER BY :order_by :order_direction');
+		$terms_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type ORDER BY :order_by :order_direction');
 
 		echo '<table class="full">
 		<tr>
@@ -71,7 +71,7 @@
 
 	function get_terms_list($term_type){
 		global $bdd;
-		$terms_list_request = $bdd -> prepare('SELECT * FROM rp_terms WHERE term_type = :term_type');
+		$terms_list_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type');
 		$terms_list_request -> execute(array(':term_type' => $term_type));
 		
 		echo '<select id="parent" name="parent" class="full">
@@ -100,7 +100,7 @@
 
 	function term_add($term_name, $term_slug, $term_type, $term_description, $term_parent_id){
 		global $bdd;
-		$terms_add_request = $bdd -> prepare('INSERT INTO rp_terms (term_name, term_slug, term_type, term_description, term_parent_id) VALUES (:term_name, :term_slug, :term_type, :term_description, :term_parent_id)');
+		$terms_add_request = $bdd -> prepare('INSERT INTO at_terms (term_name, term_slug, term_type, term_description, term_parent_id) VALUES (:term_name, :term_slug, :term_type, :term_description, :term_parent_id)');
 
 		$term_slug = str_replace(' ','-', strtolower($term_slug));
 
@@ -116,7 +116,7 @@
 
 	function term_delete($term_id){
 		global $bdd;
-		$term_delete_request = $bdd -> prepare('DELETE FROM rp_terms WHERE term_id =  :term_id');
+		$term_delete_request = $bdd -> prepare('DELETE FROM at_terms WHERE term_id =  :term_id');
 		$term_delete_request -> execute(array(':term_id' => $term_id));
 		$term_delete_request -> closeCursor();
 	}
@@ -125,8 +125,8 @@
 	function get_menus(){
 		global $bdd;
 
-		$menu_request = $bdd -> prepare('SELECT * FROM rp_content WHERE content_type = "menu"');
-		$menu_request -> execute();
+		$menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = "menu"');
+		$menu_request -> execute(array('at_content' => $CONFIG['PREFIX'] . 'content'));
 
 		while($menu = $menu_request -> fetch()){
 			echo '<button class="accordion">'.$menu['content_title'].'</button>
@@ -143,8 +143,8 @@
 	function get_subs_menus($menu_parent_id){
 		global $bdd;
 
-		$sub_menu_request = $bdd -> prepare('SELECT * FROM rp_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
-		$sub_menu_request -> execute(array(':menu_parent_id' => $menu_parent_id));
+		$sub_menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
+		$sub_menu_request -> execute(array('at_content' => $CONFIG['PREFIX'] . 'content', ':menu_parent_id' => $menu_parent_id));
 		
 		while($sub_menu = $sub_menu_request -> fetch()){
 			echo '<li id="menu-item-'.$sub_menu['content_id'].'">'.$sub_menu['content_title'];
@@ -161,8 +161,8 @@
 	function get_content_for_menus($content_type){
 		global $bdd;
 		
-		$content_for_menus_request = $bdd -> prepare('SELECT * FROM rp_content WHERE content_type = :content_type');
-		$content_for_menus_request -> execute(array(':content_type' => $content_type));
+		$content_for_menus_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type');
+		$content_for_menus_request -> execute(array('at_content' => $CONFIG['PREFIX'] . 'content', ':content_type' => $content_type));
 		
 		while($content_for_menu = $content_for_menus_request -> fetch()){
 			echo '<span><input type="checkbox" id="'.$content_for_menu['content_slug'].'" name="'.$content_for_menu['content_slug'].'"><label for="'.$content_for_menu['content_slug'].'">'.$content_for_menu['content_title'].'</label></span>';
@@ -172,7 +172,7 @@
 	function get_terms_for_menus($term_type){
 		global $bdd;
 		
-		$content_for_menus_request = $bdd -> prepare('SELECT * FROM rp_terms WHERE term_type = :term_type');
+		$content_for_menus_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type');
 		$content_for_menus_request -> execute(array(':term_type' => $term_type));
 		
 		while($content_for_menu = $content_for_menus_request -> fetch()){

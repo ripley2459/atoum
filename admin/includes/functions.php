@@ -27,18 +27,20 @@
 	//Donne la valeur d'un option en fonction de son nom
 	function get_option_value($option_name){
 		global $bdd, $option_value;
-
-		$option_request = $bdd -> prepare('SELECT option_value FROM rp_options WHERE option_name = :option_name');
+		
+		$option_request = $bdd -> prepare('SELECT option_value FROM at_options WHERE option_name = :option_name');
 		$option_request -> execute(array(':option_name' => $option_name));
 		$option = $option_request -> fetch();
-		$option_value = $option['option_value'];
+
+		return $option['option_value'];
 
 		$option_request -> closeCursor();
 	}
 
 	function update_option_value($option_name, $new_value){
 		global $bdd;
-		$update_option_request = $bdd -> prepare('UPDATE rp_options SET option_value = :option_value WHERE option_name = :option_name');
+
+		$update_option_request = $bdd -> prepare('UPDATE at_options SET option_value = :option_value WHERE option_name = :option_name');
 		$update_option_request -> execute(array(':option_value' => $new_value, ':option_name' => $option_name));
 		$update_option_request -> closeCursor();
 	}

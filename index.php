@@ -1,6 +1,6 @@
 <?php
 
-	require 'admin/includes/links.php';
+	require 'admin/includes/config.php';
 
 	if(isset($_GET['type'], $_GET['content'])){
 		$content_type = $_GET['type'];

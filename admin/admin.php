@@ -1,9 +1,11 @@
 <?php
 
-	require 'includes/links.php';
+	require 'includes/config.php';
+
 	get_dir();
+
 	if($folder != 'admin' or $page != 'admin'){
-		require 'gears/'.$folder.'/functions.php';
+		require 'gears/' . $folder . '/functions.php';
 	}
 
 ?>
@@ -11,7 +13,7 @@
 <!doctype html>
 <html lang="fr">
 	<head>
-		<link rel="stylesheet" href="<?php echo $links['url'].'/content/themes/'.$THEME.'/includes/style.css'; ?>">
+		<link rel="stylesheet" href="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
 		<title>Admin</title>
 	</head>
@@ -20,7 +22,7 @@
 		<header>
 			<?php
 
-				require $links['themes'].$THEME.'/admin-menu.php';
+				require $LINKS['THEMES'] . $THEME . '/admin-menu.php';
 
 			?>
 		</header>
@@ -33,7 +35,7 @@
 					
 				}
 				else{
-					require 'gears/'.$folder.'/'.$page.'.php';
+					require 'gears/' . $folder . '/' . $page . '.php';
 				}
 
 			?>
@@ -41,8 +43,8 @@
 		</div>
 
 		<footer>
-			<script src="<?php echo $links['url'].'/includes/scripts.js'; ?>"></script>
-			<script src="<?php echo $links['url'].'/content/themes/'.$THEME.'/includes/scripts.js'; ?>"></script>
+			<script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
+			<script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
 		</footer>
 	</body>
 </html>

@@ -29,11 +29,11 @@
 				else{
 					$term_parent_id = '0';
 				}
-				
+
 				term_add($term_name, $term_slug, $term_type, $term_description, $term_parent_id);
 				header('location: classes.php');
 			}
-			
+
 			if(isset($_GET['term_to_delete'])){
 				$term_to_delete = $_GET['term_to_delete'];
 				echo $term_to_delete;
