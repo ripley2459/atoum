@@ -6,5 +6,7 @@ Il prend en charge la rédaction d'articles et de pages statiques. L'utilisation
 
 Ce CMS permet de charger des thèmes et des plugins.
 
+Tout n'est pas encore implémenter !
+
 ## Notes
 Atoum est un projet personnel sans prétentions autres que celles de progresser en architecture et languages liés au développement web.
