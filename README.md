@@ -7,7 +7,7 @@ Il prend en charge la rédaction d'articles et de pages statiques. L'utilisation
 Ce CMS permet de charger des thèmes et des plugins.
 
 ## Instalation
-* Vous avez besoin d'un server faisant tourner à minima php 7.
+**Vous avez besoin d'un serveur faisant tourner à minima php 7.**
 
 1. Décompressez l'archive à la racine de votre serveur.
 2. Allez sur votre site. Si le programme d'instalation ne se lance pas (version très anciennes d'Atoum) aller sur "VotreSite/Admin/Install.php".
