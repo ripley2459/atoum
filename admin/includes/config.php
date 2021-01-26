@@ -1,14 +1,14 @@
 <?php
 
 		$CONFIG = array(
-			'DB_NAME' => 'at_atoum_db',
+			'DB_NAME' => 'at_test',
 			'PREFIX' => 'at_',
 			'USERNAME' => 'root',
 			'PASSWORD' => '',
 			'HOST' => 'localhost');
 
 		try{
-			$bdd = new PDO('mysql:host=localhost;dbname=at_atoum_db;charset=utf8','root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+			$bdd = new PDO('mysql:host=localhost;dbname=at_test;charset=utf8','root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 		}
 		catch(Exception $e){
 			die('Error: ' . $e -> getMessage());

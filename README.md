@@ -6,7 +6,18 @@ Il prend en charge la rédaction d'articles et de pages statiques. L'utilisation
 
 Ce CMS permet de charger des thèmes et des plugins.
 
-__Tout n'est pas encore implémenté !__
+## Instalation
+* Vous avez besoin d'un server faisant tourner à minima php 7.
 
-## Notes
-Atoum est un projet personnel sans prétentions autres que celles de progresser en architecture et languages liés au développement web.
+1. Décompressez l'archive à la racine de votre serveur.
+2. Allez sur votre site. Si le programme d'instalation ne se lance pas (version très anciennes d'Atoum) aller sur "VotreSite/Admin/Install.php".
+3. Remplissez les champs du formulaire puis validez. Vous devriez ensuite être redirigé vers la page d'accueil de l'administration.
+
+> ## Notes
+>
+> **Tout n'est pas encore implémenté !**
+>
+> Atoum est un projet personnel sans prétentions autres que celles de progresser en architecture et languages liés au développement web.
+>
+> En utilisant Atoum vous acceptez sans conditions touts les contrats liés de près ou de loin à l'utilisation normale d'un logiciel et/ou service.
+> Vous acceptez également que votre sécurité mentale et éventullement physique soit engagée lors de l'utilisation d'Atoum. Les informations insérées dans Atoum ne seront ni utilisées ni transmises en revanche je ne peut pas guarantir leur protection.

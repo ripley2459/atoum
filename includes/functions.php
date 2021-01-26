@@ -37,8 +37,8 @@
 	function get_menu($menu){
 		global $bdd, $CONFIG;
 
-		$menu_request = $bdd -> prepare('SELECT * FROM :table_content WHERE content_slug = :content_slug and content_type = "menu"');
-		$menu_request -> execute(array(':table_content' => $CONFIG['PREFIX'] . 'content', ':content_slug' => $menu));
+		$menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_slug = :content_slug and content_type = "menu"');
+		$menu_request -> execute(array(':content_slug' => $menu));
 		$menu = $menu_request -> fetch();
 		
 		echo '<div id="'.$menu['content_slug'].'-main-container"><ul id="'.$menu['content_slug'].'" class="menu-main-container menu-'.$menu['content_id'].'">';
@@ -50,8 +50,8 @@
 	function get_sub_menus($menu_parent_id){
 		global $bdd, $CONFIG;
 
-		$sub_menu_request = $bdd -> prepare('SELECT * FROM :table_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
-		$sub_menu_request -> execute(array(':table_content' => $CONFIG['PREFIX'] . 'content', ':menu_parent_id' => $menu_parent_id));
+		$sub_menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
+		$sub_menu_request -> execute(array(':menu_parent_id' => $menu_parent_id));
 		
 		while($sub_menu = $sub_menu_request -> fetch()){
 			echo '<li id="menu-item-'.$sub_menu['content_id'].'"><a href="#">'.$sub_menu['content_title'].'</a>';

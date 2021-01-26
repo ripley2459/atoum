@@ -1,8 +1,9 @@
 <?php
 
-	if(isset($_POST['database-name'], $_POST['tables-prefix'], $_POST['username'], $_POST['password'], $_POST['host'])){
+	if(isset($_POST['database-name'], $_POST['username'], $_POST['host'])){
+		echo 'Installation...';
 		$database_name = $_POST['database-name'];
-		$table_prefix = $_POST['tables-prefix'];
+		$table_prefix = 'at_'; //$_POST['tables-prefix']
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		$host = $_POST['host'];	
@@ -10,7 +11,22 @@
 		install($database_name, $table_prefix, $username, $password, $host);
 		
 		require 'includes/config.php';
-		echo $CONFIG['PREFIX'] . 'options';
+		header('location: admin.php');
+	}
+	else {
+		$LINKS = array(
+			'ROOT' => 'D:/Documents/Documents/Sites/atoum',
+			'URL' => sprintf("%s://%s", isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']),
+			'PLUGINS' => 'D:/Documents/Documents/Sites/atoum/content/plugins/',
+			'THEMES' => 'D:/Documents/Documents/Sites/atoum/content/themes/',
+		);
+
+		require $LINKS['ROOT'] . '/includes/functions.php';
+		require $LINKS['ROOT'] . '/admin/includes/functions.php';
+
+		$THEME = 'template';
+
+		require $LINKS['THEMES'] . $THEME . '/includes/functions.php';
 	}
 
 /****************************************************************************************************/
@@ -47,7 +63,7 @@
 
 		\$LINKS = array(
 			'ROOT' => '" . $_SERVER['DOCUMENT_ROOT'] . "',
-			'URL' => 'http://atoum',
+			'URL' => '" . sprintf('%s://%s',isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']) . "',
 			'PLUGINS' => '" . $_SERVER['DOCUMENT_ROOT'] . "/content/plugins/',
 			'THEMES' => '" . $_SERVER['DOCUMENT_ROOT'] . "/content/themes/',
 		);
@@ -57,7 +73,7 @@
 
 		\$THEME = get_option_value('active_theme');
 
-		require \$LINKS['themes'] . \$THEME . '/includes/functions.php';";
+		require \$LINKS['THEMES'] . \$THEME . '/includes/functions.php';";
 
 		$config_file = fopen('includes/config.php', 'w');
 		fwrite($config_file, $config_content);
@@ -145,11 +161,17 @@
 		else{
 			echo '<p class="query-error">Error creating users table: ' . $bdd -> error . '</p>';
 		}
-		
-		//header('location: admin.php');
-	}
 
-/****************************************************************************************************/
+		$bucket = $table_prefix . 'options';
+		$insert_theme_template = "INSERT INTO $bucket (option_name, option_value) VALUES('active_theme', '2021')";
+		
+		if($bdd -> query($insert_theme_template) === TRUE){
+			echo '<p class="query-success">Template theme installed successfully.</p>';
+		}
+		else{
+			echo '<p class="query-error">Error creating tempalte theme: ' . $bdd -> error . '</p>';
+		}
+	}
 
 ?>
 
@@ -171,11 +193,11 @@
 			<form action="install.php" method="post">
 
 				<label for="name"><b>Database name</b></label>
-					<input type="text" id="database-name" name="database-name" placeholder="Database name" class="full" value="atoum_db" required>
+					<input type="text" id="database-name" name="database-name" placeholder="Database name" class="full" required>
 				<p>The name will be standardized using lowercase letters, numbers and underscores.</p>
-				<label for="name"><b>Tables prefix</b></label>
+				<!-- <label for="name"><b>Tables prefix</b></label>
 					<input type="text" id="tables-prefix" name="tables-prefix" placeholder="Table prefix" class="full" value="at_" required>
-				<p>This allow you to have multiple Atoum installation within one database.</p>
+				<p>This allow you to have multiple Atoum installation within one database.</p> -->
 
 				<label for="name"><b>Username</b></label>
 					<input type="text" id="username" name="username" placeholder="Username" class="full" value="root" required>

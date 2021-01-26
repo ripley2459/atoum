@@ -15,7 +15,7 @@
 <!doctype html>
 <html lang="fr">
 	<head>
-		<link rel="stylesheet" href="<?php echo $links['url'].'/content/themes/'.$THEME.'/includes/style.css'; ?>">
+		<link rel="stylesheet" href="<?php echo $LINKS['URL'].'/content/themes/'.$THEME.'/includes/style.css'; ?>">
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
 		<title>Index.php</title>
 	</head>
@@ -24,26 +24,26 @@
 
 	<?php
 
-		require $links['themes'].$THEME.'/header.php';
+		require $LINKS['THEMES'].$THEME.'/header.php';
 
 		switch($_GET['type']){
 			case 'page':
-				require $links['themes'].$THEME.'/page.php';
+				require $LINKS['THEMES'].$THEME.'/page.php';
 				break;
 			case 'post':
-				require $links['themes'].$THEME.'/single.php';
+				require $LINKS['THEMES'].$THEME.'/single.php';
 				break;
 			case 'posts':
-				require $links['themes'].$THEME.'/posts.php';
+				require $LINKS['THEMES'].$THEME.'/posts.php';
 		}
 
-		require $links['themes'].$THEME.'/footer.php';
+		require $LINKS['THEMES'].$THEME.'/footer.php';
 
 	?>
 
 	</body>
 	<foot>
-		<script src="<?php echo $links['url'].'/includes/scripts.js'; ?>"></script>
-		<script src="<?php echo $links['url'].'/content/themes/'.$THEME.'/includes/scripts.js'; ?>"></script>
+		<script src="<?php echo $LINKS['URL'].'/includes/scripts.js'; ?>"></script>
+		<script src="<?php echo $LINKS['URL'].'/content/themes/'.$THEME.'/includes/scripts.js'; ?>"></script>
 	</foot>
 </html>
