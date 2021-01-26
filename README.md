@@ -23,4 +23,4 @@ Ce CMS permet de charger des thèmes et des plugins.
 >
 > Vous acceptez également que votre sécurité mentale et éventuellement physique soit engagée lors de l'utilisation d'Atoum.
 >
->Les informations insérées dans Atoum ne seront ni utilisées ni transmises en revanche je ne peut pas guarantir leur protection.
+>Les informations insérées dans Atoum ne seront ni utilisées ni transmises. En revanche je ne peut guarantir leur protection.
