@@ -12,7 +12,7 @@
 	//LINKS
 	$links = array(
 		'root' => $_SERVER['DOCUMENT_ROOT'],
-		'url' => 'http://cms',
+		'url' => 'http://atoum',
 		'plugins' => $_SERVER['DOCUMENT_ROOT'].'/content/plugins/',
 		'themes' => $_SERVER['DOCUMENT_ROOT'].'/content/themes/',
 	);
