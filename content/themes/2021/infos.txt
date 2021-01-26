@@ -1,0 +1,6 @@
+Name: 2021
+Author(s): r.
+Author(s) URL:
+Version: 1
+Version date: 2021/01/25
+Description: My 2021 templale for this cms.

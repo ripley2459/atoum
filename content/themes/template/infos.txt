@@ -1,0 +1,6 @@
+Name: Template
+Author(s): r.
+Author(s) URL:
+Version: 1
+Version date: 2021/01/25
+Description: Blank template.
