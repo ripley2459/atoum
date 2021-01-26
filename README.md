@@ -8,3 +8,5 @@ Ce CMS permet de charger des thèmes et des plugins.
 
 ## Notes
 Atoum est un projet personnel sans prétentions autres que celles de progresser en architecture et languages liés au développement web.
+
+Je le developpe seul et je n'ai pas (pour l'instant) prévu de publier ce projet.
