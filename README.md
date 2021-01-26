@@ -20,4 +20,7 @@ Ce CMS permet de charger des thèmes et des plugins.
 > Atoum est un projet personnel sans prétentions autres que celles de progresser en architecture et languages liés au développement web.
 >
 > En utilisant Atoum vous acceptez sans conditions touts les contrats liés de près ou de loin à l'utilisation normale d'un logiciel et/ou service.
-> Vous acceptez également que votre sécurité mentale et éventullement physique soit engagée lors de l'utilisation d'Atoum. Les informations insérées dans Atoum ne seront ni utilisées ni transmises en revanche je ne peut pas guarantir leur protection.
+>
+> Vous acceptez également que votre sécurité mentale et éventuellement physique soit engagée lors de l'utilisation d'Atoum.
+>
+>Les informations insérées dans Atoum ne seront ni utilisées ni transmises en revanche je ne peut pas guarantir leur protection.
