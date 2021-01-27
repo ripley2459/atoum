@@ -24,3 +24,7 @@ Ce CMS permet de charger des thèmes et des plugins.
 > Vous acceptez également que votre sécurité mentale et éventuellement physique soit engagée lors de l'utilisation d'Atoum.
 >
 >Les informations insérées dans Atoum ne seront ni utilisées ni transmises. En revanche je ne peut guarantir leur protection.
+
+## Pourquoi le nom Atoum ?
+
+Atoum est le dieu égyptien qui crée le monde, non pas à partir de rien mais en façonnant ce qui existe déjà. Atoum est créé en prenant comme base le CMS trop bien connu Worpress en retirant et en ajoutant des fonctionnalités. Cet état de fait en tête j'ai donné le nom Atoum à mon CMS, car je ne part pas de rien.
