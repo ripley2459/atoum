@@ -1,12 +1,11 @@
-<div id="rp-content">
-
+<div class="section large">
 	<h1>Plugins</h1>
-		<div class="grid">
-	
+
+	<div class="plugins-container flex plugins-browser">
 	<?php
-		
+
 		get_plugins();
 
 	?>
-
-		</div>
+	</div>
+</div>

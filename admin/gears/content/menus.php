@@ -1,4 +1,6 @@
-<h1>Menus</h1>
+<div class="section large">
+	<h1>Menus</h1>
+</div>
 <div class="row two-column first-is-thin">
 	<div class="column">
 		<h2>Create a new menu</h2>

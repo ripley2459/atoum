@@ -1,4 +1,4 @@
-<nav id="side-menu">
+<nav class="side-menu left">
 	<?php
 		
 		$linksA = scandir('gears/');	

@@ -27,8 +27,7 @@
 			?>
 		</header>
 
-		<div id="main">
-			<div class="section large">
+		<div class="admin-window has-left-menu">
 			<?php
 
 				if($folder == 'admin' or $page == 'admin'){
@@ -39,7 +38,6 @@
 				}
 
 			?>
-			</div>
 		</div>
 
 		<footer>

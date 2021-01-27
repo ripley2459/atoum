@@ -1,7 +1,6 @@
-<div id="rp-content">
-
+<div class="section large">
 	<h1>Posts</h1>
-
+	<a href="editor.php?mode=create&type=post" class="button auto">Add</a>
 	<p>Get an overview of every posts on your site.</p>
 
 <?php

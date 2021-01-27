@@ -34,6 +34,13 @@ VARIABLES
 	--title-margin-bottom: 0.5em;
 	
 	--side-nav-width: 200px;
+	
+	--size-auto: auto;
+	--size-tiny: 20%;
+	--size-lite: 35%;
+	--size-medium: 50%;
+	--size-large: 75%;
+	--size-full: 100%;
 }
 
 
@@ -64,8 +71,12 @@ body {
 	scroll-behavior: smooth;
 }
 
-#main {
+.has-left-menu {
 	margin-left: var(--side-nav-width);
+}
+
+.has-right-menu {
+	margin-right: var(--side-nav-width);
 }
 
 .hidden {
@@ -123,7 +134,11 @@ body {
 	clear: both;
 }
 
-#login {
+.inline-block {
+	display: inline-block;
+}
+
+#login-form {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -150,6 +165,10 @@ body {
 
 .section.tiny {
 	margin: 0 30%;
+}
+
+.section.lite {
+	margin: 0 15%;
 }
 
 .section.medium {
@@ -186,6 +205,36 @@ body {
 .section b {
 	color: var(--title-color);
 }
+
+span.auto {
+	width: var(--size-auto);
+}
+
+span.tiny {
+	width: var(--size-tiny);
+}
+
+span.lite {
+	width: var(--size-lite);
+}
+
+span.medium {
+	width: var(--size-medium);
+}
+
+span.large {
+	width: var(--size-large);
+}
+
+span.full {
+	width: var(--size-full);
+}
+
+/****************************
+
+	TITLES
+
+*****************************/
 
 .section h1,
 .section h2,
@@ -234,20 +283,57 @@ body {
 	margin: var(--title-margin-bottom) 0 var(--title-margin-bottom) 0;
 }
 
-button.tiny {
-	width: 30%;
+/****************************
+
+	BUTTONS & LINKS LIKE BUTTONS
+
+*****************************/
+
+button,
+.button {
+	padding: 1em;
+	display: inline-block;
+	border: 1px solid var(--color-gray);
+	color: var(--color-gray);
+	box-sizing: border-box;
+	background-color: var(--background-dark);
 }
 
-button.medium {
-	width: 50%;
+button:hover,
+.button:hover {
+	cursor: pointer;
+	border-color: var(--title-color);
+	color: var(--title-color);
 }
 
-button.large {
-	width: 85%;
+button.auto,
+.button.auto {
+	width: var(--size-auto);
 }
 
-button.full {
-	width: 100%
+button.tiny,
+.button.tiny {
+	width: var(--size-tiny);
+}
+
+button.lite,
+.button.lite {
+	width: var(--size-lite);
+}
+
+button.medium,
+.button.medium {
+	width: var(--size-medium);
+}
+
+button.large,
+.button.large {
+	width: var(--size-large);
+}
+
+button.full,
+.button.full {
+	width: var(--size-full);
 }
 
 /****************************
@@ -280,7 +366,7 @@ button.full {
 
 *****************************/
 
-#side-menu::-webkit-scrollbar{
+.side-menu::-webkit-scrollbar{
     height: 3px;
 	width: 3px;
 }
@@ -332,6 +418,10 @@ table a .icon.asc::after {
 table a .icon.desc::after {
 	content: "\2193";
 	float: right;
+}
+
+table.auto {
+	width: auto;
 }
 
 table.tiny {
@@ -396,21 +486,6 @@ input[type=checkbox]:hover {
 	cursor: pointer;
 }
 
-form button {
-	padding: 1em;
-	display: inline-block;
-	border: 1px solid var(--color-gray);
-	color: var(--color-gray);
-	box-sizing: border-box;
-	background-color: var(--background-dark);
-}
-
-form button:hover {
-	cursor: pointer;
-	border-color: var(--title-color);
-	color: var(--title-color);
-}
-
 input.tiny {
 	width: 30%;
 }
@@ -456,27 +531,25 @@ select.full {
 
 /****************************
 
-	SIDE MENU (ADMIN)
+	SIDE MENU
 
 *****************************/
 
-#side-menu {
+.side-menu {
 	height: 100%;
 	width: var(--side-nav-width);
 	position: fixed;
 	z-index: 1;
 	top: 0;
-	left: 0;
 	overflow-x: hidden;
 	background-color: var(--background-dark);
-	border-right: 1px solid var(--color-gray);
 }
 
-#side-menu:first-child {
+.side-menu:first-child {
 	padding-top: 20px;
 }
 
-#side-menu .menu-element {
+.side-menu .menu-element {
 	padding: 5px 20px 5px 20px;
 	text-decoration: none;
 	font-size: 17px;
@@ -485,38 +558,78 @@ select.full {
 	border: none;
 	background: none;
 	width: 100%;
-	text-align: left;
 	cursor: pointer;
 	outline: none;
 }
 
-#side-menu .menu-element:hover {
+.side-menu .menu-element:hover {
 	color: white;
 }
 
-#side-menu .sub-menu {
+.side-menu .sub-menu {
 	display: none;
 	border-left: 1px solid var(--color-gray);
 	margin: 0px 0px 20px 20px;
 }
 
-#side-menu .sub-menu.opened {
+.side-menu .sub-menu.opened {
 	display: block;
 }
 
-#side-menu button.opened,
-#side-menu a.active {
+.side-menu button.opened,
+.side-menu a.active {
 	color: white;
 	text-decoration: underline;
 }
 
-#side-menu button i.icon::after {
+.side-menu button i.icon::after {
 	content: "\002B";
+}
+
+.side-menu button.opened i.icon::after {
+	content: "\2212";
+}
+
+.side-menu.left {
+	left: 0;
+}
+
+.side-menu.right {
+	right: 0;
+}
+
+.side-menu.left {
+	border-right: 1px solid var(--color-gray);
+}
+
+.side-menu.right {
+	border-left: 1px solid var(--color-gray);
+}
+
+.side-menu.left .menu-element {
+	text-align: left;
+}
+
+.side-menu.right .menu-element {
+	text-align: right;
+}
+
+.side-menu.left .sub-menu {
+	border-left: 1px solid var(--color-gray);
+	margin: 0px 0px 20px 20px;
+}
+
+.side-menu.right .sub-menu {
+	border-right: 1px solid var(--color-gray);
+	margin: 0px 20px 20px 0px;
+}
+
+.side-menu.left button i.icon::after {
 	float: right;
 }
 
-#side-menu button.opened i.icon::after {
-	content: "\2212";
+.side-menu.right button i.icon::after {
+	float: left;
 }
 
 /****************************
@@ -525,7 +638,7 @@ select.full {
 
 *****************************/
 
-.container.flex {
+.themes-container.flex {
 	display: inline-flex;
 	flex-wrap: wrap;
 	gap: 3em;
@@ -549,6 +662,39 @@ select.full {
 }
 
 .theme.activated {
+	border: 1px solid var(--color-gray);
+}
+
+/****************************
+
+	PLUGINS (ADMIN)
+
+*****************************/
+
+.plugins-container.flex {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 3em;
+	align-item: stretch;
+	justify-content: 
+}
+
+.plugin {
+	background-color: var(--background-dark);
+	padding: 1.5em;
+	flex-grow: 1;
+}
+
+.plugin:last-child {
+	flex-grow: 0;
+}
+
+.plugin .plugin-preview {
+	width: 300px;
+	height: 300px;
+}
+
+.plugin.enabled {
 	border: 1px solid var(--color-gray);
 }
 
@@ -612,40 +758,65 @@ select.full {
 	border-top: 1px solid var(--color-gray);
 }
 
-button.accordion {
+.accordion {
+	font-size: 15px;
 	background-color: var(--background-dark);
 	color: var(--color-gray);
 	cursor: pointer;
+	margin: 0;
 	padding: 1em;
-	width: 100%;
 	border: 1px solid var(--color-gray);
 	text-align: left;
 	outline: none;
-	font-size: 15px;
+	user-select: none;
 }
 
-button.accordion.active,
-button.accordion:hover {
+.accordion.auto {
+	width: var(--size-auto);
+}
+
+.accordion.tiny {
+	width: var(--size-tiny);
+}
+
+.accordion.lite {
+	width: var(--size-lite);
+}
+
+.accordion.medium {
+	width: var(--size-medium);
+}
+
+.accordion.large {
+	width: var(--size-large);
+}
+
+.accordion.full {
+	width: var(--size-full);
+}
+
+.accordion.active,
+.accordion:hover {
 	color: var(--title-color);
 	border-color: var(--title-color);
 }
 
-button.accordion:after {
+.accordion:after {
 	content: '\002B';
 	color: var(--color-gray);
 	float: right;
 }
 
-button.accordion:hover:after {
+.accordion:hover:after {
 	color: var(--title-color);
 }
 
-button.accordion.active:after {
+.accordion.active:after {
 	content: "\2212";
 	color: var(--title-color);
 }
 
-.panel.accordion {
+.accordion-panel {
 	display: none;
 	overflow: hidden;
 	transition: max-height 0.3s ease-out;

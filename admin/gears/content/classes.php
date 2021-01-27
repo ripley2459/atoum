@@ -1,5 +1,4 @@
-<div id="rp-content">
-
+<div class="section large">
 	<h1>Classes</h1>
 
 		<?php
@@ -87,5 +86,4 @@
 
 		</div>
 	</div>
-	
 </div>
