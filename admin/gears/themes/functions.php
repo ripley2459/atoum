@@ -18,7 +18,7 @@
 				get_block_link('themes.php?switch_to_theme=' . $themes[$i], 
 					get_block_image($LINKS['THEMES'] . $themes[$i] . '/screenshot.png', '', 'theme-screenshot', 'template') . 
 					get_block_div('INFOS', '', 'theme-infos', 'template')
-				, '', '', 'template')
+				, '', '', '', 'template')
 			, '', 'theme ' . $this_theme_is, 'template');
 
 /* 

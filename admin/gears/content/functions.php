@@ -1,46 +1,174 @@
 <?php
 
-	//Fonctions propres au module "content"
-
-
-	//Renvoie un tableau contenant tout les posts d'un certains type
 	function get_content($content_type, $order_by, $order_direction){
 		global $bdd, $folder, $page, $LINKS;
+		$to_display = '';
+		$table_content = '';
 
 		$content_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type ORDER BY :order_by :order_direction');
 		$content_request -> execute(array(':content_type' => $content_type,':order_by' => $order_by,':order_direction' => $order_direction));
 
-		echo '<table class="full">
-		<tr>
-			<th><a href="'.'/admin/'.$folder.'/'.$page.'.php?order_by=content_title&order_direction='.$order_direction.'">Title<i class="icon '.$order_direction.'"></i></a></th>
-			<th><a href="'.'/admin/'.$folder.'/'.$page.'.php?order_by=content_author&order_direction='.$order_direction.'">Author<i class="icon '.$order_direction.'"></i></a></th>
-			<th>Classes</th>
-			<th>Tags</th>
-			<th><a href="'.'/admin/'.$folder.'/'.$page.'.php?order_by=content_date_created&order_direction='.$order_direction.'">Creation date<i class="icon '.$order_direction.'"></i></a></th>
-			<th><a href="'.'/admin/'.$folder.'/'.$page.'.php?order_by=content_date_modified&order_direction='.$order_direction.'">Last modification date<i class="icon '.$order_direction.'"></i></a></th>
-		</tr>';
-		
 		$users_request = $bdd -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
-		
+
 		while($content = $content_request -> fetch()){
 
-				$users_request -> execute(array(':user_id' => $content['content_author']));
-				$user = $users_request -> fetch();
-
-				echo '<tr>
-		<td class="spoiler-container">'.$content['content_title'].'</br><div class="spoiler"><a title="Display" href="'.$LINKS['URL'].'/index.php?type='.$content['content_type'].'&content='.$content['content_slug'].'">Display</a> | <a title="Edit" href="#">Edit</a> | <a title="Quick edit" href="#">Quick edit</a> | <a title="Delete" href="#" class="warning">Delete</a></div></td>
-					<td>'.$user['user_display_name'].'</td>
-					<td></td>
-					<td></td>
-					<td>'.$content['content_date_created'].'</td>
-					<td>'.$content['content_date_modified'].'</td>
-				</tr>';
+			$users_request -> execute(array(':user_id' => $content['content_author']));
+			$user = $users_request -> fetch();
+				
+			$table_content = $table_content . 
+				get_block_table_row(
+					get_block_table_data(
+						$content['content_title'] . '</br>' .
+						get_block_div(
+							get_block_link(
+								$LINKS['URL'] . '/index.php?type=' . $content['content_type'] . '&content=' . $content['content_slug'],
+								'Display',
+								'',
+								'',
+								'',
+								''
+							) . '|' .
+							get_block_link(
+								'#',
+								'Edit',
+								'',
+								'',
+								'',
+								''
+							) . '|' .
+							get_block_link(
+								'#',
+								'Delete',
+								'',
+								'',
+								'',
+								''
+							),
+							'',
+							'spoiler',
+							''
+						),
+						'',
+						'spoiler-container',
+						''
+					) .
+					get_block_table_data(
+						$user['user_display_name'],
+						'',
+						'',
+						''
+					) .
+					get_block_table_data(
+						'',
+						'',
+						'',
+						''
+					) .
+					get_block_table_data(
+						'',
+						'',
+						'',
+						''
+					) .
+					get_block_table_data(
+						$content['content_date_created'],
+						'',
+						'',
+						''
+					) .
+					get_block_table_data(
+						$content['content_date_modified'],
+						'',
+						'',
+						''
+					),
+					'',
+					'',
+					''
+				);
 		}
 
-		echo '</table>';
+		$to_display = $to_display . 
+			get_block_table(
+				get_block_table_row(
+					get_block_table_heading(
+						get_block_link(
+							'/admin/' . $folder . '/' . $page . '.php?order_by=content_title&order_direction=' . $order_direction,
+							'Title<i class="' . $order_direction . '"></i>',
+							'',
+							'',
+							'',
+							''
+						),
+						'',
+						'',
+						''
+					) .
+					get_block_table_heading(
+						get_block_link(
+							'/admin/' . $folder . '/' . $page . '.php?order_by=content_author&order_direction=' . $order_direction,
+							'Author<i class="' . $order_direction . '"></i>',
+							'',
+							'',
+							'',
+							''
+						),
+						'',
+						'',
+						''
+					) .
+					get_block_table_heading(
+						'Classes',
+						'',
+						'',
+						''
+					) .
+					get_block_table_heading(
+						'Tags',
+						'',
+						'',
+						''
+					) .
+					get_block_table_heading(
+						get_block_link(
+							'/admin/' . $folder . '/' . $page . '.php?order_by=content_date_created&order_direction=' . $order_direction,
+							'Creation date<i class="' . $order_direction . '"></i>',
+							'',
+							'',
+							'',
+							''
+						),
+						'',
+						'',
+						''
+					) .
+					get_block_table_heading(
+						get_block_link(
+							'/admin/' . $folder . '/' . $page . '.php?order_by=content_date_modified&order_direction=' . $order_direction,
+							'Last modification date<i class="' . $order_direction . '"></i>',
+							'',
+							'',
+							'',
+							''
+						),
+						'',
+						'',
+						''
+					),
+					'',
+					'',
+					''
+				) .
+				$table_content,
+				'table-' . $content_type,
+				'',
+				''
+			);
 
 		$content_request -> closeCursor();
 		$users_request -> closeCursor();
+
+		return $to_display;
 	}
 
 

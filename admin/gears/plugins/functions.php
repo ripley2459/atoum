@@ -18,7 +18,7 @@
 				get_block_link('plugins.php?switch_to_theme=' . $plugins[$i], 
 					get_block_image($LINKS['PLUGINS'] . $plugins[$i] . '/screenshot.png', '', 'theme-screenshot', 'template') . 
 					get_block_div('INFOS', '', 'theme-infos', 'template')
-				, '', '', 'template')
+				, '', '', '', 'template')
 			, '', 'theme ' . $this_plugin_is, 'template');
 		}
 		return $to_display;

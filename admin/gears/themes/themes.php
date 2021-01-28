@@ -7,8 +7,9 @@
 	}
 
 	echo get_block_section(
-	get_block_title(
-		1, 'Themes'
+		get_block_title(1, 'Themes'
 			, '', '', 'template') . 
-			get_block_div(get_themes_wrapper(), '', 'themes-wrapper', 'template')
+			get_block_div(
+				get_themes_wrapper()
+			, '', 'themes-wrapper', 'template')
 		, '', '', 'template');

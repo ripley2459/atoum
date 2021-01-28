@@ -1,8 +1,9 @@
-<div class="section large">
-<h1>Uploads</h1>
-	<div id="uploads-form">
-		<a href="medias.php?mode=list" class=""><i class="fas fa-bars"></i></button></a>
-		<a href="medias.php?mode=grid" class=""><i class="fas fa-th-large"></i></button></a>
-		<input type="text" placeholder="Search..." class="float-right">
-	</div>
-</div>
+<?php
+
+	echo get_block_section(
+		get_block_title(1, 'Uploads', '', '', '') .	
+		get_block_div(
+			get_block_link('medias.php?mode=list', '<i class="fas fa-bars"></i>', '', '','', '') . 
+			get_block_link('medias.php?mode=grid', '<i class="fas fa-th-large"></i>', '', '', '', '')
+		, 'uploads-form', '', '')
+	, '', '', '');

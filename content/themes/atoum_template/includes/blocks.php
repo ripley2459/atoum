@@ -116,11 +116,14 @@
 	}
 
 	//Link
-	function get_block_link($directory, $content, $id, $additional_classes, $template){
+	function get_block_link($directory, $content, $target, $id, $additional_classes, $template){
 		switch($template){
 			default:
 				if($directory == ''){
 					$directory = '#';
+				}
+				if($target != ''){
+					$target = ' target="' . $target . '"';
 				}
 				if($id != ''){
 					$id = ' id= "' . $id . '"';
@@ -128,7 +131,7 @@
 				if($additional_classes != ''){
 					$additional_classes = ' class= "' . $additional_classes . '"';
 				}
-				return '<a href="' . $directory . '"' . $id . $additional_classes . '>' . $content . '</a>';
+				return '<a href="' . $directory . '"' . $target . $id . $additional_classes . '>' . $content . '</a>';
 				break;
 		}
 	}
@@ -148,5 +151,88 @@
 				}
 				return '<img src="' . $source . '"' . $id . $additional_classes . '/>';
 				break;
+		}
+	}
+	
+	function get_block_table($content, $id, $additional_classes, $template){
+		switch($template){
+			default:
+				if($id != ''){
+					$id = ' id= "' . $id . '"';
+				}
+				if($additional_classes != ''){
+					$additional_classes = ' class= "' . $additional_classes . '"';
+				}
+				return '<table' . $id . $additional_classes . '>' . $content . '</table>';
+				break;
+		}
+	}
+
+	function get_block_table_row($content, $id, $additional_classes, $template){
+		switch($template){
+			default:
+				if($id != ''){
+					$id = ' id= "' . $id . '"';
+				}
+				if($additional_classes != ''){
+					$additional_classes = ' class= "' . $additional_classes . '"';
+				}
+				return '<tr' . $id . $additional_classes . '>' . $content . '</tr>';
+				break;
+		}
+	}
+
+	function get_block_table_heading($content, $id, $additional_classes, $template){
+		switch($template){
+			default:
+				if($id != ''){
+					$id = ' id= "' . $id . '"';
+				}
+				if($additional_classes != ''){
+					$additional_classes = ' class= "' . $additional_classes . '"';
+				}
+				return '<th' . $id . $additional_classes . '>' . $content . '</th>';
+				break;
+		}
+	}
+	
+	function get_block_table_data($content, $id, $additional_classes, $template){
+		switch($template){
+			default:
+				if($id != ''){
+					$id = ' id= "' . $id . '"';
+				}
+				if($additional_classes != ''){
+					$additional_classes = ' class= "' . $additional_classes . '"';
+				}
+				return '<td' . $id . $additional_classes . '>' . $content . '</td>';
+				break;
+		}
+	}
+	
+	function get_block_button($content, $id, $additional_classes, $template, $custom){
+		switch($template){
+			default:
+				if($id != ''){
+					$id = ' id= "' . $id . '"';
+				}
+				if($additional_classes != ''){
+					$additional_classes = ' class= "' . $additional_classes . '"';
+				}
+				return '<button' . $id . $additional_classes . '>' . $content . '</button>';
+				break;
+			case cybr:
+				if($id != ''){
+					$id = ' id= "' . $id . '"';
+				}
+				if($additional_classes != ''){
+					$additional_classes = ' class="cybr-btn "' . $additional_classes . '"';
+				}
+				return '<button' . $id . $additional_classes .'">' .
+						  $content .'<span aria-hidden>_</span>
+						  <span aria-hidden class="cybr-btn__glitch">' . $content . '</span>
+						  <span aria-hidden class="cybr-btn__tag">' . $custom['number'] . '</span>
+						</button>';
+				break;			
 		}
 	}
