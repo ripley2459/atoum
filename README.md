@@ -3,9 +3,7 @@ Atoum est un CMS personnel basé sur l'architecture de Wordpress. Il se veut le 
 
 ## Possibilités
 Il prend en charge la rédaction d'articles et de pages statiques.
-
 La création de plusieurs menus.
-
 Ce CMS permet de charger des thèmes et des plugins.
 
 ## Instalation
