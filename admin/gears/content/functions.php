@@ -126,7 +126,7 @@
 		global $bdd;
 
 		$menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = "menu"');
-		$menu_request -> execute(array('at_content' => $CONFIG['PREFIX'] . 'content'));
+		$menu_request -> execute();
 
 		while($menu = $menu_request -> fetch()){
 			echo '<button class="accordion">'.$menu['content_title'].'</button>
@@ -144,7 +144,7 @@
 		global $bdd;
 
 		$sub_menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
-		$sub_menu_request -> execute(array('at_content' => $CONFIG['PREFIX'] . 'content', ':menu_parent_id' => $menu_parent_id));
+		$sub_menu_request -> execute(array(':menu_parent_id' => $menu_parent_id));
 		
 		while($sub_menu = $sub_menu_request -> fetch()){
 			echo '<li id="menu-item-'.$sub_menu['content_id'].'">'.$sub_menu['content_title'];
@@ -162,10 +162,10 @@
 		global $bdd;
 		
 		$content_for_menus_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type');
-		$content_for_menus_request -> execute(array('at_content' => $CONFIG['PREFIX'] . 'content', ':content_type' => $content_type));
+		$content_for_menus_request -> execute(array(':content_type' => $content_type));
 		
 		while($content_for_menu = $content_for_menus_request -> fetch()){
-			echo '<span><input type="checkbox" id="'.$content_for_menu['content_slug'].'" name="'.$content_for_menu['content_slug'].'"><label for="'.$content_for_menu['content_slug'].'">'.$content_for_menu['content_title'].'</label></span>';
+			echo '<input type="checkbox" id="'.$content_for_menu['content_slug'].'" name="'.$content_for_menu['content_slug'].'"><label for="'.$content_for_menu['content_slug'].'">'.$content_for_menu['content_title'].'</label></br>';
 		}
 	}
 	

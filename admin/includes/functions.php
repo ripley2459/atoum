@@ -32,3 +32,29 @@
 		$update_option_request -> execute(array(':option_value' => $new_value, ':option_name' => $option_name));
 		$update_option_request -> closeCursor();
 	}
+	
+	//Analyse strang and extract values.
+	function scan_line($string){
+		$string = '';
+		switch($string){
+			case strpos($line, 'Name:'):
+				$line =  str_replace('Name: ','', $line);
+				break;
+			case strpos($line, 'Author(s):'):
+				$line =  str_replace('Author(s): ','', $line);
+				break;
+			case strpos($line, 'URL:'):
+				$line =  str_replace('URL: ','', $line);
+				break;
+			case strpos($line, 'Version:'):
+				$line =  str_replace('Version: ','', $line);
+				break;
+			case strpos($line, 'Version date:'):
+				$line =  str_replace('Version date: ','', $line);
+				break;
+			case strpos($line, 'Description:'):
+				$line =  str_replace('Description: ','', $line);
+				break;
+		}
+		return $line;
+	}

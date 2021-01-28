@@ -1,3 +1,6 @@
-<div class="section large">
-	<h1>Users</h1>
-</div>
+<?php
+
+	echo get_block_section(
+		get_block_title(1, 'Users'
+		, '', '', 'template')
+	, '', '', 'template');

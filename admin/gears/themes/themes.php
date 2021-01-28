@@ -1,6 +1,3 @@
-<div class="section large">
-	<h1>Themes</h1>
-
 <?php
 
 	if(isset($_GET['switch_to_theme'])){
@@ -9,13 +6,9 @@
 		header('location: themes.php');
 	}
 
-?>
-
-	<div class="themes-container flex themes-browser">
-	<?php
-
-		get_themes();
-
-	?>
-	</div>
-</div>
+	echo get_block_section(
+	get_block_title(
+		1, 'Themes'
+			, '', '', 'template') . 
+			get_block_div(get_themes_wrapper(), '', 'themes-wrapper', 'template')
+		, '', '', 'template');

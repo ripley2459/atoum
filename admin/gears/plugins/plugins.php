@@ -1,11 +1,3 @@
-<div class="section large">
-	<h1>Plugins</h1>
+<?php
 
-	<div class="plugins-container flex plugins-browser">
-	<?php
-
-		get_plugins();
-
-	?>
-	</div>
-</div>
+	echo get_block_section(get_block_title(1, 'Plugins', '', '', 'template') . get_block_div(get_plugins_wrapper(), '', 'plugins-wrapper', 'template'), '', '', 'template');

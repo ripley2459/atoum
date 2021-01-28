@@ -1,5 +1,5 @@
 <div class="section large">
-	<h1>Classes</h1>
+	<h1 class="left">Classes</h1>
 
 		<?php
 

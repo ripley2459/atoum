@@ -1,6 +1,10 @@
+<div class="section large float left">
+	<h1 class="left">Pages</h1>
+	<a href="editor.php?mode=create&type=page" class="button tiny right">Add</a>
+</div>
+
 <div class="section large">
-	<h1>Pages</h1>
-	<a href="editor.php?mode=create&type=page" class="button auto">Add</a>
+	
 	<p>Get an overview of every static pages on your site.</p>
 
 <?php
@@ -12,4 +16,5 @@
 	get_content('page', 'content_name', $order_direction);
 
 ?>
+
 </div>

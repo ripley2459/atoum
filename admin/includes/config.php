@@ -27,3 +27,4 @@
 		$THEME = get_option_value('active_theme');
 
 		require $LINKS['THEMES'] . $THEME . '/includes/functions.php';
+		require $LINKS['THEMES'] . $THEME . '/includes/blocks.php';

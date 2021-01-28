@@ -1,40 +1,25 @@
 <?php
 
-	function get_plugins(){
-		global $LINKS;
-		
+	function get_plugins_wrapper(){
+		global $LINKS, $THEME;
 		$plugins = scandir($LINKS['PLUGINS']);	
 		$plugins_folder_size = count($plugins) - 1;
+		$to_display = '';
 
 		for($i = 2; $i <= $plugins_folder_size; $i++){
-			
-			if(strpos($plugins[$i], '.disabled') !== false){
-				$this_plugin_is = 'disabled';
-			}
-			else{
+			if($plugins[$i] == $THEME){
 				$this_plugin_is = 'enabled';
 			}
-			
-			echo '<div class="plugin '.$this_plugin_is.'"><a href="plugins.php?switch_to_plugin='.$plugins[$i].'">
-				<img src="http:/'.'/cms/content/plugins/'.$plugins[$i].'/preview.png" class="plugin-preview"/>
-				<div class="plugin-infos">';
-
-			$infos = fopen($LINKS['PLUGINS'].$plugins[$i].'/infos.txt','r');
-			while(!feof($infos))  {
-				$line = fgets($infos);
-				
-				if(strpos($line, 'Name:')!== false){
-					echo '<h3>'.str_replace('Name: ','', $line).'</h3>';
-				}
-				
-				//echo '<li>'.$line.'</li>';
+			else{
+				$this_plugin_is = 'disabled';
 			}
-			fclose($infos);
-				echo '</div>';
-
-				if($this_plugin_is == 'activated'){
-						//echo '<a href="#">Deactivate<a>';
-					}
-			echo '</a></div>';
+			$to_display = $to_display . 
+			get_block_div(
+				get_block_link('plugins.php?switch_to_theme=' . $plugins[$i], 
+					get_block_image($LINKS['PLUGINS'] . $plugins[$i] . '/screenshot.png', '', 'theme-screenshot', 'template') . 
+					get_block_div('INFOS', '', 'theme-infos', 'template')
+				, '', '', 'template')
+			, '', 'theme ' . $this_plugin_is, 'template');
 		}
+		return $to_display;
 	}

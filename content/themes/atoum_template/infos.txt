@@ -1,0 +1,6 @@
+Name: Atoum Template
+Author(s):
+URL:
+Version:
+Version date:
+Description:

@@ -1,10 +1,5 @@
 <?php
 
-	//Fonctions propres au module "posts"
-
-
-	//Renvoie un tableau contenant tout les posts d'un certains type
-
 	function get_content($content_type, $order_by, $order_direction){
 		global $bdd, $content;
 		$content_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type ORDER BY :order_by :order_direction');

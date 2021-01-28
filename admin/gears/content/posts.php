@@ -1,6 +1,9 @@
+<div class="section large float left">
+	<h1 class="left">Posts</h1>
+	<a href="editor.php?mode=create&type=post" class="button tiny right">Add</a>
+</div>
+
 <div class="section large">
-	<h1>Posts</h1>
-	<a href="editor.php?mode=create&type=post" class="button auto">Add</a>
 	<p>Get an overview of every posts on your site.</p>
 
 <?php

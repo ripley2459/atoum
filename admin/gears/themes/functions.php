@@ -1,40 +1,42 @@
 <?php
 
-	function get_themes(){
-		global $LINKS, $option_value, $THEME;
-		
+	function get_themes_wrapper(){
+		global $LINKS, $THEME;
 		$themes = scandir($LINKS['THEMES']);	
 		$themes_folder_size = count($themes) - 1;
+		$to_display = '';
 
 		for($i = 2; $i <= $themes_folder_size; $i++){
-			
 			if($themes[$i] == $THEME){
-				$this_theme_is = 'activated';
+				$this_theme_is = 'enabled';
 			}
 			else{
 				$this_theme_is = 'disabled';
 			}
+
+			$to_display = $to_display . get_block_div(
+				get_block_link('themes.php?switch_to_theme=' . $themes[$i], 
+					get_block_image($LINKS['THEMES'] . $themes[$i] . '/screenshot.png', '', 'theme-screenshot', 'template') . 
+					get_block_div('INFOS', '', 'theme-infos', 'template')
+				, '', '', 'template')
+			, '', 'theme ' . $this_theme_is, 'template');
+
+/* 
+	$infos = fopen($LINKS['THEMES'].$themes[$i].'/infos.txt','r');
+	while(!feof($infos)){
+	$line = fgets($infos);
+	if(strpos($line, 'Name:')!== false){
+		echo '<h3>'.str_replace('Name: ','', $line).'</h3>';
+	}
+	while(!feof($infos)){
+		scan_line(fgets($infos));
+	}
+	fclose($infos);
+	if($this_theme_is == 'activated'){
+		//echo '<a href="#">Deactivate<a>';
+	}
+*/
 			
-			echo '<div class="theme '.$this_theme_is.'"><a href="themes.php?switch_to_theme='.$themes[$i].'">
-				<img src="http:/'.'/cms/content/themes/'.$themes[$i].'/preview.png" class="theme-preview"/>
-				<div class="theme-infos">';
-
-			$infos = fopen($LINKS['THEMES'].$themes[$i].'/infos.txt','r');
-			while(!feof($infos))  {
-				$line = fgets($infos);
-				
-				if(strpos($line, 'Name:')!== false){
-					echo '<h3>'.str_replace('Name: ','', $line).'</h3>';
-				}
-				
-				//echo '<li>'.$line.'</li>';
-			}
-			fclose($infos);
-				echo '</div>';
-
-				if($this_theme_is == 'activated'){
-						//echo '<a href="#">Deactivate<a>';
-					}
-			echo '</a></div>';
 		}
+		return $to_display;
 	}

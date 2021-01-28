@@ -15,7 +15,7 @@
 	<head>
 		<link rel="stylesheet" href="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
-		<title>Admin</title>
+		<title><?php echo ucfirst($page) . ' - Atoum administration'; ?></title>
 	</head>
 
 	<body>

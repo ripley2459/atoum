@@ -73,7 +73,8 @@
 
 		\$THEME = get_option_value('active_theme');
 
-		require \$LINKS['THEMES'] . \$THEME . '/includes/functions.php';";
+		require \$LINKS['THEMES'] . \$THEME . '/includes/functions.php';
+		require \$LINKS['THEMES'] . \$THEME . '/includes/blocks.php';";
 
 		$config_file = fopen('includes/config.php', 'w');
 		fwrite($config_file, $config_content);
@@ -121,7 +122,7 @@
 		$create_table_options_request = "CREATE TABLE $bucket (
 			option_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			option_name TEXT NOT NULL,
-			option_value LONGTEXT
+			option_value LONGTEXT NOT NULL
 		)";
 
 		if($bdd -> query($create_table_options_request) === TRUE){
@@ -137,8 +138,8 @@
 			term_name VARCHAR(20) NOT NULL,
 			term_slug VARCHAR(20) NOT NULL,
 			term_type VARCHAR(20) NOT NULL,
-			term_description TEXT,
-			term_parent_id BIGINT(20)
+			term_description TEXT NOT NULL,
+			term_parent_id BIGINT(20) NOT NULL
 		)";
 
 		if($bdd -> query($create_table_terms_request) === TRUE){

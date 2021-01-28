@@ -159,16 +159,21 @@ body {
 
 *****************************/
 
-.section {
-	margin: 0 20%;
+.admin-window {
+	margin-top: 86px;
+	margin-bottom: 86px;
 }
 
-.section.tiny {
-	margin: 0 30%;
+.section {
+	margin: 20%;
+}
+
+.section *:first-child {
+	margin-top: 0;
 }
 
 .section.lite {
-	margin: 0 15%;
+	margin-left: 25%;
 }
 
 .section.medium {
@@ -228,6 +233,28 @@ span.large {
 
 span.full {
 	width: var(--size-full);
+}
+
+.float.left > * {
+	float: left;
+}
+
+.float.right > * {
+	float: right;
+}
+
+.float .left {
+	float: left;
+}
+
+.float .right {
+	float: right;
+}
+
+.float::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 /****************************
@@ -297,6 +324,7 @@ button,
 	color: var(--color-gray);
 	box-sizing: border-box;
 	background-color: var(--background-dark);
+	text-align: center;
 }
 
 button:hover,
@@ -801,17 +829,17 @@ select.full {
 	border-color: var(--title-color);
 }
 
-.accordion:after {
+.accordion i.icon:after {
 	content: '\002B';
 	color: var(--color-gray);
 	float: right;
 }
 
-.accordion:hover:after {
+.accordion:hover {
 	color: var(--title-color);
 }
 
-.accordion.active:after {
+.accordion.active i.icon:after {
 	content: "\2212";
 	color: var(--title-color);
 }
@@ -820,7 +848,7 @@ select.full {
 	display: none;
 	overflow: hidden;
 	transition: max-height 0.3s ease-out;
-	border: 1px solid var(--title-color);
+	/* border: 1px solid var(--title-color); */
 	padding: 1em;
 }
 
