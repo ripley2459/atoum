@@ -26,11 +26,13 @@
 								'',
 								'',
 								'',
+								'',
 								''
 							) . '|' .
 							get_block_link(
 								'#',
 								'Edit',
+								'',
 								'',
 								'',
 								'',
@@ -42,29 +44,35 @@
 								'',
 								'',
 								'',
+								'',
 								''
 							),
 							'',
 							'spoiler',
+							'',
 							''
 						),
 						'',
 						'spoiler-container',
+						'',
 						''
 					) .
 					get_block_table_data(
 						$user['user_display_name'],
 						'',
 						'',
-						''
-					) .
-					get_block_table_data(
-						'',
-						'',
 						'',
 						''
 					) .
 					get_block_table_data(
+						'',
+						'',
+						'',
+						'',
+						''
+					) .
+					get_block_table_data(
+						'',
 						'',
 						'',
 						'',
@@ -74,14 +82,17 @@
 						$content['content_date_created'],
 						'',
 						'',
+						'',
 						''
 					) .
 					get_block_table_data(
 						$content['content_date_modified'],
 						'',
 						'',
+						'',
 						''
 					),
+					'',
 					'',
 					'',
 					''
@@ -98,8 +109,10 @@
 							'',
 							'',
 							'',
+							'',
 							''
 						),
+						'',
 						'',
 						'',
 						''
@@ -111,8 +124,10 @@
 							'',
 							'',
 							'',
+							'',
 							''
 						),
+						'',
 						'',
 						'',
 						''
@@ -121,10 +136,12 @@
 						'Classes',
 						'',
 						'',
+						'',
 						''
 					) .
 					get_block_table_heading(
 						'Tags',
+						'',
 						'',
 						'',
 						''
@@ -136,8 +153,10 @@
 							'',
 							'',
 							'',
+							'',
 							''
 						),
+						'',
 						'',
 						'',
 						''
@@ -149,18 +168,22 @@
 							'',
 							'',
 							'',
+							'',
 							''
 						),
+						'',
 						'',
 						'',
 						''
 					),
 					'',
 					'',
+					'',
 					''
 				) .
 				$table_content,
 				'table-' . $content_type,
+				'',
 				'',
 				''
 			);
@@ -288,24 +311,30 @@
 	
 	function get_content_for_menus($content_type){
 		global $bdd;
+		$to_display = '';
 		
 		$content_for_menus_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type');
 		$content_for_menus_request -> execute(array(':content_type' => $content_type));
 		
 		while($content_for_menu = $content_for_menus_request -> fetch()){
-			echo '<input type="checkbox" id="'.$content_for_menu['content_slug'].'" name="'.$content_for_menu['content_slug'].'"><label for="'.$content_for_menu['content_slug'].'">'.$content_for_menu['content_title'].'</label></br>';
+			$to_display = $to_display . '<input type="checkbox" id="'.$content_for_menu['content_slug'].'" name="'.$content_for_menu['content_slug'].'"><label for="'.$content_for_menu['content_slug'].'">'.$content_for_menu['content_title'].'</label></br>';
 		}
+		
+		return $to_display;
 	}
 	
 	function get_terms_for_menus($term_type){
 		global $bdd;
+		$to_display = '';
 		
 		$content_for_menus_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type');
 		$content_for_menus_request -> execute(array(':term_type' => $term_type));
 		
 		while($content_for_menu = $content_for_menus_request -> fetch()){
-			echo '<input type="checkbox" id="'.$content_for_menu['term_slug'].'" name="'.$content_for_menu['term_slug'].'"><label for="'.$content_for_menu['term_slug'].'">'.$content_for_menu['term_name'].'</label></br>';
+			$to_display = $to_display . '<input type="checkbox" id="'.$content_for_menu['term_slug'].'" name="'.$content_for_menu['term_slug'].'"><label for="'.$content_for_menu['term_slug'].'">'.$content_for_menu['term_name'].'</label></br>';
 		}
+		
+		return $to_display;
 	}
 	
 	function get_medias($content_type, $order_by, $order_direction, $display_mode){

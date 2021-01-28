@@ -11,7 +11,7 @@
 */
 
 	//Title
-	function get_block_title($level, $content, $id, $additional_classes, $template){
+	function get_block_title($level, $content, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -26,7 +26,7 @@
 	}
 
 	//Paragraph
-	function get_block_paragraph($content, $id, $additional_classes, $template){
+	function get_block_paragraph($content, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -41,7 +41,7 @@
 	}
 
 	//Horizontal rule
-	function get_block_horizontal_rule($id, $additional_classes, $template){
+	function get_block_horizontal_rule($id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -56,7 +56,7 @@
 	}
 	
 	//Line break
-	function get_block_line_break($id, $additional_classes, $template){
+	function get_block_line_break($id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -86,7 +86,7 @@
 	}
 
 	//Div
-	function get_block_div($content, $id, $additional_classes, $template){
+	function get_block_div($content, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -101,7 +101,7 @@
 	}
 	
 	//Section
-	function get_block_section($content, $id, $additional_classes, $template){
+	function get_block_section($content, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -116,7 +116,7 @@
 	}
 
 	//Link
-	function get_block_link($directory, $content, $target, $id, $additional_classes, $template){
+	function get_block_link($directory, $content, $target, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($directory == ''){
@@ -137,7 +137,7 @@
 	}
 	
 	//Image
-	function get_block_image($source, $id, $additional_classes, $template){
+	function get_block_image($source, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($source == ''){
@@ -154,7 +154,7 @@
 		}
 	}
 	
-	function get_block_table($content, $id, $additional_classes, $template){
+	function get_block_table($content, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -168,7 +168,7 @@
 		}
 	}
 
-	function get_block_table_row($content, $id, $additional_classes, $template){
+	function get_block_table_row($content, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -182,7 +182,7 @@
 		}
 	}
 
-	function get_block_table_heading($content, $id, $additional_classes, $template){
+	function get_block_table_heading($content, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -196,7 +196,7 @@
 		}
 	}
 	
-	function get_block_table_data($content, $id, $additional_classes, $template){
+	function get_block_table_data($content, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -234,5 +234,39 @@
 						  <span aria-hidden class="cybr-btn__tag">' . $custom['number'] . '</span>
 						</button>';
 				break;			
+		}
+	}
+	
+	function get_block_accordion($title, $content, $id, $additional_classes, $template, $custom){
+		switch($template){
+			default:
+				if($id != ''){
+					$id = ' id= "' . $id . '"';
+				}
+				if($additional_classes != ''){
+					$additional_classes = ' class= "' . $additional_classes . '"';
+				}
+				return 
+				get_block_div(
+					get_block_div(
+						$title,
+						'',
+						'accordion_trigger' . $additional_classes,
+						'',
+						''
+					) . 
+					get_block_div(
+						$content,
+						'',
+						'accordion_panel' . $additional_classes,
+						'',
+						''
+					),
+					'',
+					'accordion_container',
+					'',
+					''
+				);
+				break;
 		}
 	}

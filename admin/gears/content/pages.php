@@ -15,6 +15,7 @@
 			'Posts',
 			'',
 			'',
+			'',
 			''
 		) . 
 		get_block_link(
@@ -23,8 +24,10 @@
 			'',
 			'',
 			'',
+			'',
 			''
 		),
+		'',
 		'',
 		'',
 		''
@@ -32,6 +35,7 @@
 
 	echo get_block_section(
 		get_content('page', 'content_name', $order_direction),
+		'',
 		'',
 		'',
 		''

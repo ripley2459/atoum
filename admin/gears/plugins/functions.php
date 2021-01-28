@@ -15,11 +15,33 @@
 			}
 			$to_display = $to_display . 
 			get_block_div(
-				get_block_link('plugins.php?switch_to_theme=' . $plugins[$i], 
-					get_block_image($LINKS['PLUGINS'] . $plugins[$i] . '/screenshot.png', '', 'theme-screenshot', 'template') . 
-					get_block_div('INFOS', '', 'theme-infos', 'template')
-				, '', '', '', 'template')
-			, '', 'theme ' . $this_plugin_is, 'template');
+				get_block_link(
+					'plugins.php?switch_to_theme=' . $plugins[$i], 
+					get_block_image(
+						$LINKS['PLUGINS'] . $plugins[$i] . '/screenshot.png',
+						'',
+						'theme-screenshot',
+						'template',
+						''
+					) . 
+					get_block_div(
+						'INFOS',
+						'',
+						'theme-infos',
+						'',
+						''
+					),
+					'',
+					'',
+					'',
+					'',
+					''
+				),
+				'',
+				'theme ' . $this_plugin_is,
+				'',
+				''
+			);
 		}
 		return $to_display;
 	}

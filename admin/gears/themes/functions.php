@@ -14,12 +14,37 @@
 				$this_theme_is = 'disabled';
 			}
 
-			$to_display = $to_display . get_block_div(
-				get_block_link('themes.php?switch_to_theme=' . $themes[$i], 
-					get_block_image($LINKS['THEMES'] . $themes[$i] . '/screenshot.png', '', 'theme-screenshot', 'template') . 
-					get_block_div('INFOS', '', 'theme-infos', 'template')
-				, '', '', '', 'template')
-			, '', 'theme ' . $this_theme_is, 'template');
+			$to_display = $to_display . 
+			get_block_div(
+				get_block_link(
+					'themes.php?switch_to_theme=' . $themes[$i], 
+					get_block_image(
+						$LINKS['THEMES'] . $themes[$i] . '/screenshot.png',
+						'',
+						'theme-screenshot',
+						'template',
+						''
+					) . 
+					get_block_div(
+						'INFOS',
+						'',
+						'theme-infos',
+						'',
+						'',
+						''
+					),
+					'',
+					'',
+					'',
+					'',
+					'',
+					''
+				),
+			'',
+			'theme ' . $this_theme_is,
+			'',
+			''
+			);
 
 /* 
 	$infos = fopen($LINKS['THEMES'].$themes[$i].'/infos.txt','r');
