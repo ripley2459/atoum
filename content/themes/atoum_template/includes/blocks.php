@@ -220,19 +220,40 @@
 					$additional_classes = ' class= "' . $additional_classes . '"';
 				}
 				return '<button' . $id . $additional_classes . '>' . $content . '</button>';
-				break;
-			case cybr:
+				break;		
+		}
+	}
+	
+	function get_block_accordion($title, $content, $id, $additional_classes, $template, $custom){
+		switch($template){
+			default:
 				if($id != ''){
 					$id = ' id= "' . $id . '"';
 				}
 				if($additional_classes != ''){
-					$additional_classes = ' class="cybr-btn "' . $additional_classes . '"';
+					$additional_classes = ' class= "' . $additional_classes . '"';
 				}
-				return '<button' . $id . $additional_classes .'">' .
-						  $content .'<span aria-hidden>_</span>
-						  <span aria-hidden class="cybr-btn__glitch">' . $content . '</span>
-						  <span aria-hidden class="cybr-btn__tag">' . $custom['number'] . '</span>
-						</button>';
+				return
+				get_block_div(
+					get_block_div(
+						$title,
+						'',
+						'accordion_trigger',
+						'',
+						''
+					) .
+					get_block_div(
+						$content,
+						'',
+						'accordion_panel',
+						'',
+						''
+					),
+					$id,
+					$additional_classes,
+					'',
+					''
+				);
 				break;			
 		}
 	}
