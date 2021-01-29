@@ -71,7 +71,7 @@
 	}
 
 	//Preformatted text
-	function get_block_preformatted_text($content, $id, $additional_classes, $template){
+	function get_block_preformatted_text($content, $id, $additional_classes, $template, $custom){
 		switch($template){
 			default:
 				if($id != ''){
@@ -154,7 +154,7 @@
 		}
 	}
 	
-	function get_block_table($content, $id, $additional_classes, $template, $custom){
+	function get_block_table($content, $id, $additional_classes, $template){
 		switch($template){
 			default:
 				if($id != ''){
@@ -234,39 +234,5 @@
 						  <span aria-hidden class="cybr-btn__tag">' . $custom['number'] . '</span>
 						</button>';
 				break;			
-		}
-	}
-	
-	function get_block_accordion($title, $content, $id, $additional_classes, $template, $custom){
-		switch($template){
-			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return 
-				get_block_div(
-					get_block_div(
-						$title,
-						'',
-						'accordion_trigger' . $additional_classes,
-						'',
-						''
-					) . 
-					get_block_div(
-						$content,
-						'',
-						'accordion_panel' . $additional_classes,
-						'',
-						''
-					),
-					'',
-					'accordion_container',
-					'',
-					''
-				);
-				break;
 		}
 	}
