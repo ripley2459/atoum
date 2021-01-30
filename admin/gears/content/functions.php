@@ -27,11 +27,13 @@
 								'',
 								'',
 								'',
+								'',
 								''
 							) . '|' .
 							get_block_link(
 								'#',
 								'Edit',
+								'',
 								'',
 								'',
 								'',
@@ -45,6 +47,7 @@
 								'',
 								'',
 								'',
+								'',
 								''
 							),
 							'',
@@ -53,7 +56,7 @@
 							''
 						),
 						'',
-						'spoiler-container',
+						'spoiler_container',
 						'',
 						''
 					) .
@@ -110,6 +113,7 @@
 							'',
 							'',
 							'',
+							'',
 							''
 						),
 						'',
@@ -121,6 +125,7 @@
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_author&order_direction=' . $order_direction,
 							'Author<i class="' . $order_direction . '"></i>',
+							'',
 							'',
 							'',
 							'',
@@ -154,6 +159,7 @@
 							'',
 							'',
 							'',
+							'',
 							''
 						),
 						'',
@@ -165,6 +171,7 @@
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_date_modified&order_direction=' . $order_direction,
 							'Last modification date<i class="' . $order_direction . '"></i>',
+							'',
 							'',
 							'',
 							'',
@@ -197,27 +204,180 @@
 
 	function get_terms($term_type, $order_by, $order_direction){
 		global $bdd, $folder, $page;
+		$to_display = '';
+		$table_content = '';
+
 		$terms_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type ORDER BY :order_by :order_direction');
-
-		echo '<table class="full">
-		<tr>
-			<th><a href="'.'/admin/'.$folder.'/'.$page.'.php?order_by=term_name&order_direction='.$order_direction.'">Name<i class="icon '.$order_direction.'"></i></a></th>
-			<th><a href="'.'/admin/'.$folder.'/'.$page.'.php?order_by=content_author&order_direction='.$order_direction.'">Slug<i class="icon '.$order_direction.'"></i></a></th>
-			<th>Description</th>
-		</tr>';
-
 		$terms_request -> execute(array(':term_type' => $term_type,':order_by' => $order_by,':order_direction' => $order_direction));
 
 		while($term = $terms_request -> fetch()){
-			echo '<tr>
-				<td class="spoiler-container">'.$term['term_name'].'</br><div class="spoiler"><a title="Display" href="#">Display</a> | <a title="Edit" href="#">Edit</a> | <a title="Delete" href="classes.php?term_to_delete='.$term['term_id'].'" class="warning">Delete</a></div></td>
-				<td>'.$term['term_slug'].'</td>
-				<td>'.$term['term_description'].'</td>
-			</tr>';
+			
+			$table_content = $table_content .
+			get_block_table_row(
+				get_block_table_data(
+					get_block_div(
+						$term['term_name'] . '</br>' .
+						get_block_link(
+							'#',
+							'Display',
+							'',
+							'',
+							'',
+							'',
+							'',
+							''
+						) . '|' .
+						get_block_link(
+							'#',
+							'Edit',
+							'',
+							'',
+							'',
+							'',
+							'',
+							''
+						) . '|' .
+						get_block_link(
+							'classes.php?term_to_delete=' . $term['term_id'],
+							'Delete',
+							'',
+							'',
+							'',
+							'warning',
+							'',
+							''
+						),
+						'',
+						'spoiler',
+						'',
+						''
+					),
+					'',
+					'spoiler_container',
+					'',
+					''
+				) .
+				get_block_table_data(
+					$term['term_slug'],
+					'',
+					'',
+					'',
+					''
+				) .
+				get_block_table_data(
+					$term['term_description'],
+					'',
+					'',
+					'',
+					''
+				),
+				'',
+				'',
+				'',
+				''
+			);
 		}
 
+		$to_display = $to_display . 
+			get_block_table(
+				get_block_table_row(
+					get_block_table_heading(
+						get_block_link(
+							'/admin/' . $folder . '/' . $page . '.php?order_by=term_name&order_direction=' . $order_direction,
+							'Name<i class="' . $order_direction . '"></i>',
+							'',
+							'',
+							'',
+							'',
+							'',
+							''
+						),
+						'',
+						'',
+						'',
+						''
+					) .
+					get_block_table_heading(
+						get_block_link(
+							'/admin/' . $folder . '/' . $page . '.php?order_by=content_slug&order_direction=' . $order_direction,
+							'Slug<i class="' . $order_direction . '"></i>',
+							'',
+							'',
+							'',
+							'',
+							'',
+							''
+						),
+						'',
+						'',
+						'',
+						''
+					) .
+					get_block_table_heading(
+						'Description',
+						'',
+						'',
+						'',
+						''
+					),
+					'',
+					'',
+					'',
+					''
+				) .
+				$table_content,
+				'table-classes',
+				'',
+				'',
+				''
+			);
+
 		$terms_request -> closeCursor();
+		
+		return $to_display;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	function get_terms_list($term_type){

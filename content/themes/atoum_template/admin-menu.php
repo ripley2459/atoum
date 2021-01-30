@@ -13,7 +13,7 @@
 				$linksBSize = count($linksB) - 1;
 
 				for($j = 2; $j <= $linksBSize; $j++){
-					if($linksB[$j] != 'functions.php' and $linksB[$j] != 'scripts.js' and $linksB[$j] != 'style.css'){
+					if($linksB[$j] != 'functions.php' and !strpos($linksB[$j], '.js') and !strpos($linksB[$j], '.css')){
 							echo '<a href="/admin/'.$linksA[$i].'/'.$linksB[$j].'" class="menu-element link'; if ($page.'.php' == $linksB[$j]){echo ' active';} echo '">'.ucfirst(str_replace('.php', '', $linksB[$j])).'</a>';
 					}
 				}

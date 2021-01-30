@@ -18,11 +18,13 @@
 					'',
 					'',
 					'',
+					'',
 					''
 				) . 
 				get_block_link(
 					'uploads.php?mode=grid',
 					'<i class="fas fa-th-large"></i>',
+					'',
 					'',
 					'',
 					'',

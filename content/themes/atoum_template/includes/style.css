@@ -58,3 +58,21 @@ VARIABLES
     padding: 0;
     vertical-align: baseline;
 }
+
+
+/****************************
+
+	LAYOUT
+
+*****************************/
+
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.column {
+	float: left;
+	width: auto;
+}

@@ -9,15 +9,14 @@
 	}
 
 ?>
-
 <!doctype html>
 <html lang="fr">
 	<head>
 		<link rel="stylesheet" href="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<title><?php echo ucfirst($page) . ' - Atoum administration'; ?></title>
 	</head>
-
 	<body>
 		<header>
 			<?php
@@ -26,8 +25,7 @@
 
 			?>
 		</header>
-
-		<div class="admin-window has-left-menu">
+		<div>
 			<?php
 
 				if($folder == 'admin' or $page == 'admin'){
@@ -39,10 +37,11 @@
 
 			?>
 		</div>
-
 		<footer>
-			<script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
-			<script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
+
 		</footer>
 	</body>
 </html>
+<script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
+<script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
+<script src="<?php echo $LINKS['URL'] . '/admin/gears/' . $folder . '/' . $page . '.js'; ?>"></script>

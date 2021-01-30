@@ -20,14 +20,14 @@
 					get_block_image(
 						$LINKS['PLUGINS'] . $plugins[$i] . '/screenshot.png',
 						'',
-						'theme-screenshot',
+						'plugin-screenshot',
 						'template',
 						''
 					) . 
 					get_block_div(
 						'INFOS',
 						'',
-						'theme-infos',
+						'plugin-infos',
 						'',
 						''
 					),
@@ -35,10 +35,11 @@
 					'',
 					'',
 					'',
+					'',
 					''
 				),
 				'',
-				'theme ' . $this_plugin_is,
+				'plugin ' . $this_plugin_is,
 				'',
 				''
 			);

@@ -135,11 +135,11 @@
 		$bucket = $table_prefix . 'terms';
 		$create_table_terms_request = "CREATE TABLE $bucket (
 			term_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			term_name VARCHAR(20) NOT NULL,
-			term_slug VARCHAR(20) NOT NULL,
-			term_type VARCHAR(20) NOT NULL,
-			term_description TEXT NOT NULL,
-			term_parent_id BIGINT(20) NOT NULL
+			term_name VARCHAR(20),
+			term_slug VARCHAR(20),
+			term_type VARCHAR(20),
+			term_description TEXT,
+			term_parent_id BIGINT(20)
 		)";
 
 		if($bdd -> query($create_table_terms_request) === TRUE){
@@ -153,7 +153,7 @@
 		$create_table_users_request = "CREATE TABLE $bucket (
 			user_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			user_name VARCHAR(20) NOT NULL,
-			user_display_name VARCHAR(20) NOT NULL
+			user_display_name VARCHAR(20)
 		)";
 		
 		if($bdd -> query($create_table_users_request) === TRUE){
