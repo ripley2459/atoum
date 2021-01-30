@@ -20,7 +20,7 @@ Atoum permet également de personnaliser toute la partie administrative de votre
 >
 > **Tout n'est pas encore implémenté !**
 >
-> Atoum est un projet personnel sans prétentions autres que celles de progresser en architecture et languages liés au développement web. Il est soumis à des changements réguliers et chaques version est souvent incompatibles avec la précédente. Le module d'administration est également loin d'être stable.
+> Atoum est un projet personnel sans prétentions autres que celles de progresser en architecture et languages liés au développement web. Il est soumis à des changements réguliers et chaques version est souvent incompatible avec la précédente. Le module d'administration est également loin d'être stable.
 >
 > En utilisant Atoum vous acceptez sans conditions tous les contrats liés de près ou de loin à l'utilisation normale d'un logiciel et/ou service.
 >
