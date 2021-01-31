@@ -4,20 +4,23 @@ Atoum est un CMS personnel basé sur l'architecture de Wordpress. Il se veut le 
 ## Possibilités
 Il prend en charge la rédaction d'articles et de pages statiques.
 La création de plusieurs menus.
-Ce CMS permet de charger des thèmes et des plugins.
 
-## Instalation
+Ce CMS permet de charger des thèmes. La customisation des thèmes est poussée au bloc près. Vous pouvez aisément créer vos propre balises. Atoum s'occupe de faire la conversion balises classiques - balises personnalisées. Vous changez de thème ? Pas de panique, si Atoum ne trouve pas votre balise il chargera des balises par défaut.
+
+Atoum permet également de personnaliser toute la partie administrative de votre site.
+
+## Installation
 **Vous avez besoin d'un serveur faisant tourner à minima php 7.**
 
 1. Décompressez l'archive à la racine de votre serveur.
 2. Allez sur votre site. Si le programme d'instalation ne se lance pas aller sur "VotreSite/Admin/Install.php".
 3. Remplissez les champs du formulaire puis validez. Vous devriez ensuite être redirigé vers la page d'accueil de l'administration.
 
-> ## Notes
+> ### Notes sur l'installation et l'utilisation d'Atoum
 >
 > **Tout n'est pas encore implémenté !**
 >
-> Atoum est un projet personnel sans prétentions autres que celles de progresser en architecture et languages liés au développement web.
+> Atoum est un projet personnel sans prétentions autres que celles de progresser en architecture et languages liés au développement web. Il est soumis à des changements réguliers et chaques version est souvent incompatible avec la précédente. Le module d'administration est également loin d'être stable.
 >
 > En utilisant Atoum vous acceptez sans conditions tous les contrats liés de près ou de loin à l'utilisation normale d'un logiciel et/ou service.
 >
