@@ -3,20 +3,23 @@
 	require 'admin/includes/config.php';
 
 	if(isset($_GET['type'], $_GET['content'])){
-		$content_is_defined = 1;
 		$content_type = $_GET['type'];
 		$content_slug = $_GET['content'];
 	}
 	else{
-		$content_is_defined = 0;
+		$content_type = 'page';
+		$content_slug = 'home_page';
 	}
+	
+		echo $content_type;
+		echo $content_slug;
 
 ?>
 
 <!doctype html>
 <html lang="fr">
 	<head>
-		<link rel="stylesheet" href="<?php echo $LINKS['URL'].'/content/themes/'.$THEME.'/includes/style.css'; ?>">
+		<link rel="stylesheet" href="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<title>Index.php</title>
@@ -28,7 +31,7 @@
 
 		require $LINKS['THEMES'] . $THEME . '/header.php';
 
-		switch($_GET['type']){
+		switch($content_type){
 			case 'page':
 				require $LINKS['THEMES'] . $THEME . '/page.php';
 				break;
@@ -37,6 +40,10 @@
 				break;
 			case 'posts':
 				require $LINKS['THEMES'] . $THEME . '/posts.php';
+				break;
+			default:
+				require $LINKS['THEMES'] . $THEME . '/page.php';
+				break;
 		}
 
 		require $LINKS['THEMES'] . $THEME . '/footer.php';
@@ -45,5 +52,5 @@
 
 	</body>
 </html>
-<script src="<?php echo $LINKS['URL'].'/includes/scripts.js'; ?>"></script>
-<script src="<?php echo $LINKS['URL'].'/content/themes/'.$THEME.'/includes/scripts.js'; ?>"></script>
+<script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
+<script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
