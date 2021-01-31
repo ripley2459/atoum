@@ -1,14 +1,14 @@
 <?php
 
 	function get_post($content_type, $content_slug){
-		global $bdd, $post, $CONFIG;
+		global $bdd, $CONFIG;
 
-		$post_request = $bdd -> prepare('SELECT * FROM :table_content WHERE content_type = :content_type and content_slug = :content_slug');
+		$post_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type and content_slug = :content_slug');
 		$post_request -> execute(array(':content_type' => $content_type, ':content_slug' => $content_slug));
 		$post = $post_request -> fetch();
 		
-		$user_display_name_request = $bdd -> prepare('SELECT user_display_name FROM $CONFIG[PREFIX].users WHERE user_id = :user_id');
-		$user_display_name_request -> execute(array(':table_content' => $CONFIG['PREFIX'] . 'content', ':user_id' => $post['content_author']));
+		$user_display_name_request = $bdd -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
+		$user_display_name_request -> execute(array(':user_id' => $post['content_author']));
 		$user = $user_display_name_request -> fetch();
 		
 		$post = array(
@@ -25,6 +25,8 @@
 			'has_children' => $post['has_children'],
 			'content' => $post['content_content']
 		);
+
+		return $post;
 
 		$post_request -> closeCursor();
 		$user_display_name_request -> closeCursor();

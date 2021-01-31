@@ -3,11 +3,12 @@
 	require 'admin/includes/config.php';
 
 	if(isset($_GET['type'], $_GET['content'])){
+		$content_is_defined = 1;
 		$content_type = $_GET['type'];
 		$content_slug = $_GET['content'];
 	}
 	else{
-
+		$content_is_defined = 0;
 	}
 
 ?>
@@ -25,25 +26,23 @@
 
 	<?php
 
-		require $LINKS['THEMES'].$THEME.'/header.php';
+		require $LINKS['THEMES'] . $THEME . '/header.php';
 
 		switch($_GET['type']){
 			case 'page':
-				require $LINKS['THEMES'].$THEME.'/page.php';
+				require $LINKS['THEMES'] . $THEME . '/page.php';
 				break;
 			case 'post':
-				require $LINKS['THEMES'].$THEME.'/single.php';
+				require $LINKS['THEMES'] . $THEME . '/single.php';
 				break;
 			case 'posts':
-				require $LINKS['THEMES'].$THEME.'/posts.php';
+				require $LINKS['THEMES'] . $THEME . '/posts.php';
 		}
 
-		require $LINKS['THEMES'].$THEME.'/footer.php';
+		require $LINKS['THEMES'] . $THEME . '/footer.php';
 
 	?>
-		<footer>
 
-		</footer>
 	</body>
 </html>
 <script src="<?php echo $LINKS['URL'].'/includes/scripts.js'; ?>"></script>

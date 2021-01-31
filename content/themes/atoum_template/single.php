@@ -1,6 +1,6 @@
 <?php
 
-	get_post($content_type, $content_slug);
+	$post = get_post($content_type, $content_slug);
 
 ?>
 
@@ -17,4 +17,5 @@
 			</div>
 		</div>
 	</div>
-	
+
+SINGLE
