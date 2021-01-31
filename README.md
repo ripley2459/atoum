@@ -16,6 +16,11 @@ Atoum permet également de personnaliser toute la partie administrative de votre
 2. Allez sur votre site. Si le programme d'instalation ne se lance pas aller sur "VotreSite/Admin/Install.php".
 3. Remplissez les champs du formulaire puis validez. Vous devriez ensuite être redirigé vers la page d'accueil de l'administration.
 
+Atoum utilise les librairies suivantes :
+* [jQuerry](https://jquery.com/)
+* [Font Awesome](https://fontawesome.com/)
+* [CKEditor](https://ckeditor.com/)
+
 > ### Notes sur l'installation et l'utilisation d'Atoum
 >
 > **Tout n'est pas encore implémenté !**
