@@ -1,5 +1,0 @@
-Name: Brige
-Author(s): r.
-Version: 1
-Description: Test plugin.
-Type: none

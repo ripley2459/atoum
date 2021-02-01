@@ -5,3 +5,4 @@ author url: R.
 version: 21.1.30c
 version date: 2021/01/31
 description: Blank theme for the Atoum CMS created by Ripley. Take advantage of the huge customisation offered by this CMS. Get any documentation on the github page, my website or ask your questions on the official Atoum discord server.
+includes: Some usefull blocks.

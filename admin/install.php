@@ -15,10 +15,10 @@
 	}
 	else {
 		$LINKS = array(
-			'ROOT' => 'D:/Documents/Documents/Sites/atoum',
+			'ROOT' => $_SERVER['DOCUMENT_ROOT'],
 			'URL' => sprintf("%s://%s", isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']),
-			'PLUGINS' => 'D:/Documents/Documents/Sites/atoum/content/plugins/',
-			'THEMES' => 'D:/Documents/Documents/Sites/atoum/content/themes/',
+			'PLUGINS' => $_SERVER['DOCUMENT_ROOT'] . '/content/plugins/',
+			'THEMES' => $_SERVER['DOCUMENT_ROOT'] . '/content/themes/',
 		);
 
 		require $LINKS['ROOT'] . '/includes/functions.php';
@@ -28,8 +28,6 @@
 
 		require $LINKS['THEMES'] . $THEME . '/includes/functions.php';
 	}
-
-/****************************************************************************************************/
 
 	function install($database_name, $table_prefix, $username, $password, $host){
 		global $bdd, $links, $CONFIG;
@@ -92,8 +90,7 @@
 		else{
 			echo '<p class="query-error">Error creating database: ' . $bdd -> error . '</p>';
 		}
-		
-		//Se mettre dans la base de donnée fraichement créée
+
 		$bdd -> select_db($database_name);
 
 		$bucket = $table_prefix . 'content';
@@ -101,7 +98,7 @@
 			content_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			content_title TEXT NOT NULL,
 			content_slug TEXT NOT NULL,
-			content_author BIGINT(20) UNSIGNED,
+			content_author_id BIGINT(20) UNSIGNED,
 			content_date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
 			content_date_modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			content_type VARCHAR(20),
@@ -153,7 +150,11 @@
 		$create_table_users_request = "CREATE TABLE $bucket (
 			user_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			user_name VARCHAR(20) NOT NULL,
-			user_display_name VARCHAR(20)
+			user_password VARCHAR(20) NOT NULL,
+			user_display_name VARCHAR(20) NOT NULL,
+			user_first_name VARCHAR(20),
+			user_last_name VARCHAR(20),
+			user_biography TEXT
 		)";
 		
 		if($bdd -> query($create_table_users_request) === TRUE){

@@ -82,6 +82,7 @@
 	function get_block_input_text($id, $name, $additional_classes, array $attributes, $template, $custom){
 		switch($template){
 			default:
+				$text_type= 'text';
 				if($id != ''){
 					$id = ' id= "' . $id . '"';
 				}
@@ -91,10 +92,14 @@
 				if($additional_classes != ''){
 					$additional_classes = ' class= "' . $additional_classes . '"';
 				}
-				
+
 				$attributes_values = get_attributes_values($attributes);
-				
-				return '<input type="text"' . $id . $name . $additional_classes . $attributes_values . '>';
+
+				if(array_key_exists('password', $attributes)){
+					$text_type= 'password';
+				}
+
+				return '<input type="' . $text_type .'"' . $id . $name . $additional_classes . $attributes_values . '>';
 				break;
 		}
 	}

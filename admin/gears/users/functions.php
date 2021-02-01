@@ -1,19 +1,73 @@
 <?php
 
-	function get_content($content_type, $order_by, $order_direction){
+	function get_users($order_by, $order_direction){
 		global $bdd, $content;
-		$content_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type ORDER BY :order_by :order_direction');
-		$content_request -> execute(array(':content_type' => $content_type,':order_by' => $order_by,':order_direction' => $order_direction));
-		$content = $content_request -> fetch();
-		return $content;
+		$to_display = '';
+		$table_content = '';
+		$users_request = $bdd -> prepare('SELECT * FROM at_users ORDER BY :order_by :order_direction');
+		$users_request -> execute(array(':order_by' => $order_by, ':order_direction' => $order_direction));
+		
+		while($user = $users_request -> fetch()){
+			$table_content = $table_content .
+				get_block_table_row(
+					get_block_table_data(
+						$user['user_name'],
+						'',
+						'',
+						'',
+						''
+					) .
+					get_block_table_data(
+						$user['user_display_name'],
+						'',
+						'',
+						'',
+						''
+					),
+					'',
+					'',
+					'',
+					''
+				);
+		}
+		
+		$to_display = $to_display .
+			get_block_table(
+				get_block_table_row(
+					get_block_table_heading(
+						'Username',
+						'',
+						'',
+						'',
+						''
+					) .
+					get_block_table_heading(
+						'Name',
+						'',
+						'',
+						'',
+						''
+					),
+					'',
+					'',
+					'',
+					''
+				) .
+				$table_content,
+				'',
+				'',
+				''
+			);
+
+		$users_request -> closeCursor();
+		return $to_display;
 	}
-
-
-	//renvoie le nom d'affichage d'un utilisateur
-
-	function get_user_display_name($user_id){
+	
+	function add_user($user_name, $user_password, $user_email, $user_display_name, $user_first_name, $user_last_name, $user_biography){
 		global $bdd;
-		$user_request = $bdd -> prepare('SELECT user_display_name FROM at_users WHERE ID = :user_id');
-		$user_request -> execute(array(':user_id' => $user_id));
-		$user_display_name = $user_request -> fetch();
+		$add_user_request = $bdd -> prepare('INSERT INTO at_users (user_name, user_password, user_email, user_display_name, user_first_name, user_last_name, user_biography) VALUES (:user_name, :user_password, :user_email, :user_display_name, :user_first_name, :user_last_name, :user_biography)');
+		$add_user_request -> execute(array(':user_name' => $user_name, ':user_password' => $user_password, ':user_email' => $user_email, ':user_display_name' => $user_display_name, ':user_first_name' => $user_first_name, ':user_last_name' => $user_last_name, ':user_biography' => $user_biography));
+		echo 'ok';
+		
+		$add_user_request -> closeCursor();
 	}

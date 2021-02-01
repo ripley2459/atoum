@@ -8,21 +8,21 @@
 		$post = $post_request -> fetch();
 		
 		$user_display_name_request = $bdd -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
-		$user_display_name_request -> execute(array(':user_id' => $post['content_author']));
+		$user_display_name_request -> execute(array(':user_id' => $post['content_author_id']));
 		$user = $user_display_name_request -> fetch();
 		
 		$post = array(
 			'id' => $post['content_id'],
 			'title' => $post['content_title'],
 			'slug' => $post['content_slug'],
-			'author_id' => $post['content_author'],
+			'author_id' => $post['content_author_id'],
 			'author_display_name' => $user['user_display_name'],
 			'date_created' => $post['content_date_created'],
 			'date_modified' => $post['content_date_modified'],
 			'type' => $post['content_type'],
 			'status' => $post['content_status'],
 			'parent_id' => $post['content_parent_id'],
-			'has_children' => $post['has_children'],
+			'has_children' => $post['content_has_children'],
 			'content' => $post['content_content']
 		);
 
@@ -56,8 +56,8 @@
 		$sub_menu_request -> execute(array(':menu_parent_id' => $menu_parent_id));
 		
 		while($sub_menu = $sub_menu_request -> fetch()){
-			echo '<li id="menu-item-'.$sub_menu['content_id'].'"><a href="#">'.$sub_menu['content_title'].'</a>';
-			if($sub_menu['has_children'] == 1){
+			echo '<li id="menu-item-'.$sub_menu['content_id'].'"><a href="'.$sub_menu['content_content'].'">'.$sub_menu['content_title'].'</a>';
+			if($sub_menu['content_has_children'] == 1){
 				echo '<ul class="sub-menu">';
 				get_sub_menus($sub_menu['content_id']);
 				echo '</ul>';

@@ -1,5 +1,0 @@
-Name: Tags & Co.
-Author(s): r.
-Version: 1
-Description: Add to the classes system the Wordpress's tags system.
-Type: none

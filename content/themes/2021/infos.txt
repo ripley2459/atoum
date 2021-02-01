@@ -1,6 +1,8 @@
-Name: 2021
-Author(s): r.
-Author(s) URL:
-Version: 1
-Version date: 2021/01/25
-Description: My 2021 templale for this cms.
+name: 2021
+url: R.
+author: R.
+author url: R.
+version: 4
+version date: 2020/12/29
+description: My own theme using the Atoum CMS.
+includes: Everything I need.

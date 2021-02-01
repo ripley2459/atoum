@@ -12,7 +12,7 @@
 
 		while($content = $content_request -> fetch()){
 
-			$users_request -> execute(array(':user_id' => $content['content_author']));
+			$users_request -> execute(array(':user_id' => $content['content_author_id']));
 			$user = $users_request -> fetch();
 				
 			$table_content = $table_content . 
@@ -435,36 +435,62 @@
 
 	function get_menus(){
 		global $bdd;
+		$to_display = '';
 
 		$menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = "menu"');
 		$menu_request -> execute();
 
 		while($menu = $menu_request -> fetch()){
-			echo '<button class="accordion">'.$menu['content_title'].'</button>
-			<div class="panel">
-				<form>';
-					get_subs_menus($menu['content_id']);
-			echo '<button type="submit" class="tiny float-right">Save</button>
-				</form>
-			</div>';
+			$to_display = $to_display .
+				get_block_accordion(
+					$menu['content_title'],
+					get_block_list_unordered(
+						get_subs_menus($menu['content_id']),
+						$menu['content_slug'],
+						'',
+						'',
+						''
+					),
+					'',
+					'',
+					'',
+					''
+				);
 		}
-		$menu_request -> closeCursor();	
+		return $to_display;
+		$menu_request -> closeCursor();
 	}
 
 	function get_subs_menus($menu_parent_id){
 		global $bdd;
+		$to_display = '';
 
 		$sub_menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
 		$sub_menu_request -> execute(array(':menu_parent_id' => $menu_parent_id));
 		
 		while($sub_menu = $sub_menu_request -> fetch()){
-			echo '<li id="menu-item-'.$sub_menu['content_id'].'">'.$sub_menu['content_title'];
-			if($sub_menu['has_children'] == 1){
-				get_sub_menus($sub_menu['content_id']);
-			}
-			echo '</li>';
+/* 			if($sub_menu['content_has_children'] == 1){
+				$sub_sub_menus = $sub_sub_menus . 
+				get_block_list_unordered(
+					get_sub_menus($sub_menu['content_id']),
+					'',
+					'sub-menu',
+					'',
+					''
+				);
+			} */
+			
+			$to_display = $to_display .
+				get_block_list_element(
+					$sub_menu['content_title'],
+					'menu-item-' . $sub_menu['content_id'],
+					'',
+					'',
+					''
+				);
 		}
 
+		return $to_display;
 		$sub_menu_request -> closeCursor();
 	}
 	

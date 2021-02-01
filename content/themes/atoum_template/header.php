@@ -2,7 +2,7 @@
 
 	<nav>
 
-		<?php get_menu('menu-primary'); ?>
+		<?php get_menu('primary-menu'); ?>
 
 	</nav>
 

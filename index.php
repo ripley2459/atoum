@@ -10,9 +10,6 @@
 		$content_type = 'page';
 		$content_slug = 'home_page';
 	}
-	
-		echo $content_type;
-		echo $content_slug;
 
 ?>
 

@@ -1,5 +1,0 @@
-Name: Better
-Author(s): r.
-Version: 1
-Description: Ajoute beaucoup de CSS au code de base.
-Type: none
