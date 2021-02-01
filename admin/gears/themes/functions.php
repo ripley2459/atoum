@@ -16,7 +16,7 @@
 				$this_theme_is = 'disabled';
 			}
 
- 			$infos = fopen($LINKS['THEMES'] . $themes[$i] . '/infos.txt', 'r');
+ 			$infos = fopen($LINKS['THEMES'] . $themes[$i] . '/includes/infos.txt', 'r');
 			while(!feof($infos)){
 				$line = fgets($infos);
 				if(strpos($line, 'name:')!== false){
@@ -53,7 +53,7 @@
 				get_block_link(
 					'themes.php?switch_to_theme=' . $themes[$i], 
 					get_block_image(
-						$LINKS['URL'] . '/content/themes/' . $themes[$i] . '/screenshot.png',
+						$LINKS['URL'] . '/content/themes/' . $themes[$i] . '/includes/screenshot.png',
 						'',
 						'theme-screenshot',
 						'',
