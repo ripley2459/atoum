@@ -7,7 +7,7 @@
 		for($i = 2; $i <= $linksASize; $i++){
 			if(is_dir('gears/'.$linksA[$i])){
 				echo '<button id="'.$linksA[$i].'Button" class="menu-element has-children'; if ($folder == $linksA[$i]){echo ' opened';} echo '" onclick="toggleVisibility(\''.$linksA[$i].'Folder\', \''.$linksA[$i].'Button\')">'.ucfirst($linksA[$i]).'<i class="icon"></i></button>';
-				echo '<div id="'.$linksA[$i].'Folder'.'" class="menu-element sub-menu'; if($folder == $linksA[$i]){echo ' opened';} echo '">';
+				echo '<div id="'.$linksA[$i].'Folder'.'" class="sub-menu'; if($folder == $linksA[$i]){echo ' opened';} echo '">';
 
 				$linksB = scandir('gears/'.$linksA[$i].'/');
 				$linksBSize = count($linksB) - 1;

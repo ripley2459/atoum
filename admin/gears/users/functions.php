@@ -11,7 +11,14 @@
 			$table_content = $table_content .
 				get_block_table_row(
 					get_block_table_data(
-						$user['user_name'],
+						$user['user_name'] .
+						get_block_div(
+							'',
+							'',
+							'',
+							'',
+							''
+						),
 						'',
 						'',
 						'',

@@ -7,7 +7,7 @@
 					$id = ' id= "' . $id . '"';
 				}
 				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
+					$additional_classes = ' class="' . $additional_classes . '"';
 				}
 				if($type != ''){
 					$type = ' type= "' . $type . '"';
