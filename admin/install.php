@@ -24,7 +24,7 @@
 		require $LINKS['ROOT'] . '/includes/functions.php';
 		require $LINKS['ROOT'] . '/admin/includes/functions.php';
 
-		$THEME = 'template';
+		$THEME = 'atoum_template';
 
 		require $LINKS['THEMES'] . $THEME . '/includes/functions.php';
 	}

@@ -2,7 +2,7 @@
 	--side-nav-width: 200px;
 }
 
-.side-menu {
+/* .side-menu {
 	height: 100%;
 	width: var(--side-nav-width);
 	position: fixed;
@@ -13,4 +13,4 @@
 
 .admin_content {
 	margin-left: var(--side-nav-width);
-}
+} */

@@ -17,11 +17,8 @@
 	echo get_block_div(
 		get_block_title(
 			2,
-			'Add user',
-			'',
-			'',
-			'',
-			''
+			$array = array(),
+			'Add user'
 		) .
 		get_block_form(
 			get_block_label(

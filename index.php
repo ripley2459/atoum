@@ -1,5 +1,9 @@
 <?php
 
+	if(!file_exists('admin/includes/config.php')){
+		header('Location: admin/install.php');
+	}
+
 	require 'admin/includes/config.php';
 
 	if(isset($_GET['type'], $_GET['content'])){

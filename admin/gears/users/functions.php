@@ -13,10 +13,7 @@
 					get_block_table_data(
 						$user['user_name'] .
 						get_block_div(
-							'',
-							'',
-							'',
-							'',
+							$array = array('template' => 'admin'),
 							''
 						),
 						'',
