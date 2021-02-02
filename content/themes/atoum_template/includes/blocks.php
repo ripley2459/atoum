@@ -1,7 +1,7 @@
 <?php
 
 	$BLOCK = $LINKS['THEMES'] . $THEME . '/includes/blocks/';
-	
+
 	include $BLOCK . 'accordion.php';
 	include $BLOCK . 'button.php';
 	include $BLOCK . 'div.php';
@@ -16,3 +16,25 @@
 	include $BLOCK . 'section.php';
 	include $BLOCK . 'table.php';
 	include $BLOCK . 'title.php';
+
+	function get_id_classes(array $attributes){
+
+		$id_classes = '';
+
+		if(array_key_exists('id', $attributes)){
+
+			$id_classes .= ' id="' . $attributes['id'] . '"';
+		}
+
+		if(array_key_exists('class', $attributes)){
+
+			$id_classes .= ' class="' . $attributes['class'] . '"';
+		}
+
+		if(array_key_exists('for', $attributes)){
+
+			$id_classes .= ' for="' . $attributes['for'] . '"';
+		}
+
+		return $id_classes;
+	}
