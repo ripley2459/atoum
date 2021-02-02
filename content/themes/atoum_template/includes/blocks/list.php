@@ -1,29 +1,19 @@
 <?php
 
-	function get_block_list_unordered($content, $id, $additional_classes, $template, $custom){
-		switch($template){
+	function get_block_list_unordered(array $attributes, $content){
+		switch($attributes['template']){
 			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return '<ul' . $id . $additional_classes . '>' . $content . '</ul>';
+
+				return '<ul' . get_id_classes($attributes) . '>' . $content . '</ul>';
 				break;
 		}
 	}
 
-	function get_block_list_element($content, $id, $additional_classes, $template, $custom){
-		switch($template){
+	function get_block_list_element(array $attributes, $content){
+		switch($attributes['template']){
 			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return '<li' . $id . $additional_classes . '>' . $content . '</li>';
+
+				return '<li' . get_id_classes($attributes) . '>' . $content . '</li>';
 				break;
 		}
 	}

@@ -1,15 +1,10 @@
 <?php
 
-	function get_block_paragraph($content, $id, $additional_classes, $template, $custom){
-		switch($template){
+	function get_block_paragraph(array $attributes, $content){
+		switch($attributes['template']){
 			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return '<p' . $id . $additional_classes . '>' . $content . '</p>';
+
+				return '<p' . get_id_classes($attributes) . '>' . $content . '</p>';
 				break;
 		}
 	}

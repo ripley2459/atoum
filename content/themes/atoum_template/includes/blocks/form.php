@@ -1,6 +1,6 @@
 <?php
 
-	function get_block_form($content, array $attributes){
+	function get_block_form(array $attributes, $content){
 		switch($attributes['template']){
 			default:
 
@@ -9,7 +9,7 @@
 		}
 	}
 
-	function get_block_label($content, array $attributes){
+	function get_block_label(array $attributes, $content){
 		switch($attributes['template']){
 			default:
 				
