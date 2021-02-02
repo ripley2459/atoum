@@ -44,7 +44,7 @@
 	}
 
 	echo
-	get_block_section(
+	get_block_div(
 		get_block_title(
 			1,
 			'Classes',
@@ -64,7 +64,7 @@
 		echo
 		get_block_div(
 			get_block_div(
-				get_block_section(
+				get_block_div(
 					get_block_title(
 						2,
 						'Create a class',
@@ -181,7 +181,7 @@
 				''
 			) .
 			get_block_div(
-				get_block_section(
+				get_block_div(
 					get_block_title(
 						2,
 						'Your classes',

@@ -25,7 +25,7 @@
 
 			?>
 		</header>
-		<div class="admin-window has-left-side-menu">
+		<div class="admin_content has-left-side-menu">
 			<?php
 
 				if($folder == 'admin' or $page == 'admin'){

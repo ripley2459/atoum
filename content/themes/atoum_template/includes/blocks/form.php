@@ -59,7 +59,7 @@
 				
 				$attributes_values = get_attributes_values($attributes);
 				
-				return '<form' . $id . $additional_classes . $attributes_values . '>' . $content . '</form';
+				return '<form' . $id . $additional_classes . $attributes_values . '>' . $content . '</form>';
 				break;
 		}
 	}

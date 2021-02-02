@@ -12,7 +12,7 @@
 		) .
 		get_block_div(
 			get_block_div(
-				get_block_section(
+				get_block_div(
 					get_block_title(
 						2,
 						'Create a new menu',
