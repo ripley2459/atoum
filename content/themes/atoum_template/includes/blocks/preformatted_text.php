@@ -1,15 +1,9 @@
 <?php
 
-	function get_block_preformatted_text($content, $id, $additional_classes, $template, $custom){
+	function get_block_preformatted_text(array $attributes, $content){
 		switch($template){
 			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return '<pre' . $id . $additional_classes . '>' . $content . '</pre>';
+				return '<pre' . get_id_classes($attributes) . '>' . $content . '</pre>';
 				break;
 		}
 	}

@@ -14,3 +14,25 @@
 .admin_content {
 	margin-left: var(--side-nav-width);
 } */
+
+
+
+table {
+	width: 100%;
+}
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 1em;
+}
+
+
+
+.spoiler_container .spoiler {
+	visibility: hidden;
+}
+
+.spoiler_container:hover .spoiler {
+	visibility: visible;
+}

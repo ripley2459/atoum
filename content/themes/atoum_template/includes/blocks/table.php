@@ -1,57 +1,33 @@
 <?php
 
-	function get_block_table($content, $id, $additional_classes, $template){
+	function get_block_table(array $attributes, $content){
 		switch($template){
 			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return '<table' . $id . $additional_classes . '>' . $content . '</table>';
+				return '<table' . get_id_classes($attributes) . '>' . $content . '</table>';
 				break;
 		}
 	}
 
-	function get_block_table_row($content, $id, $additional_classes, $template, $custom){
+	function get_block_table_row(array $attributes, $content){
 		switch($template){
 			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return '<tr' . $id . $additional_classes . '>' . $content . '</tr>';
+				return '<tr' . get_id_classes($attributes) . '>' . $content . '</tr>';
 				break;
 		}
 	}
 
-	function get_block_table_heading($content, $id, $additional_classes, $template, $custom){
+	function get_block_table_heading(array $attributes, $content){
 		switch($template){
 			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return '<th' . $id . $additional_classes . '>' . $content . '</th>';
+				return '<th' . get_id_classes($attributes) . '>' . $content . '</th>';
 				break;
 		}
 	}
-	
-	function get_block_table_data($content, $id, $additional_classes, $template, $custom){
+
+	function get_block_table_data(array $attributes, $content){
 		switch($template){
 			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return '<td' . $id . $additional_classes . '>' . $content . '</td>';
+				return '<td' . get_id_classes($attributes) . '>' . $content . '</td>';
 				break;
 		}
 	}

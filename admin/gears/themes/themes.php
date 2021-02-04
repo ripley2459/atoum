@@ -7,24 +7,15 @@
 	}
 
 	echo
-	get_block_section(
+	get_block_div(
+		$array = array('template' => 'admin'),
 		get_block_title(
 			1,
-			'Themes',
-			'',
-			'',
-			'',
-			''
+			$array = array('template' => 'admin'),
+			'Themes'
 		) . 
 		get_block_div(
-			get_themes_wrapper(),
-			'',
-			'themes-wrapper',
-			'',
-			''
+			$array = array('class' => 'themes-wrapper', 'template' => 'admin'),
+			get_themes_wrapper()
 		),
-		'',
-		'',
-		'',
-		''
 	);

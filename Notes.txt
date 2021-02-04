@@ -1,0 +1,7 @@
+Editeur
+
+Boutons sur les côtés
+
+AJAX pour réccupérer le texte dans la div de l'éditeur y concaténer le block puis le retrouner.
+
+Menus dépliants pour les blocks.

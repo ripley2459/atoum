@@ -1,34 +1,19 @@
 <?php
 
-	function get_block_accordion($title, $content, $id, $additional_classes, $template, $custom){
+	function get_block_accordion(array $attributes, $title, $content){
 		switch($template){
 			default:
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
 				return
 				get_block_div(
+					$attributes,
 					get_block_div(
-						$title,
-						'',
-						'accordion_trigger',
-						'',
-						''
+						$array = array('class' => 'accordion_trigger', 'template' => 'admin'),
+						$title
 					) .
 					get_block_div(
-						$content,
-						'',
-						'accordion_panel',
-						'',
-						''
-					),
-					$id,
-					$additional_classes,
-					'',
-					''
+						$array = array('class' => 'accordion_panel', 'template' => 'admin'),
+						$content
+					)
 				);
 				break;			
 		}

@@ -12,7 +12,7 @@
 				if($additional_classes != ''){
 					$additional_classes = ' class= "' . $additional_classes . '"';
 				}
-				return '<img src="' . $source . '"' . $id . $additional_classes . '/>';
+				return '<img src="' . $source . '"' . get_id_classes($attributes) . '/>';
 				break;
 		}
 	}

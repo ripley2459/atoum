@@ -1,15 +1,26 @@
 <?php
 
-	if(isset($_POST['name'])){
+	$term_type = 'class';
 
+	if(isset($_POST['action'])){
+		$action = $_POST['action'];
+	}
+
+	if(isset($_GET['term_to_delete'])){
+		$action = 'delete';
+		$term_to_delete = $_GET['term_to_delete'];
+		term_delete($term_to_delete);
+		header('location: classes.php');
+	}
+	else if(isset($_POST['name'], $_GET['term_to_edit']) && $action == 'edit'){
+		$action = 'edit';
+		$term_to_edit = $_GET['term_to_edit'];
 		$term_name = $_POST['name'];
-		$term_type = 'class';
-
-		if(empty($_POST['slug'])){
-			$term_slug = $term_name;
+		if(isset($_POST['slug'])){
+			$term_slug = str_replace(' ','-', strtolower($_POST['slug']));
 		}
 		else{
-			$term_slug = $_POST['slug'];
+			$term_slug = str_replace(' ','-', strtolower($term_name));
 		}
 		if(isset($_POST['description'])){
 			$term_description = $_POST['description'];
@@ -17,8 +28,38 @@
 		else{
 			$term_description = ' ';
 		}
-		if(isset($_POST['parent'])){
-			$term_parent_id = $_POST['parent'];
+		if(isset($_POST['parent_id'])){
+			$term_parent_id = $_POST['parent_id'];
+		}
+		else{
+			$term_parent_id = 0;
+		}
+		term_edit($term_to_edit, $term_name, $term_slug, $term_description, $term_parent_id);
+		header('location: classes.php');
+	}
+	else if(isset($_GET['term_to_edit'])){
+		$action = 'edit';
+		$term_to_edit = $_GET['term_to_edit'];
+		$url_complement = '?term_to_edit=' . $term_to_edit;
+		$term = get_term_to_edit($term_to_edit, $term_type);
+	}
+	else if(isset($_POST['name'])){
+		$action = 'add';
+		$term_name = $_POST['name'];
+		if(isset($_POST['slug'])){
+			$term_slug = str_replace(' ','-', strtolower($_POST['slug']));
+		}
+		else{
+			$term_slug = str_replace(' ','-', strtolower($term_name));
+		}
+		if(isset($_POST['description'])){
+			$term_description = $_POST['description'];
+		}
+		else{
+			$term_description = ' ';
+		}
+		if(isset($_POST['parent_id'])){
+			$term_parent_id = $_POST['parent_id'];
 		}
 		else{
 			$term_parent_id = 0;
@@ -26,14 +67,10 @@
 		term_add($term_name, $term_slug, $term_type, $term_description, $term_parent_id);
 		header('location: classes.php');
 	}
-
-	if(isset($_POST['delete'])){
-		if(isset($_GET['term_to_delete'])){
-			$term_to_delete = $_GET['term_to_delete'];
-			echo $term_to_delete;
-			term_delete($term_to_delete);
-			header('location: classes.php');
-		}
+	else {
+		$action = 'add';
+		$term = array('term_name' => ' ', 'term_slug' => ' ', 'term_parent_id' => ' ', 'term_description' => ' ');
+		$url_complement = '';
 	}
 
 	if(isset($_GET['order_direction'])){
@@ -43,168 +80,93 @@
 		$order_direction = 'asc';
 	}
 
+	switch_order_direction($order_direction);
+
 	echo
 	get_block_div(
+		$array = array('template' => 'admin'),
 		get_block_title(
 			1,
+			$array = array('template' => 'admin'),
 			'Classes',
-			'',
-			'',
-			'',
-			''
 		),
-		'',
-		'',
-		'',
-		''
 	);
 
-	if(!isset($_POST['update'])){
-		switch_order_direction($order_direction);
-		echo
+	echo
+	get_block_div(
+		$array = array('template' => 'admin'),
 		get_block_div(
+			$array = array('class' => 'column', 'template' => 'admin'),
 			get_block_div(
-				get_block_div(
-					get_block_title(
-						2,
-						'Create a class',
-						'',
-						'',
-						'',
-						''
+				$array = array('template' => 'admin'),
+				get_block_title(
+					2,
+					$array = array('template' => 'admin'),
+					'Create a class'
+				) .
+				get_block_form(
+					$array = array('action' => 'classes.php' . $url_complement, 'method' => 'post', 'template' => 'admin'),
+					get_block_label(
+						$array = array('for' => 'name', 'template' => 'admin'),
+						'Name'
 					) .
-					get_block_form(
-						get_block_label(
-							'Name',
-							'name',
-							'',
-							'',
-							''
-						) .
-						get_block_input_text(
-							'name',
-							'name',
-							'',
-							$array = array('placeholder' => 'A tiny text', 'required' => 'required'),
-							'',
-							''
-						) .
-						get_block_paragraph(
-							'Display name of the class.',
-							'',
-							'',
-							'',
-							''
-						) .
-						get_block_label(
-							'Slug',
-							'slug',
-							'',
-							'',
-							''
-						) .
-						get_block_input_text(
-							'slug',
-							'slug',
-							'',
-							$array = array('placeholder' => 'A tiny text.'),
-							'',
-							''
-						) .
-						get_block_paragraph(
-							'The slug is a normalized name made of lowercase letters, numbers and hyphens.',
-							'',
-							'',
-							'',
-							''
-						) .
-						get_block_label(
-							'Parent class',
-							'parent',
-							'',
-							'',
-							''
-						) .
-						/* GETBLOCKSLECT .*/
-						get_block_paragraph(
-							'You can order your classes using parental class.',
-							'',
-							'',
-							'',
-							''
-						) .
-						get_block_label(
-							'Description',
-							'description',
-							'',
-							'',
-							''
-						) .
-						get_block_input_text(
-							'description',
-							'description',
-							'',
-							$array = array('placeholder' => 'Description of your class.'),
-							'',
-							''
-						) .
-						get_block_paragraph(
-							'The description allow you to known quickly what is inside a class.',
-							'',
-							'',
-							'',
-							''
-						) .
-						get_block_button(
-							'Add',
-							'submit',
-							'',
-							'btn_add_class',
-							'',
-							'',
-							''
-						),
-						'',
-						'',
-						$array = array('action' => 'classes.php', 'method' => 'post'),
-						'',
-						''
+					get_block_input(
+						$array = array('type' => 'hidden', 'name' => 'action', 'required' => 'required', 'value' => $action, 'template' => 'admin'),
+					) .
+					get_block_input(
+						$array = array('type' => 'text', 'name' => 'name', 'required' => 'required', 'value' => $term['term_name'], 'template' => 'admin'),
+					) .
+					get_block_paragraph(
+						$array = array('template' => 'admin'),
+						'Display name of the class.'
+					) .
+					get_block_label(
+						$array = array('for' => 'slug', 'template' => 'admin'),
+						'Slug'
+					) .
+					get_block_input(
+						$array = array('type' => 'text', 'name' => 'slug', 'value' => $term['term_slug'], 'template' => 'admin'),
+					) .
+					get_block_paragraph(
+						$array = array('template' => 'admin'),
+						'The slug is a normalized name made of lowercase letters, numbers and hyphens.'
+					) .
+					get_block_label(
+						$array = array('for' => 'parent_id', 'template' => 'admin'),
+						'Parent class'
+					) .
+					/* GETBLOCKSLECT .*/
+					get_block_paragraph(
+						$array = array('template' => 'admin'),
+						'You can order your classes using parental class.'
+					) .
+					get_block_label(
+						$array = array('for' => 'description', 'template' => 'admin'),
+						'Description'
+					) .
+					get_block_input(
+						$array = array('type' => 'text', 'name' => 'description', 'value' => $term['term_description'], 'template' => 'admin'),
+					) .
+					get_block_paragraph(
+						$array = array('template' => 'admin'),
+						'The description allow you to known quickly what is inside a class.'
+					) .
+					get_block_input(
+						$array = array('type' => 'submit', 'template' => 'admin')
 					),
-					'',
-					'',
-					'',
-					''
 				),
-				'',
-				'column',
-				'',
-				''
-			) .
-			get_block_div(
-				get_block_div(
-					get_block_title(
-						2,
-						'Your classes',
-						'',
-						'',
-						'',
-						''
-					) .
-					get_terms('class', 'term_name', $order_direction),
-					'',
-					'',
-					'',
-					''
-				),
-				'',
-				'column',
-				'',
-				''
 			),
-			'',
-			'row first-is-thin',
-			'',
-			''
-		);
-		//END DISPLAY CL
-	}
+		) .
+		get_block_div(
+			$array = array('class' => 'column', 'template' => 'admin'),
+			get_block_div(
+				$array = array('class' => 'column', 'template' => 'admin'),
+				get_block_title(
+					2,
+					$array = array('template' => 'admin'),
+					'Your classes'
+				) .
+				get_terms('class', 'term_name', $order_direction),
+			),
+		),
+	);

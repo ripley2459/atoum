@@ -15,134 +15,65 @@
 	}
 	
 	echo get_block_div(
+		$array = array('template' => 'admin'),
 		get_block_title(
 			2,
-			$array = array(),
+			$array = array('template' => 'admin'),
 			'Add user'
 		) .
 		get_block_form(
+			$array = array('action' => 'add.php?operation=add', 'method' => 'post', 'template' => 'admin'),
 			get_block_label(
-				'Name',
-				'user_name',
-				'',
-				'',
-				''
+				$array = array('for' => 'user_name', 'template' => 'admin'),
+				'Username'
 			) .
-			get_block_input_text(
-				'',
-				'user_name',
-				'',
-				$array = array('placeholder' => 'A tiny text', 'required' => 'required'),
-				'',
-				''
+			get_block_input(
+				$array = array('type' => 'text', 'name' => 'user_name', 'password' => 'password', 'required' => 'required', 'template' => 'admin')
 			) .
 			get_block_label(
-				'Password',
-				'user_password',
-				'',
-				'',
-				''
+				$array = array('for' => 'user_password', 'template' => 'admin'),
+				'Password'
 			) .
-			get_block_input_text(
-				'',
-				'user_password',
-				'',
-				$array = array('password' => 'password', 'required' => 'required'),
-				'',
-				''
+			get_block_input(
+				$array = array('type' => 'text', 'name' => 'user_password', 'password' => 'password', 'required' => 'required', 'template' => 'admin')
 			) .
 			get_block_label(
-				'Email',
-				'user_email',
-				'',
-				'',
-				''
+				$array = array('for' => 'user_email', 'template' => 'admin'),
+				'Email'
 			) .
-			get_block_input_text(
-				'',
-				'user_email',
-				'',
-				$array = array('required' => 'required'),
-				'',
-				''
+			get_block_input(
+				$array = array('type' => 'text', 'name' => 'user_email', 'password' => 'password', 'required' => 'required', 'template' => 'admin')
 			) .
 			get_block_label(
-				'First name',
-				'user_first_name',
-				'',
-				'',
-				''
+				$array = array('for' => 'user_first_name', 'template' => 'admin'),
+				'First name'
 			) .
-			get_block_input_text(
-				'',
-				'user_first_name',
-				'',
-				$array = array(),
-				'',
-				''
+			get_block_input(
+				$array = array('type' => 'text', 'name' => 'user_first_name', 'template' => 'admin')
 			) .
 			get_block_label(
-				'Last name',
-				'user_last_name',
-				'',
-				'',
-				''
+				$array = array('for' => 'user_last_name', 'template' => 'admin'),
+				'Last name'
 			) .
-			get_block_input_text(
-				'',
-				'user_last_name',
-				'',
-				$array = array(),
-				'',
-				''
+			get_block_input(
+				$array = array('type' => 'text', 'name' => 'user_last_name', 'template' => 'admin')
 			) .
 			get_block_label(
-				'Display name',
-				'user_display_name',
-				'',
-				'',
-				''
+				$array = array('for' => 'user_display_name', 'template' => 'admin'),
+				'Display name'
 			) .
-			get_block_input_text(
-				'',
-				'user_display_name',
-				'',
-				$array = array('required' => 'required'),
-				'',
-				''
+			get_block_input(
+				$array = array('type' => 'text', 'name' => 'user_display_name', 'template' => 'admin')
 			) .
 			get_block_label(
-				'Biography',
-				'user_biography',
-				'',
-				'',
-				''
+				$array = array('for' => 'user_biography', 'template' => 'admin'),
+				'User biography'
 			) .
-			get_block_input_text(
-				'',
-				'user_biography',
-				'',
-				$array = array(),
-				'',
-				''
+			get_block_input(
+				$array = array('type' => 'text', 'name' => 'user_biography', 'template' => 'admin')
 			) .
-			get_block_button(
-				'Save',
-				'submit',
-				'',
-				'',
-				'',
-				'',
-				''
-			),
-			'',
-			'',
-			$array = array('action' => 'add.php?operation=add', 'method' => 'post'),
-			'',
-			''
-		),
-		'',
-		'',
-		'',
-		''
+			get_block_input(
+				$array = array('type' => 'submit', 'template' => 'admin')
+			)
+		)
 	);

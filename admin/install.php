@@ -1,7 +1,7 @@
 <?php
 
 	if(isset($_POST['database-name'], $_POST['username'], $_POST['host'])){
-		echo 'Installation...';
+		echo '<p class="query-success">Installation...</p>';
 		$database_name = $_POST['database-name'];
 		$table_prefix = 'at_'; //$_POST['tables-prefix']
 		$username = $_POST['username'];
@@ -9,7 +9,7 @@
 		$host = $_POST['host'];	
 
 		install($database_name, $table_prefix, $username, $password, $host);
-		
+
 		require 'includes/config.php';
 		header('location: admin.php');
 	}
@@ -218,8 +218,8 @@
 		</div>
 
 		<footer>
-			<script src="<?php echo $LINKS['URL'].'/includes/scripts.js'; ?>"></script>
-			<script src="<?php echo $LINKS['URL'].'/content/themes/'.$THEME.'/includes/scripts.js'; ?>"></script>
+			<script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
+			<script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
 		</footer>
 	</body>
 </html>

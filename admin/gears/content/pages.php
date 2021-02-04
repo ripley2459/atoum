@@ -9,17 +9,15 @@
 
 	switch_order_direction($order_direction);
 
-	echo get_block_section(
+	echo get_block_div(
+		$array = array('template' => 'admin'),
 		get_block_title(
 			1,
-			'Posts',
-			'',
-			'',
-			'',
-			''
+			$array = array('template' => 'admin'),
+			'Pages'
 		) . 
 		get_block_link(
-			'editor.php?mode=create&type=page',
+			'editor.php?mode=create&type=post',
 			'Add',
 			'',
 			'',
@@ -27,17 +25,10 @@
 			'',
 			'',
 			''
-		),
-		'',
-		'',
-		'',
-		''
+		)
 	);
 
-	echo get_block_section(
-		get_content('page', 'content_name', $order_direction),
-		'',
-		'',
-		'',
-		''
+	echo get_block_div(
+		$array = array('template' => 'admin'),
+		get_content('page', 'content_name', $order_direction)
 	);

@@ -17,6 +17,7 @@
 
 			$to_display = $to_display . 
 			get_block_div(
+				$array = array('class' => 'theme ' . $this_theme_is, 'template' => 'admin'),
 				get_block_link(
 					'themes.php?switch_to_theme=' . $themes[$i], 
 					get_block_image(
@@ -27,14 +28,11 @@
 						''
 					) . 
 					get_block_div(
+						$array = array('class' => 'themes-infos', 'template' => 'admin'),
 						get_block_title(
 							3,
-							$themes[$i],
-							'',
-							'theme-name',
-							'',
-							''
-							
+							$array = array('class' => 'themes-name', 'template' => 'admin'),
+							$themes[$i]
 						) .
 						get_block_link(
 							'URL',
@@ -46,11 +44,6 @@
 							'',
 							''
 						),
-						'',
-						'theme-infos',
-						'',
-						'',
-						''
 					),
 					'',
 					'',
@@ -58,11 +51,7 @@
 					'',
 					'',
 					''
-				),
-				'',
-				'theme ' . $this_theme_is,
-				'',
-				''
+				)
 			);
 		}
 		

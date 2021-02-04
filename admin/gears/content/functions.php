@@ -17,9 +17,12 @@
 				
 			$table_content = $table_content . 
 				get_block_table_row(
+					$array = array('template' => 'admin'),
 					get_block_table_data(
+						$array = array('class' => 'spoiler_container', 'template' => 'admin'),
 						$content['content_title'] . '</br>' .
 						get_block_div(
+							$array = array('class' => 'spoiler', 'template' => 'admin'),
 							get_block_link(
 								$LINKS['URL'] . '/index.php?type=' . $content['content_type'] . '&content=' . $content['content_slug'],
 								'Display',
@@ -49,63 +52,39 @@
 								'',
 								'',
 								''
-							),
-							'',
-							'spoiler',
-							'',
-							''
-						),
-						'',
-						'spoiler_container',
-						'',
+							)
+						)
+					) .
+					get_block_table_data(
+						$array = array('template' => 'admin'),
+						$user['user_display_name']
+					) .
+					get_block_table_data(
+						$array = array('template' => 'admin'),
 						''
 					) .
 					get_block_table_data(
-						$user['user_display_name'],
-						'',
-						'',
-						'',
+						$array = array('template' => 'admin'),
 						''
 					) .
 					get_block_table_data(
-						'',
-						'',
-						'',
-						'',
-						''
+						$array = array('template' => 'admin'),
+						$content['content_date_created']
 					) .
 					get_block_table_data(
-						'',
-						'',
-						'',
-						'',
-						''
-					) .
-					get_block_table_data(
-						$content['content_date_created'],
-						'',
-						'',
-						'',
-						''
-					) .
-					get_block_table_data(
-						$content['content_date_modified'],
-						'',
-						'',
-						'',
-						''
-					),
-					'',
-					'',
-					'',
-					''
+						$array = array('template' => 'admin'),
+						$content['content_date_modified']
+					)
 				);
 		}
 
 		$to_display = $to_display . 
 			get_block_table(
+				$array = array('class' => 'table-' . $content_type, 'template' => 'admin'),
 				get_block_table_row(
+					$array = array('template' => 'admin'),
 					get_block_table_heading(
+						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_title&order_direction=' . $order_direction,
 							'Title<i class="' . $order_direction . '"></i>',
@@ -122,6 +101,7 @@
 						''
 					) .
 					get_block_table_heading(
+						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_author&order_direction=' . $order_direction,
 							'Author<i class="' . $order_direction . '"></i>',
@@ -131,27 +111,18 @@
 							'',
 							'',
 							''
-						),
-						'',
-						'',
-						'',
-						''
+						)
 					) .
 					get_block_table_heading(
-						'Classes',
-						'',
-						'',
-						'',
-						''
+						$array = array('template' => 'admin'),
+						'Classes'
 					) .
 					get_block_table_heading(
-						'Tags',
-						'',
-						'',
-						'',
-						''
+						$array = array('template' => 'admin'),
+						'Tags'
 					) .
 					get_block_table_heading(
+						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_date_created&order_direction=' . $order_direction,
 							'Creation date<i class="' . $order_direction . '"></i>',
@@ -161,13 +132,10 @@
 							'',
 							'',
 							''
-						),
-						'',
-						'',
-						'',
-						''
+						)
 					) .
 					get_block_table_heading(
+						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_date_modified&order_direction=' . $order_direction,
 							'Last modification date<i class="' . $order_direction . '"></i>',
@@ -177,22 +145,10 @@
 							'',
 							'',
 							''
-						),
-						'',
-						'',
-						'',
-						''
-					),
-					'',
-					'',
-					'',
-					''
+						)
+					)
 				) .
-				$table_content,
-				'table-' . $content_type,
-				'',
-				'',
-				''
+				$table_content
 			);
 
 		$content_request -> closeCursor();
@@ -200,7 +156,6 @@
 
 		return $to_display;
 	}
-
 
 	function get_terms($term_type, $order_by, $order_direction){
 		global $bdd, $folder, $page;
@@ -214,9 +169,12 @@
 			
 			$table_content = $table_content .
 			get_block_table_row(
+				$array = array('template' => 'admin'),
 				get_block_table_data(
+					$array = array('class' => 'spoiler_container', 'template' => 'admin'),
+					$term['term_name'] . '</br>' .
 					get_block_div(
-						$term['term_name'] . '</br>' .
+						$array = array('class' => 'spoiler', 'template' => 'admin'),
 						get_block_link(
 							'#',
 							'Display',
@@ -228,7 +186,7 @@
 							''
 						) . '|' .
 						get_block_link(
-							'#',
+							'classes.php?term_to_edit=' . $term['term_id'],
 							'Edit',
 							'',
 							'',
@@ -246,42 +204,27 @@
 							'warning',
 							'',
 							''
-						),
-						'',
-						'spoiler',
-						'',
-						''
-					),
-					'',
-					'spoiler_container',
-					'',
-					''
+						)
+					)
 				) .
 				get_block_table_data(
-					$term['term_slug'],
-					'',
-					'',
-					'',
-					''
+					$array = array('template' => 'admin'),
+					$term['term_slug']
 				) .
 				get_block_table_data(
-					$term['term_description'],
-					'',
-					'',
-					'',
-					''
-				),
-				'',
-				'',
-				'',
-				''
+					$array = array('template' => 'admin'),
+					$term['term_description']
+				)
 			);
 		}
 
 		$to_display = $to_display . 
 			get_block_table(
+				$array = array('template' => 'admin'),
 				get_block_table_row(
+					$array = array('template' => 'admin'),
 					get_block_table_heading(
+						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=term_name&order_direction=' . $order_direction,
 							'Name<i class="' . $order_direction . '"></i>',
@@ -291,13 +234,10 @@
 							'',
 							'',
 							''
-						),
-						'',
-						'',
-						'',
-						''
+						)
 					) .
 					get_block_table_heading(
+						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_slug&order_direction=' . $order_direction,
 							'Slug<i class="' . $order_direction . '"></i>',
@@ -307,29 +247,14 @@
 							'',
 							'',
 							''
-						),
-						'',
-						'',
-						'',
-						''
+						)
 					) .
 					get_block_table_heading(
-						'Description',
-						'',
-						'',
-						'',
-						''
-					),
-					'',
-					'',
-					'',
-					''
+						$array = array('template' => 'admin'),
+						'Description'
+					)
 				) .
-				$table_content,
-				'table-classes',
-				'',
-				'',
-				''
+				$table_content
 			);
 
 		$terms_request -> closeCursor();
@@ -413,17 +338,32 @@
 		global $bdd;
 		$terms_add_request = $bdd -> prepare('INSERT INTO at_terms (term_name, term_slug, term_type, term_description, term_parent_id) VALUES (:term_name, :term_slug, :term_type, :term_description, :term_parent_id)');
 
-		$term_slug = str_replace(' ','-', strtolower($term_slug));
-
 		$terms_add_request -> execute(array(':term_name' => $term_name, ':term_slug' => $term_slug, ':term_type' => $term_type, ':term_description' => $term_description, ':term_parent_id' => $term_parent_id));
 		$terms_add_request -> closeCursor();
 	}
 
 
-	function term_edit(){
-		
+	function get_term_to_edit($term_id, $term_type){
+		global $bdd;
+		$term_to_edit_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type and term_id = :term_id');
+		$term_to_edit_request -> execute(array(':term_type' => $term_type, ':term_id' => $term_id));
+		$term = $term_to_edit_request -> fetch();
+		$term = array(
+			'term_name' => $term['term_name'],
+			'term_slug' => $term['term_slug'],
+			'term_parent_id' => $term['term_parent_id'],
+			'term_description' => $term['term_description']
+		);
+		return $term;
+		$term_to_edit_request -> closeCursor();
 	}
 
+	function term_edit($term_id, $term_name, $term_slug, $term_description, $term_parent_id){
+		global $bdd;
+		$term_edit_request = $bdd -> prepare('UPDATE at_terms SET term_name = :term_name, term_slug = :term_slug, term_description = :term_description, term_parent_id = :term_parent_id WHERE term_id = :term_id');
+		$term_edit_request -> execute(array(':term_name' => $term_name, ':term_slug' => $term_slug, ':term_description'=> $term_description, ':term_parent_id' => $term_parent_id, ':term_id' => $term_id));
+		$term_edit_request -> closeCursor();
+	}
 
 	function term_delete($term_id){
 		global $bdd;

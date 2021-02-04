@@ -6,61 +6,49 @@
 		$table_content = '';
 		$users_request = $bdd -> prepare('SELECT * FROM at_users ORDER BY :order_by :order_direction');
 		$users_request -> execute(array(':order_by' => $order_by, ':order_direction' => $order_direction));
-		
+
 		while($user = $users_request -> fetch()){
 			$table_content = $table_content .
 				get_block_table_row(
+					$array = array('template' => 'admin'),
 					get_block_table_data(
+						$array = array('template' => 'admin'),
 						$user['user_name'] .
 						get_block_div(
 							$array = array('template' => 'admin'),
 							''
-						),
-						'',
-						'',
-						'',
-						''
+						)
 					) .
 					get_block_table_data(
-						$user['user_display_name'],
-						'',
-						'',
-						'',
-						''
-					),
-					'',
-					'',
-					'',
-					''
+						$array = array('template' => 'admin'),
+						$user['user_display_name']
+					) .
+					get_block_table_data(
+						$array = array('template' => 'admin'),
+						$user['user_email']
+					)
 				);
 		}
-		
+
 		$to_display = $to_display .
 			get_block_table(
+				$array = array('template' => 'admin'),
 				get_block_table_row(
+					$array = array('template' => 'admin'),
 					get_block_table_heading(
-						'Username',
-						'',
-						'',
-						'',
-						''
+						$array = array('template' => 'admin'),
+						'Username'
 					) .
 					get_block_table_heading(
-						'Name',
-						'',
-						'',
-						'',
-						''
-					),
-					'',
-					'',
-					'',
-					''
+						$array = array('template' => 'admin'),
+						'Name'
+					) .
+					get_block_table_heading(
+						$array = array('template' => 'admin'),
+						'Email'
+					)
 				) .
-				$table_content,
-				'',
-				'',
-				''
+				$table_content
 			);
 
 		$users_request -> closeCursor();
