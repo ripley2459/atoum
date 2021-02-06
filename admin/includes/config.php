@@ -5,7 +5,8 @@
 			'PREFIX' => 'at_',
 			'USERNAME' => 'root',
 			'PASSWORD' => '',
-			'HOST' => 'localhost');
+			'HOST' => 'localhost'
+		);
 
 		try{
 			$bdd = new PDO('mysql:host=localhost;dbname=at_test;charset=utf8','root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
@@ -15,11 +16,16 @@
 		}
 
 		$LINKS = array(
-			'ROOT' => 'D:/Documents/Documents/Sites/atoum',
-			'URL' => 'http://atoum',
-			'PLUGINS' => 'D:/Documents/Documents/Sites/atoum/content/plugins/',
-			'THEMES' => 'D:/Documents/Documents/Sites/atoum/content/themes/',
+			'ROOT' => $_SERVER['DOCUMENT_ROOT'],
+			'URL' => sprintf('%s://%s',isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']),
+			'PLUGINS' => $_SERVER['DOCUMENT_ROOT'] . '/content/plugins/',
+			'THEMES' => $_SERVER['DOCUMENT_ROOT'] . '/content/themes/',
+			'UPLOADS' => $_SERVER['DOCUMENT_ROOT'] . '/content/uploads/' . date('Y/m/d/'),
 		);
+
+		if(!is_dir($LINKS['UPLOADS'])){
+			mkdir($LINKS['UPLOADS'], 0755, true);
+		}
 
 		require $LINKS['ROOT'] . '/includes/functions.php';
 		require $LINKS['ROOT'] . '/admin/includes/functions.php';

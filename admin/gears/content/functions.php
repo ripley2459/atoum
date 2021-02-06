@@ -34,7 +34,7 @@
 								''
 							) . '|' .
 							get_block_link(
-								'#',
+								$LINKS['URL'] . '/admin/'. $folder . '/editor.php?content_type=' . $content_type . '&content_to_edit=' . $content['content_id'],
 								'Edit',
 								'',
 								'',
@@ -466,3 +466,67 @@
 	function get_medias($content_type, $order_by, $order_direction, $display_mode){
 		global $bdd;
 	}
+
+
+
+
+	function content_add($content_title, $content_slug, $content_author_id, $content_type, $content_status, $content_parent_id, $content_has_children, $content_content){
+		global $bdd;
+		$content_add_request = $bdd -> prepare('INSERT INTO at_content (content_title, content_slug, content_author_id, content_type, content_status, content_parent_id, content_has_children, content_content) VALUES (:content_title, :content_slug, :content_author_id, :content_type, :content_status, :content_parent_id, :content_has_children, :content_content)');
+
+		$content_add_request -> execute(array(':content_title' => $content_title, ':content_slug' => $content_slug, ':content_author_id' => $content_author_id, ':content_type' => $content_type, ':content_status' => $content_status, ':content_parent_id' => $content_parent_id, ':content_has_children' => $content_has_children, ':content_content' => $content_content));
+		$content_add_request -> closeCursor();
+	}
+	
+	function get_content_to_edit($content_id, $content_type){
+		global $bdd;
+		$content_to_edit_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type and content_id = :content_id');
+		$content_to_edit_request -> execute(array(':content_type' => $content_type, ':content_id' => $content_id));
+		$content = $content_to_edit_request -> fetch();
+		$content = array(
+			'content_title' => $content['content_title'],
+			'content_slug' => $content['content_slug'],
+			'content_author_id' => $content['content_author_id'],
+			'content_date_created' => $content['content_date_created'],
+			'content_date_modified' => $content['content_date_modified'],
+			'content_type' => $content['content_type'],
+			'content_status' => $content['content_status'],
+			'content_parent_id' => $content['content_parent_id'],
+			'content_has_children' => $content['content_has_children'],
+			'content_content' => $content['content_content']
+		);
+		return $content;
+		$content_to_edit_request -> closeCursor();
+	}
+	
+	function content_delete(){
+		
+	}
+	
+	
+	function add_file($file_name, $file_type, $file_path){
+		global $bdd;
+		$content_add_file = $bdd -> prepare('INSERT INTO at_content (content_title, content_slug, content_author_id, content_type, content_status, content_parent_id, content_has_children, content_content) VALUES (:content_title, :content_slug, :content_author_id, :content_type, :content_status, :content_parent_id, :content_has_children, :content_content)');
+
+		$content_title = $file_name;
+		$content_slug = str_replace(' ','-', strtolower($file_name));
+		$content_author_id = 1;
+		$content_type = $file_type;
+		$content_status = 'published';
+		$content_parent_id = 0;
+		$content_has_children = 0;
+		$content_content = $file_path;
+
+		$content_add_file -> execute(array(':content_title' => $content_title, ':content_slug' => $content_slug, ':content_author_id' => $content_author_id, ':content_type' => $content_type, ':content_status' => $content_status, ':content_parent_id' => $content_parent_id, ':content_has_children' => $content_has_children, ':content_content' => $content_content));
+		$content_add_file -> closeCursor();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

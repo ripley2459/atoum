@@ -29,7 +29,21 @@
 			<?php
 
 				if($folder == 'admin' or $page == 'admin'){
-					
+					get_block_div(
+						$array = array('template' => 'admin'),
+						get_block_div(
+							$array = array('template' => 'admin'),
+							get_block_title(
+								1,
+								$array = array('template' => 'admin'),
+								'Informations'
+							) .
+							get_block_paragraph(
+								$array = array('template' => 'admin'),
+								'Atoum version 0 (2021/02/06).'
+							)
+						)
+					);
 				}
 				else{
 					require 'gears/' . $folder . '/' . $page . '.php';
