@@ -152,7 +152,7 @@
 						'The description allow you to known quickly what is inside a class.'
 					) .
 					get_block_input(
-						$array = array('type' => 'submit', 'template' => 'admin')
+						$array = array('type' => 'submit', 'value' => 'Save', 'template' => 'admin')
 					),
 				),
 			),

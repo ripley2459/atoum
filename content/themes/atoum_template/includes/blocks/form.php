@@ -73,6 +73,11 @@
 			$attributes_values .= ' ' . $attributes['novalidate'];
 		}
 
+		if(array_key_exists('readonly', $attributes)){
+
+			$attributes_values .= ' ' . $attributes['readonly'];
+		}
+
 		if(array_key_exists('accept-charset', $attributes)){
 
 			$attributes_values .= ' accept-charset="' . $attributes['accept-charset'] . '"';

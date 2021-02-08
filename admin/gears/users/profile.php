@@ -1,9 +1,6 @@
 <?php
 
 	if(isset($_POST['submit']) && $_POST['user_password'] == $_POST['user_password2']){
-		echo $_POST['user_password'];
-		echo $_POST['user_password2'];
-		
 		$user_id = 1;
 		$user_username = $_POST['user_username'];
 		$user_password = $_POST['user_password'];
@@ -35,7 +32,7 @@
 				'Username'
 			) .
 			get_block_input(
-				$array = array('type' => 'text', 'name' => 'user_username', 'password' => 'password', 'value' => $user['user_username'], 'required' => 'required', 'template' => 'admin')
+				$array = array('type' => 'text', 'name' => 'user_username', 'password' => 'password', 'value' => $user['user_username'], 'required' => 'required', 'readonly' => 'readonly', 'template' => 'admin')
 			) .
 			get_block_div(
 				$array = array('class' => 'row', 'template' => 'admin'),
@@ -74,7 +71,6 @@
 			get_block_input(
 				$array = array('type' => 'text', 'name' => 'user_display_name', 'value' => $user['user_display_name'], 'template' => 'admin')
 			) .
-			
 			get_block_div(
 				$array = array('class' => 'row', 'template' => 'admin'),
 				get_block_div(
@@ -106,7 +102,7 @@
 				$array = array('type' => 'text', 'name' => 'user_biography', 'value' => $user['user_biography'], 'template' => 'admin')
 			) .
 			get_block_input(
-				$array = array('type' => 'submit', 'name' => 'submit','template' => 'admin')
+				$array = array('type' => 'submit', 'name' => 'submit', 'value' => 'Save', 'template' => 'admin')
 			)
 		),
 	);

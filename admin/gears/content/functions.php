@@ -32,7 +32,7 @@
 								'',
 								'',
 								''
-							) . '|' .
+							) . ' | ' .
 							get_block_link(
 								$LINKS['URL'] . '/admin/'. $folder . '/editor.php?content_type=' . $content_type . '&content_to_edit=' . $content['content_id'],
 								'Edit',
@@ -42,7 +42,7 @@
 								'',
 								'',
 								''
-							) . '|' .
+							) . ' | ' .
 							get_block_link(
 								'#',
 								'Delete',
@@ -184,7 +184,7 @@
 							'',
 							'',
 							''
-						) . '|' .
+						) . ' | ' .
 						get_block_link(
 							'classes.php?term_to_edit=' . $term['term_id'],
 							'Edit',
@@ -194,7 +194,7 @@
 							'',
 							'',
 							''
-						) . '|' .
+						) . ' | ' .
 						get_block_link(
 							'classes.php?term_to_delete=' . $term['term_id'],
 							'Delete',

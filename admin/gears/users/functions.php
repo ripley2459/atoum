@@ -10,13 +10,32 @@
 		while($user = $users_request -> fetch()){
 			$table_content = $table_content .
 				get_block_table_row(
-					$array = array('template' => 'admin'),
+					$array = array('class' => 'spoiler_container', 'template' => 'admin'),
 					get_block_table_data(
 						$array = array('template' => 'admin'),
 						$user['user_username'] .
 						get_block_div(
-							$array = array('template' => 'admin'),
-							''
+							$array = array('class' => 'spoiler', 'template' => 'admin'),
+							get_block_link(
+								'#',
+								'Display',
+								'',
+								'',
+								'',
+								'',
+								'',
+								''
+							) . ' | ' .
+							get_block_link(
+								'#',
+								'Revoke',
+								'',
+								'',
+								'',
+								'',
+								'',
+								''
+							)
 						)
 					) .
 					get_block_table_data(
@@ -87,11 +106,10 @@
 		$user_edit_request -> closeCursor();
 	}
 
-	function add_user($user_name, $user_password, $user_email, $user_display_name, $user_first_name, $user_last_name, $user_biography){
+	function add_user($user_username, $user_password, $user_email, $user_display_name, $user_first_name, $user_last_name, $user_biography){
 		global $bdd;
-		$add_user_request = $bdd -> prepare('INSERT INTO at_users (user_name, user_password, user_email, user_display_name, user_first_name, user_last_name, user_biography) VALUES (:user_name, :user_password, :user_email, :user_display_name, :user_first_name, :user_last_name, :user_biography)');
-		$add_user_request -> execute(array(':user_name' => $user_name, ':user_password' => $user_password, ':user_email' => $user_email, ':user_display_name' => $user_display_name, ':user_first_name' => $user_first_name, ':user_last_name' => $user_last_name, ':user_biography' => $user_biography));
-		echo 'ok';
+		$add_user_request = $bdd -> prepare('INSERT INTO at_users (user_username, user_password, user_email, user_display_name, user_first_name, user_last_name, user_biography) VALUES (:user_username, :user_password, :user_email, :user_display_name, :user_first_name, :user_last_name, :user_biography)');
+		$add_user_request -> execute(array(':user_username' => $user_username, ':user_password' => $user_password, ':user_email' => $user_email, ':user_display_name' => $user_display_name, ':user_first_name' => $user_first_name, ':user_last_name' => $user_last_name, ':user_biography' => $user_biography));
 		
 		$add_user_request -> closeCursor();
 	}
