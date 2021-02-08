@@ -83,14 +83,24 @@
 			$attributes_values .= ' ' . $attributes['rel'];
 		}
 
-		if(array_key_exists('required', $attributes)){
+		if(array_key_exists('maxlength', $attributes)){
 
-			$attributes_values .= ' ' . $attributes['required'];
+			$attributes_values .= ' maxlength="' . $attributes['maxlength'] . '"';
+		}
+		
+		if(array_key_exists('minlength', $attributes)){
+
+			$attributes_values .= ' minlength="' . $attributes['minlength'] . '"';
 		}
 		
 		if(array_key_exists('value', $attributes)){
 
 			$attributes_values .= ' value="' . $attributes['value'] . '"';
+		}
+
+		if(array_key_exists('required', $attributes)){
+
+			$attributes_values .= ' ' . $attributes['required'];
 		}
 
 		return $attributes_values;

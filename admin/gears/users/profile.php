@@ -1,6 +1,9 @@
 <?php
 
-	if(isset($_POST['submit'])){
+	if(isset($_POST['submit']) && $_POST['user_password'] == $_POST['user_password2']){
+		echo $_POST['user_password'];
+		echo $_POST['user_password2'];
+		
 		$user_id = 1;
 		$user_username = $_POST['user_username'];
 		$user_password = $_POST['user_password'];
@@ -34,12 +37,28 @@
 			get_block_input(
 				$array = array('type' => 'text', 'name' => 'user_username', 'password' => 'password', 'value' => $user['user_username'], 'required' => 'required', 'template' => 'admin')
 			) .
-			get_block_label(
-				$array = array('for' => 'user_password', 'template' => 'admin'),
-				'Password'
-			) .
-			get_block_input(
-				$array = array('type' => 'text', 'name' => 'user_password', 'password' => 'password', 'value' => $user['user_password'], 'required' => 'required', 'template' => 'admin')
+			get_block_div(
+				$array = array('class' => 'row', 'template' => 'admin'),
+				get_block_div(
+					$array = array('class' => 'column', 'template' => 'admin'),
+					get_block_label(
+						$array = array('for' => 'user_password', 'template' => 'admin'),
+						'Password'
+					) .
+					get_block_input(
+						$array = array('type' => 'password', 'name' => 'user_password', 'minlength' => 8, 'required' => 'required', 'template' => 'admin')
+					)
+				).
+				get_block_div(
+					$array = array('class' => 'column', 'template' => 'admin'),
+					get_block_label(
+						$array = array('for' => 'user_password2', 'template' => 'admin'),
+						'Confirm password'
+					) .
+					get_block_input(
+						$array = array('type' => 'password', 'name' => 'user_password2', 'minlength' => 8, 'required' => 'required', 'template' => 'admin')
+					)
+				)
 			) .
 			get_block_label(
 				$array = array('for' => 'user_email', 'template' => 'admin'),
@@ -55,19 +74,29 @@
 			get_block_input(
 				$array = array('type' => 'text', 'name' => 'user_display_name', 'value' => $user['user_display_name'], 'template' => 'admin')
 			) .
-			get_block_label(
-				$array = array('for' => 'user_first_name', 'template' => 'admin'),
-				'First name'
-			) .
-			get_block_input(
-				$array = array('type' => 'text', 'name' => 'user_first_name', 'value' => $user['user_first_name'], 'template' => 'admin')
-			) .
-			get_block_label(
-				$array = array('for' => 'user_last_name', 'template' => 'admin'),
-				'Last name'
-			) .
-			get_block_input(
-				$array = array('type' => 'text', 'name' => 'user_last_name', 'value' => $user['user_last_name'], 'template' => 'admin')
+			
+			get_block_div(
+				$array = array('class' => 'row', 'template' => 'admin'),
+				get_block_div(
+					$array = array('class' => 'column', 'template' => 'admin'),
+					get_block_label(
+						$array = array('for' => 'user_first_name', 'template' => 'admin'),
+						'First name'
+					) .
+					get_block_input(
+						$array = array('type' => 'text', 'name' => 'user_first_name', 'value' => $user['user_first_name'], 'template' => 'admin')
+					)
+				).
+				get_block_div(
+					$array = array('class' => 'column', 'template' => 'admin'),
+					get_block_label(
+						$array = array('for' => 'user_last_name', 'template' => 'admin'),
+						'Last name'
+					) .
+					get_block_input(
+						$array = array('type' => 'text', 'name' => 'user_last_name', 'value' => $user['user_last_name'], 'template' => 'admin')
+					)
+				)
 			) .
 			get_block_label(
 				$array = array('for' => 'user_biography', 'template' => 'admin'),
