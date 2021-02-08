@@ -22,10 +22,7 @@
 					'themes.php?switch_to_theme=' . $themes[$i], 
 					get_block_image(
 						$LINKS['URL'] . '/content/themes/' . $themes[$i] . '/includes/screenshot.png',
-						'',
-						'theme-screenshot',
-						'',
-						''
+						$array = array('class' => 'themes-screenshot', 'template' => 'admin')
 					) . 
 					get_block_div(
 						$array = array('class' => 'themes-infos', 'template' => 'admin'),

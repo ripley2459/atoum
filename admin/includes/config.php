@@ -23,6 +23,8 @@
 			'UPLOADS' => $_SERVER['DOCUMENT_ROOT'] . '/content/uploads/' . date('Y/m/d/'),
 		);
 
+
+		//Create the uploads directory if one doesn't exist.
 		if(!is_dir($LINKS['UPLOADS'])){
 			mkdir($LINKS['UPLOADS'], 0755, true);
 		}

@@ -4,14 +4,20 @@
 
 	get_dir();
 
-	if($folder != 'admin' or $page != 'admin'){
-		require 'gears/' . $folder . '/functions.php';
+
+	switch($folder){
+		case 'admin':
+			break;
+		default:
+			require 'gears/' . $folder . '/functions.php';
+			break;
 	}
 
 ?>
 <!doctype html>
 <html lang="fr">
 	<head>
+		<link rel="stylesheet" href="<?php echo $LINKS['URL'] . '/includes/reset.css'; ?>">
 		<link rel="stylesheet" href="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -28,25 +34,12 @@
 		<div class="admin_content has-left-side-menu">
 			<?php
 
-				if($folder == 'admin' or $page == 'admin'){
-					get_block_div(
-						$array = array('template' => 'admin'),
-						get_block_div(
-							$array = array('template' => 'admin'),
-							get_block_title(
-								1,
-								$array = array('template' => 'admin'),
-								'Informations'
-							) .
-							get_block_paragraph(
-								$array = array('template' => 'admin'),
-								'Atoum version 0 (2021/02/06).'
-							)
-						)
-					);
-				}
-				else{
-					require 'gears/' . $folder . '/' . $page . '.php';
+				switch($folder){
+					case 'admin':
+						break;
+					default:
+						require 'gears/' . $folder . '/' . $page . '.php';
+						break;
 				}
 
 			?>

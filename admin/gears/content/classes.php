@@ -69,7 +69,7 @@
 	}
 	else {
 		$action = 'add';
-		$term = array('term_name' => ' ', 'term_slug' => ' ', 'term_parent_id' => ' ', 'term_description' => ' ');
+		$term = array('term_name' => '', 'term_slug' => '', 'term_parent_id' => '', 'term_description' => '');
 		$url_complement = '';
 	}
 
@@ -94,7 +94,7 @@
 
 	echo
 	get_block_div(
-		$array = array('template' => 'admin'),
+		$array = array('class' => 'row', 'template' => 'admin'),
 		get_block_div(
 			$array = array('class' => 'column', 'template' => 'admin'),
 			get_block_div(
@@ -160,7 +160,7 @@
 		get_block_div(
 			$array = array('class' => 'column', 'template' => 'admin'),
 			get_block_div(
-				$array = array('class' => 'column', 'template' => 'admin'),
+				$array = array('template' => 'admin'),
 				get_block_title(
 					2,
 					$array = array('template' => 'admin'),

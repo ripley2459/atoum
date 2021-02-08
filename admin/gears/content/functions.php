@@ -512,7 +512,7 @@
 		$content_slug = str_replace(' ','-', strtolower($file_name));
 		$content_author_id = 1;
 		$content_type = $file_type;
-		$content_status = 'published';
+		$content_status = 'uploaded';
 		$content_parent_id = 0;
 		$content_has_children = 0;
 		$content_content = $file_path;

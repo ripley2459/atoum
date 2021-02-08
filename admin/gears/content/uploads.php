@@ -55,26 +55,37 @@
 		}
 	}
 
-	echo get_block_form(
-		$array = array('action' => 'uploads.php', 'method' => 'post', 'enctype' => 'multipart/form-data', 'template' => 'admin'),
-			get_block_input(
-				$array = array('type' => 'file', 'name' => 'file', 'template' => 'admin')
-			) .
-			get_block_input(
-				$array = array('type' => 'submit', 'name' => 'submit', 'value' => 'Upload', 'template' => 'admin')
-			)
-	);
+	if(isset($_GET['mode'])){
+		$mode = $_GET['mode'];
+	}
+	else{
+		$mode = 'grid';
+	}
 
-/* 	echo
+ 	echo
 	get_block_div(
 		$array = array('template' => 'admin'),
 		get_block_title(
 			1,
-			$array = array('class' => 'themes-name', 'template' => 'admin'),
+			$array = array('template' => 'admin'),
 			'Uploads'
-		) .	
+		) .
+		get_block_form(
+			$array = array('action' => 'uploads.php', 'method' => 'post', 'enctype' => 'multipart/form-data', 'template' => 'admin'),
+				get_block_input(
+					$array = array('type' => 'file', 'name' => 'file', 'template' => 'admin')
+				) .
+				get_block_input(
+					$array = array('type' => 'submit', 'name' => 'submit', 'value' => 'Upload', 'template' => 'admin')
+				)
+		) .
 		get_block_div(
 			$array = array('template' => 'admin'),
+			get_block_title(
+				2,
+				$array = array('template' => 'admin'),
+				'Your files'
+			) .
 			get_block_link(
 				'uploads.php?mode=list',
 				'<i class="fas fa-bars"></i>',
@@ -96,4 +107,4 @@
 				''
 			),
 		)
-	); */
+	);
