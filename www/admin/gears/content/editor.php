@@ -44,7 +44,7 @@
 			<?php echo $content['content_content']; ?>
 		</div>
 	</div>
-	<nav class="side-menu right">
+	<nav class="right">
 		<div class="side-menu-content">
 
 			<label for="content_slug">Slug:</label>
@@ -64,15 +64,13 @@
 
 		</div>
 	</nav>
-
-	<button type="submit" value="Submit" class="full float-right">Add</button>
-	
+	<button type="submit" value="Submit">Add</button>
 </form>
 
 <script>
     ClassicEditor
-        .create( document.querySelector( '#editor' ) )
-        .catch( error => {
+        .create(document.querySelector('#editor'))
+		.catch( error => {
             console.error( error );
         } );
 </script>

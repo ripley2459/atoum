@@ -42,24 +42,24 @@
 					get_block_accordion(
 						$array = array('template' => 'admin'),
 						'Pages',
-						get_content_for_menus('page'),
+						get_content_for_menus('page')
 					) .
 					get_block_accordion(
 						$array = array('template' => 'admin'),
 						'Posts',
-						get_content_for_menus('post'),
+						get_content_for_menus('post')
 					) .
 					get_block_accordion(
 						$array = array('template' => 'admin'),
 						'Links',
-						/* get_content_for_menus('link') */'LINKS',
+						/* get_content_for_menus('link') */'LINKS'
 					) .
 					get_block_accordion(
 						$array = array('template' => 'admin'),
 						'Classes',
-						/* get_content_for_menus('class') */'CLASSES',
-					),
-				),
+						get_terms_for_menus('class')
+					)
+				)
 			) .
 			get_block_div(
 				$array = array('class' => 'column', 'template' => 'admin'),
@@ -74,9 +74,8 @@
 						2,
 						$array = array('template' => 'admin'),
 						'Your classes'
-					) .
-					get_terms('class', 'term_name', $order_direction),
-				),
-			),
-		),
+					)
+				)
+			)
+		)
 	);

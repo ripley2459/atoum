@@ -383,7 +383,15 @@
 		$content_for_menus_request -> execute(array(':content_type' => $content_type));
 		
 		while($content_for_menu = $content_for_menus_request -> fetch()){
-			$to_display = $to_display . '<input type="checkbox" id="'.$content_for_menu['content_slug'].'" name="'.$content_for_menu['content_slug'].'"><label for="'.$content_for_menu['content_slug'].'">'.$content_for_menu['content_title'].'</label></br>';
+			$to_display =
+				$to_display .
+				get_block_label(
+					$array = array('for' => $content_for_menu['content_slug'], 'template' => 'admin'),
+					get_block_input(
+						$array = array('type' => 'checkbox', 'name' => $content_for_menu['content_slug'], 'template' => 'admin')
+					) .
+					' ' . $content_for_menu['content_title']
+				);
 		}
 		
 		return $to_display;
@@ -397,7 +405,15 @@
 		$content_for_menus_request -> execute(array(':term_type' => $term_type));
 		
 		while($content_for_menu = $content_for_menus_request -> fetch()){
-			$to_display = $to_display . '<input type="checkbox" id="'.$content_for_menu['term_slug'].'" name="'.$content_for_menu['term_slug'].'"><label for="'.$content_for_menu['term_slug'].'">'.$content_for_menu['term_name'].'</label></br>';
+			$to_display =
+				$to_display .
+				get_block_label(
+					$array = array('for' => $content_for_menu['term_slug'], 'template' => 'admin'),
+					get_block_input(
+						$array = array('type' => 'checkbox', 'name' => $content_for_menu['term_slug'], 'template' => 'admin')
+					) .
+					' ' . $content_for_menu['term_name']
+				);
 		}
 		
 		return $to_display;
