@@ -1,6 +1,34 @@
+/***
+
+CORE
+
+***/
+
+
 :root {
 	--side-nav-width: 200px;
 	--admin_content-margin: 1%;
+}
+
+/***
+
+TOP MENU
+
+***/
+
+.menu-main-container > li {
+	display: inline-block;
+}
+
+.menu-main-container .has-children > ul {
+	display: none;
+	position: absolute;
+	z-index: 1;
+	list-style: none;
+}
+
+.menu-main-container .has-children:hover > ul {
+	display: block;
 }
 
 /***
@@ -42,11 +70,11 @@ SIDE MENU
 
 .side-menu .sub-menu {
 	display: none;
-	margin: 0px 0px 20px 20px;
 }
 
 .side-menu .sub-menu.opened {
 	display: block;
+	margin: 0 0 20px 20px;
 }
 
 .side-menu button.opened,
@@ -55,12 +83,12 @@ SIDE MENU
 }
 
 .side-menu button .icon::after {
-	content: "\2193";
+	content: '\002B';
 	float: right;
 }
 
 .side-menu button.opened .icon::after {
-	content: "\2191";
+	content: "\2212";
 }
 
 /***
@@ -99,7 +127,7 @@ table {
 table, th, td {
 	border: 1px solid black;
 	border-collapse: collapse;
-	padding: 1em;
+	padding: 0.4em;
 }
 
 i.desc:after {
@@ -128,12 +156,54 @@ SPOILER
 
 /***
 
+ACCORDION
+
+***/
+
+.accordion_container {
+	margin-top: 0.4em;
+}
+
+.accordion_container:first-child {
+	margin-top: 0;
+}
+
+.accordion_trigger {
+	cursor: pointer;
+	text-align: left;
+	user-select: none;
+	border: 1px solid black;
+	padding: 0.4em;
+}
+
+.accordion_trigger:after {
+	content: '\002B';
+	float: right;
+}
+
+.accordion_trigger.active:after {
+	content: "\2212";
+}
+
+.accordion_panel {
+	display: none;
+	overflow: hidden;
+	transition: max-height 0.3s ease-out;
+	border: 1px solid black;
+	border-top: none;
+	padding: 0.4em;
+}
+
+/***
+
 FORM
 
 ***/
 
 label {
 	font-weight: bold;
+	margin-top: 0.4em;
+	display: block;
 }
 
 input[type=submit],
@@ -146,4 +216,8 @@ input[type=password] {
 input[type=text],
 input[type=password] {
 	width: 100%;
+}
+
+input[type=submit] {
+	margin-top: 0.4em;
 }

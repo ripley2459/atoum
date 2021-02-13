@@ -6,13 +6,15 @@
 
 	require 'admin/includes/config.php';
 
-	if(isset($_GET['type'], $_GET['content'])){
+	$content_type = 'page';
+	$content_slug = 'home_page';
+
+	if(isset($_GET['type'])){
 		$content_type = $_GET['type'];
-		$content_slug = $_GET['content'];
 	}
-	else{
-		$content_type = 'page';
-		$content_slug = 'home_page';
+
+	if(isset($_GET['content'])){
+		$content_slug = $_GET['content'];
 	}
 
 ?>
@@ -24,10 +26,11 @@
 		<link rel="stylesheet" href="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
+		<script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
 		<title>Index.php</title>
 	</head>
-
-	<body>
+	<body id="<?php echo $content_slug; ?>" class="<?php echo $content_type; ?>">
 
 	<?php
 
@@ -54,5 +57,3 @@
 
 	</body>
 </html>
-<script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
-<script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>

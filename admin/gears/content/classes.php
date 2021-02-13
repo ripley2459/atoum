@@ -17,10 +17,10 @@
 		$term_to_edit = $_GET['term_to_edit'];
 		$term_name = $_POST['name'];
 		if(isset($_POST['slug'])){
-			$term_slug = str_replace(' ','-', strtolower($_POST['slug']));
+			$term_slug = to_slug($_POST['slug']);
 		}
 		else{
-			$term_slug = str_replace(' ','-', strtolower($term_name));
+			$term_slug = to_slug($term_name);
 		}
 		if(isset($_POST['description'])){
 			$term_description = $_POST['description'];

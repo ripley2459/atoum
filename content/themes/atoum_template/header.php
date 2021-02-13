@@ -1,9 +1,5 @@
 <div id="header">
 
-	<nav>
-
-		<?php get_menu('primary-menu'); ?>
-
-	</nav>
+	<?php get_menu('primary-menu'); ?>
 
 </div>

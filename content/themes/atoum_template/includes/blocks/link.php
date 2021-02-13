@@ -1,21 +1,12 @@
 <?php
 
-	function get_block_link($destination, $content, $title, $target, $id, $additional_classes, $template, $custom){
+	function get_block_link(string $destination, array $attributes, string $content){
 		switch($template){
 			default:
 				if($destination == ''){
 					$destination = '#';
 				}
-				if($target != ''){
-					$target = ' target="' . $target . '"';
-				}
-				if($id != ''){
-					$id = ' id= "' . $id . '"';
-				}
-				if($additional_classes != ''){
-					$additional_classes = ' class= "' . $additional_classes . '"';
-				}
-				return '<a href="' . $destination . '"' . $target . $id . $additional_classes . '>' . $content . '</a>';
+				return '<a href="' . $destination . '"' . get_attributes_values($attributes) . '>' . $content . '</a>';
 				break;
 		}
 	}

@@ -1,7 +1,7 @@
 <?php
 
 	function get_post($content_type, $content_slug){
-		global $bdd, $CONFIG;
+		global $bdd;
 
 		$post_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type and content_slug = :content_slug');
 		$post_request -> execute(array(':content_type' => $content_type, ':content_slug' => $content_slug));
@@ -43,9 +43,10 @@
 		$menu_request -> execute(array(':content_slug' => $menu));
 		$menu = $menu_request -> fetch();
 		
-		echo '<div id="'.$menu['content_slug'].'-main-container"><ul id="'.$menu['content_slug'].'" class="menu-main-container menu-'.$menu['content_id'].'">';
+		echo '<nav id="menu-'.$menu['content_id'].'"><ul id="'.$menu['content_slug'].'-'.$menu['content_id'].'" class="menu-main-container">';
 		get_sub_menus($menu['content_id']);
-		echo '</ul></div>';
+		echo '</ul></nav>';
+
 		$menu_request -> closeCursor();
 	}
 
@@ -56,14 +57,23 @@
 		$sub_menu_request -> execute(array(':menu_parent_id' => $menu_parent_id));
 		
 		while($sub_menu = $sub_menu_request -> fetch()){
-			echo '<li id="menu-item-'.$sub_menu['content_id'].'"><a href="'.$sub_menu['content_content'].'">'.$sub_menu['content_title'].'</a>';
 			if($sub_menu['content_has_children'] == 1){
-				echo '<ul class="sub-menu">';
-				get_sub_menus($sub_menu['content_id']);
-				echo '</ul>';
+				echo '<li id="menu-item-'.$sub_menu['content_id'].'" class="menu-item has-children"><a href="'.$sub_menu['content_content'].'">'.$sub_menu['content_title'].'</a>';
+					echo '<ul class="sub-menu">';
+					get_sub_menus($sub_menu['content_id']);
+					echo '</ul>';
+				echo '</li>';
 			}
-			echo '</li>';
+			else{
+				echo '<li id="menu-item-'.$sub_menu['content_id'].'" class="menu-item"><a href="'.$sub_menu['content_content'].'">'.$sub_menu['content_title'].'</a>';
+				echo '</li>';
+			}
 		}
 
 		$sub_menu_request -> closeCursor();
+	}
+	
+	function to_slug(string $string){
+		$string = str_replace(' ','-', strtolower($string));
+		return $string;
 	}

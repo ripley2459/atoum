@@ -1,9 +1,11 @@
 <?php
 
 	function get_users($order_by, $order_direction){
-		global $bdd, $content;
+		global $bdd, $content, $LINKS;
+
 		$to_display = '';
 		$table_content = '';
+
 		$users_request = $bdd -> prepare('SELECT * FROM at_users ORDER BY :order_by :order_direction');
 		$users_request -> execute(array(':order_by' => $order_by, ':order_direction' => $order_direction));
 
@@ -17,7 +19,7 @@
 						get_block_div(
 							$array = array('class' => 'spoiler', 'template' => 'admin'),
 							get_block_link(
-								'#',
+								$LINKS['URL'] . '/index.php?search_by=author&value=' . $user['user_username'],
 								'Display',
 								'',
 								'',

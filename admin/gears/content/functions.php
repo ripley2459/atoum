@@ -23,35 +23,40 @@
 						$content['content_title'] . '</br>' .
 						get_block_div(
 							$array = array('class' => 'spoiler', 'template' => 'admin'),
-							get_block_link(
+							get_block_<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Page Title</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="">
+<style>
+</style>
+<script src=""></script>
+<body>
+
+<img src="img_la.jpg" alt="LA" style="width:100%">
+
+<div class="">
+ <h1>This is a Heading</h1>
+ <p>This is a paragraph.</p>
+ <p>This is another paragraph.</p>
+</div>
+
+</body>
+</html>link(
 								$LINKS['URL'] . '/index.php?type=' . $content['content_type'] . '&content=' . $content['content_slug'],
-								'Display',
-								'',
-								'',
-								'',
-								'',
-								'',
-								''
+								$array = array('template' => 'admin'),
+								'Display'
 							) . ' | ' .
 							get_block_link(
 								$LINKS['URL'] . '/admin/'. $folder . '/editor.php?content_type=' . $content_type . '&content_to_edit=' . $content['content_id'],
-								'Edit',
-								'',
-								'',
-								'',
-								'',
-								'',
-								''
+								$array = array('template' => 'admin'),
+								'Edit'
 							) . ' | ' .
 							get_block_link(
 								'#',
-								'Delete',
-								'',
-								'',
-								'',
-								'',
-								'',
-								''
+								$array = array('template' => 'admin'),
+								'Delete'
 							)
 						)
 					) .
@@ -87,13 +92,8 @@
 						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_title&order_direction=' . $order_direction,
-							'Title<i class="' . $order_direction . '"></i>',
-							'',
-							'',
-							'',
-							'',
-							'',
-							''
+							$array = array('template' => 'admin'),
+							'Title<i class="' . $order_direction . '"></i>'
 						),
 						'',
 						'',
@@ -104,13 +104,8 @@
 						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_author&order_direction=' . $order_direction,
-							'Author<i class="' . $order_direction . '"></i>',
-							'',
-							'',
-							'',
-							'',
-							'',
-							''
+							$array = array('template' => 'admin'),
+							'Author<i class="' . $order_direction . '"></i>'
 						)
 					) .
 					get_block_table_heading(
@@ -125,26 +120,16 @@
 						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_date_created&order_direction=' . $order_direction,
-							'Creation date<i class="' . $order_direction . '"></i>',
-							'',
-							'',
-							'',
-							'',
-							'',
-							''
+							$array = array('template' => 'admin'),
+							'Creation date<i class="' . $order_direction . '"></i>'
 						)
 					) .
 					get_block_table_heading(
 						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_date_modified&order_direction=' . $order_direction,
-							'Last modification date<i class="' . $order_direction . '"></i>',
-							'',
-							'',
-							'',
-							'',
-							'',
-							''
+							$array = array('template' => 'admin'),
+							'Last modification date<i class="' . $order_direction . '"></i>'
 						)
 					)
 				) .

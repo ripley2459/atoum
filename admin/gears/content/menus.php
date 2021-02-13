@@ -1,123 +1,82 @@
 <?php
 
+	$order_direction = 'asc';
+
 	echo
 	get_block_div(
+		$array = array('template' => 'admin'),
 		get_block_title(
 			1,
-			'Menus',
-			'',
-			'',
-			'',
-			''
+			$array = array('template' => 'admin'),
+			'Menus'
 		) .
 		get_block_div(
+			$array = array('class' => 'row', 'template' => 'admin'),
 			get_block_div(
+				$array = array('class' => 'column', 'template' => 'admin'),
+				get_block_title(
+					2,
+					$array = array('template' => 'admin'),
+					'Create a menu'
+				) .
+				get_block_form(
+					$array = array('action' => 'menus.php', 'method' => 'post', 'template' => 'admin'),
+					get_block_label(
+						$array = array('for' => 'menu_name', 'template' => 'admin'),
+						'Name'
+					) .
+					get_block_input(
+						$array = array('type' => 'text', 'name' => 'menu_name', 'required' => 'required', 'template' => 'admin')
+					) .
+					get_block_input(
+						$array = array('type' => 'submit', 'name' => 'submit', 'value' => 'Create', 'template' => 'admin')
+					)
+				) .
+				get_block_title(
+					3,
+					$array = array('template' => 'admin'),
+					'Add elements'
+				) .
 				get_block_div(
-					get_block_title(
-						2,
-						'Create a new menu',
-						'',
-						'',
-						'',
-						''
+					$array = array('class' => 'accordion_group', 'template' => 'admin'),
+					get_block_accordion(
+						$array = array('template' => 'admin'),
+						'Pages',
+						get_content_for_menus('page'),
 					) .
-					get_block_div(
-						'<form><input type="text" placeholder="Menu name" class="full"><button type="submit" class="float-right">Create</button></form>',
-						'',
-						'',
-						'',
-						''
+					get_block_accordion(
+						$array = array('template' => 'admin'),
+						'Posts',
+						get_content_for_menus('post'),
 					) .
-					get_block_title(
-						'3',
-						'Add elements',
-						'',
-						'',
-						'',
-						''
+					get_block_accordion(
+						$array = array('template' => 'admin'),
+						'Links',
+						/* get_content_for_menus('link') */'LINKS',
 					) .
-					get_block_div(
-						get_block_accordion(
-							'Pages',
-							get_content_for_menus('page'),
-							'',
-							'',
-							'',
-							''
-						) .
-						get_block_accordion(
-							'Posts',
-							get_content_for_menus('post'),
-							'',
-							'',
-							'',
-							''
-						) .
-						get_block_accordion(
-							'Links',
-							''/*get_links_for_menus('link')*/,
-							'',
-							'',
-							'',
-							''
-						) .
-						get_block_accordion(
-							'Classes',
-							get_terms_for_menus('class'),
-							'',
-							'',
-							'',
-							''
-						),
-						'',
-						'accordion_group',
-						'',
-						''
+					get_block_accordion(
+						$array = array('template' => 'admin'),
+						'Classes',
+						/* get_content_for_menus('class') */'CLASSES',
 					),
-					'',
-					'',
-					'',
-					''
 				),
-				'',
-				'column',
-				'',
-				''
 			) .
 			get_block_div(
-				get_block_section(
+				$array = array('class' => 'column', 'template' => 'admin'),
+				get_block_title(
+					2,
+					$array = array('template' => 'admin'),
+					'Organise your menu'
+				) .
+				get_block_div(
+					$array = array('template' => 'admin'),
 					get_block_title(
 						2,
-						'Organise your menu',
-						'',
-						'',
-						'',
-						''
+						$array = array('template' => 'admin'),
+						'Your classes'
 					) .
-					get_block_div(
-						get_menus(),
-						'',
-						'accordion_group menus-wrapper',
-						'',
-						''
-					),
-					'',
-					'',
-					'',
-					''
+					get_terms('class', 'term_name', $order_direction),
 				),
-				'',
-				'column',
-				'',
-				''
 			),
-			'',
-			'row',
-			'',
-			''
 		),
-		'',
-		'',
-		'',
-		''
 	);

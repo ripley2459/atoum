@@ -1,1 +1,3 @@
-POSTS
+<?php
+
+	get_posts();
