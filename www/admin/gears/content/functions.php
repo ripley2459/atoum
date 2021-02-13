@@ -142,33 +142,18 @@
 						$array = array('class' => 'spoiler', 'template' => 'admin'),
 						get_block_link(
 							'#',
-							'Display',
-							'',
-							'',
-							'',
-							'',
-							'',
-							''
+							$array = array('template' => 'admin'),
+							'Display'
 						) . ' | ' .
 						get_block_link(
 							'classes.php?term_to_edit=' . $term['term_id'],
-							'Edit',
-							'',
-							'',
-							'',
-							'',
-							'',
-							''
+							$array = array('template' => 'admin'),
+							'Edit'
 						) . ' | ' .
 						get_block_link(
 							'classes.php?term_to_delete=' . $term['term_id'],
-							'Delete',
-							'',
-							'',
-							'',
-							'warning',
-							'',
-							''
+							$array = array('template' => 'admin'),
+							'Delete'
 						)
 					)
 				) .
@@ -192,26 +177,16 @@
 						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=term_name&order_direction=' . $order_direction,
-							'Name<i class="' . $order_direction . '"></i>',
-							'',
-							'',
-							'',
-							'',
-							'',
-							''
+							$array = array('template' => 'admin'),
+							'Name<i class="' . $order_direction . '"></i>'
 						)
 					) .
 					get_block_table_heading(
 						$array = array('template' => 'admin'),
 						get_block_link(
 							'/admin/' . $folder . '/' . $page . '.php?order_by=content_slug&order_direction=' . $order_direction,
-							'Slug<i class="' . $order_direction . '"></i>',
-							'',
-							'',
-							'',
-							'',
-							'',
-							''
+							$array = array('template' => 'admin'),
+							'Slug<i class="' . $order_direction . '"></i>'
 						)
 					) .
 					get_block_table_heading(

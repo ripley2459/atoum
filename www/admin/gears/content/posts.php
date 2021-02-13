@@ -18,13 +18,8 @@
 		) . 
 		get_block_link(
 			'editor.php?mode=create&type=post',
-			'Add',
-			'',
-			'',
-			'',
-			'',
-			'',
-			''
+			$array = array('template' => 'admin'),
+			'Add'
 		)
 	);
 

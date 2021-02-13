@@ -88,23 +88,13 @@
 			) .
 			get_block_link(
 				'uploads.php?mode=list',
-				'<i class="fas fa-bars"></i>',
-				'',
-				'',
-				'',
-				'',
-				'',
-				''
+				$array = array('template' => 'admin'),
+				'<i class="fas fa-bars"></i>'
 			) .
 			get_block_link(
 				'uploads.php?mode=grid',
-				'<i class="fas fa-th-large"></i>',
-				'',
-				'',
-				'',
-				'',
-				'',
-				''
+				$array = array('template' => 'admin'),
+				'<i class="fas fa-th-large"></i>'
 			),
 		)
 	);

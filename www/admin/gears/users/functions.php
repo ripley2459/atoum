@@ -20,23 +20,13 @@
 							$array = array('class' => 'spoiler', 'template' => 'admin'),
 							get_block_link(
 								$LINKS['URL'] . '/index.php?search_by=author&value=' . $user['user_username'],
-								'Display',
-								'',
-								'',
-								'',
-								'',
-								'',
-								''
+								$array = array('template' => 'admin'),
+								'Display'
 							) . ' | ' .
 							get_block_link(
 								'#',
-								'Revoke',
-								'',
-								'',
-								'',
-								'',
-								'',
-								''
+								$array = array('template' => 'admin'),
+								'Revoke'
 							)
 						)
 					) .
