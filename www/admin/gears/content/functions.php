@@ -23,27 +23,7 @@
 						$content['content_title'] . '</br>' .
 						get_block_div(
 							$array = array('class' => 'spoiler', 'template' => 'admin'),
-							get_block_<!DOCTYPE html>
-<html lang="en">
-<meta charset="UTF-8">
-<title>Page Title</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="">
-<style>
-</style>
-<script src=""></script>
-<body>
-
-<img src="img_la.jpg" alt="LA" style="width:100%">
-
-<div class="">
- <h1>This is a Heading</h1>
- <p>This is a paragraph.</p>
- <p>This is another paragraph.</p>
-</div>
-
-</body>
-</html>link(
+							get_block_link(
 								$LINKS['URL'] . '/index.php?type=' . $content['content_type'] . '&content=' . $content['content_slug'],
 								$array = array('template' => 'admin'),
 								'Display'
