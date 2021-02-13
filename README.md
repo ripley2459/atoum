@@ -17,9 +17,9 @@ Atoum permet également de personnaliser toute la partie administrative de votre
 3. Remplissez les champs du formulaire puis validez. Vous devriez ensuite être redirigé vers la page d'accueil de l'administration.
 
 Atoum utilise les librairies suivantes :
-* [jQuerry](https://jquery.com/)
-* [Font Awesome](https://fontawesome.com/)
-* [CKEditor](https://ckeditor.com/)
+* [jQuerry](https://jquery.com/).
+* [Font Awesome](https://fontawesome.com/).
+* [CKEditor](https://ckeditor.com/).
 
 > ### Notes sur l'installation et l'utilisation d'Atoum
 >
@@ -32,6 +32,11 @@ Atoum utilise les librairies suivantes :
 > Vous acceptez également que votre sécurité mentale et éventuellement physique soit engagée lors de l'utilisation d'Atoum.
 >
 > Les informations insérées dans Atoum ne seront ni utilisées ni transmises. En revanche je ne peut guarantir leur protection.
+
+## Liens utiles
+
+* [Trello](https://trello.com/b/4NW4Z80l).
+* [Wordpress](https://fr.wordpress.org/).
 
 ## Pourquoi le nom Atoum ?
 
