@@ -12,9 +12,9 @@
 		while($user = $users_request -> fetch()){
 			$table_content = $table_content .
 				get_block_table_row(
-					$array = array('class' => 'spoiler_container', 'template' => 'admin'),
+					$array = array('template' => 'admin'),
 					get_block_table_data(
-						$array = array('template' => 'admin'),
+						$array = array('class' => 'spoiler_container', 'template' => 'admin'),
 						$user['user_username'] .
 						get_block_div(
 							$array = array('class' => 'spoiler', 'template' => 'admin'),

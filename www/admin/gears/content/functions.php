@@ -242,9 +242,6 @@
 
 
 
-
-
-
 	function get_terms_list($term_type){
 		global $bdd;
 		$terms_list_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type');
@@ -457,32 +454,6 @@
 	
 	function content_delete(){
 		
-	}
-	
-	
-	function add_file($file_name, $file_type, $file_path){
-		global $bdd;
-		$content_add_file = $bdd -> prepare('INSERT INTO at_content (content_title, content_slug, content_author_id, content_type, content_status, content_parent_id, content_has_children, content_content) VALUES (:content_title, :content_slug, :content_author_id, :content_type, :content_status, :content_parent_id, :content_has_children, :content_content)');
-
-		$content_title = $file_name;
-		$content_slug = str_replace(' ','-', strtolower($file_name));
-		$content_author_id = 1;
-		$content_type = $file_type;
-		$content_status = 'uploaded';
-		$content_parent_id = 0;
-		$content_has_children = 0;
-		$content_content = $file_path;
-
-		$content_add_file -> execute(array(':content_title' => $content_title, ':content_slug' => $content_slug, ':content_author_id' => $content_author_id, ':content_type' => $content_type, ':content_status' => $content_status, ':content_parent_id' => $content_parent_id, ':content_has_children' => $content_has_children, ':content_content' => $content_content));
-		$content_add_file -> closeCursor();
-	}
-	
-	function get_files(){
-		global $bdd;
-		$get_file_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_status = :content_status ORDER BY :order_by :order_direction');
-		
-		$get_file_request -> execute(array(':content_status' => 'uploaded', ':order_by' => 'content_date_created',':order_direction' => 'DESC'));
-		$files = $get_file_request -> fetch();
 	}
 	
 	

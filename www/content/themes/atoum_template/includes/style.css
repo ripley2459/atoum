@@ -130,6 +130,11 @@ table, th, td {
 	padding: 0.4em;
 }
 
+table > a {
+	display: block;
+	text-decoration: none;
+}
+
 i.desc:after {
 	content: "\2191";
 	float: right;
