@@ -128,7 +128,7 @@
 		$table_content = '';
 
 		$terms_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type ORDER BY :order_by :order_direction');
-		$terms_request -> execute(array(':term_type' => $term_type,':order_by' => $order_by,':order_direction' => $order_direction));
+		$terms_request -> execute(array(':term_type' => $term_type, ':order_by' => $order_by,':order_direction' => $order_direction));
 
 		while($term = $terms_request -> fetch()){
 			
@@ -475,6 +475,14 @@
 
 		$content_add_file -> execute(array(':content_title' => $content_title, ':content_slug' => $content_slug, ':content_author_id' => $content_author_id, ':content_type' => $content_type, ':content_status' => $content_status, ':content_parent_id' => $content_parent_id, ':content_has_children' => $content_has_children, ':content_content' => $content_content));
 		$content_add_file -> closeCursor();
+	}
+	
+	function get_files(){
+		global $bdd;
+		$get_file_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_status = :content_status ORDER BY :order_by :order_direction');
+		
+		$get_file_request -> execute(array(':content_status' => 'uploaded', ':order_by' => 'content_date_created',':order_direction' => 'DESC'));
+		$files = $get_file_request -> fetch();
 	}
 	
 	

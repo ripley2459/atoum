@@ -55,12 +55,14 @@
 		}
 	}
 
-	if(isset($_GET['mode'])){
-		$mode = $_GET['mode'];
+	if(isset($_GET['view'])){
+		$view = $_GET['view'];
 	}
 	else{
-		$mode = 'grid';
+		$view = 'grid';
 	}
+
+	echo $view;
 
  	echo
 	get_block_div(
@@ -87,14 +89,29 @@
 				'Your files'
 			) .
 			get_block_link(
-				'uploads.php?mode=list',
+				'uploads.php?view=list',
 				$array = array('template' => 'admin'),
 				'<i class="fas fa-bars"></i>'
 			) .
 			get_block_link(
-				'uploads.php?mode=grid',
+				'uploads.php?view=grid',
 				$array = array('template' => 'admin'),
 				'<i class="fas fa-th-large"></i>'
 			),
 		)
 	);
+	
+	if($view = 'grid'){
+		echo
+		get_block_div(
+			$array = array('template' => 'admin'),
+			'Grid'
+		);
+	}
+	else{
+		echo
+		get_block_div(
+			$array = array('template' => 'admin'),
+			'List'
+		);
+	}
