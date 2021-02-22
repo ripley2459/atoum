@@ -23,13 +23,13 @@
 					$array = array('template' => 'admin'),
 					get_block_image(
 						$LINKS['URL'] . '/content/themes/' . $themes[$i] . '/includes/screenshot.png',
-						$array = array('class' => 'themes-screenshot', 'template' => 'admin')
+						$array = array('class' => 'theme-screenshot', 'template' => 'admin')
 					) . 
 					get_block_div(
-						$array = array('class' => 'themes-infos', 'template' => 'admin'),
+						$array = array('class' => 'theme-infos', 'template' => 'admin'),
 						get_block_title(
 							3,
-							$array = array('class' => 'themes-name', 'template' => 'admin'),
+							$array = array('class' => 'theme-name', 'template' => 'admin'),
 							$themes[$i]
 						) .
 						get_block_link(

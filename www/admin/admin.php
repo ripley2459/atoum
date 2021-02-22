@@ -50,4 +50,4 @@
 </html>
 <script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
 <script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
-<script src="<?php echo $LINKS['URL'] . '/admin/content/' . $folder . '/' . $page . '.js'; ?>"></script>
+<script src="<?php echo $LINKS['URL'] . '/admin/content/' . $folder . '/scripts.js'; ?>"></script>

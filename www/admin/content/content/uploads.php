@@ -8,7 +8,7 @@
 
 	if(isset($_POST['update'])){
 		$content_id = $_POST['content_id'];
-		$content_slug = preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $_POST['content_slug']);
+		$content_slug = strtolower(preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $_POST['content_slug']));
 		$content_title = $_POST['description'];
 		content_update($content_id, $content_title, $content_slug);
 		header('location: uploads.php');
