@@ -1,6 +1,20 @@
 <?php
 
-	if(isset($_POST['submit'])){
+	if(isset($_POST['delete'])){
+		$content_id = $_POST['content_id'];
+		content_delete($content_id);
+		header('location: uploads.php');
+	}
+
+	if(isset($_POST['update'])){
+		$content_id = $_POST['content_id'];
+		$content_slug = preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $_POST['content_slug']);
+		$content_title = $_POST['description'];
+		content_update($content_id, $content_title, $content_slug);
+		header('location: uploads.php');
+	}
+
+	if(isset($_POST['upload'])){
 		$target_file = $LINKS['UPLOADS'] . basename($_FILES['file']['name']);
 		$file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 		
@@ -46,7 +60,7 @@
 		else{
 			if(move_uploaded_file($_FILES['file']['tmp_name'], $target_file)){
 				echo "The file ". htmlspecialchars(basename($_FILES['file']['name'])). ' has been uploaded.';
-				$file_path = $LINKS['UPLOADS'] . $_FILES['file']['name'];
+				$file_path = $LINKS['URL'] . '/content/uploads/' . date('Y/m/d/') . $_FILES['file']['name'];
 				add_file($_FILES['file']['name'], $file_type, $file_path);
 			}
 			else{
@@ -85,7 +99,7 @@
 					$array = array('type' => 'file', 'name' => 'file', 'template' => 'admin')
 				) .
 				get_block_input(
-					$array = array('type' => 'submit', 'name' => 'submit', 'value' => 'Upload', 'template' => 'admin')
+					$array = array('type' => 'submit', 'name' => 'upload', 'value' => 'Upload', 'template' => 'admin')
 				)
 		) .
 		get_block_div(
@@ -196,7 +210,54 @@
 		$to_display = $to_display .
 			get_block_div(
 				$array = array('template' => 'admin'),
-				$content['content_title']
+				get_block_modal(
+					$array = array('id' => $content['content_slug'], 'template' => 'admin'),
+					get_block_image(
+						$content['content_content'],
+						$array = array('class' => 'upload_preview', 'alt' => $content['content_title'], 'template' => 'admin')
+					),
+					get_block_form(
+						$array = array('action' => 'uploads.php', 'method' => 'post', 'template' => 'admin'),
+						get_block_image(
+							$content['content_content'],
+							$array = array('class' => 'upload_preview', 'alt' => $content['content_title'], 'template' => 'admin')
+						) .
+						$content['content_date_created'] .
+						get_block_input(
+							$array = array('type' => 'hidden', 'name' => 'content_id', 'value' => $content['content_id'], 'required' => 'required', 'template' => 'admin')
+						) .
+						get_block_label(
+							$array = array('for' => 'content_slug', 'template' => 'admin'),
+							'Slug'
+						) .
+						get_block_input(
+							$array = array('type' => 'text', 'name' => 'content_slug', 'value' => $content['content_slug'], 'required' => 'required', 'template' => 'admin')
+						) .
+						get_block_label(
+							$array = array('for' => 'description', 'template' => 'admin'),
+							'Description'
+						) .
+						get_block_input(
+							$array = array('type' => 'text', 'name' => 'description', 'value' => $content['content_title'], 'required' => 'required', 'template' => 'admin')
+						) .
+						get_block_label(
+							$array = array('for' => 'author', 'template' => 'admin'),
+							'Author'
+						) .
+						get_block_input(
+							$array = array('type' => 'hidden', 'name' => 'author_id', 'value' => $content['content_author_id'], 'required' => 'required', 'template' => 'admin')
+						) .
+						get_block_input(
+							$array = array('type' => 'text', 'name' => 'author', 'value' => $user_display_name, 'readonly' => 'readonly', 'required' => 'required', 'template' => 'admin')
+						) .
+						get_block_input(
+							$array = array('type' => 'submit', 'name' => 'delete', 'value' => 'Delete', 'template' => 'admin')
+						) .
+						get_block_input(
+							$array = array('type' => 'submit', 'name' => 'update', 'value' => 'Save', 'template' => 'admin')
+						)
+					)
+				)
 			);
 		return $to_display;
 	}
@@ -214,6 +275,10 @@
 				) .
 				get_block_table_data(
 					$array = array('template' => 'admin'),
+					get_block_image(
+						$content['content_content'],
+						$array = array('class' => 'upload_preview', 'template' => 'admin')
+					) .
 					$content['content_title']
 				) .
 				get_block_table_data(
@@ -234,7 +299,7 @@
 		$content_add_file_request = $bdd -> prepare('INSERT INTO at_content (content_title, content_slug, content_author_id, content_type, content_status, content_parent_id, content_has_children, content_content) VALUES (:content_title, :content_slug, :content_author_id, :content_type, :content_status, :content_parent_id, :content_has_children, :content_content)');
 
 		$content_title = $file_name;
-		$content_slug = str_replace(' ','-', strtolower($file_name));
+		$content_slug = preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $file_name);
 		$content_author_id = 1;
 		$content_type = $file_type;
 		$content_status = 'uploaded';
@@ -244,4 +309,18 @@
 
 		$content_add_file_request -> execute(array(':content_title' => $content_title, ':content_slug' => $content_slug, ':content_author_id' => $content_author_id, ':content_type' => $content_type, ':content_status' => $content_status, ':content_parent_id' => $content_parent_id, ':content_has_children' => $content_has_children, ':content_content' => $content_content));
 		$content_add_file_request -> closeCursor();
+	}
+
+	function content_update(int $content_id, string $content_title, string $content_slug){
+		global $bdd;
+		$content_update_request = $bdd -> prepare('UPDATE at_content SET content_title = :content_title, content_slug = :content_slug WHERE content_id = :content_id');
+		$content_update_request -> execute(array(':content_title' => $content_title, ':content_slug' => $content_slug, ':content_id' => $content_id));
+		$content_update_request -> closeCursor();
+	}
+
+	function content_delete(int $content_id){
+		global $bdd;
+		$content_delete_request = $bdd -> prepare('DELETE FROM at_content WHERE content_id =  :content_id');
+		$content_delete_request -> execute(array(':content_id' => $content_id));
+		$content_delete_request -> closeCursor();
 	}

@@ -1,7 +1,7 @@
 <?php
 
 	if(!file_exists('admin/includes/config.php')){
-		header('Location: admin/install.php');
+		header('Location: admin/installer.php');
 	}
 
 	require 'admin/includes/config.php';
@@ -26,8 +26,6 @@
 		<link rel="stylesheet" href="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
-		<script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
 		<title>Index.php</title>
 	</head>
 	<body id="<?php echo $content_slug; ?>" class="<?php echo $content_type; ?>">
@@ -57,3 +55,5 @@
 
 	</body>
 </html>
+<script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
+<script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>

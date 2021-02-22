@@ -452,10 +452,6 @@
 		$content_to_edit_request -> closeCursor();
 	}
 	
-	function content_delete(){
-		
-	}
-	
 	
 	
 	

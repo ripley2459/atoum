@@ -17,7 +17,7 @@
 
 		$LINKS = array(
 			'ROOT' => $_SERVER['DOCUMENT_ROOT'],
-			'URL' => sprintf('%s://%s',isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']),
+			'URL' => sprintf('%s://%s', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']),
 			'PLUGINS' => $_SERVER['DOCUMENT_ROOT'] . '/content/plugins/',
 			'THEMES' => $_SERVER['DOCUMENT_ROOT'] . '/content/themes/',
 			'UPLOADS' => $_SERVER['DOCUMENT_ROOT'] . '/content/uploads/' . date('Y/m/d/'),

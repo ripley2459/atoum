@@ -4,12 +4,11 @@
 
 	get_dir();
 
-
 	switch($folder){
 		case 'admin':
 			break;
 		default:
-			require 'gears/' . $folder . '/functions.php';
+			require 'content/' . $folder . '/functions.php';
 			break;
 	}
 
@@ -27,7 +26,7 @@
 		<header>
 			<?php
 
-				require $LINKS['THEMES'] . $THEME . '/admin-menu.php';
+				require 'admin-menu.php';
 
 			?>
 		</header>
@@ -38,7 +37,7 @@
 					case 'admin':
 						break;
 					default:
-						require 'gears/' . $folder . '/' . $page . '.php';
+						require 'content/' . $folder . '/' . $page . '.php';
 						break;
 				}
 
@@ -51,4 +50,4 @@
 </html>
 <script src="<?php echo $LINKS['URL'] . '/includes/scripts.js'; ?>"></script>
 <script src="<?php echo $LINKS['URL'] . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
-<script src="<?php echo $LINKS['URL'] . '/admin/gears/' . $folder . '/' . $page . '.js'; ?>"></script>
+<script src="<?php echo $LINKS['URL'] . '/admin/content/' . $folder . '/' . $page . '.js'; ?>"></script>

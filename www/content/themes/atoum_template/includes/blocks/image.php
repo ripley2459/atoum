@@ -6,7 +6,7 @@
 				if($source == ''){
 					$source = '#';
 				}
-				return '<img src="' . $source . '"' . get_id_classes($attributes) . '/>';
+				return '<img src="' . $source . '"' . get_id_classes($attributes) . get_attributes_values($attributes) . '/>';
 				break;
 		}
 	}
