@@ -15,6 +15,11 @@
 	}
 
 	if(isset($_POST['upload'])){
+		//Create the uploads directory if no one exist.
+		if(!is_dir($LINKS['UPLOADS'])){
+			mkdir($LINKS['UPLOADS'], 0755, true);
+		}
+
 		$target_file = $LINKS['UPLOADS'] . basename($_FILES['file']['name']);
 		$file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 		
@@ -169,13 +174,13 @@
 	}
 
 	function get_files_uploaded(string $view){
-		global $bdd;
+		global $DDB;
 		$to_display = '';
 		
-		$get_file_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_status = :content_status ORDER BY :order_by :order_direction');
+		$get_file_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_status = :content_status ORDER BY :order_by :order_direction');
 		$get_file_request -> execute(array(':content_status' => 'uploaded', ':order_by' => 'content_date_created', ':order_direction' => 'DESC'));
 
-		$users_request = $bdd -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
+		$users_request = $DDB -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
 
 		if($view == 'list'){
 			while($content = $get_file_request -> fetch()){
@@ -294,9 +299,9 @@
 	}
 
 	function add_file(string $file_name, string $file_type, string $file_path){
-		global $bdd;
+		global $DDB;
 
-		$content_add_file_request = $bdd -> prepare('INSERT INTO at_content (content_title, content_slug, content_author_id, content_type, content_status, content_parent_id, content_has_children, content_content) VALUES (:content_title, :content_slug, :content_author_id, :content_type, :content_status, :content_parent_id, :content_has_children, :content_content)');
+		$content_add_file_request = $DDB -> prepare('INSERT INTO at_content (content_title, content_slug, content_author_id, content_type, content_status, content_parent_id, content_has_children, content_content) VALUES (:content_title, :content_slug, :content_author_id, :content_type, :content_status, :content_parent_id, :content_has_children, :content_content)');
 
 		$content_title = $file_name;
 		$content_slug = preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $file_name);
@@ -312,15 +317,15 @@
 	}
 
 	function content_update(int $content_id, string $content_title, string $content_slug){
-		global $bdd;
-		$content_update_request = $bdd -> prepare('UPDATE at_content SET content_title = :content_title, content_slug = :content_slug WHERE content_id = :content_id');
+		global $DDB;
+		$content_update_request = $DDB -> prepare('UPDATE at_content SET content_title = :content_title, content_slug = :content_slug WHERE content_id = :content_id');
 		$content_update_request -> execute(array(':content_title' => $content_title, ':content_slug' => $content_slug, ':content_id' => $content_id));
 		$content_update_request -> closeCursor();
 	}
 
 	function content_delete(int $content_id){
-		global $bdd;
-		$content_delete_request = $bdd -> prepare('DELETE FROM at_content WHERE content_id =  :content_id');
+		global $DDB;
+		$content_delete_request = $DDB -> prepare('DELETE FROM at_content WHERE content_id =  :content_id');
 		$content_delete_request -> execute(array(':content_id' => $content_id));
 		$content_delete_request -> closeCursor();
 	}

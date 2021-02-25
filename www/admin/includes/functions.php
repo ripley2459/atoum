@@ -17,12 +17,17 @@
 	}
 
 	function get_option_value($option_name){
-		global $bdd;
-		$option_request = $bdd -> prepare('SELECT option_value FROM at_options WHERE option_name = :option_name');
-		$option_request -> execute(array(':option_name' => $option_name));
-		$option = $option_request -> fetch();
+		global $DDB;
+
+		$request_option = $DDB -> prepare('SELECT option_value FROM at_options WHERE option_name = :option_name');
+		$request_option -> execute(array(':option_name' => $option_name));
+
+		$option = $request_option -> fetch();
+
 		$option_value = $option['option_value'];
-		$option_request -> closeCursor();
+
+		$request_option -> closeCursor();
+
 		return $option_value;
 	}
 

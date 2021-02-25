@@ -1,14 +1,14 @@
 <?php
 
 	function get_content($content_type, $order_by, $order_direction){
-		global $bdd, $folder, $page, $LINKS;
+		global $DDB, $folder, $page, $LINKS;
 		$to_display = '';
 		$table_content = '';
 
-		$content_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type ORDER BY :order_by :order_direction');
+		$content_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_type = :content_type ORDER BY :order_by :order_direction');
 		$content_request -> execute(array(':content_type' => $content_type,':order_by' => $order_by,':order_direction' => $order_direction));
 
-		$users_request = $bdd -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
+		$users_request = $DDB -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
 
 		while($content = $content_request -> fetch()){
 
@@ -122,86 +122,6 @@
 		return $to_display;
 	}
 
-	function get_terms($term_type, $order_by, $order_direction){
-		global $bdd, $folder, $page;
-		$to_display = '';
-		$table_content = '';
-
-		$terms_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type ORDER BY :order_by :order_direction');
-		$terms_request -> execute(array(':term_type' => $term_type, ':order_by' => $order_by,':order_direction' => $order_direction));
-
-		while($term = $terms_request -> fetch()){
-			
-			$table_content = $table_content .
-			get_block_table_row(
-				$array = array('template' => 'admin'),
-				get_block_table_data(
-					$array = array('class' => 'spoiler_container', 'template' => 'admin'),
-					$term['term_name'] . '</br>' .
-					get_block_div(
-						$array = array('class' => 'spoiler', 'template' => 'admin'),
-						get_block_link(
-							'#',
-							$array = array('template' => 'admin'),
-							'Display'
-						) . ' | ' .
-						get_block_link(
-							'classes.php?term_to_edit=' . $term['term_id'],
-							$array = array('template' => 'admin'),
-							'Edit'
-						) . ' | ' .
-						get_block_link(
-							'classes.php?term_to_delete=' . $term['term_id'],
-							$array = array('template' => 'admin'),
-							'Delete'
-						)
-					)
-				) .
-				get_block_table_data(
-					$array = array('template' => 'admin'),
-					$term['term_slug']
-				) .
-				get_block_table_data(
-					$array = array('template' => 'admin'),
-					$term['term_description']
-				)
-			);
-		}
-
-		$to_display = $to_display . 
-			get_block_table(
-				$array = array('template' => 'admin'),
-				get_block_table_row(
-					$array = array('template' => 'admin'),
-					get_block_table_heading(
-						$array = array('template' => 'admin'),
-						get_block_link(
-							'/admin/' . $folder . '/' . $page . '.php?order_by=term_name&order_direction=' . $order_direction,
-							$array = array('template' => 'admin'),
-							'Name<i class="' . $order_direction . '"></i>'
-						)
-					) .
-					get_block_table_heading(
-						$array = array('template' => 'admin'),
-						get_block_link(
-							'/admin/' . $folder . '/' . $page . '.php?order_by=content_slug&order_direction=' . $order_direction,
-							$array = array('template' => 'admin'),
-							'Slug<i class="' . $order_direction . '"></i>'
-						)
-					) .
-					get_block_table_heading(
-						$array = array('template' => 'admin'),
-						'Description'
-					)
-				) .
-				$table_content
-			);
-
-		$terms_request -> closeCursor();
-		
-		return $to_display;
-	}
-
 
 
 
@@ -243,8 +163,8 @@
 
 
 	function get_terms_list($term_type){
-		global $bdd;
-		$terms_list_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type');
+		global $DDB;
+		$terms_list_request = $DDB -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type');
 		$terms_list_request -> execute(array(':term_type' => $term_type));
 		
 		echo '<select id="parent" name="parent" class="full">
@@ -272,49 +192,19 @@
 
 
 	function term_add($term_name, $term_slug, $term_type, $term_description, $term_parent_id){
-		global $bdd;
-		$terms_add_request = $bdd -> prepare('INSERT INTO at_terms (term_name, term_slug, term_type, term_description, term_parent_id) VALUES (:term_name, :term_slug, :term_type, :term_description, :term_parent_id)');
+		global $DDB;
+		$terms_add_request = $DDB -> prepare('INSERT INTO at_terms (term_name, term_slug, term_type, term_description, term_parent_id) VALUES (:term_name, :term_slug, :term_type, :term_description, :term_parent_id)');
 
 		$terms_add_request -> execute(array(':term_name' => $term_name, ':term_slug' => $term_slug, ':term_type' => $term_type, ':term_description' => $term_description, ':term_parent_id' => $term_parent_id));
 		$terms_add_request -> closeCursor();
 	}
-
-
-	function get_term_to_edit($term_id, $term_type){
-		global $bdd;
-		$term_to_edit_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type and term_id = :term_id');
-		$term_to_edit_request -> execute(array(':term_type' => $term_type, ':term_id' => $term_id));
-		$term = $term_to_edit_request -> fetch();
-		$term = array(
-			'term_name' => $term['term_name'],
-			'term_slug' => $term['term_slug'],
-			'term_parent_id' => $term['term_parent_id'],
-			'term_description' => $term['term_description']
-		);
-		return $term;
-		$term_to_edit_request -> closeCursor();
-	}
-
-	function term_edit($term_id, $term_name, $term_slug, $term_description, $term_parent_id){
-		global $bdd;
-		$term_edit_request = $bdd -> prepare('UPDATE at_terms SET term_name = :term_name, term_slug = :term_slug, term_description = :term_description, term_parent_id = :term_parent_id WHERE term_id = :term_id');
-		$term_edit_request -> execute(array(':term_name' => $term_name, ':term_slug' => $term_slug, ':term_description'=> $term_description, ':term_parent_id' => $term_parent_id, ':term_id' => $term_id));
-		$term_edit_request -> closeCursor();
-	}
-
-	function term_delete($term_id){
-		global $bdd;
-		$term_delete_request = $bdd -> prepare('DELETE FROM at_terms WHERE term_id =  :term_id');
-		$term_delete_request -> execute(array(':term_id' => $term_id));
-		$term_delete_request -> closeCursor();
-	}
 	
 
 	function get_menus(){
-		global $bdd;
+		global $DDB;
 		$to_display = '';
 
-		$menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = "menu"');
+		$menu_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_type = "menu"');
 		$menu_request -> execute();
 
 		while($menu = $menu_request -> fetch()){
@@ -339,10 +229,10 @@
 	}
 
 	function get_subs_menus($menu_parent_id){
-		global $bdd;
+		global $DDB;
 		$to_display = '';
 
-		$sub_menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
+		$sub_menu_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
 		$sub_menu_request -> execute(array(':menu_parent_id' => $menu_parent_id));
 		
 		while($sub_menu = $sub_menu_request -> fetch()){
@@ -373,10 +263,10 @@
 	
 	
 	function get_content_for_menus($content_type){
-		global $bdd;
+		global $DDB;
 		$to_display = '';
 		
-		$content_for_menus_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type');
+		$content_for_menus_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_type = :content_type');
 		$content_for_menus_request -> execute(array(':content_type' => $content_type));
 		
 		while($content_for_menu = $content_for_menus_request -> fetch()){
@@ -395,10 +285,10 @@
 	}
 	
 	function get_terms_for_menus($term_type){
-		global $bdd;
+		global $DDB;
 		$to_display = '';
 		
-		$content_for_menus_request = $bdd -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type');
+		$content_for_menus_request = $DDB -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type');
 		$content_for_menus_request -> execute(array(':term_type' => $term_type));
 		
 		while($content_for_menu = $content_for_menus_request -> fetch()){
@@ -417,23 +307,23 @@
 	}
 	
 	function get_medias($content_type, $order_by, $order_direction, $display_mode){
-		global $bdd;
+		global $DDB;
 	}
 
 
 
 
 	function content_add($content_title, $content_slug, $content_author_id, $content_type, $content_status, $content_parent_id, $content_has_children, $content_content){
-		global $bdd;
-		$content_add_request = $bdd -> prepare('INSERT INTO at_content (content_title, content_slug, content_author_id, content_type, content_status, content_parent_id, content_has_children, content_content) VALUES (:content_title, :content_slug, :content_author_id, :content_type, :content_status, :content_parent_id, :content_has_children, :content_content)');
+		global $DDB;
+		$content_add_request = $DDB -> prepare('INSERT INTO at_content (content_title, content_slug, content_author_id, content_type, content_status, content_parent_id, content_has_children, content_content) VALUES (:content_title, :content_slug, :content_author_id, :content_type, :content_status, :content_parent_id, :content_has_children, :content_content)');
 
 		$content_add_request -> execute(array(':content_title' => $content_title, ':content_slug' => $content_slug, ':content_author_id' => $content_author_id, ':content_type' => $content_type, ':content_status' => $content_status, ':content_parent_id' => $content_parent_id, ':content_has_children' => $content_has_children, ':content_content' => $content_content));
 		$content_add_request -> closeCursor();
 	}
 	
 	function get_content_to_edit($content_id, $content_type){
-		global $bdd;
-		$content_to_edit_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type and content_id = :content_id');
+		global $DDB;
+		$content_to_edit_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_type = :content_type and content_id = :content_id');
 		$content_to_edit_request -> execute(array(':content_type' => $content_type, ':content_id' => $content_id));
 		$content = $content_to_edit_request -> fetch();
 		$content = array(

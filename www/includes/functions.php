@@ -1,13 +1,13 @@
 <?php
 
 	function get_post($content_type, $content_slug){
-		global $bdd;
+		global $DDB;
 
-		$post_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_type = :content_type and content_slug = :content_slug');
+		$post_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_type = :content_type and content_slug = :content_slug');
 		$post_request -> execute(array(':content_type' => $content_type, ':content_slug' => $content_slug));
 		$post = $post_request -> fetch();
 		
-		$user_display_name_request = $bdd -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
+		$user_display_name_request = $DDB -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
 		$user_display_name_request -> execute(array(':user_id' => $post['content_author_id']));
 		$user = $user_display_name_request -> fetch();
 		
@@ -33,13 +33,13 @@
 	}
 
 	function get_posts($content_type){
-		global $bdd, $posts;
+		global $DDB, $posts;
 	}
 
 	function get_menu($menu){
-		global $bdd, $CONFIG;
+		global $DDB;
 
-		$menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_slug = :content_slug and content_type = "menu"');
+		$menu_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_slug = :content_slug and content_type = "menu"');
 		$menu_request -> execute(array(':content_slug' => $menu));
 		$menu = $menu_request -> fetch();
 		
@@ -51,9 +51,9 @@
 	}
 
 	function get_sub_menus($menu_parent_id){
-		global $bdd, $CONFIG;
+		global $DDB, $CONFIG;
 
-		$sub_menu_request = $bdd -> prepare('SELECT * FROM at_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
+		$sub_menu_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
 		$sub_menu_request -> execute(array(':menu_parent_id' => $menu_parent_id));
 		
 		while($sub_menu = $sub_menu_request -> fetch()){

@@ -75,7 +75,55 @@
 						$array = array('template' => 'admin'),
 						'Your classes'
 					)
+				) .
+				get_block_div(
+					$array = array('template' => 'admin'),
+					get_menus_as_tabs()
 				)
 			)
 		)
 	);
+	
+	function get_menus_as_tabs(){
+		global $DDB;
+
+		$tab_headers = array();
+		$tab_content = array();
+
+		$menu_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_type = "menu"');
+		$menu_request -> execute();
+		
+		while($menu = $menu_request -> fetch()){
+			array_push($tab_headers, $menu['content_id'] . '-' . $menu['content_slug']);
+			array_push($tab_content, get_sub_menus_as_tabs($menu['content_id']));
+		}
+
+		$menu_request -> closeCursor();
+
+		return
+		get_block_tabs(
+			$array = array('template' => 'admin'),
+			$tab_headers,
+			$tab_content
+		);
+	}
+
+	function get_sub_menus_as_tabs($menu_parent_id){
+		global $DDB;
+		$to_display = '';
+
+		$sub_menu_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_parent_id = :menu_parent_id and content_type = "menu-element"');
+		$sub_menu_request -> execute(array(':menu_parent_id' => $menu_parent_id));
+		
+		while($sub_menu = $sub_menu_request -> fetch()){
+			if($sub_menu['content_has_children'] == 1){
+				$to_display .= $sub_menu['content_id'] . $sub_menu['content_content'] . $sub_menu['content_title'] . get_sub_menus_as_tabs($sub_menu['content_id']);
+			}
+			else{
+				$to_display .= $sub_menu['content_id'] . $sub_menu['content_content'] . $sub_menu['content_title'];
+			}
+		}
+
+		$sub_menu_request -> closeCursor();
+		return $to_display;
+	}

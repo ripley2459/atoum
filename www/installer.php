@@ -165,6 +165,20 @@
 			echo '<p class="query-error">Error creating users table: ' . $bdd -> error . '</p>';
 		}
 
+		$bucket = $table_prefix . 'relations';
+		$create_table_users_request = "CREATE TABLE $bucket (
+			relation_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			relation_content_id BIGINT(20) NOT NULL,
+			relation_term_id BIGINT(20) NOT NULL
+		)";
+		
+		if($bdd -> query($create_table_users_request) === TRUE){
+			echo '<p class="query-success">Table relations created successfully.</p>';
+		}
+		else{
+			echo '<p class="query-error">Error creating relations table: ' . $bdd -> error . '</p>';
+		}
+
 		$bucket = $table_prefix . 'options';
 		$insert_theme_template = "INSERT INTO $bucket (option_name, option_value) VALUES('active_theme', '2021')";
 		
