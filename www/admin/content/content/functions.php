@@ -15,7 +15,7 @@
 			$users_request -> execute(array(':user_id' => $content['content_author_id']));
 			$user = $users_request -> fetch();
 				
-			$table_content = $table_content . 
+			$table_content .=
 				get_block_table_row(
 					$array = array('template' => 'admin'),
 					get_block_table_data(
@@ -27,6 +27,47 @@
 								$LINKS['URL'] . '/index.php?type=' . $content['content_type'] . '&content=' . $content['content_slug'],
 								$array = array('template' => 'admin'),
 								'Display'
+							) . ' | ' .
+							get_block_modal(
+								$array = array('id' => $content['content_slug'], 'template' => 'admin'),
+								'Quick dit',
+								get_block_form(
+									$array = array('action' => 'uploads.php', 'method' => 'post', 'template' => 'admin'),
+									$content['content_date_created'] .
+									get_block_input(
+										$array = array('type' => 'hidden', 'name' => 'content_id', 'value' => $content['content_id'], 'required' => 'required', 'template' => 'admin')
+									) .
+									get_block_label(
+										$array = array('for' => 'content_slug', 'template' => 'admin'),
+										'Slug'
+									) .
+									get_block_input(
+										$array = array('type' => 'text', 'name' => 'content_slug', 'value' => $content['content_slug'], 'required' => 'required', 'template' => 'admin')
+									) .
+									get_block_label(
+										$array = array('for' => 'description', 'template' => 'admin'),
+										'Description'
+									) .
+									get_block_input(
+										$array = array('type' => 'text', 'name' => 'description', 'value' => $content['content_title'], 'required' => 'required', 'template' => 'admin')
+									) .
+									get_block_label(
+										$array = array('for' => 'author', 'template' => 'admin'),
+										'Author'
+									) .
+									get_block_input(
+										$array = array('type' => 'hidden', 'name' => 'author_id', 'value' => $content['content_author_id'], 'required' => 'required', 'template' => 'admin')
+									) .
+									get_block_input(
+										$array = array('type' => 'text', 'name' => 'author', 'value' => $user_display_name, 'readonly' => 'readonly', 'required' => 'required', 'template' => 'admin')
+									) .
+									get_block_input(
+										$array = array('type' => 'submit', 'name' => 'delete', 'value' => 'Delete', 'template' => 'admin')
+									) .
+									get_block_input(
+										$array = array('type' => 'submit', 'name' => 'update', 'value' => 'Save', 'template' => 'admin')
+									)
+								)
 							) . ' | ' .
 							get_block_link(
 								$LINKS['URL'] . '/admin/'. $folder . '/editor.php?content_type=' . $content_type . '&content_to_edit=' . $content['content_id'],
@@ -50,10 +91,6 @@
 					) .
 					get_block_table_data(
 						$array = array('template' => 'admin'),
-						''
-					) .
-					get_block_table_data(
-						$array = array('template' => 'admin'),
 						$content['content_date_created']
 					) .
 					get_block_table_data(
@@ -63,7 +100,7 @@
 				);
 		}
 
-		$to_display = $to_display . 
+		$to_display .= 
 			get_block_table(
 				$array = array('class' => 'table-' . $content_type, 'template' => 'admin'),
 				get_block_table_row(
@@ -91,10 +128,6 @@
 					get_block_table_heading(
 						$array = array('template' => 'admin'),
 						'Classes'
-					) .
-					get_block_table_heading(
-						$array = array('template' => 'admin'),
-						'Tags'
 					) .
 					get_block_table_heading(
 						$array = array('template' => 'admin'),
