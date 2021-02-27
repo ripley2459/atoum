@@ -189,8 +189,7 @@
 				$user = $users_request -> fetch();
 				$user_display_name = $user['user_display_name'];
 				
-				$to_display = $to_display .
-					display_file_as_table_row($content, $user_display_name);
+				$to_display .= display_file_as_table_row($content, $user_display_name);
 			}
 		}
 		else{
@@ -200,8 +199,7 @@
 				$user = $users_request -> fetch();
 				$user_display_name = $user['user_display_name'];
 				
-				$to_display = $to_display .
-					display_file_as_grid_member($content, $user_display_name);
+				$to_display .= display_file_as_grid_member($content, $user_display_name);
 			}
 		}
 
@@ -212,7 +210,7 @@
 	
 	function display_file_as_grid_member(array $content, string $user_display_name){
 		$to_display = '';
-		$to_display = $to_display .
+		$to_display .=
 			get_block_div(
 				$array = array('template' => 'admin'),
 				get_block_modal(
