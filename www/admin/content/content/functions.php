@@ -1,6 +1,6 @@
 <?php
 
-	function get_content($content_type, $order_by, $order_direction){
+	function get_content(string $content_type, string $order_by, string $order_direction){
 		global $DDB, $folder, $page, $LINKS;
 		$to_display = '';
 		$table_content = '';
