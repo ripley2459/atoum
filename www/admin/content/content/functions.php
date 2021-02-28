@@ -11,7 +11,7 @@
 		$users_request = $DDB -> prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
 
 		while($content = $content_request -> fetch()){
-
+			$relations = get_relations($content['content_id']);
 			$users_request -> execute(array(':user_id' => $content['content_author_id']));
 			$user = $users_request -> fetch();
 				
@@ -32,10 +32,14 @@
 								$array = array('id' => $content['content_slug'], 'template' => 'admin'),
 								'Quick dit',
 								get_block_form(
-									$array = array('action' => 'uploads.php', 'method' => 'post', 'template' => 'admin'),
+									$array = array('action' => $page . '.php', 'method' => 'post', 'template' => 'admin'),
 									$content['content_date_created'] .
+									get_block_label(
+										$array = array('for' => 'content_title', 'template' => 'admin'),
+										'Title'
+									) .
 									get_block_input(
-										$array = array('type' => 'hidden', 'name' => 'content_id', 'value' => $content['content_id'], 'required' => 'required', 'template' => 'admin')
+										$array = array('type' => 'text', 'name' => 'content_title', 'value' => $content['content_title'], 'required' => 'required', 'template' => 'admin')
 									) .
 									get_block_label(
 										$array = array('for' => 'content_slug', 'template' => 'admin'),
@@ -45,27 +49,15 @@
 										$array = array('type' => 'text', 'name' => 'content_slug', 'value' => $content['content_slug'], 'required' => 'required', 'template' => 'admin')
 									) .
 									get_block_label(
-										$array = array('for' => 'description', 'template' => 'admin'),
-										'Description'
+										$array = array('for' => 'relations', 'template' => 'admin'),
+										'Classes'
 									) .
 									get_block_input(
-										$array = array('type' => 'text', 'name' => 'description', 'value' => $content['content_title'], 'required' => 'required', 'template' => 'admin')
+										$array = array('type' => 'text', 'name' => 'relations', 'value' => $content['content_slug'], 'required' => 'required', 'template' => 'admin')
 									) .
-									get_block_label(
-										$array = array('for' => 'author', 'template' => 'admin'),
-										'Author'
-									) .
+									get_terms_for_menus('class') .
 									get_block_input(
-										$array = array('type' => 'hidden', 'name' => 'author_id', 'value' => $content['content_author_id'], 'required' => 'required', 'template' => 'admin')
-									) .
-									get_block_input(
-										$array = array('type' => 'text', 'name' => 'author', 'value' => $user_display_name, 'readonly' => 'readonly', 'required' => 'required', 'template' => 'admin')
-									) .
-									get_block_input(
-										$array = array('type' => 'submit', 'name' => 'delete', 'value' => 'Delete', 'template' => 'admin')
-									) .
-									get_block_input(
-										$array = array('type' => 'submit', 'name' => 'update', 'value' => 'Save', 'template' => 'admin')
+										$array = array('type' => 'submit', 'name' => 'update', 'value' => 'Update', 'template' => 'admin')
 									)
 								)
 							) . ' | ' .
@@ -155,8 +147,11 @@
 		return $to_display;
 	}
 
-
-
+	function add_relation(int $relation_content_id, int $relation_term_id){
+		global $DDB;
+		$add_relation_request = $DDB -> prepare('INSERT INTO at_relations (relation_content_id, relation_term_id) VALUES (:relation_content_id, :relation_term_id)');
+		$add_relation_request -> execute(array(':relation_content_id' => $relation_content_id,':relation_term_id' => $relation_term_id));
+	}
 
 
 
@@ -335,16 +330,15 @@
 					' ' . $content_for_menu['term_name']
 				);
 		}
-		
 		return $to_display;
 	}
-	
+
+
+
+
 	function get_medias($content_type, $order_by, $order_direction, $display_mode){
 		global $DDB;
 	}
-
-
-
 
 	function content_add($content_title, $content_slug, $content_author_id, $content_type, $content_status, $content_parent_id, $content_has_children, $content_content){
 		global $DDB;
@@ -381,6 +375,13 @@
 	
 	
 	
-	
+	function get_relations(int $content_id){
+		global $DDB;
+		$request_relations = $DDB->prepare('SELECT * FROM at_relations WHERE relation_content_id = :content_id');
+		$request_relations->execute(array(':content_id' => $content_id));
+		$relations = $request_relations->fetch();
+		$request_relations->closeCursor();
+		return $relations;	
+	}
 	
 	

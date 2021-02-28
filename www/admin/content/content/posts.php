@@ -7,6 +7,21 @@
 		$order_direction = 'asc';
 	}
 
+	if(isset($_POST['update'])){
+		$term_type = 'class';
+
+		$request_terms = $DDB -> prepare('SELECT * FROM at_terms WHERE term_type = :term_type');
+		$request_terms->execute(array(':term_type' => $term_type));
+//Réccupère si le term est chécké dans la form
+		while($terms = $request_terms->fetch()){
+			if(isset($_POST[$terms['term_slug']])){
+				echo $terms['term_slug'];
+			}
+		}
+		
+		$request_terms -> closeCursor();
+	}
+
 	switch_order_direction($order_direction);
 
 	echo get_block_div(

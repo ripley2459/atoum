@@ -13,14 +13,14 @@
 	define('THEMES', __DIR__ . '/content/themes/');
 	define('UPLOADS', __DIR__ . '/content/uploads/' . date('Y/m/d/'));
 
-	define('BLOCKS', ROOT . '/includes/blocks/');
-	define('CLASSES', ROOT . '/includes/classes/');
+	define('BLOCKS', __DIR__ . '/includes/blocks/');
+	define('CLASSES', __DIR__ . '/includes/classes/');
 
-	include ROOT . '/blocks.php';
-	require ROOT . '/classes.php';
+	include __DIR__ . '/blocks.php';
+	require __DIR__ . '/classes.php';
 
-	require ROOT . '/includes/functions.php';
-	require ROOT . '/admin/includes/functions.php';
+	require __DIR__ . '/includes/functions.php';
+	require __DIR__ . '/admin/includes/functions.php';
 
 	define('DSN', 'mysql:host=' . HOST . ';dbname=' . DBNAME . ';charset=' . CHARSET);
 
