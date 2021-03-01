@@ -327,3 +327,7 @@
 		$content_delete_request -> execute(array(':content_id' => $content_id));
 		$content_delete_request -> closeCursor();
 	}
+	
+	function remove_file(string $file_to_remove){
+		unlink($file_to_remove);
+	}
