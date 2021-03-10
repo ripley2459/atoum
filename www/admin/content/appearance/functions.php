@@ -2,7 +2,7 @@
 
 	function get_themes_wrapper(){
 		global $LINKS, $THEME;
-		$themes = scandir($LINKS['THEMES']);	
+		$themes = scandir(THEMES);	
 		$themes_folder_size = count($themes) - 1;
 		$to_display = '';
 

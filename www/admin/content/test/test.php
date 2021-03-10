@@ -1,6 +1,7 @@
 <?php
 
-	require CLASSES . 'relations.php';
+	//require CLASSES . 'relation.php';
+	//require CLASSES . 'file.php';
 
 	$fruits = array("brownie" => "brownie", "orange" => "orange", "banane" => "banane", "pomme" => "pomme", "poire" => "poire", "abricot" => "abricot", "groseille" => "groseille");
 
@@ -12,7 +13,7 @@
 		}
 	}
 
-	$test_relation = new relations(4);
+	//$test_relation = new relation(4);
 
 ?>
 
@@ -26,9 +27,11 @@
 				echo '<label for="' . $fruit .'"> ' . $fruit .'</label></input>';
 			}
 
-			$test_display = $test_relation->get_relations();
+/* 			$test_display = $test_relation->get_relations();
 			var_dump($test_display);
-
+			
+			$test_file = new file();
+ */
 		?>
 
 	</div>

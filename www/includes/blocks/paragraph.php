@@ -15,3 +15,11 @@
 				break;
 		}
 	}
+	
+	function get_block_span(array $attributes, $content){
+		switch($template){
+			default:
+				return '<span' . get_id_classes($attributes) . '>' . $content . '</span>';
+				break;
+		}
+	}

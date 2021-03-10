@@ -2,15 +2,15 @@
 		
 	class file{
 		//Fields
-		private $file_id;
-		private $file_title;
-		private $file_slug;
-		private $file_author_id;
-		private $file_type;
-		private $file_status;
-		private $file_parent_id;
-		private $file_has_children;
-		private $file_content;
+		private $content_id;
+		private $content_title;
+		private $content_slug;
+		private $content_author_id;
+		private $content_type;
+		private $content_status;
+		private $content_parent_id;
+		private $content_has_children;
+		private $content_content;
 
 		//Properties
 		//Set
@@ -24,15 +24,8 @@
 		} */
 
 		//Methods
-		public function __construct(string $file_title, int $file_author_id, string $file_type, int $file_parent_id, int $file_has_children, string $file_content){
-			$this->file_title = $file_title;
-			$this->file_slug = preg_replace('/[^a-zA-Z0-9-_\.]/', '-', $file_title);
-			$this->file_author_id = $file_author_id;
-			$this->file_type = $file_type;
-			$this->file_status = 'uploaded';
-			$this->file_parent_id = $file_parent_id;
-			$this->file_has_children = $file_has_children;
-			$this->file_content = $file_content;
+		public function __construct(){
+
 		}
 
 		public function upload_file(){

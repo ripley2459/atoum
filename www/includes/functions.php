@@ -32,9 +32,9 @@
 		$user_display_name_request -> closeCursor();
 	}
 
-	function get_posts($content_type){
+/* 	function get_posts($content_type){
 		global $DDB, $posts;
-	}
+	} */
 
 	function get_menu($menu){
 		global $DDB;
@@ -76,4 +76,14 @@
 	function to_slug(string $string){
 		$string = str_replace(' ','-', strtolower($string));
 		return $string;
+	}
+	
+	function get_user_display_name($user_id){
+		global $DDB;
+		$request_users_display_name = $DDB->prepare('SELECT user_display_name FROM at_users WHERE user_id = :user_id');
+		$request_users_display_name->execute(array(':user_id' => $user_id));
+		$user = $request_users_display_name->fetch();
+		$request_users_display_name->closeCursor();
+
+		return $user['user_display_name'];
 	}

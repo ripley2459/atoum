@@ -32,14 +32,14 @@
 	}
 
 	function update_option_value($option_name, $new_value){
-		global $bdd;
-		$update_option_request = $bdd -> prepare('UPDATE at_options SET option_value = :option_value WHERE option_name = :option_name');
-		$update_option_request -> execute(array(':option_value' => $new_value, ':option_name' => $option_name));
-		$update_option_request -> closeCursor();
+		global $DDB;
+		$request_option_update = $DDB->prepare('UPDATE at_options SET option_value = :option_value WHERE option_name = :option_name');
+		$request_option_update->execute(array(':option_value' => $new_value, ':option_name' => $option_name));
+		$request_option_update->closeCursor();
 	}
 	
 	//Analyse strang and extract values.
-	function scan_line($string){
+	function scan_line(string $string){
 		$string = '';
 		switch($string){
 			case strpos($line, 'Name:'):

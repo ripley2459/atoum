@@ -16,8 +16,8 @@
 	define('BLOCKS', __DIR__ . '/includes/blocks/');
 	define('CLASSES', __DIR__ . '/includes/classes/');
 
-	include __DIR__ . '/blocks.php';
-	require __DIR__ . '/classes.php';
+	include __DIR__ . '/includes/blocks.php';
+	require __DIR__ . '/includes/classes.php';
 
 	require __DIR__ . '/includes/functions.php';
 	require __DIR__ . '/admin/includes/functions.php';
@@ -41,3 +41,4 @@
 
 	require THEMES . $THEME . '/includes/functions.php';
 	require THEMES . $THEME . '/includes/blocks.php';
+	require THEMES . $THEME . '/includes/classes.php';

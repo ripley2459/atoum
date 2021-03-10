@@ -1,21 +1,9 @@
 <?php
 
-	$post = get_post($content_type, $content_slug);
+	$request_post = $DDB->prepare('SELECT content_id FROM at_content WHERE content_slug = :content_slug');
+	$request_post->execute(array(':content_slug' => $content_slug));
 
-?>
-
-	<div id="rp-content">
-		<div id="<?php echo 'single-'.$post['slug']; ?>" class="single post-main-container has-children">
-			<div class="post-header section">
-				<h1><?php echo $post['title']; ?></h1>
-				<p class="author-display-name"><?php echo $post['author_display_name']; ?></p>
-			</div>
-			<div class="post-body section">
-				<p><?php echo $post['content']; ?></p>
-			</div>
-			<div class="post-footer section">
-			</div>
-		</div>
-	</div>
-
-SINGLE
+	while($post = $request_post->fetch()){
+		$post = new post($post['content_id']);
+		$post->_display();
+	}

@@ -16,6 +16,8 @@
 	if(isset($_GET['content'])){
 		$content_slug = $_GET['content'];
 	}
+	
+	echo 'type=' . $content_type . ' & content=' . $content_slug;
 
 ?>
 
@@ -24,6 +26,8 @@
 	<head>
 		<link rel="stylesheet" href="<?php echo URL . '/includes/reset.css'; ?>">
 		<link rel="stylesheet" href="<?php echo URL . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Rajdhani&family=Roboto" rel="stylesheet">
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<title>Index.php</title>
@@ -33,6 +37,8 @@
 	<?php
 
 		require THEMES . $THEME . '/header.php';
+
+		echo '<div id="content">';
 
 		switch($content_type){
 			case 'page':
@@ -48,6 +54,8 @@
 				require THEMES . $THEME . '/page.php';
 				break;
 		}
+
+		echo '</div>';
 
 		require THEMES . $THEME . '/footer.php';
 
