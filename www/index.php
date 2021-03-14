@@ -22,7 +22,7 @@
 ?>
 
 <!doctype html>
-<html lang="fr">
+<html>
 	<head>
 		<link rel="stylesheet" href="<?php echo URL . '/includes/reset.css'; ?>">
 		<link rel="stylesheet" href="<?php echo URL . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
@@ -48,6 +48,9 @@
 				require THEMES . $THEME . '/single.php';
 				break;
 			case 'posts':
+				require THEMES . $THEME . '/posts.php';
+				break;
+			case 'class':
 				require THEMES . $THEME . '/posts.php';
 				break;
 			default:

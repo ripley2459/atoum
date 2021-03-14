@@ -64,6 +64,5 @@
 			global $DDB;
 			$get_file_request = $DDB -> prepare('SELECT * FROM at_content WHERE content_status = :content_status');
 			$get_file_request -> execute(array(':content_status' => 'uploaded', ':order_by' => 'content_date_created', ':order_direction' => 'DESC'));
-
 		}
 	}

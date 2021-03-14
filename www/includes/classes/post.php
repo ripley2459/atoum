@@ -1,121 +1,133 @@
 <?php
 		
-	class post{
-		//this->file_title		
+	class post{	
 		//Fields
-		private $post_id;					//The post ID
-		private $post_title;				//The post title
-		private $post_slug;					//The post slug
-		private $post_author_id;			//Who the fuck has writen thoses bulshit
-		private $post_date_created;			//When the post has been whriten
-		private $post_type = 'post';		//The post type, obviously it's 'post'
-		private $post_status;				//Is this post published, privataly or whatever
-		private $post_parent_id;			//The post parent ID
-		private $post_has_children;			//Does this post has children (what a rabbit)
-		private $post_content;				//Yep, sometime you have something to show
+		private $id;						//The post ID
+		private $title;						//The post title
+		private $slug;						//The post slug
+		private $author_id;					//Who the fuck has writen thoses bulshit
+		private $date_created;				//When the post has been whriten
+		private $type = 'post';				//The post type, obviously it's 'post'
+		private $status;					//Is this post published, privataly or whatever
+		private $parent_id;					//The post parent ID
+		private $has_children;				//Does this post has children (what a rabbit)
+		private $content;					//Yep, sometime you have something to show
 		
-		private $is_recovered = false;		//is this post filled?
+		private $is_recovered = false;		//Does this post exist in the database and has been recovered? (stored in this instance)
 
 		//Properties
 
 		//Methods
-		public function __construct($post_id){
-			$this->post_id = $post_id;
+		public function __construct(int $post_id){
+			$this->id = $post_id;
+
+			//A id of -1 indicate this instance is new or temporary
+			//So if not -1 try to recover its parameters
+			if($this->id != -1){
+				$this->check_filling();		//let's try to recover the post
+			}
 		}
 		
-		public function _display_preview(){
+		public function display_preview(){
 			//Display a preview of this post
-			$this->check_filling();				//let's try to recover the post
 			echo get_block_div(
-				$array = array('class' => 'post post-' . $this->post_id . ' ' . $this->post_status, 'template' => 'post'),
+				['class'=>'post post-' . $this->id . ' ' . $this->status, 'template'=>'post'],
 				get_block_div(
-					$array = array('class' => 'post-infos', 'template' => 'post'),
+					['class'=>'post-infos', 'template'=>'post'],
 					get_block_span(
-						$array = array('class' => 'post post-' . $this->post_id . ' post_author-display-name', 'template' => 'post'),
-						get_user_display_name($this->post_author_id)
+						$array = ['class'=>'post post-' . $this->id . ' author-display-name', 'template'=>'post'],
+						get_user_display_name($this->author_id)
 					) .
 					get_block_span(
-						$array = array('class' => 'post post-' . $this->post_id . ' post_date-created', 'template' => 'post'),
-						$this->post_date_created
+						['class'=>'post post-' . $this->id . ' date-created', 'template'=>'post'],
+						$this->date_created
 					)
 				) .
 				get_block_link(
-					URL . '/index.php?type=post&content=' . $this->post_slug,
-					$array = array('template' => 'admin'),
+					URL . '/index.php?type=post&content=' . $this->slug,
+					$array = ['template'=>'admin'],
 					get_block_title(
 						2,
-						$array = array('class' => 'post-link', 'template' => 'post'),
-						$this->post_title
+						['class'=>'post-link', 'template'=>'post'],
+						$this->title
 					)
 				)
 			);
 		}
 		
-		public function _display(){
-			$this->check_filling();				//let's try to recover the post
+		public function display(){
+			//Display the ful post
 			echo get_block_div(
-				$array = array('class' => 'post post-' . $this->post_id . ' ' . $this->post_status, 'template' => 'post'),
+				['class'=>'post post-' . $this->id . ' ' . $this->status, 'template'=>'post'],
 				get_block_div(
-					$array = array('class' => 'post-infos', 'template' => 'post'),
+					['class'=>'post-infos', 'template'=>'post'],
 					get_block_span(
-						$array = array('class' => 'post post-' . $this->post_id . ' post_author-display-name', 'template' => 'post'),
-						get_user_display_name($this->post_author_id)
+						['class'=>'post post-' . $this->id . ' author-display-name', 'template'=>'post'],
+						get_user_display_name($this->author_id)
 					) .
 					get_block_span(
-						$array = array('class' => 'post post-' . $this->post_id . ' post_date-created', 'template' => 'post'),
-						$this->post_date_created
+						['class'=>'post post-' . $this->id . ' date-created', 'template'=>'post'],
+						$this->date_created
 					)
 				) .
 				get_block_link(
-					URL . '/index.php?type=post&content=' . $this->post_slug,
-					$array = array('template' => 'admin'),
+					URL . '/index.php?type=post&content=' . $this->slug,
+					['template'=>'admin'],
 					get_block_title(
 						2,
-						$array = array('class' => 'post-link', 'template' => 'post'),
-						$this->post_title
+						['class'=>'post-link', 'template'=>'post'],
+						$this->title
 					)
 				)
 			);
 		}
-		
-		public function _add(){
+
+		public function display_as_table_row(){
+			
+		}
+
+		public function display_modal_for_quick_edit(){
+			
+		}
+
+		public function add(){
 			
 		}
 		
-		public function _update(){
+		public function update(){
 			
 		}
 		
-		public function _delete(){
+		public function remove(){
 			global $DDB;
-			$request_post_delete = $DDB->prepare('DELETE FROM at_content WHERE content_id = :content_id');
-			$request_post_delete->execute(array(':content_id' => $this->post_id));
-			$request_post_delete->closeCursor();
+			$request_delete = $DDB->prepare('DELETE FROM at_content WHERE content_id = :content_id');
+			$request_remove->execute([':content_id'=>$this->id]);
+			$request_remove->closeCursor();
 		}
 		
 		private function check_filling(){
 			global $DDB;
 			if($this->is_recovered == false){
-				$msq = 'SELECT * FROM ' . 'at' . '_content WHERE content_id = :content_id';
-				$request_post_recover = $DDB->prepare($msq);
-				$request_post_recover->execute(array(':content_id' => $this->post_id));
+				$sql = 'SELECT * FROM at_content WHERE content_id = :content_id';
+				$request_recover = $DDB->prepare($sql);
+				$request_recover->execute([':content_id'=>$this->id]);
 
-				if($request_post_recover){
-					$post = $request_post_recover->fetch();
+				if($request_recover){
+					$post = $request_recover->fetch();
 
-					$this->post_title = $post['content_title'];
-					$this->post_slug = $post['content_slug'];
-					$this->post_author_id = $post['content_author_id'];
-					$this->post_date_created = $post['content_date_created'];
-					$this->post_status = $post['content_status'];
-					$this->post_parent_id = $post['content_parent_id'];
-					$this->post_has_children = $post['content_has_children'];
-					$this->post_content = $post['content_content'];
+					$this->title = $post['content_title'];
+					$this->slug = $post['content_slug'];
+					$this->author_id = $post['content_author_id'];
+					$this->date_created = $post['content_date_created'];
+					$this->status = $post['content_status'];
+					$this->parent_id = $post['content_parent_id'];
+					$this->has_children = $post['content_has_children'];
+					$this->content = $post['content_content'];
 
 					$this->is_recovered == true;
 				}
 
-				$request_post_recover->closeCursor();
+				$request_recover->closeCursor();
 			}
 		}
 	}

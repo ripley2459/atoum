@@ -63,3 +63,43 @@
 		}
 		return $line;
 	}
+
+	//allow only value inside the array to be returned
+	function whitelist(&$value, array $allowed, string $message) {
+		if ($value === null) {
+			return $allowed[0];
+		}
+		$key = array_search($value, $allowed, true);
+		if ($key === false) { 
+			throw new InvalidArgumentException($message); 
+		} else {
+			return $value;
+		}
+	}
+
+	//manage the order direction
+	function order_manager(){
+		global $order_direction;
+		if(isset($_GET['order_direction'])){
+			$order_direction = $_GET['order_direction'];
+		}
+		else{
+			$order_direction = 'desc';
+		}
+		switch_order_direction($order_direction);	
+	}
+
+	//invert the order direction
+	function switch_order_direction($order_direction){		
+		global $order_direction;
+		switch($order_direction){
+			case 'asc':
+				$order_direction = 'desc';
+				break;
+			case 'desc':
+				$order_direction =  'asc';
+				break;
+			default:
+				$order_direction = 'asc';
+		}
+	}

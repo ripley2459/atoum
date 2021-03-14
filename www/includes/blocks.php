@@ -68,6 +68,10 @@
 		if(array_key_exists('onclick', $attributes)){
 			$attributes_values .= ' onclick="' . $attributes['onclick'] . '"';
 		}
+		
+		if(array_key_exists('onkeydown', $attributes)){
+			$attributes_values .= ' onkeydown="' . $attributes['onkeydown'] . '"';
+		}
 
 		if(array_key_exists('autocomplete', $attributes)){
 			$attributes_values .= ' autocomplete="' . $attributes['autocomplete'] . '"';

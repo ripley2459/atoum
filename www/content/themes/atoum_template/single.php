@@ -5,5 +5,5 @@
 
 	while($post = $request_post->fetch()){
 		$post = new post($post['content_id']);
-		$post->_display();
+		$post->display();
 	}

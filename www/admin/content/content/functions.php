@@ -198,35 +198,17 @@
 		echo '<select id="parent" name="parent" class="full">
 			<option value="0">None</option>';
 		while($terms = $terms_list_request -> fetch()){
-				echo '<option value="'.$terms['term_id'].'">'.$terms['term_name'].'</option>';
+			$term = new term();
+			echo $term->display_as_option($terms['term_id']);
 		}
 		echo '</select>';
 	}
 
 
-	function switch_order_direction($order_direction){		
-		global $order_direction;
-		switch($order_direction){
-			case 'asc':
-				$order_direction = 'desc';
-				break;
-			case 'desc':
-				$order_direction =  'asc';
-				break;
-			default:
-				$order_direction = 'asc';
-		}
-	}
 
 
-	function term_add($term_name, $term_slug, $term_type, $term_description, $term_parent_id){
-		global $DDB;
-		$terms_add_request = $DDB -> prepare('INSERT INTO at_terms (term_name, term_slug, term_type, term_description, term_parent_id) VALUES (:term_name, :term_slug, :term_type, :term_description, :term_parent_id)');
 
-		$terms_add_request -> execute(array(':term_name' => $term_name, ':term_slug' => $term_slug, ':term_type' => $term_type, ':term_description' => $term_description, ':term_parent_id' => $term_parent_id));
-		$terms_add_request -> closeCursor();
-	}
-	
+
 
 	function get_menus(){
 		global $DDB;
