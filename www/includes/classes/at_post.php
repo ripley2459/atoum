@@ -12,12 +12,13 @@
 		private $parent_id;					//The post parent ID
 		private $has_children;				//Does this post has children (what a rabbit)
 		private $content;					//Yep, sometime you have something to show
-		
+
 		private $is_recovered = false;		//Does this post exist in the database and has been recovered? (stored in this instance)
 
 		//Properties
 
 		//Methods
+		//Construct
 		public function __construct(int $post_id){
 			$this->id = $post_id;
 
@@ -27,7 +28,7 @@
 				$this->check_filling();		//let's try to recover the post
 			}
 		}
-		
+
 		public function display_preview(){
 			//Display a preview of this post
 			echo get_block_div(
@@ -54,7 +55,7 @@
 				)
 			);
 		}
-		
+
 		public function display(){
 			//Display the ful post
 			echo get_block_div(
@@ -82,29 +83,6 @@
 			);
 		}
 
-		public function display_as_table_row(){
-			
-		}
-
-		public function display_modal_for_quick_edit(){
-			
-		}
-
-		public function add(){
-			
-		}
-		
-		public function update(){
-			
-		}
-		
-		public function remove(){
-			global $DDB;
-			$request_delete = $DDB->prepare('DELETE FROM at_content WHERE content_id = :content_id');
-			$request_remove->execute([':content_id'=>$this->id]);
-			$request_remove->closeCursor();
-		}
-		
 		private function check_filling(){
 			global $DDB;
 			if($this->is_recovered == false){

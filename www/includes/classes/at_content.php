@@ -1,7 +1,10 @@
 <?php
-		
-	class content{
+
+	//This class can handle any content that can fill a row inside the at_content table.
+	//Version 1
+	class at_content{
 		//Fields
+		//Version 1
 		private $id;
 		private $title;
 		private $slug;
@@ -13,13 +16,14 @@
 		private $parent_id;
 		private $has_children;
 		private $content;
-		
+
 		private $is_recovered = false;
 
 		//Properties
 
-
 		//Methods
+		//construct
+		//Version 1
 		public function __construct(int $content_id){
 			$this->id = $content_id;
 
@@ -30,6 +34,8 @@
 			}
 		}
 
+		//Display the content as a table row (for admin)
+		//Version 1
 		public function display_as_table_row(){
 			global $folder, $page, $content_type, $LINKS;
 			return
@@ -109,7 +115,34 @@
 			);
 		}
 
+		//Add this content instance to the database
+		//Version 1
+		public function insert(string $content_title, string $content_slug, int $content_author_id, string $content_type, string $content_status, int $content_parent_id, int $content_has_children, string $content_content){
+			global $DDB;
+			$sql = 'INSERT INTO at_content content_title = :content_title, content_slug = :content_slug, content_author_id = :content_author_id, content_type = :content_type, content_status = :content_status, content_parent_id = :content_parent_id, content_has_children = :content_has_children, content_content = :content_content';
+			$request_content_insert = $DDB->prepare($sql);
+			$request_content_insert->execute([':content_title'=>$this->title, ':content_slug'=>$this->slug, ':content_author_id'=>$this->author_id, ':content_type'=>$this->type, ':content_status'=>$this->status, ':content_parent_id'=>$this->parent_id, ':content_has_children'=>$this->has_children, ':content_content'=>$this->content]);
+			$request_content_insert->closeCursor();
+		}
+
+		//Update the content from the database
+		//Version 1
+		public function edit(string $content_title, string $content_slug, int $content_author_id, string $content_type, string $content_status, int $content_parent_id, int $content_has_children, string $content_content){
+			global $DDB;
+			$sql = 'update at_content set content_title = :content_title, content_slug = :content_slug, content_author_id = :content_author_id, content_type = :content_type, content_status = :content_status, content_parent_id = :content_parent_id, content_has_children = :content_has_children, content_content = :content_content WHERE content_id = :content_id';
+			$request_content_edit = $DDB->prepare($sql);
+			$request_content_edit->execute([':content_title'=>$this->title, ':content_slug'=>$this->slug, ':content_author_id'=>$this->author_id, ':content_type'=>$this->type, ':content_status'=>$this->status, ':content_parent_id'=>$this->parent_id, ':content_has_children'=>$this->has_children, ':content_content'=>$this->content, ':content_id'=>$this->id]);
+			$request_content_edit->closeCursor();
+		}
+
+		//Remove the content from the database
+		//Version 1
+		public function remove(){
+			
+		}
+
 		//Check if this content exist in the database. If yes, recover its parameters
+		//Version 1
 		private function check_filling(){
 			global $DDB;
 			if($this->is_recovered == false){

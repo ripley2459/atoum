@@ -37,7 +37,6 @@
 
 		public function upload_file(){
 			global $DDB;
-
 			$request_upload_file = $DDB->prepare('INSERT INTO at_content (content_title, content_slug, content_author_id, content_type, content_status, content_parent_id, content_has_children, content_content) VALUES (:content_title, :content_slug, :content_author_id, :content_type, :content_status, :content_parent_id, :content_has_children, :content_content)');
 			$request_upload_file->execute(array(':content_title' => $this->file_title, ':content_slug' => $this->file_slug, ':content_author_id' => $this->file_author_id, ':content_type' => $this->file_type, ':content_status' => $this->file_status, ':content_parent_id' => $this->file_parent_id, ':content_has_children' => $this->file_has_children, ':content_content' => $this->file_content));
 			$request_upload_file->closeCursor();

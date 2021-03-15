@@ -1,6 +1,6 @@
 <?php
 
-	require CLASSES . 'content.php';
-	require CLASSES . 'post.php';
-	require CLASSES . 'relation.php';
-	require CLASSES . 'term.php';
+	require CLASSES . 'at_content.php';
+	require CLASSES . 'at_post.php';
+	require CLASSES . 'at_relation.php';
+	require CLASSES . 'at_term.php';
