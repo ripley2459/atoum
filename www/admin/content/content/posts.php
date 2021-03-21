@@ -16,7 +16,7 @@
 
 	while($content = $request_get_content->fetch()){
 		//While we have pages to use, use their instance to create a row inside the table
-		$content = new content($content['content_id']);
+		$content = new at_content($content['content_id']);
 		$table_content .= $content->display_as_table_row();
 	}
 

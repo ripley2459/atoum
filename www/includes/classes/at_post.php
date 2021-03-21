@@ -31,7 +31,8 @@
 
 		public function display_preview(){
 			//Display a preview of this post
-			echo get_block_div(
+			return
+			get_block_div(
 				['class'=>'post post-' . $this->id . ' ' . $this->status, 'template'=>'post'],
 				get_block_div(
 					['class'=>'post-infos', 'template'=>'post'],
@@ -58,7 +59,8 @@
 
 		public function display(){
 			//Display the ful post
-			echo get_block_div(
+			return
+			get_block_div(
 				['class'=>'post post-' . $this->id . ' ' . $this->status, 'template'=>'post'],
 				get_block_div(
 					['class'=>'post-infos', 'template'=>'post'],

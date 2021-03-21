@@ -16,6 +16,8 @@
 		private $parent_id;
 		private $has_children;
 		private $content;
+		
+		private $relations = [];
 
 		private $is_recovered = false;
 
@@ -102,7 +104,7 @@
 				) .
 				get_block_table_data(
 					['template'=>'admin'],
-					''
+					$this->get_relations_name()
 				) .
 				get_block_table_data(
 					['template'=>'admin'],
@@ -113,6 +115,34 @@
 					$this->date_modified
 				)
 			);
+		}
+
+		//Recover from the database relations of this content
+		//Version 1
+		public function get_relations_name(){
+			global $DDB;
+			
+			$to_display = '';
+
+			$sql1 = 'SELECT relation_term_id FROM at_relations WHERE relation_content_id = :relation_content_id';
+			$sql2 = 'SELECT * FROM at_terms WHERE term_id = :term_id';
+
+			$relations = $DDB->prepare($sql1);
+			$terms = $DDB->prepare($sql2);
+
+			$relations->execute([':relation_content_id'=>$this->id]);
+
+			while($terms_id = $relations->fetch()){
+				$terms->execute([':term_id'=>$terms_id['relation_term_id']]);
+				$term = $terms->fetch();
+				array_push($this->relations, $term['term_name']);
+				$to_display .= $term['term_name'];
+			}
+
+			$relations->closeCursor();
+			$terms->closeCursor();
+			
+			return $to_display;
 		}
 
 		//Add this content instance to the database

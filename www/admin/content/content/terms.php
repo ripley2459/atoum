@@ -5,14 +5,14 @@
 	//Content edition
 	//If a parameter to_delete exist then try to delete this term
 	if(isset($_GET['term_to_delete'])){
-		$term = new term($_GET['term_to_delete']);
+		$term = new at_term($_GET['term_to_delete']);
 		$term->remove();
 		header('location: terms.php');
 	}
 
 	if(isset($_GET['term_to_edit'])){
 		//If a parameter to_delete exist then try to recover this term's parameters and put them into some varibales dispached inside the form below
-		$term = new term($_GET['term_to_edit']);
+		$term = new at_term($_GET['term_to_edit']);
 		$term_name = $term->get_name();
 		$term_slug = $term->get_slug();
 		$term_parent_id = $term->get_parent_id();
@@ -51,11 +51,11 @@
 		$term_description = $_POST['description'];
 
 		if($_POST['save'] == 'Save'){
-			$term = new term(-1);
+			$term = new at_term(-1);
 			$term->insert($term_name, $term_slug, $term_description, $term_parent_id);
 		}
 		else if($_POST['save'] == 'Update'){
-			$term = new term($_GET['term_to_edit']);
+			$term = new at_term($_GET['term_to_edit']);
 			$term->edit($term_name, $term_slug, $term_description, $term_parent_id);
 		}
 
@@ -77,7 +77,7 @@
 
 	while($term = $request_get_terms->fetch()){
 		//While we have terms to use, use their instance to create a row inside the table
-		$term = new term($term['term_id']);
+		$term = new at_term($term['term_id']);
 		$table_content .= $term->display_as_table_row();
 	}
 
