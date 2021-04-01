@@ -6,7 +6,7 @@
 				if($destination == ''){
 					$destination = '#';
 				}
-				return '<a href="' . $destination . '"' . get_attributes_values($attributes) . '>' . $content . '</a>';
+				return '<a href="' . $destination . '"' . get_id_classes($attributes) . get_attributes_values($attributes) . '>' . $content . '</a>';
 				break;
 		}
 	}

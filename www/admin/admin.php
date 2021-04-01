@@ -26,7 +26,7 @@
 		<header>
 			<?php
 
-				require 'admin-menu.php';
+				require 'side-menu.php';
 
 			?>
 		</header>

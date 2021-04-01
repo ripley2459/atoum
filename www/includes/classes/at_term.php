@@ -2,6 +2,7 @@
 		
 	class at_term{
 		//Fields
+		//Version 1
 		private $id;								//ID, if you known, you known
 		private $name;								//Display name of this term
 		private $slug;								//Slug of this term. A normalized string
@@ -12,16 +13,41 @@
 		private $is_recovered = false;				//Does this term exist in the database and has been recovered in that instance
 
 		//Properties
+		//id
+		public function get_id(){
+			return $this->id;
+		}
+
+		//Name
+		public function set_name($name){
+			$this->name = $name;
+		}
+
 		public function get_name(){
 			return $this->name;
+		}
+
+		//Slug
+		public function set_slug($slug){
+			$this->slug = $slug;
 		}
 
 		public function get_slug(){
 			return $this->slug;
 		}
 
+		//parent id
+		public function set_parent_id($parent_id){
+			$this->parent_id = $parent_id;
+		}
+
 		public function get_parent_id(){
 			return $this->parent_id;
+		}
+
+		//Set description
+		public function set_description($description){
+			$this->description = $description;
 		}
 
 		public function get_description(){
@@ -93,11 +119,11 @@
 
 		//Insert this instance of the term in the database
 		//Version 1
-		public function insert(string $term_name, string $term_slug, string $term_description, int $term_parent_id){
+		public function insert(){
 			global $DDB;
-			$sql = 'INSERT INTO at_terms SET term_name = :term_name, term_slug = :term_slug, term_type = :term_type, term_description = :term_description, term_parent_id = :term_parent_id';
+			$sql = 'INSERT INTO at_terms SET term_name = :term_name, term_slug = :term_slug, term_type = :term_type, term_parent_id = :term_parent_id, term_description = :term_description';
 			$request_term_insert = $DDB->prepare($sql);
-			$request_term_insert->execute([':term_name'=>$term_name, ':term_slug'=>$term_slug, ':term_type'=>$this->type, ':term_description'=>$term_description, ':term_parent_id'=>$term_parent_id]);
+			$request_term_insert->execute([':term_name'=>$this->name, ':term_slug'=>$this->slug, ':term_type'=>$this->type, ':term_parent_id'=>$this->parent_id, ':term_description'=>$this->description]);
 			$request_term_insert->closeCursor();
 		}
 

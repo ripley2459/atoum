@@ -77,6 +77,10 @@ SIDE MENU
 	margin: 0 0 20px 20px;
 }
 
+.side-menu .sub-menu.opened.header {
+	margin: 0 0 20px 0;
+}
+
 .side-menu button.opened,
 .side-menu a.active {
 	font-weight: bold;

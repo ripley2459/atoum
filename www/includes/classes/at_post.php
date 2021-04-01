@@ -31,6 +31,7 @@
 
 		public function display_preview(){
 			//Display a preview of this post
+			//Version 1
 			return
 			get_block_div(
 				['class'=>'post post-' . $this->id . ' ' . $this->status, 'template'=>'post'],
@@ -38,19 +39,20 @@
 					['class'=>'post-infos', 'template'=>'post'],
 					get_block_span(
 						$array = ['class'=>'post post-' . $this->id . ' author-display-name', 'template'=>'post'],
-						get_user_display_name($this->author_id)
+						'par ' . get_user_display_name($this->author_id)
 					) .
+					' / Le ' .
 					get_block_span(
 						['class'=>'post post-' . $this->id . ' date-created', 'template'=>'post'],
-						$this->date_created
+						$this->date_created->format('d F Y')
 					)
 				) .
 				get_block_link(
 					URL . '/index.php?type=post&content=' . $this->slug,
-					$array = ['template'=>'admin'],
+					$array = ['class'=>'post-link', 'template'=>'admin'],
 					get_block_title(
 						2,
-						['class'=>'post-link', 'template'=>'post'],
+						['template'=>'post'],
 						$this->title
 					)
 				)
@@ -98,7 +100,10 @@
 					$this->title = $post['content_title'];
 					$this->slug = $post['content_slug'];
 					$this->author_id = $post['content_author_id'];
-					$this->date_created = $post['content_date_created'];
+
+					$this->date_created = new DateTime($post['content_date_created']);
+
+					//$this->date_created = $post['content_date_created'];
 					$this->status = $post['content_status'];
 					$this->parent_id = $post['content_parent_id'];
 					$this->has_children = $post['content_has_children'];

@@ -81,7 +81,7 @@
 			'Posts'
 		) . 
 		get_block_link(
-			'editor.php?mode=create&type=post',
+			'editor.php?action=create&type=post',
 			['template'=>'admin'],
 			'Add'
 		)

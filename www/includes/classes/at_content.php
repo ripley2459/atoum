@@ -16,12 +16,91 @@
 		private $parent_id;
 		private $has_children;
 		private $content;
-		
-		private $relations = [];
 
+		private $relations = [];
 		private $is_recovered = false;
 
 		//Properties
+		//id
+		public function get_id(){
+			return $this->id;
+		}
+
+		public function set_id(int $id){
+			$this->id = $id;
+		}
+
+		//Title
+		public function get_title(){
+			return $this->title;
+		}
+
+		public function set_title(string $title){
+			$this->title = $title;
+		}
+
+		//Slug
+		public function get_slug(){
+			return $this->slug;
+		}
+
+		public function set_slug(string $slug){
+			$this->slug = $slug;
+		}
+
+		//Author id
+		public function get_author_id(){
+			return $this->author_id;
+		}
+
+		public function set_author_id(int $author_id){
+			$this->author_id = $author_id;
+		}
+
+		//Type
+		public function get_type(){
+			return $this->type;
+		}
+
+		public function set_type(string $type){
+			$this->type = $type;
+		}
+
+		//Status
+		public function get_status(){
+			return $this->status;
+		}
+
+		public function set_status(string $status){
+			$this->id = $status;
+		}
+
+		//Parent id
+		public function get_parent_id(){
+			return $this->parent_id;
+		}
+
+		public function set_parent_id(int $parent_id){
+			$this->parent_id = $parent_id;
+		}
+
+		//Has children
+		public function get_has_children(){
+			return $this->id;
+		}
+
+		public function set_has_children(int $has_children){
+			$this->has_children = $has_children;
+		}
+
+		//Content
+		public function get_content(){
+			return $this->content;
+		}
+
+		public function set_content(string $content){
+			$this->content = $content;
+		}
 
 		//Methods
 		//construct
@@ -87,7 +166,7 @@
 							)
 						) . ' | ' .
 						get_block_link(
-							$LINKS['URL'] . '/admin/'. $folder . '/editor.php?content_type=' . $content_type . '&content_to_edit=' . $this->id,
+							$LINKS['URL'] . '/admin/'. $folder . '/editor.php?action=update&type=' . $content_type . '&content_to_edit=' . $this->id,
 							['template'=>'admin'],
 							'Edit'
 						) . ' | ' .
@@ -147,9 +226,9 @@
 
 		//Add this content instance to the database
 		//Version 1
-		public function insert(string $content_title, string $content_slug, int $content_author_id, string $content_type, string $content_status, int $content_parent_id, int $content_has_children, string $content_content){
+		public function insert(){
 			global $DDB;
-			$sql = 'INSERT INTO at_content content_title = :content_title, content_slug = :content_slug, content_author_id = :content_author_id, content_type = :content_type, content_status = :content_status, content_parent_id = :content_parent_id, content_has_children = :content_has_children, content_content = :content_content';
+			$sql = 'INSERT INTO at_content SET content_title = :content_title, content_slug = :content_slug, content_author_id = :content_author_id, content_type = :content_type, content_status = :content_status, content_parent_id = :content_parent_id, content_has_children = :content_has_children, content_content = :content_content';
 			$request_content_insert = $DDB->prepare($sql);
 			$request_content_insert->execute([':content_title'=>$this->title, ':content_slug'=>$this->slug, ':content_author_id'=>$this->author_id, ':content_type'=>$this->type, ':content_status'=>$this->status, ':content_parent_id'=>$this->parent_id, ':content_has_children'=>$this->has_children, ':content_content'=>$this->content]);
 			$request_content_insert->closeCursor();
@@ -157,9 +236,9 @@
 
 		//Update the content from the database
 		//Version 1
-		public function edit(string $content_title, string $content_slug, int $content_author_id, string $content_type, string $content_status, int $content_parent_id, int $content_has_children, string $content_content){
+		public function edit(){
 			global $DDB;
-			$sql = 'update at_content set content_title = :content_title, content_slug = :content_slug, content_author_id = :content_author_id, content_type = :content_type, content_status = :content_status, content_parent_id = :content_parent_id, content_has_children = :content_has_children, content_content = :content_content WHERE content_id = :content_id';
+			$sql = 'UPDATE at_content SET content_title = :content_title, content_slug = :content_slug, content_author_id = :content_author_id, content_type = :content_type, content_status = :content_status, content_parent_id = :content_parent_id, content_has_children = :content_has_children, content_content = :content_content WHERE content_id = :content_id';
 			$request_content_edit = $DDB->prepare($sql);
 			$request_content_edit->execute([':content_title'=>$this->title, ':content_slug'=>$this->slug, ':content_author_id'=>$this->author_id, ':content_type'=>$this->type, ':content_status'=>$this->status, ':content_parent_id'=>$this->parent_id, ':content_has_children'=>$this->has_children, ':content_content'=>$this->content, ':content_id'=>$this->id]);
 			$request_content_edit->closeCursor();

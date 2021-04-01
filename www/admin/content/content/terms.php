@@ -3,6 +3,8 @@
 	order_manager();
 
 	//Content edition
+	//Remove
+	//Version 1
 	//If a parameter to_delete exist then try to delete this term
 	if(isset($_GET['term_to_delete'])){
 		$term = new at_term($_GET['term_to_delete']);
@@ -10,6 +12,8 @@
 		header('location: terms.php');
 	}
 
+	//Update
+	//Version 1
 	if(isset($_GET['term_to_edit'])){
 		//If a parameter to_delete exist then try to recover this term's parameters and put them into some varibales dispached inside the form below
 		$term = new at_term($_GET['term_to_edit']);
@@ -24,6 +28,7 @@
 		$action = 'Update';
 	}
 	else{
+		//No term to edit so fill the form below with blank value
 		$term_name = '';
 		$term_slug = '';
 		$term_parent_id = '';
@@ -33,27 +38,36 @@
 		$action = 'Save';
 	}
 
+	//Apply
+	//Version 1
 	if(isset($_POST['save'])){
 
 		$term_name = $_POST['name'];
+
 		if(!isset($_POST['slug'])){
 			$term_slug = to_slug($_POST['name']);
 		}
 		else{
 			$term_slug = to_slug($_POST['slug']);
 		}
+
 		if(!isset($_POST['parent_id'])){
 			$term_parent_id = 0;
 		}
 		else{
 			$term_parent_id = to_slug($_POST['parent_id']);
 		}
-		$term_description = $_POST['description'];
 
+		$term_description = $_POST['description'];
+		
+		//Add new term
+		//Version 1
 		if($_POST['save'] == 'Save'){
 			$term = new at_term(-1);
 			$term->insert($term_name, $term_slug, $term_description, $term_parent_id);
 		}
+		//Edit an existing term
+		//Version 1
 		else if($_POST['save'] == 'Update'){
 			$term = new at_term($_GET['term_to_edit']);
 			$term->edit($term_name, $term_slug, $term_description, $term_parent_id);

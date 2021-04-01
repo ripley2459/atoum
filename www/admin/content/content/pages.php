@@ -81,7 +81,7 @@
 			'Pages'
 		) . 
 		get_block_link(
-			'editor.php?mode=create&type=page',
+			'editor.php?action=create&type=page',
 			['template'=>'admin'],
 			'Add'
 		)
