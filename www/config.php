@@ -1,35 +1,27 @@
 <?php
 
-	//Database configuration
-	//Version 1
-	define('HOST', 'localhost');
-	define('DBNAME', 'at_test');
-	define('CHARSET', 'utf8');
-	define('USER', 'root');
-	define('PASSWORD', '');
-	define('PREFIX', 'at_');
-
 	//Links
 	//Version 1
+	//since Atoum 1
 	define('ROOT', __DIR__);
 	define('URL', sprintf('%s://%s', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']));
-	define('PLUGINS', __DIR__ . '/content/plugins/');
-	define('THEMES', __DIR__ . '/content/themes/');
-	define('UPLOADS', __DIR__ . '/content/uploads/' . date('Y/m/d/'));
+	define('PLUGINSPATH', __DIR__ . '/content/plugins/');
+	define('UPLOADSPATH', __DIR__ . '/content/uploads/' . date('Y/m/d/'));
+	define('THEMESPATH', __DIR__ . '/content/themes/');
+	define('BLOCKSPATH', __DIR__ . '/includes/blocks/');
+	define('CLASSESPATH', __DIR__ . '/includes/classes/');
 
-	define('BLOCKS', __DIR__ . '/includes/blocks/');
-	define('CLASSES', __DIR__ . '/includes/classes/');
-
-	//Load basics settings
+	//Load basics requierements
 	//Version 1
-	include __DIR__ . '/includes/blocks.php';
+	//since Atoum 1
+	require __DIR__ . '/includes/blocks.php';
 	require __DIR__ . '/includes/classes.php';
-
 	require __DIR__ . '/includes/functions.php';
 	require __DIR__ . '/admin/includes/functions.php';
 
-	//Conection to the database
+	//Connection to the database
 	//Version 1
+	//since Atoum 1
 	define('DSN', 'mysql:host=' . HOST . ';dbname=' . DBNAME . ';charset=' . CHARSET);
 
 	$dsn_options = [
@@ -45,10 +37,24 @@
 		throw new \PDOException($e->getMessage(), (int)$e->getCode());
 	}
 
-	//Get the theme name from the database and load its settings
+	//THEME
 	//Version 1
-	$THEME = get_option_value('active_theme');
+	//since Atoum 1
+	//Get the active theme from the database
+	define('THEME', get_option_value('active_theme'));
+	
+	if(THEME == 'none'){
+		//No theme loaded, load the atoum template and the basic style.css
+		define('THEMEPATH', __DIR__ . '/includes/template/');
+		define ('THEMERESSOURCESPATH', URL . '/includes/template/includes/');
+	}
+	else{
+		//Define pathes to the loaded theme, the scripts.js and the style.css of that theme
+		define('THEMEPATH', THEMESPATH . THEME . '/');
+		define ('THEMERESSOURCESPATH', URL . '/content/themes/' . THEME . '/includes/');
+	}
 
-	require THEMES . $THEME . '/includes/functions.php';
-	require THEMES . $THEME . '/includes/blocks.php';
-	require THEMES . $THEME . '/includes/classes.php';
+	require THEMEPATH . '/includes/functions.php';
+	require THEMEPATH . '/includes/blocks.php';
+	require THEMEPATH . '/includes/classes.php';
+

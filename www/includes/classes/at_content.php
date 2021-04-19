@@ -2,9 +2,11 @@
 
 	//This class can handle any content that can fill a row inside the at_content table.
 	//Version 1
+	//since Atoum 1
 	class at_content{
 		//Fields
 		//Version 1
+		//since Atoum 1
 		private $id;
 		private $title;
 		private $slug;
@@ -21,6 +23,8 @@
 		private $is_recovered = false;
 
 		//Properties
+		//Version 1
+		//since Atoum 1
 		//id
 		public function get_id(){
 			return $this->id;
@@ -105,6 +109,7 @@
 		//Methods
 		//construct
 		//Version 1
+		//since Atoum 1
 		public function __construct(int $content_id){
 			$this->id = $content_id;
 
@@ -117,6 +122,7 @@
 
 		//Display the content as a table row (for admin)
 		//Version 1
+		//since Atoum 1
 		public function display_as_table_row(){
 			global $folder, $page, $content_type, $LINKS;
 			return
@@ -198,6 +204,7 @@
 
 		//Recover from the database relations of this content
 		//Version 1
+		//since Atoum 1
 		public function get_relations_name(){
 			global $DDB;
 			
@@ -226,6 +233,7 @@
 
 		//Add this content instance to the database
 		//Version 1
+		//since Atoum 1
 		public function insert(){
 			global $DDB;
 			$sql = 'INSERT INTO at_content SET content_title = :content_title, content_slug = :content_slug, content_author_id = :content_author_id, content_type = :content_type, content_status = :content_status, content_parent_id = :content_parent_id, content_has_children = :content_has_children, content_content = :content_content';
@@ -236,6 +244,7 @@
 
 		//Update the content from the database
 		//Version 1
+		//since Atoum 1
 		public function edit(){
 			global $DDB;
 			$sql = 'UPDATE at_content SET content_title = :content_title, content_slug = :content_slug, content_author_id = :content_author_id, content_type = :content_type, content_status = :content_status, content_parent_id = :content_parent_id, content_has_children = :content_has_children, content_content = :content_content WHERE content_id = :content_id';
@@ -246,12 +255,14 @@
 
 		//Remove the content from the database
 		//Version 1
+		//since Atoum 1
 		public function remove(){
 			
 		}
 
 		//Check if this content exist in the database. If yes, recover its parameters
 		//Version 1
+		//since Atoum 1
 		private function check_filling(){
 			global $DDB;
 			if($this->is_recovered == false){

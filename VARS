@@ -1,0 +1,18 @@
+ROOT: folder of the website
+URL: URL of the website
+
+PLUGINSPATH: the path to the plugins folder
+
+UPLOADSPATH: the path to the upload folder
+
+THEMESPATH : the path to the themes folder
+THEMEPATH : the path to the loaded theme
+THEME: the loaded theme
+
+THEMERESSOURCESPATH: the direct link to the includes directory of the used theme
+
+BLOCKSPATH
+
+CLASSESPATH
+
+DSN

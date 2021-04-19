@@ -1,5 +1,7 @@
 <?php
 
+	//Load Atoum's settings
+	require '../settings.php';
 	require '../config.php';
 
 	get_dir();
@@ -15,13 +17,17 @@
 ?>
 <!doctype html>
 <html lang="fr">
+
 	<head>
 		<link rel="stylesheet" href="<?php echo URL . '/includes/reset.css'; ?>">
-		<link rel="stylesheet" href="<?php echo URL . '/content/themes/' . $THEME . '/includes/style.css'; ?>">
+		<link rel="stylesheet" href="<?php echo THEMERESSOURCESPATH . 'style.css'; ?>">
+
 		<script src="https://kit.fontawesome.com/447390b449.js" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 		<title><?php echo ucfirst($page) . ' - Atoum administration'; ?></title>
 	</head>
+
 	<body>
 		<header>
 			<?php
@@ -49,5 +55,5 @@
 	</body>
 </html>
 <script src="<?php echo URL . '/includes/scripts.js'; ?>"></script>
-<script src="<?php echo URL . '/content/themes/' . $THEME . '/includes/scripts.js'; ?>"></script>
+<script src="<?php echo THEMERESSOURCESPATH . 'style.css'; ?>"></script>
 <script src="<?php echo URL . '/admin/content/' . $folder . '/scripts.js'; ?>"></script>

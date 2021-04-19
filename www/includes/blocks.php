@@ -1,19 +1,19 @@
 <?php
 
-	include BLOCKS . 'accordion.php';
-	include BLOCKS . 'button.php';
-	include BLOCKS . 'div.php';
-	include BLOCKS . 'form.php';
-	include BLOCKS . 'horizontal_rule.php';
-	include BLOCKS . 'image.php';
-	include BLOCKS . 'line_break.php';
-	include BLOCKS . 'link.php';
-	include BLOCKS . 'list.php';
-	include BLOCKS . 'modal.php';
-	include BLOCKS . 'paragraph.php';
-	include BLOCKS . 'table.php';
-	include BLOCKS . 'tabs.php';
-	include BLOCKS . 'title.php';
+	include BLOCKSPATH . 'accordion.php';
+	include BLOCKSPATH . 'button.php';
+	include BLOCKSPATH . 'div.php';
+	include BLOCKSPATH . 'form.php';
+	include BLOCKSPATH . 'horizontal_rule.php';
+	include BLOCKSPATH . 'image.php';
+	include BLOCKSPATH . 'line_break.php';
+	include BLOCKSPATH . 'link.php';
+	include BLOCKSPATH . 'list.php';
+	include BLOCKSPATH . 'modal.php';
+	include BLOCKSPATH . 'paragraph.php';
+	include BLOCKSPATH . 'table.php';
+	include BLOCKSPATH . 'tabs.php';
+	include BLOCKSPATH . 'title.php';
 
 	function get_id_classes(array $attributes){
 		$id_classes = '';

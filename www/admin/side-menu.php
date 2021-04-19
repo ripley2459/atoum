@@ -48,7 +48,7 @@
 	<div id="PluginsMenuFolder" class="sub-menu opened header">
 	<?php
 
-		$linksA = scandir(PLUGINS);	
+		$linksA = scandir(PLUGINSPATH);	
 		$linksASize = count($linksA) - 1;
 
 		for($i = 2; $i <= $linksASize; $i++){
@@ -63,7 +63,7 @@
 				};
 				echo '">';
 
-				$linksB = scandir(PLUGINS . '/' . $linksA[$i]. '/content/');
+				$linksB = scandir(PLUGINSPATH . '/' . $linksA[$i]. '/content/');
 				$linksBSize = count($linksB) - 1;
 
 				for($j = 2; $j <= $linksBSize; $j++){

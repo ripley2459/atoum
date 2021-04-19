@@ -1,8 +1,12 @@
 <?php
-		
+
+	//Term
+	//Version 1
+	//Since Atoum 1
 	class at_term{
 		//Fields
 		//Version 1
+		//since Atoum 1
 		private $id;								//ID, if you known, you known
 		private $name;								//Display name of this term
 		private $slug;								//Slug of this term. A normalized string
@@ -13,6 +17,8 @@
 		private $is_recovered = false;				//Does this term exist in the database and has been recovered in that instance
 
 		//Properties
+		//Version 1
+		//since Atoum 1
 		//id
 		public function get_id(){
 			return $this->id;
@@ -57,6 +63,7 @@
 		//Methods
 		//Construct
 		//Version 1
+		//since Atoum 1
 		public function __construct(int $term_id){
 			$this->id = $term_id;
 
@@ -69,6 +76,7 @@
 
 		//Display this term as a table row. Used in the admin page terms
 		//Version 1
+		//since Atoum 1
 		public function display_as_table_row(){
 			return
 			get_block_table_row(
@@ -112,13 +120,14 @@
 
 		//Display this term as option inside a html select
 		//Version 1
+		//since Atoum 1
 		public function display_as_option(){
-			return
-			'<option value="' . $this->id . '">' . $this->name . '</option>';
+			return '<option value="' . $this->id . '">' . $this->name . '</option>';
 		}
 
 		//Insert this instance of the term in the database
 		//Version 1
+		//since Atoum 1
 		public function insert(){
 			global $DDB;
 			$sql = 'INSERT INTO at_terms SET term_name = :term_name, term_slug = :term_slug, term_type = :term_type, term_parent_id = :term_parent_id, term_description = :term_description';
@@ -129,6 +138,7 @@
 
 		//update the existing term in the database with this instance
 		//Version 1
+		//since Atoum 1
 		public function edit(string $term_name, string $term_slug, string $term_description, int $term_parent_id){
 			global $DDB;
 			$sql = 'UPDATE at_terms SET term_name = :term_name, term_slug = :term_slug, term_description = :term_description, term_parent_id = :term_parent_id WHERE term_id = :term_id';
@@ -137,8 +147,9 @@
 			$request_term_edit->closeCursor();
 		}
 
-		//HU?
+		//Do I really need what this function do?
 		//Version 1
+		//since Atoum 1
 		public function remove(){
 			global $DDB;
 			$request_term_remove = $DDB->prepare('DELETE FROM at_terms WHERE term_id = :term_id');
@@ -148,6 +159,7 @@
 
 		//Check if this term exist in the database. If yes, recover its parameters
 		//Version 1
+		//since Atoum 1
 		private function check_filling(){
 			global $DDB;
 			if($this->is_recovered == false){

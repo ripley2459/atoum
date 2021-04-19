@@ -1,11 +1,29 @@
 <?php
-		
+	
+	//relation
+	//Version 1
+	//Since Atoum 1
 	class relations{
 		//Fields
+		//Version 1
+		//Since Atoum 1
 		private $relation_content_id;
 		private $relations = [];
 
 		//Properties
+		//Version 1
+		//Since Atoum 1
+
+		//Methods
+		//Version 1
+		//Since Atoum 1
+		public function __construct(int $relation_content_id){
+			$this->relation_content_id = $relation_content_id;
+		}
+
+		//recover from the database theses relations
+		//Version 1
+		//Since Atoum 1
 		public function get_relations(){
 			global $DDB;
 
@@ -28,15 +46,13 @@
 			return $this->relations;
 		}
 
-		//Methods
-		public function __construct(int $relation_content_id){
-			$this->relation_content_id = $relation_content_id;
-		}
-
 		public function __destruct(){
 			//https://youtu.be/ww8BinXZ5wY
 		}
 
+		//Add a relation inside the database
+		//Version 1
+		//Since Atoum 1
 		public function add_relation(int $term_id){
 			global $DDB;
 

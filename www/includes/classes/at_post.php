@@ -1,7 +1,12 @@
 <?php
-		
+
+	//Post
+	//Version 1
+	//Since Atoum 1
 	class post{	
 		//Fields
+		//Version 1
+		//Since Atoum 1
 		private $id;						//The post ID
 		private $title;						//The post title
 		private $slug;						//The post slug
@@ -16,9 +21,15 @@
 		private $is_recovered = false;		//Does this post exist in the database and has been recovered? (stored in this instance)
 
 		//Properties
+		//Version 1
+		//since Atoum 1
 
 		//Methods
+		//Version 1
+		//since Atoum 1
 		//Construct
+		//Version 1
+		//since Atoum 1
 		public function __construct(int $post_id){
 			$this->id = $post_id;
 
@@ -29,9 +40,10 @@
 			}
 		}
 
+		//Display a preview of this post
+		//Version 1
+		//since Atoum 1
 		public function display_preview(){
-			//Display a preview of this post
-			//Version 1
 			return
 			get_block_div(
 				['class'=>'post post-' . $this->id . ' ' . $this->status, 'template'=>'post'],
@@ -59,8 +71,10 @@
 			);
 		}
 
+		//Display the ful post
+		//Version 1
+		//since Atoum 1
 		public function display(){
-			//Display the ful post
 			return
 			get_block_div(
 				['class'=>'post post-' . $this->id . ' ' . $this->status, 'template'=>'post'],
