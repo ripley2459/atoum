@@ -1,7 +1,7 @@
 <?php
 	
 	// config.php
-	// 2021/04/27
+	// 20:16 2021-05-03
 
 	define( 'ROOT', __DIR__ );
 	define( 'URL', sprintf( '%s://%s', isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME'] ) );

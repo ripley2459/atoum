@@ -1,7 +1,7 @@
 <?php
 	
 	// menu.php
-	// 2021/04/28
+	// 20:18 2021-05-03
 
 	// create links for a given array of string
 	function create_link( string $folder, array $links ) {
@@ -12,15 +12,15 @@
 			$is_open = true;
 		}
 
-		$return = '<button class="menu-element has-children';
+		$return = '<button id="button_' . $folder . '" class="menu-element has-children';
 
 		if( $is_open ){
 			$return .= ' opened';
 		}
 		
-		$return .= '">' . ucfirst( $folder ) . '</button>';
+		$return .= '" onclick="toggleVisibility(\'folder_' . $folder. '\', \'button_' . $folder . '\')">' . ucfirst( $folder ) . '</button>';
 		
-		$return .= '<div class="sub-menu';
+		$return .= '<div id="folder_' . $folder . '" class="sub-menu';
 
 		if( $is_open ){
 			$return .= ' opened';

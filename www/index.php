@@ -1,7 +1,7 @@
 <?php
 	
 	// index.php
-	// 2021/04/27
+	// 20:16 2021-05-03
 
 	if( ! file_exists( 'settings.php' ) ) header( 'Location: admin/installer.php' );
 

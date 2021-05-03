@@ -1,7 +1,7 @@
 <?php
 
 	// settings.php
-	// 2021/04/27
+	// 20:16 2021-05-03
 
 	define( 'HOST', 'localhost' );
 	define( 'DBNAME', 'at_test' );

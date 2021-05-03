@@ -1,7 +1,7 @@
 <?php
 	
 	// body.php
-	// 2021/04/28
+	// 20:18 2021-05-03
 
 ?>
 	<!-- START BODY -->
@@ -21,7 +21,7 @@
 			<?php require $page; ?>
 
 		</div>
-
+		<script src="<?php echo URL . '/includes/scripts.js' ?>"></script>
 	</body>
 	<!-- END BODY -->
 </html>
