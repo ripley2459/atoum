@@ -3,7 +3,7 @@
 	//Post
 	//Version 1
 	//Since Atoum 1
-	class post{	
+	class at_class_post{	
 		//Fields
 		//Version 1
 		//Since Atoum 1

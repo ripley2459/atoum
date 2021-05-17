@@ -1,8 +1,10 @@
 <?php
 	
 	// menu.php
-	// 20:18 2021-05-03
+	// 23:49 2021-05-05
 
+	// create links
+	// 23:48 2021-05-05
 	// create links for a given array of string
 	function create_link( string $folder, array $links ) {
 		global $page;
@@ -29,7 +31,7 @@
 		$return .= '">';
 
 		foreach ($links as $link) {
-			$return .= '<a href="admin.php?p=' . $link . '.php" class="">' . ucfirst( $link ) . '</a>';
+			$return .= '<a href="admin.php?p=' . $link . '.php" class="">' . ucfirst( $link ) . '</a></br>';
 		}
 
 		$return .= '</div>';
@@ -44,12 +46,10 @@
 		<div class="sub-menu opened header">
 
 			<?php 
-
-				echo create_link( 'content', ['pages', 'posts', 'menus', 'uploads', 'terms'] );
+				echo create_link( 'content', ['pages', 'posts', 'menus', 'uploads', 'tags'] );
 				echo create_link( 'apearance', ['themes'] );
 				echo create_link( 'users', ['users', 'account'] );
 				echo create_link( 'settings', ['overview'] );
-
 			?>
 
 		</div>

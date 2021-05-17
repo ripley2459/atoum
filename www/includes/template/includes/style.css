@@ -80,11 +80,11 @@
 /*
 
 	layout
-	2021/04/28
+	00:12 2021-05-06
 
 */
 
-.admin_content {
+body.admin {
 	margin: var(--admin_content-margin) var(--admin_content-margin) var(--admin_content-margin) calc(var(--side-nav-width) +  var(--admin_content-margin));
 }
 
@@ -99,4 +99,68 @@
 
 .row .column:last-child {
 	margin-right: 0;
+}
+
+
+/*
+
+	form
+	00:11 2021-05-06
+
+*/
+
+label {
+	font-weight: bold;
+	margin-top: 0.4em;
+	display: block;
+}
+
+input[type=submit],
+input[type=text],
+input[type=password] {
+	border: 1px solid black;
+	padding: 0.4em 0.3em;
+}
+
+input[type=text],
+input[type=password] {
+	width: 100%;
+}
+
+input[type=submit] {
+	margin-top: 0.4em;
+}
+
+
+/*
+
+	table
+	14:49 2021-05-06
+
+*/
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table,
+th,
+td {
+	border: 1px solid black;
+}
+
+/*
+
+	spoiler
+	15:28 2021-05-06
+
+*/
+
+.spoiler:hover .spoiler_content {
+	visibility: visible;
+}
+
+.spoiler_content {
+	visibility: hidden;
 }
