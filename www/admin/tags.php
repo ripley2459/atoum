@@ -1,45 +1,51 @@
 <?php
 	
+	namespace Atoum;
 	// tags.php
-	// 15:33 2021-05-06
 
-	// remove tag
-	// 15:33 2021-05-06
-	// remove the selected tag from the database
-	// also remove every relations of that tag
+	// Order by and order_direction setup
+	if( isset( $_GET[ 'ob' ] ) ) $order_by = 'tag_' . $_GET[ 'ob' ];
+	if( isset( $_GET[ 'od' ] ) ) $order_direction = $_GET[ 'od' ];
+
+	$order_by = whitelist( $order_by, [ 'tag_name', 'tag_slug' ], 'Invalid field name!' );
+	$order_direction = whitelist( $order_direction, [ 'asc', 'desc' ], 'Invalid order direction!' );
+
+	// Remove tag
+	// Remove the selected tag from the database.
+	// Also remove every relations of that tag.
 	if( isset( $_GET[ 'tag_to_delete' ] ) ) {
 		$tag = new at_class_tag( $_GET[ 'tag_to_delete' ] );
 		$tag->remove();
 		header( 'location: admin.php?p=tags.php' );
 	}
 
-	// edit
-	// 15:10 2021-05-06
-	// edit an existing tag
+	// Edit
+	// Edit an existing tag.
 	if( isset( $_GET[ 'tag_to_edit' ] ) ) {
-		// need to edit a tag so fill the form with it's values
+		// Need to edit a tag so fill the form with it's values.
 		$tag = new at_class_tag( $_GET[ 'tag_to_edit' ] );
 		$action = 'Update';
 	}
 	else {
-		// no tag to edit so fill the form with bank values
+		// No tag to edit so fill the form with bank values.
 		$tag = new at_class_tag( -1 );
 		$action = 'Save';
 	}
 
-	// apply
-	// 15:10 2021-05-06
-	// insert the tag inside the databse using parameters given by the form
+	// Apply
+	// Insert the tag inside the databse using parameters given by the form.
 	if( isset( $_POST[ 'save' ] ) ) {
 
 		$tag_name = $_POST[ 'name' ];
 
-		if( ! isset( $_POST[ 'slug' ] ) ) {
-			$tag_slug = to_slug( $_POST[ 'name' ] );
+		if( $_POST[ 'slug' ] == '' ) {
+			$tag_slug = normalize( $_POST[ 'name' ] );
 		}
 		else{
-			$tag_slug = to_slug( $_POST[ 'slug' ] );
+			$tag_slug = normalize( $_POST[ 'slug' ] );
 		}
+
+		$tag_type = 'tag';
 
 		if( ! isset( $_POST[ 'parent_id' ] ) ) {
 			$tag_parent_id = 0;
@@ -52,39 +58,37 @@
 
 		switch ( $_POST[ 'save' ] ) {
 			case 'Save':
-				$term = new at_class_tag( -1 );
+				$tag = new at_class_tag( -1 );
 
-				$term->set_name( $tag_name );
-				$term->set_slug( $tag_slug );
-				$term->set_parent_id( $tag_parent_id );
-				$term->set_description( $tag_description );
+				$tag->set_name( $tag_name );
+				$tag->set_slug( $tag_slug );
+				$tag->set_type( $tag_type );
+				$tag->set_parent_id( $tag_parent_id );
+				$tag->set_description( $tag_description );
 
-				$term->insert();
+				$tag->insert();
 				break;
 
 			case 'Update':
-				$term = new at_class_tag( $_GET[ 'tag_to_edit' ] );
+				$tag = new at_class_tag( $_GET[ 'tag_to_edit' ] );
 
-				$term->set_name( $tag_name );
-				$term->set_slug( $tag_slug );
-				$term->set_parent_id( $tag_parent_id );
-				$term->set_description( $tag_description );
+				$tag->set_name( $tag_name );
+				$tag->set_slug( $tag_slug );
+				$tag->set_type( $tag_type );
+				$tag->set_parent_id( $tag_parent_id );
+				$tag->set_description( $tag_description );
 
-				$term->edit();
+				$tag->edit();
 				break;
 		}
 
-		header('location: admin.php?p=tags.php');
+		//header('location: admin.php?p=tags.php');
 	}
 
-	// get tags
-	// 00:40 2021-05-06
-	// return the complete list of tags registerred inside the database 
-	function at_get_tags() {
-		global $DDB;
-		
-		$order_by = whitelist( $order_by, [ 'tag_name', 'tag_slug' ], 'Invalid field name!' );
-		$order_direction = whitelist( $order_direction, [ 'ASC', 'DESC' ], 'Invalid order direction!' );
+	// Get tags
+	// Return the complete list of tags registerred inside the database.
+	function display_tags() {
+		global $DDB, $order_by, $order_direction;
 		
 		$sql0 = 'SELECT tag_id from ' . PREFIX . 'tags ORDER BY ' . $order_by . ' ' . $order_direction;
 
@@ -92,7 +96,7 @@
 		$rqst_get_tags->execute();
 
 		while( $tag = $rqst_get_tags->fetch() ) {
-			//While we have tags to use, use their instance to create a row inside the table
+			// While we have tags to use, use their instance to create a row inside the table/
 			$tag = new at_class_tag( $tag[ 'tag_id' ] );
 			echo $tag->display_as_table_row();
 		}
@@ -130,7 +134,22 @@
 
 					<!-- Parent tag -->
 					<label for="parent_id">Parent tag</label>
-					<input type="text" name="parent_id" value="<?php echo $tag->get_parent_id(); ?>">
+					<select name="parent_id">
+					<?php
+						$sql0 = 'SELECT * from ' . PREFIX . 'tags';
+						$rqst_get_tags = $DDB->prepare( $sql0 );
+						$rqst_get_tags->execute();
+						while( $tags = $rqst_get_tags->fetch() ) {
+							// While we have tags to use, use their instance to create a row inside the table.
+							$tag_temp = new at_class_tag( $tags[ 'tag_id' ] );
+					?>
+							<option value="<?php echo $tag_temp->get_id(); ?>"<?php if( isset( $_GET[ 'tag_to_edit' ] ) && $tag_temp->get_id() == $tag->get_parent_id() ) echo "selected" ?>>
+								<?php echo $tag_temp->get_name(); ?>
+							</option>
+					<?php
+						}
+					?>
+					</select>
 					<p>The parent tag can be used to create a well organized hierarchy for your content.</p>
 					<p>In fact it's a sub category.</p>
 
@@ -145,14 +164,15 @@
 
 			<div class="column">
 				<h2>Your tags</h2>
-				<table>
+				<input type="text" id="tags_search" onkeyup="searchForTag()" placeholder="Search...">
+				<table id="tags_list">
 					<tr>
-						<th>Name</th>
-						<th>Slug</th>
-						<th>Age</th>
+						<th><a href="admin.php?p=tags.php&ob=name&od=<?php echo inverse_order_direction( $order_direction ); ?>">Name<i class="<?php echo $order_direction ?>"></i></a></th>
+						<th><a href="admin.php?p=tags.php&ob=slug&od=<?php echo inverse_order_direction( $order_direction ); ?>">Slug<i class="<?php echo $order_direction ?>"></i></a></th>
+						<th>Description</th>
 						<th>Usage</th>
 					</tr>
-				<?php at_get_tags(); ?>
+				<?php display_tags(); ?>
 				<table>
 			</div>
 

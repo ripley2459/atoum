@@ -1,80 +1,139 @@
 <?php
 
-	// at_class_tag.php
-	// 15:33 2021-05-06
-	
-	class at_class_tag {
-		// FIELDS
-		private $id;
-		private $name;
-		private $slug;
-		private $type = 'tag';
-		private $parent_id;
-		private $description;
-		private $group_id;
+	namespace Atoum;
 
+	class at_class_tag {
+
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// FIELDS
+
+		/**
+		 * @var int is the tag's id.
+		 * @since 2021/06/09
+		 */
+		private $id;
+
+		/**
+		 * @var string is the tag's name.
+		 * @since 2021/06/09
+		 */
+		private $name = '';
+
+		/**
+		 * @var string is the tag's slug.
+		 * @since 2021/06/09
+		 */
+		private $slug = '';
+
+		/**
+		 * @var string is the tag's type.
+		 * @since 2021/06/09
+		 */
+		private $type = 'tag';
+
+		/**
+		 * @var int is the tag's parent id.
+		 * @since 2021/06/09
+		 */
+		private $parent_id = 0;
+
+		/**
+		 * @var string is the tag's description.
+		 * @since 2021/06/09
+		 */
+		private $description = '';
+
+		/**
+		 * @var int is the tag's group id.
+		 * @since 2021/06/09
+		 */
+		private $group_id = 0;
+
+		/**
+		 * @var bool at true if the this instance is retrieved from the database.
+		 * @since 2021/06/09
+		 */
 		private $is_recovered = false;
 		
+		///////////////////////////////////////////////////////////////////////////////////////////
 		// PROPERTIES
-		// id
-		// 00:56 2021-05-06
+		
+		/**
+		 * This variable can't be set outside the class or without the __constructor.
+		 * @property-read int $id return id.
+		 * @since 2021/06/09
+		 */
 		public function get_id(){
 			return $this->id;
 		}
 
-		// name
-		// 00:56 2021-05-06
+		/**
+		 * @property-read string $name return name.
+		 * @property-write string $name set name. 
+		 * @since 2021/06/09
+		 */
+		public function get_name(){
+			return $this->name;
+		}
 		public function set_name( string $name ){
 			$this->name = $name;
 		}
 
-		public function get_name(){
-			return $this->name;
+		/**
+		 * @property-read string $slug return slug.
+		 * @property-write string $slug set slug. 
+		 * @since 2021/06/09
+		 */
+		public function get_slug(){
+			return $this->slug;
 		}
-
-		// slug
-		// 00:56 2021-05-06
 		public function set_slug( string $slug ){
 			$this->slug = $slug;
 		}
 
-		public function get_slug(){
-			return $this->slug;
+		/**
+		 * @property-read string $type return type.
+		 * @property-write string $type set type. 
+		 * @since 2021/06/09
+		 */
+		public function get_type(){
+			return $type->type;
 		}
-
-		// type
-		// 14:55 2021-05-06
 		public function set_type( string $type ){
 			$this->type = $type;
 		}
 
-		public function get_type(){
-			return $type->type;
+		/**
+		 * @property-read int $parent_id return parent_id.
+		 * @property-write int $parent_id set parent_if. 
+		 * @since 2021/06/09
+		 */
+		public function get_parent_id(){
+			return $this->parent_id;
 		}
-
-		// parent id
-		// 00:56 2021-05-06
 		public function set_parent_id( int $parent_id ){
 			$this->parent_id = $parent_id;
 		}
 
-		public function get_parent_id(){
-			return $this->parent_id;
+		/**
+		 * @property-read string $description return description.
+		 * @property-write string $description set description. 
+		 * @since 2021/06/09
+		 */
+		public function get_description(){
+			return $this->description;
 		}
-
-		// description
-		// 00:56 2021-05-06
 		public function set_description( string $description ){
 			$this->description = $description;
 		}
 
-		public function get_description(){
-			return $this->description;
-		}
-
+		///////////////////////////////////////////////////////////////////////////////////////////
 		// METHODS
-		// construct
-		// 00:51 2021-05-06
+
+		/**
+		 * __construct
+		 * @since 2021/06/09
+		 */
 		public function __construct( int $tag_id ) {
 			$this->id = $tag_id;
 			// an id of -1 indicate this instance is new or temporary
@@ -82,13 +141,15 @@
 			if( $this->id != -1 ) $this->retrieve();
 		}
 
-		// display as table row
-		// 15:33 2021-05-06
-		// display variables of this instance as a table row
-		// primary used inside the admin panel
+		/**
+		 * Display as table row
+		 * Display variables of this instance as a table row.
+		 * Primary used inside the admin panel.
+		 * @since 2021/06/09
+		 */
 		public function display_as_table_row() {
 			return
-			'<tr>
+			'<tr id="' . $this->slug . '">
 				<td class="spoiler">' . $this->name . '
 					<div class="spoiler_content">
 						<a href="#">Display</a>
@@ -103,11 +164,16 @@
 		}
 
 		// insert
-		// 13:35 2021-05-06
 		// insert this instance inside the databse
 		public function insert() {
 			global $DDB;
-			$sql0 = 'INSERT INTO ' . PREFIX . 'tags SET tag_name = :tag_name, tag_slug = :tag_slug, tag_type = :tag_type, tag_parent_id = :tag_parent_id, tag_description = :tag_description';
+			$sql0 = 'INSERT INTO ' . PREFIX . 'tags SET
+				tag_name = :tag_name,
+				tag_slug = :tag_slug,
+				tag_type = :tag_type,
+				tag_parent_id = :tag_parent_id,
+				tag_description = :tag_description
+			';
 
 			$rqst_tag_insert = $DDB->prepare( $sql0 );
 
@@ -117,21 +183,36 @@
 				':tag_type' => $this->type,
 				':tag_parent_id' => $this->parent_id,
 				':tag_description' => $this->description
-			]);
+			] );
 
 			$rqst_tag_insert->closeCursor();
 		}
 
-		// edit
-		// 01:05 2021-05-06
-		// edit the existing tag in the database with this instance
+		/**
+		 * Edit
+		 * Edit this instance and override the existing one in the database.
+		 * @since 2021/06/09
+		 */
 		public function edit() {
-			// TODO
-			throw new InvalidArgumentException( 'NOT YET IMPLEMENTED!' );
+			global $DDB;
+
+			$sql0 = 'UPDATE ' . PREFIX . 'tags SET tag_name = :tag_name, tag_slug = :tag_slug, tag_type = :tag_type, tag_parent_id = :tag_parent_id, tag_description = :tag_description WHERE tag_id = :tag_id';
+
+			$rqst_tag_edit = $DDB->prepare( $sql0 );
+
+			$rqst_tag_edit->execute( [ 
+				':tag_name' => $this->name,
+				':tag_slug' => $this->slug,
+				':tag_type' => $this->type,
+				':tag_parent_id' => $this->parent_id,
+				':tag_description' => $this->description,
+				':tag_id' => $this->id
+			] );
+
+			$rqst_tag_edit->closeCursor();
 		}
 
 		// remove
-		// 15:33 2021-05-06
 		// do i really need what this function do?
 		public function remove() {
 			global $DDB;
@@ -143,9 +224,12 @@
 			$rqst_tag_remove->closeCursor();
 		}
 
-		// check filling
-		// 01:01 2021-05-06
-		// check if this tag exist in the database. If yes, recover its parameters
+		/**
+		 * Retrieve
+		 * Check if the tag exist in the database.
+		 * If exist, retrieve informations and store its inside this instance.
+		 * @since 2021/06/09
+		 */
 		private function retrieve() {
 			global $DDB;
 			if( $this->is_recovered == false ) {

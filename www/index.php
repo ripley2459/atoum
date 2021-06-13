@@ -1,6 +1,5 @@
 <?php
 
-	//
 	//                 AAA                tttt                                                                     
 	//                A:::A            ttt:::t                                                                     
 	//               A:::::A           t:::::t                                                                     
@@ -17,7 +16,7 @@
 	//    A:::::A               A:::::Att::::::::::::::to:::::::::::::::o u:::::::::::::::um::::m   m::::m   m::::m
 	//   A:::::A                 A:::::A tt:::::::::::tt oo:::::::::::oo   uu::::::::uu:::um::::m   m::::m   m::::m
 	//  AAAAAAA                   AAAAAAA  ttttttttttt     ooooooooooo       uuuuuuuu  uuuummmmmm   mmmmmm   mmmmmm
-	//
+
 	//	15:20 2021-05-06
 
 	// if the generated file during the instalation process doesn't exist, redict to the instalation page

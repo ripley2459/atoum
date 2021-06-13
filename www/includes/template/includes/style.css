@@ -164,3 +164,20 @@ td {
 .spoiler_content {
 	visibility: hidden;
 }
+
+/*
+
+	Order direction
+	15:28 2021-05-06
+
+*/
+
+i.desc:after {
+	content: "\2191";
+	float: right;
+}
+
+i.asc:after {
+	content: "\2193";
+	float: right;
+}

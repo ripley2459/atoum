@@ -8,6 +8,7 @@
 	define( 'PLUGINS', __DIR__ . '/content/plugins/' );
 	define( 'THEMES', __DIR__ . '/content/themes/' );
 	define( 'INCLUDES', __DIR__ . '/includes/' );
+	define( 'UPLOADS', __DIR__ . '/content/uploads/' . date('Y/m/d/') );
 
 	// connection to the database
 	// 2021/04/27
