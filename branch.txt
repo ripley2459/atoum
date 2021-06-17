@@ -1,0 +1,3 @@
+ACTUAL BRANCH: FULL FUNCTIONS (FF)
+
+Les blocs sont sout sous forme de fonction. Cela permet que tout soit normalisé et offre des possibilités de personnalisation inédit.
