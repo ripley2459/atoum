@@ -73,6 +73,12 @@
 		 */
 		protected $date_modified = '0000-00-00 00:00:00';
 
+		/**
+		 * @var bool at true if the this instance is retrieved from the database.
+		 * @since 2021/06/09
+		 */
+		private $is_recovered = false;
+
 		///////////////////////////////////////////////////////////////////////////////////////////
 		// PROPERTIES
 
@@ -334,5 +340,9 @@
 
 				$rqst_content_retrieve -> closeCursor();
 			}
+		}
+
+		public function display_as_picture() {
+
 		}
 	}

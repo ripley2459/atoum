@@ -1,5 +1,6 @@
 <?php
-	
+
+	namespace Atoum;
 	// functions.php
 
 	// GET_OPTION_VALUE
@@ -59,8 +60,13 @@
 		}
 	}
 	
-	// INVERSE ORDER DIRECTION
-	// Inverse the order direction
+	/**
+	 * INVERSE ORDER DIRECTION
+	 * Reverses the sort direction.
+	 * @example asc became desc
+	 * @return string
+	 * @since 2021/06/15
+	 */
 	function inverse_order_direction( string $ord ) {		
 		switch( $ord ) {
 			case 'asc':
@@ -70,4 +76,79 @@
 				return 'asc';
 				break;
 		}
+	}
+
+	/**
+	 * GET UPLOADS
+	 * Return an array with all uploads stored in the database.
+	 * @return array of objects.
+	 * @since 20201/06/15
+	 */
+	function get_all_uploads() {
+		global $DDB;
+
+		$uploads = [];
+
+		$sql0 = 'SELECT content_id FROM ' . PREFIX . 'content WHERE content_type = \'upload\'';
+
+		$rqst_get_uploads = $DDB->prepare( $sql0 );
+		$rqst_get_uploads->execute();
+
+		while( $file = $rqst_get_uploads->fetch() ) {
+			$file = new at_class_content( $file[ 'content_id' ] );
+			array_push($uploads, $file);
+		}
+
+		$rqst_get_uploads->closeCursor();
+		
+		return $uploads;
+	}
+
+	/**
+	 * GET TAGS
+	 * Return an array with all tags stored in the database.
+	 * @return array of objets.
+	 * @since 2021/06/15
+	 */
+	function get_all_tags() {
+		global $DDB;
+
+		$tags = [];
+
+		$sql0 = 'SELECT tag_id FROM ' . PREFIX . 'tags';
+
+		$rqst_get_tags = $DDB->prepare( $sql0 );
+		$rqst_get_tags->execute();
+
+		while( $tag = $rqst_get_tags->fetch() ) {
+			$tag = new at_class_tag( $tag[ 'tag_id' ] );
+			array_push($tags, $tag);
+		}
+
+		$rqst_get_tags->closeCursor();
+		
+		return $tags;
+	}
+
+	/**
+	 * GET RELATIONS RELATED
+	 */
+	function get_relations_related( $relation_type, $content_id ) {
+		global $DDB;
+
+		$relations = [];
+
+		$sql0 = 'SELECT relation_id FROM ' . PREFIX . 'relations WHERE relation_type = :relation_type AND relation_a_id = :relation_a_id';
+
+		$rqst_get_relations_related = $DDB->prepare( $sql0 );
+		$rqst_get_relations_related->execute( [ ':relation_type'=>$relation_type, ':relation_a_id'=>$content_id ] );
+
+		while( $relation = $rqst_get_relations_related->fetch() ) {
+			$relation = new at_class_relation( $relation[ 'relation_id' ] );
+			array_push($relations, $relation);
+		}
+
+		$rqst_get_relations_related->closeCursor();
+		
+		return $relations;
 	}
