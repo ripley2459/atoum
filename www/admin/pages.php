@@ -1,11 +1,12 @@
 <?php
 	
 	// pages.php
-	// 20:17 2021-05-03
 
 ?>
 	<!-- START PAGES -->
 	<div>
+		<h1>Pages</h1>
+		<a href="admin.php?p=editor.php&e=page">Add</a>
 		<?php
 
 			

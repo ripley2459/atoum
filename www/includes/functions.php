@@ -36,8 +36,12 @@
 		}
 	}
 
-	// NORMALIZE
-	// Nomalize a string.
+	/**
+	 * NORMALIZE
+	 * Replaces all special characters and spaces with dashes.
+	 * @return string normalized.
+	 * @since 2021/06/19
+	 */
 	function normalize( string $string ) {
 		$string = strtolower( preg_replace( '/[^a-zA-Z0-9-_\.]/', '-', $string ) );
 		return $string;
@@ -46,8 +50,8 @@
 	// GET_FILE_TYPE
 	// Return the exploitable type of a file as a string.
 	// For exemple a ".png" file will return "image".
-	function get_file_type( string $filename ) {
-		$extension = pathinfo( $filename, PATHINFO_EXTENSION );
+	function get_file_type( string $file_name ) {
+		$extension = pathinfo( $file_name, PATHINFO_EXTENSION );
 
 		if( in_array( $extension, [ 'gif', 'jpg', 'jpeg', 'png' ] ) ) {
 			return "image";
@@ -89,13 +93,13 @@
 
 		$uploads = [];
 
-		$sql0 = 'SELECT content_id FROM ' . PREFIX . 'content WHERE content_type = \'upload\'';
+		$sql0 = 'SELECT content_id FROM ' . PREFIX . 'content WHERE content_origin = \'uploaded\' OR content_origin = \'bulk uploaded\'';
 
 		$rqst_get_uploads = $DDB->prepare( $sql0 );
 		$rqst_get_uploads->execute();
 
 		while( $file = $rqst_get_uploads->fetch() ) {
-			$file = new at_class_content( $file[ 'content_id' ] );
+			$file = new at_class_upload( $file[ 'content_id' ] );
 			array_push($uploads, $file);
 		}
 

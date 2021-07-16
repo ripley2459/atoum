@@ -250,6 +250,9 @@
 
 					$this->is_recovered == true;
 				}
+				else {
+					throw new Exception( 'Can\'t retrieve an existing tag.' );
+				}
 
 				$rqst_tag_retrieve->closeCursor();
 			}

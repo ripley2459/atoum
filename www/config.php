@@ -1,17 +1,14 @@
 <?php
-	
-	// config.php
-	// 20:16 2021-05-03
 
-	define( 'ROOT', __DIR__ );
-	define( 'URL', sprintf( '%s://%s', isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME'] ) );
+	define( 'URL', sprintf( '%s://%s', isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] != 'off' ? 'https' : 'http', $_SERVER[ 'SERVER_NAME' ] ) );
+	define( 'ROOT', __DIR__ . '/');
 	define( 'PLUGINS', __DIR__ . '/content/plugins/' );
 	define( 'THEMES', __DIR__ . '/content/themes/' );
+	define( 'TEMPLATE', __DIR__ . '/includes/template/' );
 	define( 'INCLUDES', __DIR__ . '/includes/' );
 	define( 'UPLOADS', __DIR__ . '/content/uploads/' . date('Y/m/d/') );
 
-	// connection to the database
-	// 2021/04/27
+	// Connection to the database.
 
 	define( 'DSN', 'mysql:host=' . HOST . ';dbname=' . DBNAME . ';charset=' . CHARSET );
 

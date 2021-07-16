@@ -1,15 +1,9 @@
-<?php
-	
-	// body.php
-	// 20:16 2021-05-03
-
-?>
 	<!-- START BODY -->
 	<body>
+		<a href="admin/admin.php">Admin</a>
 		<?php
-
-			
-
+			require THEMES . THEME . 'header.php';
+			require THEMES . THEME . 'footer.php';
 		?>
 		<script src="<?php echo URL . '/includes/scripts.js' ?>"></script>
 	</body>

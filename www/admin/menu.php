@@ -1,33 +1,25 @@
 <?php
-	
-	// menu.php
-	// 23:49 2021-05-05
 
-	// create links
-	// 23:48 2021-05-05
-	// create links for a given array of string
+	/**
+	 * Create links from a given array.
+	 * @param folder where to group the links
+	 * @param links array of string
+	 * @return string
+	 */
 	function create_link( string $folder, array $links ) {
 		global $page;
 
 		$is_open = false;
-		if( in_array( str_replace( '.php', '', $page ), $links ) ){
-			$is_open = true;
-		}
+		if( in_array( str_replace( '.php', '', $page ), $links ) ) $is_open = true;
 
 		$return = '<button id="button_' . $folder . '" class="menu-element has-children';
-
-		if( $is_open ){
-			$return .= ' opened';
-		}
+		if( $is_open ) $return .= ' opened';
 		
 		$return .= '" onclick="toggleVisibility(\'folder_' . $folder. '\', \'button_' . $folder . '\')">' . ucfirst( $folder ) . '</button>';
 		
 		$return .= '<div id="folder_' . $folder . '" class="sub-menu';
 
-		if( $is_open ){
-			$return .= ' opened';
-		}
-
+		if( $is_open ) $return .= ' opened';
 		$return .= '">';
 
 		foreach ($links as $link) {

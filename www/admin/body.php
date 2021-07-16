@@ -1,10 +1,4 @@
-<?php
-	
-	// body.php
-	// 20:18 2021-05-03
-
-?>
-	<!-- START BODY -->
+	<!-- START ADMIN BODY -->
 	<body class="admin">
 		<?php
 
@@ -23,6 +17,6 @@
 		</div>
 		<script src="<?php echo URL . '/includes/scripts.js' ?>"></script>
 	</body>
-	<!-- END BODY -->
+	<!-- END ADMIN BODY -->
 </html>
-<!-- END HTML -->
+<!-- END ADMIN HTML -->

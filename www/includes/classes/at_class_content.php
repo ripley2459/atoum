@@ -236,10 +236,10 @@
 				content_status = :content_status,
 				content_author_id = :content_author_id,
 				content_path = :content_path,
-				content_content = :content_content,
+				content_content = :content_content'/*,
 				content_date_created = :content_date_created,
 				content_date_modified = :content_date_modified
-			';
+			'*/;
 
 			$rqst_content_add = $DDB->prepare( $sql0 );
 
@@ -251,9 +251,9 @@
 				':content_status' => $this->status,
 				':content_author_id' => $this->author_id,
 				':content_path' => $this->path,
-				':content_content' => $this->content,
+				':content_content' => $this->content/*,
 				':content_date_created' => $this->date_created,
-				':content_date_modified' => $this->date_modified
+				':content_date_modified' => $this->date_modified*/
 			] );
 
 			$rqst_content_add->closeCursor();
@@ -308,7 +308,7 @@
 
 		/**
 		 * Retrieve
-		 * Check if the tag exist in the database.
+		 * Check if the content exist in the database.
 		 * If exist, retrieve informations and store its inside this instance.
 		 * @since 2021/06/09
 		 */

@@ -1,19 +1,23 @@
-<?php
-	
-	// head.php
-	// 20:18 2021-05-03
-
-?>
-<!-- START HTML -->
+<!-- START ADMIN HTML -->
 <!doctype html>
 <html lang="en">
-	<!-- START HEAD -->
+	<!-- START ADMIN HEAD -->
 	<head class="admin">
-		<title>index.php</title>
+
+		<?php
+
+			// Define the page title.
+			$page = 'overview.php';
+
+			if( isset( $_GET['p'] ) ) $page = $_GET['p'];
+
+		?>
+
+		<title><?php echo ucfirst( str_replace( '.php', '', $page ) ) . ' - Atoum\'s administration'; ?></title>
 		<meta charset="utf-8">
 		<meta name="description" content="Homepage">
 		<meta name="author" content="Cyril Neveu">
 		<link rel="stylesheet" href="<?php echo URL . '/includes/reset.css' ?>">
 		<link rel="stylesheet" href="<?php echo STYLE; ?>">
 	</head>
-	<!-- END HEAD -->
+	<!-- END ADMIN HEAD -->

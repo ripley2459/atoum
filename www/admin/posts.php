@@ -1,11 +1,12 @@
 <?php
 	
 	// posts.php
-	// 20:18 2021-05-03
 
 ?>
 	<!-- START POSTS -->
 	<div>
+		<h1>Posts</h1>
+		<a href="admin.php?p=editor.php&e=post">Add</a>
 		<?php
 
 			
