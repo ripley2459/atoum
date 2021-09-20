@@ -24,7 +24,7 @@ window.onclick = function(event) {
 
 	ACCORDIONS
 
-*****************************/
+****************************/
 
 var acc = document.getElementsByClassName("accordion_trigger");
 var i;
@@ -46,7 +46,7 @@ for (i = 0; i < acc.length; i++){
 
 	VISIBILITY
 
-*****************************/
+****************************/
 
 function toggleVisibility($folder, $button){
 	var $targetFolder = $folder;
@@ -59,7 +59,7 @@ function toggleVisibility($folder, $button){
 
 	SEARCH FOR TAG
 
-*****************************/
+****************************/
 
 function searchForTag() {
 	var input, filter, table, tr, td, i, txtValue;
@@ -90,9 +90,9 @@ function searchForTag() {
 
 	MODAL BOX
 
-*****************************/
+****************************/
 
-function openModal($modal_id){
+function openModal($modal_id) {
 	var $modal = document.getElementById($modal_id);
 	$modal.classList.add("opened");
 }
@@ -103,7 +103,7 @@ function closeModal($modal_id){
 }
 
 window.onclick = function(event) {
-	if(event.target.classList.contains("modal")){
+	if(event.target.classList.contains("modal")) {
 		event.target.classList.remove("opened");
 	}
 }

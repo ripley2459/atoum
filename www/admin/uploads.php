@@ -112,7 +112,7 @@
 		header( 'Location: admin.php?p=uploads.php' );
 	}
 ?>
-	<div>
+	<div class="frame">
 	<!-- START UPLOADS -->
 		<h1>Uploads</h1>
 

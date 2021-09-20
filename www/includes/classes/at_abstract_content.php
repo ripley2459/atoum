@@ -2,7 +2,14 @@
 
 	namespace Atoum;
 
-	class at_class_content implements idb {
+	/**
+	 * Abstract class used for everything that fit inside the content table of the database.
+	 * @author Cyril Neveu
+	 * @since 2021/09/20
+	 * @abstract
+	 * @uses use this class for inheritance.
+	 */
+	abstract class at_abstract_content {
 
 		///////////////////////////////////////////////////////////////////////////////////////////
 		// FIELDS
@@ -217,20 +224,21 @@
 		// METHODS
 
 		/**
-		 * construct
+		 * Super.
 		 */
 		public function __construct( int $content_id ) {
 			$this->id = $content_id;
-			// an id of -1 indicate this instance is new or temporary
-			// so if not -1 try to recover its parameters
+			// An id of -1 indicate this instance is new or temporary.
+			// So if not -1 try to recover its parameters.
 			if ( $this->id != -1 ) $this->retrieve();
 		}
 
-		// add
-		// insert this instance inside the databse
+		/**
+		 * Save this instance inside the database.
+		 * @since 2021/09/20
+		 */
 		public function add() {
 			global $DDB;
-
 			$sql0 = 'INSERT INTO ' . PREFIX . 'content SET
 				content_title = :content_title,
 				content_slug = :content_slug,
@@ -239,14 +247,9 @@
 				content_status = :content_status,
 				content_author_id = :content_author_id,
 				content_path = :content_path,
-				content_content = :content_content'/*,
-				content_date_created = :content_date_created,
-				content_date_modified = :content_date_modified
-			'*/;
-
-			$rqst_content_add = $DDB->prepare( $sql0 );
-
-			$rqst_content_add->execute( [ 
+				content_content = :content_content';
+			$rqst0 = $DDB->prepare( $sql0 );
+			$rqst0->execute( [ 
 				':content_title' => $this->title,
 				':content_slug' => $this->slug,
 				':content_type' => $this->type,
@@ -254,21 +257,29 @@
 				':content_status' => $this->status,
 				':content_author_id' => $this->author_id,
 				':content_path' => $this->path,
-				':content_content' => $this->content/*,
-				':content_date_created' => $this->date_created,
-				':content_date_modified' => $this->date_modified*/
+				':content_content' => $this->content
 			] );
-
-			$rqst_content_add->closeCursor();
+			$rqst0->closeCursor();
 		}
 
 		/**
-		 * edit
+		 * Remove this instance from the database.
+		 * @since 2021/09/20
+		 */
+		public function remove() {
+			global $DDB;
+			$sql0 = 'DELETE FROM ' . PREFIX . 'content WHERE content_id = :content_id';
+			$rqst0 = $DDB->prepare( $sql0 );
+			$rqst0->execute( [ ':content_id' => $this->id ] );
+			$rqst0->closeCursor();
+		}
+
+		/**
 		 * Update the databases informations using this instance.
+		 * @since 2021/09/20
 		 */
 		public function edit() {
 			global $DDB;
-
 			$sql0 = 'UPDATE INTO ' . PREFIX . 'content SET
 				content_title = :content_title,
 				content_slug = :content_slug,
@@ -277,14 +288,9 @@
 				content_status = :content_status,
 				content_author_id = :content_author_id,
 				content_path = :content_path,
-				content_content = :content_content'/*,
-				content_date_created = :content_date_created,
-				content_date_modified = :content_date_modified
-			'*/;
-
-			$rqst_content_edit = $DDB->prepare( $sql0 );
-
-			$rqst_content_edit->execute( [ 
+				content_content = :content_content';
+			$rqst0 = $DDB->prepare( $sql0 );
+			$rqst0->execute( [ 
 				':content_title' => $this->title,
 				':content_slug' => $this->slug,
 				':content_type' => $this->type,
@@ -292,43 +298,24 @@
 				':content_status' => $this->status,
 				':content_author_id' => $this->author_id,
 				':content_path' => $this->path,
-				':content_content' => $this->content/*,
-				':content_date_created' => $this->date_created,
-				':content_date_modified' => $this->date_modified*/
+				':content_content' => $this->content
 			] );
-
-			$rqst_content_edit->closeCursor();
-		}
-
-		public function remove() {
-			global $DDB;
-
-			$sql0 = 'DELETE FROM ' . PREFIX . 'content WHERE content_id = :content_id';
-
-			$rqst_content_remove = $DDB->prepare( $sql0 );
-			$rqst_content_remove->execute( [ ':content_id' => $this->id ] );
-
-			$rqst_content_remove->closeCursor();
+			$rqst0->closeCursor();
 		}
 
 		/**
-		 * Retrieve
 		 * Check if the content exist in the database.
-		 * If exist, retrieve informations and store its inside this instance.
+		 * If exist, get informations and store its inside this instance.
 		 * @since 2021/06/09
 		 */
 		protected function retrieve() {
 			global $DDB;
 			if( $this->is_recovered == false ) {
-
 				$sql0 = 'SELECT * FROM ' . PREFIX . 'content WHERE content_id = :content_id';
-
 				$rqst_content_retrieve = $DDB -> prepare( $sql0 );
 				$rqst_content_retrieve -> execute( [ ':content_id' => $this->id ] );
-
 				if( $rqst_content_retrieve ) {
 					$content = $rqst_content_retrieve -> fetch();
-
 					$this->title = $content[ 'content_title' ];
 					$this->slug = $content[ 'content_slug' ];
 					$this->type = $content[ 'content_type' ];
@@ -339,15 +326,9 @@
 					$this->content = $content[ 'content_content' ];
 					$this->date_created = $content[ 'content_date_created' ];
 					$this->date_modified = $content[ 'content_date_modified' ];
-
 					$this->is_recovered == true;
 				}
-
 				$rqst_content_retrieve -> closeCursor();
 			}
-		}
-
-		public function display_as_picture() {
-
 		}
 	}

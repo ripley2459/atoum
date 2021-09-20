@@ -1,36 +1,69 @@
-/*
+/****************************
 
-	core
-	2021/04/28
-https://coolors.co/afc2d5-a44a3f-a69658-4f646f-210f04
-*/
+	CORE
 
+****************************/
 
 :root {
-	--side-nav-width: 200px;
+	/* VALUES */
+	--side_nav_width: 200px;
 	--admin_content_margin: 1%;
 
-	--background_frame: #afc2d5;
-	--color_dark: #210f04;
-	--background_color: #4F646F;
+	/* COLORS */
+	--color_background: #4F646F;
+	--color_frame: #AFC2D5;
+	--color_important: #56203D;
+	--color_other: #6A994E;
 }
 
+body.admin {
+	margin: var(--admin_content_margin);
+	margin-left: calc(var(--side_nav_width) + var(--admin_content_margin));
+	background-color: var(--color_background);
+}
 
-/*
+/****************************
 
-	side menu
-	2021/04/28
+	ADMIN LAYOUT
 
-*/
+****************************/
+
+.admin .frame {
+	background-color: var(--color_frame);
+	border: 1px solid var(--color_important);
+	border-radius: 10px;
+	padding: var(--admin_content_margin)
+}
+
+.admin .row {
+	display: flex;
+}
+
+.admin .row .column {
+	flex: calc(50% - var(--admin_content_margin));
+	margin-right: var(--admin_content_margin);
+}
+
+.admin .row .column:last-child {
+	margin-right: 0;
+}
+
+/****************************
+
+	ADMIN SIDE MENU
+
+****************************/
 
 .side-menu {
 	height: 100%;
-	width: var(--side-nav-width);
+	width: var(--side_nav_width);
 	position: fixed;
 	z-index: 1;
 	top: 0;
 	left: 0;
 	overflow-x: hidden;
+	background-color: var(--color_frame);
+	border-right: 1px solid var(--color_important);
 }
 
 .side-menu:first-child {
@@ -79,42 +112,6 @@ https://coolors.co/afc2d5-a44a3f-a69658-4f646f-210f04
 
 .side-menu button.opened .icon::after {
 	content: "\2212";
-}
-
-/*
-
-	layout
-	00:12 2021-05-06
-
-*/
-
-body.admin {
-	margin: var(--admin_content_margin) var(--admin_content_margin) var(--admin_content_margin) calc(var(--side-nav-width) +  var(--admin_content_margin));
-}
-
-.row {
-	display: flex;
-}
-
-.row .column {
-	flex: calc(50% - var(--admin_content_margin));
-	margin-right: var(--admin_content_margin);
-}
-
-.row .column:last-child {
-	margin-right: 0;
-}
-
-.installer {
-	background-color: var(--background_color);
-}
-
-.frame {
-	background-color: var(--background_frame);
-	margin: var(--admin_content_margin);
-	padding: var(--admin_content_margin);
-	border-radius: 10px;
-	border: 1px solid var(--color_dark);
 }
 
 /*

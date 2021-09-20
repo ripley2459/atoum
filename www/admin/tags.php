@@ -104,8 +104,8 @@
 		$rqst_get_tags->closeCursor();
 	}
 ?>
+	<div class="frame">
 	<!-- START TAGS -->
-	<div>
 		<h1>Tags</h1>
 		<p>Tags are a good way to organise your content.</p>
 		<div class="row">
@@ -177,5 +177,5 @@
 			</div>
 
 		</div>
-	</div>
 	<!-- END TERMS -->
+	</div>

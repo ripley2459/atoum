@@ -5,11 +5,10 @@
 	// Functions
 	require INCLUDES . 'functions.php';
 
-	// Interfaces
-	require INCLUDES . 'interfaces/at_i' . 'db.php';
+	// Abstract
+	require INCLUDES . 'classes/at_abstract_' . 'content.php';
 
 	// Classes
-	require INCLUDES . 'classes/at_class_' . 'content.php';
 	require INCLUDES . 'classes/at_class_' . 'post.php';
 	require INCLUDES . 'classes/at_class_' . 'relation.php';
 	require INCLUDES . 'classes/at_class_' . 'tag.php';

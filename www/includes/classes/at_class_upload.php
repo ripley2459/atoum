@@ -2,7 +2,7 @@
 
 	namespace Atoum;
 
-	class at_class_upload extends at_class_content {
+	class at_class_upload extends at_abstract_content {
 
 		/**
 		 * Remove the upload file from the database and remove the saved file on the disk.
