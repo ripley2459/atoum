@@ -32,8 +32,9 @@
 	}
 
 ?>
-	<!-- START ADMIN MENU -->
 	<nav class="side-menu">
+	<!-- START ADMIN MENU -->
+
 		<button class="menu-element has-children opened header">Atoum</button>
 		<div class="sub-menu opened header">
 
@@ -45,5 +46,6 @@
 			?>
 
 		</div>
-	</nav>
+
 	<!-- END ADMIN MENU -->
+	</nav>

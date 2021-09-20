@@ -1,9 +1,9 @@
-<!-- START ADMIN HTML -->
 <!doctype html>
 <html lang="en">
-	<!-- START ADMIN HEAD -->
-	<head class="admin">
+<!-- START ADMIN HTML -->
 
+	<head class="admin">
+	<!-- START ADMIN HEAD -->
 		<?php
 
 			// Define the page title.
@@ -19,5 +19,5 @@
 		<meta name="author" content="Cyril Neveu">
 		<link rel="stylesheet" href="<?php echo URL . '/includes/reset.css' ?>">
 		<link rel="stylesheet" href="<?php echo STYLE; ?>">
-	</head>
 	<!-- END ADMIN HEAD -->
+	</head>

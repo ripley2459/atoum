@@ -112,8 +112,8 @@
 		header( 'Location: admin.php?p=uploads.php' );
 	}
 ?>
-	<!-- START UPLOADS -->
 	<div>
+	<!-- START UPLOADS -->
 		<h1>Uploads</h1>
 
 		<!-- Add new content -->
@@ -218,5 +218,5 @@
 					}
 				?>
 			</table>
-	</div>
 	<!-- END UPLOADS -->
+	</div>

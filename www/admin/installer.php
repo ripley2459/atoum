@@ -4,26 +4,39 @@
 	define( 'URL', sprintf( '%s://%s', isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] != 'off' ? 'https' : 'http', $_SERVER[ 'SERVER_NAME' ] ) );
 
 	if ( isset( $_POST[ 'submit' ] ) ) {
-		// TODO
+
+		$data = '<?php
+
+		namespace Atoum;
+	
+		define( \'HOST\', \'' . $_POST[ 'db_host' ] . '\' );
+		define( \'DBNAME\', \'' . $_POST[ 'db_name' ] . '\' );
+		define( \'CHARSET\', \'utf8\' );
+		define( \'USER\', \'' . $_POST[ 'db_username' ] . '\' );
+		define( \'PASSWORD\', \'' . $_POST[ 'db_password' ] . '\' );
+		define( \'PREFIX_\', \'' . strtolower( preg_replace( '/[^a-zA-Z0-9-_\.]/', '_', $_POST[ 'db_prefix' ] ) ) . '\' );';
+
+		file_put_contents( '../settings.php', $data );
 	}
 
 ?>
 <!doctype html>
-<!-- START INSTALLER HTML -->
 <html lang="en">
+<!-- START INSTALLER HTML -->
+
 	<head class="admin">
-		<!-- START INSTALLER HEAD -->
+	<!-- START INSTALLER HEAD -->
 		<title>Atoum's Instalation Process</title>
 		<meta charset="utf-8">
 		<meta name="description" content="Installer">
 		<meta name="author" content="Cyril Neveu">
 		<link rel="stylesheet" href="<?php echo URL . '/includes/reset.css' ?>">
 		<link rel="stylesheet" href="<?php echo URL . '/includes/template/includes/style.css' ?>">
-		<!-- START INSTALLER HEAD -->
+	<!-- START INSTALLER HEAD -->
 	</head>
 
 	<body class="installer">
-		<!-- START INSTALLER BODY -->
+	<!-- START INSTALLER BODY -->
 
 		<form action="installer.php" method="post" class="frame">
 			<div>
@@ -45,19 +58,19 @@
 				<h2>Atoum settings</h2>
 
 				<label for="db_name">Database name</label>
-				<input type="text" name="db_name">
+				<input type="text" name="db_name" required>
 				<p>The name of the database you want to use with Atoum.</p>
 
 				<label for="db_username">Username</label>
-				<input type="text" name="db_username">
+				<input type="text" name="db_username" required>
 				<p>The username used to connect to your database.</p>
 
 				<label for="db_password">Password</label>
-				<input type="text" name="db_password">
+				<input type="text" name="db_password" required>
 				<p>The password used to connect to your database.</p>
 
 				<label for="db_host">Host</label>
-				<input type="text" name="db_host">
+				<input type="text" name="db_host" required>
 				<p>Your web host should give you this information.</p>
 
 				<label for="db_prefix">Tables prefix</label>
@@ -69,7 +82,8 @@
 		</form> 
 		
 		<script src="<?php echo URL . '/includes/scripts.js' ?>"></script>
-		<!-- START INSTALLER BODY -->
+	<!-- START INSTALLER BODY -->
 	</body>
+
 <!-- END INSTALLER HTML -->
 </html>

@@ -7,6 +7,6 @@
 	require '../imports.php';
 	require '../load.php';
 
-	// Page construction
+	// Page construction.
 	require 'head.php';
 	require 'body.php';

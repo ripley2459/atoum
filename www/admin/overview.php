@@ -1,5 +1,6 @@
-	<!-- START OVERVIEW -->
 	<div>
+	<!-- START OVERVIEW -->
+
 		<h1>PHP Instalation</h1>
 		<p></p>
 		<?php
@@ -24,8 +25,9 @@
 			<input type="text" name="name" id="name" value="<?php echo $upload_mb; ?>" required>
 
 		</form>
-	</div>
+
 	<!-- END OVERVIEW -->
+	</div>
 
 
 

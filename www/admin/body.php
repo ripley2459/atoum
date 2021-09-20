@@ -1,10 +1,8 @@
-	<!-- START ADMIN BODY -->
 	<body class="admin">
+	<!-- START ADMIN BODY -->
 		<?php
 
-			$page = 'overview.php';
-
-			if( isset( $_GET['p'] ) ) $page = $_GET['p'];
+			$page = ( isset( $_GET['p'] ))  ? $_GET['p'] : 'overview.php' ;
 
 			require 'header.php';
 
@@ -16,7 +14,8 @@
 
 		</div>
 		<script src="<?php echo URL . '/includes/scripts.js' ?>"></script>
-	</body>
 	<!-- END ADMIN BODY -->
-</html>
+	</body>
+
 <!-- END ADMIN HTML -->
+</html>

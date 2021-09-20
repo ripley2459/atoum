@@ -40,11 +40,10 @@
 	 * NORMALIZE
 	 * Replaces all special characters and spaces with dashes.
 	 * @return string normalized.
-	 * @since 2021/06/19
+	 * @since 2021/09/20
 	 */
 	function normalize( string $string ) {
-		$string = strtolower( preg_replace( '/[^a-zA-Z0-9-_\.]/', '-', $string ) );
-		return $string;
+		return strtolower( preg_replace( '/[^a-zA-Z0-9-_\.]/', '-', $string ) );
 	}
 
 	// GET_FILE_TYPE
