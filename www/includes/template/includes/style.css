@@ -2,13 +2,17 @@
 
 	core
 	2021/04/28
-
+https://coolors.co/afc2d5-a44a3f-a69658-4f646f-210f04
 */
 
 
 :root {
 	--side-nav-width: 200px;
-	--admin_content-margin: 1%;
+	--admin_content_margin: 1%;
+
+	--background_frame: #afc2d5;
+	--color_dark: #210f04;
+	--background_color: #4F646F;
 }
 
 
@@ -85,7 +89,7 @@
 */
 
 body.admin {
-	margin: var(--admin_content-margin) var(--admin_content-margin) var(--admin_content-margin) calc(var(--side-nav-width) +  var(--admin_content-margin));
+	margin: var(--admin_content_margin) var(--admin_content_margin) var(--admin_content_margin) calc(var(--side-nav-width) +  var(--admin_content_margin));
 }
 
 .row {
@@ -93,14 +97,25 @@ body.admin {
 }
 
 .row .column {
-	flex: calc(50% - var(--admin_content-margin));
-	margin-right: var(--admin_content-margin);
+	flex: calc(50% - var(--admin_content_margin));
+	margin-right: var(--admin_content_margin);
 }
 
 .row .column:last-child {
 	margin-right: 0;
 }
 
+.installer {
+	background-color: var(--background_color);
+}
+
+.frame {
+	background-color: var(--background_frame);
+	margin: var(--admin_content_margin);
+	padding: var(--admin_content_margin);
+	border-radius: 10px;
+	border: 1px solid var(--color_dark);
+}
 
 /*
 

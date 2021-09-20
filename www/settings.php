@@ -1,7 +1,6 @@
 <?php
 
 	namespace Atoum;
-	// settings.php
 
 	define( 'HOST', 'localhost' );
 	define( 'DBNAME', 'at_atoum_dev' );
