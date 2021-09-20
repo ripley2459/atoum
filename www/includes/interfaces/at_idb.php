@@ -1,6 +1,6 @@
 <?php
 
-	interface at_interface_content {
+	interface icontent {
 		public function add();
 		public function edit();
 		public function remove();
