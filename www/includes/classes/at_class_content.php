@@ -74,7 +74,8 @@
 		protected $date_modified = '0000-00-00 00:00:00';
 
 		/**
-		 * @var bool at true if the this instance is retrieved from the database.
+		 * @var bool = true if the this instance is retrieved from the database.
+		 * retrieved mean informations has been loaded inside this instance.
 		 * @since 2021/06/09
 		 */
 		private $is_recovered = false;
@@ -215,12 +216,14 @@
 		///////////////////////////////////////////////////////////////////////////////////////////
 		// METHODS
 
-		// __construct
+		/**
+		 * construct
+		 */
 		public function __construct( int $content_id ) {
 			$this->id = $content_id;
 			// an id of -1 indicate this instance is new or temporary
 			// so if not -1 try to recover its parameters
-			if( $this->id != -1 ) $this->retrieve();
+			if ( $this->id != -1 ) $this->retrieve();
 		}
 
 		// add
@@ -259,8 +262,10 @@
 			$rqst_content_add->closeCursor();
 		}
 
-		// edit
-		// edit the existing content in the database with this instance
+		/**
+		 * edit
+		 * Update the databases informations using this instance.
+		 */
 		public function edit() {
 			global $DDB;
 
@@ -272,10 +277,10 @@
 				content_status = :content_status,
 				content_author_id = :content_author_id,
 				content_path = :content_path,
-				content_content = :content_content,
+				content_content = :content_content'/*,
 				content_date_created = :content_date_created,
 				content_date_modified = :content_date_modified
-			';
+			'*/;
 
 			$rqst_content_edit = $DDB->prepare( $sql0 );
 
@@ -287,9 +292,9 @@
 				':content_status' => $this->status,
 				':content_author_id' => $this->author_id,
 				':content_path' => $this->path,
-				':content_content' => $this->content,
+				':content_content' => $this->content/*,
 				':content_date_created' => $this->date_created,
-				':content_date_modified' => $this->date_modified
+				':content_date_modified' => $this->date_modified*/
 			] );
 
 			$rqst_content_edit->closeCursor();
