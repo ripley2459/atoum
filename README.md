@@ -17,7 +17,6 @@ Atoum permet également de personnaliser toute la partie administrative de votre
 3. Remplissez les champs du formulaire puis validez. Vous devriez ensuite être redirigé vers la page d'accueil de l'administration.
 
 Atoum utilise les librairies suivantes :
-* [jQuerry](https://jquery.com/).
 * [Font Awesome](https://fontawesome.com/).
 * [CKEditor](https://ckeditor.com/).
 
