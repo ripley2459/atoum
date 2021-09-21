@@ -1,6 +1,9 @@
 
 <?php
 
+	// If Atoum is already installed, redirect the user.
+	if( file_exists( '../settings.php' ) ) header( 'Location: ../index.php' );
+
 	define( 'URL', sprintf( '%s://%s', isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] != 'off' ? 'https' : 'http', $_SERVER[ 'SERVER_NAME' ] ) );
 
 	if ( isset( $_POST[ 'submit' ] ) ) {

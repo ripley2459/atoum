@@ -143,7 +143,6 @@
 		public function set_origin( string $origin ) {
 			$this->origin = $origin;
 		}
-
 		public function get_origin() {
 			return $this->origin;
 		}
