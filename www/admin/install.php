@@ -8,6 +8,7 @@
 
 	if ( isset( $_POST[ 'submit' ] ) ) {
 
+		// Settings.php creation.
 		$data = '<?php
 
 		namespace Atoum;
@@ -17,9 +18,75 @@
 		define( \'CHARSET\', \'utf8\' );
 		define( \'USER\', \'' . $_POST[ 'db_username' ] . '\' );
 		define( \'PASSWORD\', \'' . $_POST[ 'db_password' ] . '\' );
-		define( \'PREFIX_\', \'' . strtolower( preg_replace( '/[^a-zA-Z0-9-_\.]/', '_', $_POST[ 'db_prefix' ] ) ) . '\' );';
+		define( \'PREFIX\', \'' . strtolower( preg_replace( '/[^a-zA-Z0-9-_\.]/', '_', $_POST[ 'db_prefix' ] ) ) . '\' );';
 
 		file_put_contents( '../settings.php', $data );
+
+		// If can't be imported there is an error.
+		require '../settings.php';
+		
+		// First connection to the database.
+		$dsn_options = [
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+			PDO::ATTR_EMULATE_PREPARES => true
+		];
+	
+		try {
+			$DDB = new PDO( DSN, USER, PASSWORD, $dsn_options );
+		}
+		catch( \PDOException $e ) {
+			throw new \PDOException( $e -> getMessage(), (int)$e -> getCode() );
+		}
+
+		// Content table.
+		$sql = 'CREATE TABLE ' . PREFIX . 'content (
+			content_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+			content_title VARCHAR(255),
+			content_slug VARCHAR(255),
+			content_type VARCHAR(25) NOT NULL,
+			content_origin VARCHAR(25) NOT NULL,
+			content_status VARCHAR(25) NOT NULL,
+			content_author_id INT(11) NOT NULL,
+			content_path VARCHAR(255),
+			content_content LONGTEXT,
+			content_date_created DEFAULT CURRENT_TIMESTAMP,
+			content_date_modified DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+		)';
+
+		if ( $DDB->query( $sql ) === true ) {
+			echo 'Table ' . PREFIX . '_content successfully created.';
+		}
+		else {
+			echo "Error creating table: " . $conn->error;
+		}
+
+		// Options table.
+		$sql = 'CREATE TABLE ' . PREFIX . 'options (
+			option_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+			option_name VARCHAR(25) NOT NULL,
+			option_value LONGTEXT NOT NULL
+		)';
+
+		if ( $conn->query( $sql ) === TRUE ) {
+			echo 'Table ' . PREFIX . '_content successfully created.';
+
+			// Insert some basic options.
+			$sql0 = 'INSERT INTO ' . PREFIX . 'options SET
+				option_name = :option_name,
+				option_value = :option_value';
+
+			$rqst0 = $DDB->prepare( $sql0 );
+			$rqst0->execute( [ 
+				':option_name' => 'active_theme',
+				':option_value' => 'option_name'
+			] );
+
+			$rqst0->closeCursor();
+		}
+		else {
+			echo "Error creating table: " . $conn->error;
+		}
 	}
 
 ?>

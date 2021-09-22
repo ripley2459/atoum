@@ -27,7 +27,7 @@
 		protected $title = '';
 
 		/**
-		 * @var int is the post's slug.
+		 * @var string is the post's slug.
 		 * @since 2021/06/09
 		 */
 		protected $slug = '';
