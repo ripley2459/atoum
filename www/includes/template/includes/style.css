@@ -223,3 +223,8 @@ i.asc:after {
 	border: 1px solid #888;
 	width: 80%;
 }
+
+iframe.large {
+	height: 500px;
+	width: 100%;
+}
