@@ -3,7 +3,7 @@
 	namespace Atoum;
 
 	define( 'HOST', 'localhost' );
-	define( 'DBNAME', 'at_atoum_dev' );
+	define( 'DBNAME', 'at_atoum' );
 	define( 'CHARSET', 'utf8' );
 	define( 'USER', 'root' );
 	define( 'PASSWORD', '' );

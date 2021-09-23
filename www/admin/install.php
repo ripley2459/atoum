@@ -25,6 +25,8 @@
 		// If can't be imported there is an error.
 		require '../settings.php';
 		
+		define( 'DSN', 'mysql:host=' . HOST . ';dbname=' . DBNAME . ';charset=' . CHARSET );
+
 		// First connection to the database.
 		$dsn_options = [
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -50,8 +52,8 @@
 			content_author_id INT(11) NOT NULL,
 			content_path VARCHAR(255),
 			content_content LONGTEXT,
-			content_date_created DEFAULT CURRENT_TIMESTAMP,
-			content_date_modified DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+			content_date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			content_date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 		)';
 
 		if ( $DDB->query( $sql ) === true ) {
@@ -68,7 +70,7 @@
 			option_value LONGTEXT NOT NULL
 		)';
 
-		if ( $conn->query( $sql ) === TRUE ) {
+		if ( $DDB->query( $sql ) === TRUE ) {
 			echo 'Table ' . PREFIX . '_content successfully created.';
 
 			// Insert some basic options.
@@ -108,7 +110,7 @@
 	<body class="installer">
 	<!-- START INSTALLER BODY -->
 
-		<form action="installer.php" method="post" class="frame">
+		<form action="install.php" method="post" class="frame">
 			<div>
 				<h2>Account</h2>
 
@@ -136,7 +138,7 @@
 				<p>The username used to connect to your database.</p>
 
 				<label for="db_password">Password</label>
-				<input type="text" name="db_password" required>
+				<input type="text" name="db_password">
 				<p>The password used to connect to your database.</p>
 
 				<label for="db_host">Host</label>
