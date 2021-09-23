@@ -1,6 +1,6 @@
 <?php
 
-
+	namespace Atoum;
 
 ?>
 	<div>
@@ -10,7 +10,8 @@
 		<a href="admin.php?p=editor.php&e=page">Add</a>
 		<?php
 
-			
+			$page = new at_class_page( 1 );
+			echo $page->get_iframe();
 
 		?>
 

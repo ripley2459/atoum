@@ -10,7 +10,6 @@
 		<script type="text/javascript">
 			tinymce.init({
 				selector: 'textarea',
-				toolbar: 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify alignnone'
 			});
 		</script>
 
