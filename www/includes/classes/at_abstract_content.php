@@ -330,4 +330,22 @@
 				$rqst_content_retrieve -> closeCursor();
 			}
 		}
+
+		/**
+		 * Get all instances.
+		 * @return array of all instances.
+		 * @since 2021/09/04
+		 */
+		static function get_all() {
+			// TO FILL
+		}
+
+		/**
+		 * Display the list of all instances.
+		 * Must be filled by children.
+		 * @since 2021/09/24
+		 */
+		static function show_all_as_table() {
+			// TO FILL
+		}
 	}

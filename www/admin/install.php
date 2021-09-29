@@ -43,13 +43,13 @@
 
 		// Content table.
 		$sql = 'CREATE TABLE ' . PREFIX . 'content (
-			content_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+			content_id BIGINT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			content_title VARCHAR(255),
 			content_slug VARCHAR(255),
 			content_type VARCHAR(25) NOT NULL,
 			content_origin VARCHAR(25) NOT NULL,
 			content_status VARCHAR(25) NOT NULL,
-			content_author_id INT(11) NOT NULL,
+			content_author_id BIGINT(11) NOT NULL,
 			content_path VARCHAR(255),
 			content_content LONGTEXT,
 			content_date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -65,7 +65,7 @@
 
 		// Options table.
 		$sql = 'CREATE TABLE ' . PREFIX . 'options (
-			option_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+			option_id BIGINT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			option_name VARCHAR(25) NOT NULL,
 			option_value LONGTEXT NOT NULL
 		)';

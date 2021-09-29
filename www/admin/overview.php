@@ -1,4 +1,4 @@
-	<div>
+	<div class="frame">
 	<!-- START OVERVIEW -->
 
 		<h1>PHP Instalation</h1>
@@ -13,16 +13,16 @@
 			<h2>Uploads</h2>
 
 			<label>The maximum size of an uploaded file (in bytes):</label>
-			<input type="text" name="name" id="name" value="<?php echo $upload_max_filesize; ?>" required>
+			<input type="text" name="name" id="name" value="<?php echo $upload_max_filesize; ?>" required readonly>
 
 			<label>The maximum size of the data received by the POST method:</label>
-			<input type="text" name="name" id="name" value="<?php echo $post_max_size; ?>" required>
+			<input type="text" name="name" id="name" value="<?php echo $post_max_size; ?>" required readonly>
 
 			<label>The memory limit (in bytes) a script is allowed to allocate:</label>
-			<input type="text" name="name" id="name" value="<?php echo $memory_limit; ?>" required>
+			<input type="text" name="name" id="name" value="<?php echo $memory_limit; ?>" required readonly>
 
 			<label>Effective upload size (in bytes):</label>
-			<input type="text" name="name" id="name" value="<?php echo $upload_mb; ?>" required>
+			<input type="text" name="name" id="name" value="<?php echo $upload_mb; ?>" required readonly>
 
 		</form>
 
