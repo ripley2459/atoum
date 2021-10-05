@@ -43,13 +43,13 @@
 
 		// Content table.
 		$sql = 'CREATE TABLE ' . PREFIX . 'content (
-			content_id BIGINT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			content_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			content_title VARCHAR(255),
 			content_slug VARCHAR(255),
 			content_type VARCHAR(25) NOT NULL,
 			content_origin VARCHAR(25) NOT NULL,
 			content_status VARCHAR(25) NOT NULL,
-			content_author_id BIGINT(11) NOT NULL,
+			content_author_id BIGINT(20) NOT NULL,
 			content_path VARCHAR(255),
 			content_content LONGTEXT,
 			content_date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -63,9 +63,27 @@
 			echo "Error creating table: " . $conn->error;
 		}
 
+		// Tags table.
+		$sql = 'CREATE TABLE ' . PREFIX . 'tags (
+			tag_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			tag_name VARCHAR(255) NOT NULL,
+			tag_slug VARCHAR(255) NOT NULL,
+			tag_type VARCHAR(25) NOT NULL,
+			tag_parent_id BIGINT(20) UNSIGNED,
+			tag_group_id BIGINT(20) UNSIGNED,
+			tag_description VARCHAR(25)
+		)';
+
+		if ( $DDB->query( $sql ) === true ) {
+			echo 'Table ' . PREFIX . '_tags successfully created.';
+		}
+		else {
+			echo "Error creating table: " . $conn->error;
+		}
+
 		// Options table.
 		$sql = 'CREATE TABLE ' . PREFIX . 'options (
-			option_id BIGINT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			option_id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			option_name VARCHAR(25) NOT NULL,
 			option_value LONGTEXT NOT NULL
 		)';
