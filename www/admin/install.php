@@ -88,7 +88,7 @@
 			option_value LONGTEXT NOT NULL
 		)';
 
-		if ( $DDB->query( $sql ) === TRUE ) {
+		if ( $DDB->query( $sql ) === true ) {
 			echo 'Table ' . PREFIX . '_content successfully created.';
 
 			// Insert some basic options.
@@ -99,7 +99,7 @@
 			$rqst0 = $DDB->prepare( $sql0 );
 			$rqst0->execute( [ 
 				':option_name' => 'active_theme',
-				':option_value' => 'option_name'
+				':option_value' => 'template'
 			] );
 
 			$rqst0->closeCursor();
