@@ -38,16 +38,16 @@
 		private $parent_id = 0;
 
 		/**
-		 * @var string is the tag's description.
-		 * @since 2021/06/09
-		 */
-		private $description = '';
-
-		/**
 		 * @var int is the tag's group id.
 		 * @since 2021/06/09
 		 */
 		private $group_id = 0;
+
+		/**
+		 * @var string is the tag's description.
+		 * @since 2021/06/09
+		 */
+		private $description = '';
 
 		/**
 		 * @var bool at true if the this instance is retrieved from the database.
@@ -116,6 +116,18 @@
 		}
 
 		/**
+		 * @property-read int $group_id return group_id.
+		 * @property-write int $group_id set group_id. 
+		 * @since 2021/06/09
+		 */
+		public function get_group_id(){
+			return $this->group_id;
+		}
+		public function set_group_id( int $group_id ){
+			$this->group_id = $group_id;
+		}
+
+		/**
 		 * @property-read string $description return description.
 		 * @property-write string $description set description. 
 		 * @since 2021/06/09
@@ -172,6 +184,7 @@
 				tag_slug = :tag_slug,
 				tag_type = :tag_type,
 				tag_parent_id = :tag_parent_id,
+				tag_group_id = :tag_group_id,
 				tag_description = :tag_description
 			';
 
@@ -182,6 +195,7 @@
 				':tag_slug' => $this->slug,
 				':tag_type' => $this->type,
 				':tag_parent_id' => $this->parent_id,
+				':tag_group_id' => $this->group_id,
 				':tag_description' => $this->description
 			] );
 
@@ -196,7 +210,14 @@
 		public function edit() {
 			global $DDB;
 
-			$sql0 = 'UPDATE ' . PREFIX . 'tags SET tag_name = :tag_name, tag_slug = :tag_slug, tag_type = :tag_type, tag_parent_id = :tag_parent_id, tag_description = :tag_description WHERE tag_id = :tag_id';
+			$sql0 = 'UPDATE ' . PREFIX . 'tags SET 
+				tag_name = :tag_name,
+				tag_slug = :tag_slug,
+				tag_type = :tag_type,
+				tag_parent_id = :tag_parent_id,
+				tag_group_id = :tag_group_id,
+				tag_description = :tag_description
+			WHERE tag_id = :tag_id';
 
 			$rqst_tag_edit = $DDB->prepare( $sql0 );
 
@@ -205,6 +226,7 @@
 				':tag_slug' => $this->slug,
 				':tag_type' => $this->type,
 				':tag_parent_id' => $this->parent_id,
+				':tag_group_id' => $this->group_id,
 				':tag_description' => $this->description,
 				':tag_id' => $this->id
 			] );
@@ -245,8 +267,9 @@
 					$this->name = $post[ 'tag_name' ];
 					$this->slug = $post[ 'tag_slug' ];
 					$this->type = $post[ 'tag_type' ];
-					$this->description = $post[ 'tag_description' ];
 					$this->parent_id = $post[ 'tag_parent_id' ];
+					$this->group_id = $post[ 'tag_group_id' ];
+					$this->description = $post[ 'tag_description' ];
 
 					$this->is_recovered == true;
 				}
