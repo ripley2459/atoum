@@ -311,10 +311,10 @@
 			global $DDB;
 			if( $this->is_recovered == false ) {
 				$sql0 = 'SELECT * FROM ' . PREFIX . 'content WHERE content_id = :content_id';
-				$rqst_content_retrieve = $DDB -> prepare( $sql0 );
-				$rqst_content_retrieve -> execute( [ ':content_id' => $this->id ] );
+				$rqst_content_retrieve = $DDB->prepare( $sql0 );
+				$rqst_content_retrieve->execute( [ ':content_id' => $this->id ] );
 				if( $rqst_content_retrieve ) {
-					$content = $rqst_content_retrieve -> fetch();
+					$content = $rqst_content_retrieve->fetch();
 					$this->title = $content[ 'content_title' ];
 					$this->slug = $content[ 'content_slug' ];
 					$this->type = $content[ 'content_type' ];
@@ -327,7 +327,7 @@
 					$this->date_modified = $content[ 'content_date_modified' ];
 					$this->is_recovered == true;
 				}
-				$rqst_content_retrieve -> closeCursor();
+				$rqst_content_retrieve->closeCursor();
 			}
 		}
 
