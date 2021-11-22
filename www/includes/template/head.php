@@ -1,15 +1,9 @@
-<?php
-	
-	// head.php
-	// 20:16 2021-05-03
-
-?>
 <!doctype html>
 <html lang="en">
 <!-- START HTML -->
 	<head>
 	<!-- START HEAD -->
-		<title>index.php</title>
+		<title><?php echo PAGE; ?></title>
 		<meta charset="utf-8">
 		<meta name="description" content="Homepage">
 		<meta name="author" content="Cyril Neveu">

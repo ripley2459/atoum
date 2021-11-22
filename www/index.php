@@ -20,7 +20,7 @@
 	namespace Atoum;
 
 	// If the generated file during the instalation process doesn't exist, redirect the user to the instalation page.
-	if( ! file_exists( 'settings.php' ) ) header( 'Location: admin/install.php' );
+	if( !file_exists( 'settings.php' ) ) header( 'Location: admin/install.php' );
 
 	// Atoum's settings.
 	require 'settings.php';
@@ -29,5 +29,5 @@
 	require 'load.php';
 
 	// Page construction.
-	require 'head.php';
-	require 'body.php';
+	require THEME . 'head.php';
+	require THEME . 'body.php';

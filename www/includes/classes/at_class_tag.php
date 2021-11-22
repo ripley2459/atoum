@@ -234,8 +234,11 @@
 			$rqst_tag_edit->closeCursor();
 		}
 
-		// remove
-		// do i really need what this function do?
+		/**
+		 * Remove
+		 * Remove this instance from the database.
+		 * @since 2021/11/22
+		 */
 		public function remove() {
 			global $DDB;
 

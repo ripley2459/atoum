@@ -2,8 +2,7 @@
 	
 	namespace Atoum;
 
-	// Retrieve everything related to the theme.
-
+	// THEME
 	// Check if a theme is installaed, if not use the template theme.
 	if( get_option_value( 'active_theme' ) == 'template' ) {
 		// No theme saved in the database.
@@ -15,9 +14,17 @@
 	}
 	else {
 		// A theme's name has been found. Use it.
-		define( 'THEME', get_option_value( 'active_theme' ) . '/' );
+		define( 'THEME', THEMES . get_option_value( 'active_theme' ) . '/' );
 		define( 'STYLE', URL . '/content/themes/' . THEME . '/includes/style.css' );
 
-		require THEMES . THEME . 'imports.php';
-		require THEMES . THEME . 'load.php';
+		require THEME . 'imports.php';
+		require THEME . 'load.php';
+	}
+
+	// PAGE
+	if( isset( $_GET[ 'page' ] ) ) {
+		define( 'PAGE', $_GET[ 'page' ] );
+	}
+	else {
+		define( 'PAGE', false );
 	}
