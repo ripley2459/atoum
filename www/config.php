@@ -6,7 +6,8 @@
 	define( 'THEMES', __DIR__ . '/content/themes/' );
 	define( 'TEMPLATE', __DIR__ . '/includes/template/' );
 	define( 'INCLUDES', __DIR__ . '/includes/' );
-	define( 'UPLOADS', __DIR__ . '/content/uploads/' . date('Y/m/d/') );
+	define( 'WIDGETS', __DIR__ . 'includes/widgets/' );
+	define( 'UPLOADS', __DIR__ . '/content/uploads/' . date( 'Y/m/d/' ) );
 
 	// Connection to the database.
 
@@ -22,5 +23,5 @@
 		$DDB = new PDO( DSN, USER, PASSWORD, $dsn_options );
 	}
 	catch( \PDOException $e ) {
-		throw new \PDOException( $e -> getMessage(), (int)$e -> getCode() );
+		throw new \PDOException( $e -> getMessage(), ( int )$e -> getCode() );
 	}

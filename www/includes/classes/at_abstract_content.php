@@ -337,7 +337,7 @@
 		 * @since 2021/09/04
 		 */
 		static function get_all() {
-			// TO FILL
+
 		}
 
 		/**
@@ -346,6 +346,6 @@
 		 * @since 2021/09/24
 		 */
 		static function show_all_as_table() {
-			// TO FILL
+
 		}
 	}
