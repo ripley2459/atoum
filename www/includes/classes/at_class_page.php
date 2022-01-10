@@ -2,6 +2,12 @@
 
     namespace Atoum;
 
+	/**
+	 * Page class used for static page.
+	 * @author Cyril Neveu
+	 * @since 2022/01/03
+	 * @uses use this class for page content.
+	 */
     class at_class_page extends at_abstract_content {
         /**
          * Return the iframe of that instance.
@@ -11,6 +17,11 @@
             return '<iframe src=' . $this->path . '" title="' .  $this->title . '" class="large"></iframe>';
         }
 
+		/**
+		 * Get all instances.
+		 * @return array of all instances.
+		 * @since 2021/09/03
+		 */
         static function get_all() {
             global $DDB, $order_by, $order_direction;
             $pages = [];
@@ -24,6 +35,11 @@
             return $pages;
         }
 
+		/**
+		 * Displays a table containing all the pages of the database.
+		 * Intended for administration purposes.
+		 * @since 2022/01/03
+		 */
         static function show_all_as_table() {
             global $DDB, $order_by, $order_direction;
             $to_return = '<table id="pages_list">  

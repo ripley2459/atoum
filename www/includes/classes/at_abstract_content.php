@@ -5,7 +5,7 @@
 	/**
 	 * Abstract class used for everything that fit inside the content table of the database.
 	 * @author Cyril Neveu
-	 * @since 2021/09/20
+	 * @since 2022/01/03
 	 * @abstract
 	 * @uses use this class for inheritance.
 	 */
@@ -333,6 +333,7 @@
 
 		/**
 		 * Get all instances.
+		 * Must be filled by children.
 		 * @return array of all instances.
 		 * @since 2021/09/04
 		 */
@@ -342,8 +343,9 @@
 
 		/**
 		 * Display the list of all instances.
+		 * Intended for administration purposes.
 		 * Must be filled by children.
-		 * @since 2021/09/24
+		 * @since 2022/01/03
 		 */
 		static function show_all_as_table() {
 

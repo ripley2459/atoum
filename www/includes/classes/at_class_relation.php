@@ -5,7 +5,7 @@
 	class at_class_relation {
 
 		///////////////////////////////////////////////////////////////////////////////////////////
-		// fields
+		// FIELDS
 
 		/**
 		 * @var int is the relation's id.
@@ -26,13 +26,13 @@
 		protected $a_id;
 
 		/**
-		 * @var int is the object B's id.
+		 * @var int is the object b's id.
 		 * @since 2021/06/15
 		 */
 		protected $b_id;
 
 		///////////////////////////////////////////////////////////////////////////////////////////
-		// properties
+		// PROPERTIES
 
 		/**
 		 * This variable can't be set outside the class or without the __constructor.
@@ -42,7 +42,6 @@
 		public function set_id( int $id ) {
 			$this->id = $id;
 		}
-
 		public function get_id() {
 			return $this->id;
 		}
@@ -83,8 +82,8 @@
 			return $this->b_id;
 		}
 
-
-		// methods
+		///////////////////////////////////////////////////////////////////////////////////////////
+		// METHODS
 
 		public function __construct( int $id ) {
 			if( $id != -1 ) $this->retrieve( $id );

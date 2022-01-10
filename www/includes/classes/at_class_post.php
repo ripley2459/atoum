@@ -2,7 +2,19 @@
 
     namespace Atoum;
 
+	
+	/**
+	 * Page class used for dynamic page.
+	 * @author Cyril Neveu
+	 * @since 2022/01/03
+	 * @uses use this class for post content.
+	 */
     class at_class_post extends at_abstract_content {
+		/**
+		 * Get all instances.
+		 * @return array of all instances.
+		 * @since 2021/09/03
+		 */
         static function get_all() {
             global $DDB, $order_by, $order_direction;
             $posts = [];
@@ -16,6 +28,11 @@
             return $posts;
         }
 
+		/**
+		 * Displays a table containing all the pages of the database.
+		 * Intended for administration purposes.
+		 * @since 2022/01/03
+		 */
         static function show_all_as_table() {
             global $DDB, $order_by, $order_direction;
             $to_return = '<table id="posts_list">  
