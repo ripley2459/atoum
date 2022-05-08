@@ -23,6 +23,7 @@
 
 	// WHITELIST
 	// Return the value only if its inside an array of predetermined (hardcodded) values.
+	// @since 2021/09/20
 	function whitelist( &$value, array $allowed, string $message ) {
 		if( $value === null ) return $allowed[0];
 

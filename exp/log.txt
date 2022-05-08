@@ -1,0 +1,32 @@
+[2022/05/08-15:39:29][INFO] Bulk uploading operation started
+[2022/05/08-15:39:29][INFO] Found 2 files
+[2022/05/08-15:40:07][INFO] Bulk uploading operation started
+[2022/05/08-15:40:07][INFO] Found 2 files
+[2022/05/08-15:40:25][INFO] Bulk uploading operation started
+[2022/05/08-15:40:25][INFO] Found 2 files
+[2022/05/08-15:41:51][INFO] Bulk uploading operation started
+[2022/05/08-15:41:51][INFO] Found 0 files
+[2022/05/08-15:42:14][INFO] Bulk uploading operation started
+[2022/05/08-15:42:14][INFO] Found 2 files
+[2022/05/08-15:43:53][INFO] Bulk uploading operation started
+[2022/05/08-15:43:53][INFO] Found 2 files
+[2022/05/08-15:44:45][INFO] Bulk uploading operation started
+[2022/05/08-15:44:45][INFO] Found 2 files
+[2022/05/08-15:45:56][INFO] Bulk uploading operation started
+[2022/05/08-15:45:56][INFO] Found 2 files
+[2022/05/08-15:46:24][INFO] Bulk uploading operation started
+[2022/05/08-15:46:24][INFO] Found 2 files
+[2022/05/08-15:47:07][INFO] Bulk uploading operation started
+[2022/05/08-15:47:07][INFO] Found 2 files
+[2022/05/08-15:49:26][INFO] Bulk uploading operation started
+[2022/05/08-15:49:26][INFO] Found 2 files
+[2022/05/08-15:49:26][INFO] Array registered
+[2022/05/08-15:49:26][INFO] Tags applied on Array
+[2022/05/08-15:49:26][INFO] Array registered
+[2022/05/08-15:49:26][INFO] Tags applied on Array
+[2022/05/08-15:49:39][INFO] Bulk uploading operation started
+[2022/05/08-15:49:39][INFO] Found 2 files
+[2022/05/08-15:49:39][INFO] BO LAB.IAv4.0.wav registered
+[2022/05/08-15:49:39][INFO] Tags applied on BO LAB.IAv4.0.wav
+[2022/05/08-15:49:39][INFO] You_know_the_rules...__Original_Version_Animated_.mp4 registered
+[2022/05/08-15:49:39][INFO] Tags applied on You_know_the_rules...__Original_Version_Animated_.mp4
