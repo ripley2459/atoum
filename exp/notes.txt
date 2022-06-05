@@ -1,5 +1,0 @@
-Some experimentations.
-
-Relations
-Tag -> Personne = 7
-Tag -> Film = 8
