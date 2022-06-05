@@ -1,5 +1,0 @@
-<div id="header">
-
-
-
-</div>
