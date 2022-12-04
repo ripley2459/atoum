@@ -1,8 +1,0 @@
-name: Dot R
-url: R.
-author: R.
-author url: R.
-version: 4
-version date: 2021/03/05
-description: My own theme.
-includes: nothing else.

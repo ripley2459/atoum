@@ -1,5 +1,0 @@
-Options +FollowSymlinks
-RewriteEngine on
-
-#Basic template
-RewriteRule ^admin/([a-z]*)/([a-z]*).php$ /admin/admin.php?folder=$1&page=$2 [QSA,L]
