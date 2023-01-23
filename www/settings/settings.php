@@ -6,6 +6,10 @@ SettingsPageBuilder::Instance()->head();
 
 SettingsPageBuilder::Instance()->header();
 
-SettingsPageBuilder::Instance()->body();
+?>
+
+    <h1>Atoum's administration</h1>
+
+<?php
 
 SettingsPageBuilder::Instance()->footer();

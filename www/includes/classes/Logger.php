@@ -20,24 +20,24 @@ class Logger
         return self::$_instance;
     }
 
-    public static function logError(string $t)
+    public static function logError(string $t): void
     {
         Logger::log('[' . date("Y-m-d H:i:s") . ']' . '[ERROR] ' . $t);
     }
 
-    public static function log(string $text)
+    public static function log(string $text): void
     {
         $f = fopen(DIR . "/log.txt", 'a');
         fwrite($f, '[' . date("Y/m/d-H:i:s") . ']' . $text . "\n");
         fclose($f);
     }
 
-    public static function logInfo(string $text)
+    public static function logInfo(string $text): void
     {
         Logger::log('[INFO] ' . $text);
     }
 
-    public static function clear()
+    public static function clear(): void
     {
         $f = fopen(DIR . '/log.txt', 'w');
         fclose($f);

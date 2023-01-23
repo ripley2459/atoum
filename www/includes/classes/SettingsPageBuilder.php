@@ -26,7 +26,7 @@ class SettingsPageBuilder
      */
     public function head(): void
     {
-        include SETTINGS . 'head.php';
+        include SETTINGS_INCLUDES . 'head.php';
     }
 
     /**
@@ -35,17 +35,7 @@ class SettingsPageBuilder
      */
     public function header(): void
     {
-        include SETTINGS . 'header.php';
-    }
-
-    /**
-     * Fonction pour inclure le morceau de page.
-     * @return void
-     */
-    public function body(): void
-    {
-        $page = $_GET['page'] ?? 'home';
-        include SETTINGS . 'settings/' . $page . '.php';
+        include SETTINGS_INCLUDES . 'header.php';
     }
 
     /**
@@ -54,6 +44,6 @@ class SettingsPageBuilder
      */
     public function footer(): void
     {
-        include SETTINGS . 'footer.php';
+        include SETTINGS_INCLUDES . 'footer.php';
     }
 }
