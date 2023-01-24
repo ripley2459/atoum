@@ -15,6 +15,7 @@ const SETTINGS = DIR . '/settings/';
 const SETTINGS_INCLUDES = SETTINGS . 'includes/';
 const CLASSES = INCLUDES . 'classes/';
 const INTERFACES = INCLUDES . 'interfaces/';
+const ENUMERATIONS = INCLUDES . 'enumerations/';
 const WIDGETS = INCLUDES . 'widgets/';
 const UPLOADS = CONTENT . 'uploads/';
 const UPLOADS_URL = URL . '/content/uploads/';
@@ -23,7 +24,9 @@ require_once INCLUDES . 'functions.php';
 
 require_once INTERFACES . 'IData.php';
 require_once INTERFACES . 'IFile.php';
-require_once INTERFACES . 'IStatuable.php';
+
+require_once ENUMERATIONS . 'EContentStatus.php';
+require_once ENUMERATIONS . 'EContentType.php';
 
 require_once CLASSES . 'Logger.php';
 require_once CLASSES . 'Setting.php';

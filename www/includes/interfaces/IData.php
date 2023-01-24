@@ -1,5 +1,9 @@
 <?php
 
+
+/**
+ * Fonctions requises par la majorité des classes pouvant être chargées ou sauvegardées depuis/dans une base de données.
+ */
 interface IData
 {
     /**

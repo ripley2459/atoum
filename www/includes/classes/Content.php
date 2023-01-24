@@ -1,6 +1,6 @@
 <?php
 
-abstract class Content implements IData, IStatuable
+abstract class Content implements IData
 {
     protected int $_id;
     protected string $_name;
@@ -21,7 +21,7 @@ abstract class Content implements IData, IStatuable
      * Donne le type de donnée.
      * @return mixed
      */
-    public static abstract function getType(): int;
+    public static abstract function getType(): EContentType;
 
     /**
      * @inheritDoc

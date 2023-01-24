@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Représente un utilisateur.
+ */
 class User implements IData
 {
     /**

@@ -66,8 +66,10 @@ class FileHandler
                     if (in_array(mime_content_type($file['tmp_name']), self::ALLOWED_TYPES)) {
                         self::checkDefaultPath();
                         $path = self::getPathForFile($file['name']);
-                        if (move_uploaded_file($file['tmp_name'], $path)) {
-                            // TODO
+                        if (!file_exists($path)) {
+                            if (move_uploaded_file($file['tmp_name'], $path)) {
+                                echo EContentStatus::PUBLISHED->value;
+                            }
                         }
                     }
                 }
