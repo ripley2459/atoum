@@ -1,9 +1,12 @@
 <?php
 
-enum EContentType:int
+enum EContentType: int
 {
-    case DELETED = 0;
-    case PUBLISHED = 1;
-    case ARCHIVED = 2;
-    case HIDDEN = 3;
+    case MOVIE = 0;
+    case IMAGE = 1;
+    case GALLERY = 2;
+    case PLAYLIST = 3;
+    case POST = 4;
+    case PAGE = 5;
+    case COMMENT = 6;
 }
