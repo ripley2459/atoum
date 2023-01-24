@@ -38,6 +38,7 @@ require_once CLASSES . 'Content.php';
 require_once CLASSES . 'Gallery.php';
 require_once CLASSES . 'Image.php';
 require_once CLASSES . 'Movie.php';
+require_once CLASSES . 'Page.php';
 require_once CLASSES . 'Playlist.php';
 require_once CLASSES . 'Relation.php';
 require_once CLASSES . 'Tag.php';

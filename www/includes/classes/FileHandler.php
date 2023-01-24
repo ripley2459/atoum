@@ -68,7 +68,9 @@ class FileHandler
                         $path = self::getPathForFile($file['name']);
                         if (!file_exists($path)) {
                             if (move_uploaded_file($file['tmp_name'], $path)) {
-                                echo EContentStatus::PUBLISHED->value;
+                                if (Content::checkTable()) {
+                                    // TODO
+                                }
                             }
                         }
                     }

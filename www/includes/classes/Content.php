@@ -3,14 +3,24 @@
 abstract class Content implements IData
 {
     protected int $_id;
-    protected string $_name;
-    protected string $_registration;
-    protected int $_views;
-    protected int $_type;
     protected int $_owner;
-    protected int $_parent;
+    protected int $_type;
     protected int $_status;
+    protected int $_views;
+    protected string $_slug;
+    protected string $_name;
     protected string $_content;
+    protected int $_parent;
+    protected string $_date_created;
+    protected string $_date_modified;
+
+    /**
+     * @param int $id
+     */
+    public function __construct(int $id = -1)
+    {
+        if ($id == -1) return;
+    }
 
     /**
      * @return Content
@@ -26,74 +36,74 @@ abstract class Content implements IData
     /**
      * @inheritDoc
      */
-    public function register(): void
+    public static function checkTable(): bool
     {
         global $DDB;
-        $s = 'INSERT INTO ' . PREFIX . 'contents SET name = :name, views = :views, type = :type, owner = :owner, parent = :parent, status = :status, content = :content';
+        $s = 'SHOW TABLES LIKE \'' . PREFIX . 'content\'';
         $r = $DDB->prepare($s);
-        if ($r->execute([':name' => $this->_name, 'views' => $this->_views, ':type' => $this->_type, ':owner' => $this->_owner, ':parent' => $this->_parent, ':status' => $this->_status, ':content' => $this->_content])) {
-            $this->__construct($DDB->lastInsertId());
-            Logger::logInfo('Nouvelle instance de type ' . $this->_type . ' crée avec l\'id ' . $this->_id);
-        } else {
-            Logger::logError('Impossible de créer une nouvelle instance de type ' . $this->_type);
-        }
-        $r->closeCursor();
-    }
 
-    /**
-     * @param int $id
-     */
-    public function __construct(int $id = -1)
-    {
-        if ($id == -1) return;
-        global $DDB;
-        $s = 'SELECT * FROM ' . PREFIX . 'contents WHERE id = :id LIMIT 1';
-        $r = $DDB->prepare($s);
-        if ($r->execute([':id' => $id])) {
-            $data = $r->fetch();
-            $this->_id = $data['id'];
-            $this->_name = $data['name'];
-            $this->_registration = $data['registration'];
-            $this->_views = $data['views'];
-            $this->_type = $data['type'];
-            $this->_owner = $data['owner'];
-            $this->_parent = $data['parent'];
-            $this->_status = $data['status'];
-            $this->_content = $data['content'];
-        } else {
-            Logger::logError('Impossible de récupérer l\'instance de type ' . $this->_type . ' avec l\'id ' . $this->_id);
+        try {
+            $r->execute();
+        } catch (PDOException $e) {
+            Logger::logError('Error during check table processus');
+            Logger::logError($e->getMessage());
+            return false;
         }
-        $r->closeCursor();
-    }
 
-    /**
-     * @inheritDoc
-     */
-    public function unregister(): void
-    {
-        global $DDB;
-        $s = 'DELETE FROM ' . PREFIX . 'contents WHERE id = :id';
-        $r = $DDB->prepare($s);
-        if ($r->execute([':id' => $this->_id])) {
-            Logger::logInfo($this->_name . ' a été supprimé');
+        if ($r->rowCount() > 0) {
+            return true;
+        } else {
+            $s = 'CREATE TABLE ' . PREFIX . 'content (
+                id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                owner BIGINT(20) UNSIGNED default 0,
+                type BIGINT(20) UNSIGNED NOT NULl,
+                status TINYINT(255) UNSIGNED default 0,
+                views BIGINT(20) UNSIGNED default 0,
+                slug VARCHAR(255) NOT NULL,
+                name VARCHAR(255) NOT NULL,
+                content LONGTEXT,
+                parent BIGINT(20) UNSIGNED default 0,
+                date_created DATETIME default CURRENT_TIMESTAMP,
+                date_modified DATETIME default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )';
+            $r = $DDB->prepare($s);
+
+            try {
+                $r->execute();
+                Logger::logInfo('Table \'content\' has been created');
+                return true;
+            } catch (PDOException $e) {
+                Logger::logError('Can\'t create table \'content\'');
+                Logger::logError($e->getMessage());
+                return false;
+            }
         }
-        $r->closeCursor();
     }
 
     /**
      * @inheritDoc
      */
-    public function save(): void
+    public
+    function register(): bool
     {
-        global $DDB;
-        $s = 'UPDATE ' . PREFIX . 'contents SET name = :name, views = :views, type = :type, owner = :owner, parent = :parent, status = :status, content = :content WHERE id = :id';
-        $r = $DDB->prepare($s);
-        if ($r->execute([':id' => $this->_id, ':name' => $this->_name, 'views' => $this->_views, ':type' => $this->_type, ':owner' => $this->_owner, ':parent' => $this->_parent, ':status' => $this->_status, ':content' => $this->_content])) {
-            $this->__construct($this->_id);
-            Logger::logInfo('L\'instance de type ' . $this->_type . ' avec l\'id ' . $this->_id . ' a été sauvegardée');
-        } else {
-            Logger::logInfo('impossible de sauvegarder l\'instance de type ' . $this->_type . ' avec l\'id ' . $this->_id);
-        }
-        $r->closeCursor();
+        // TODO: Implement register() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public
+    function unregister(): bool
+    {
+        // TODO: Implement unregister() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public
+    function save(): bool
+    {
+        // TODO: Implement save() method.
     }
 }

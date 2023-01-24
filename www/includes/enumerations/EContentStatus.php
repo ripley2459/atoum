@@ -2,8 +2,8 @@
 
 enum EContentStatus: int
 {
-    case DELETED = 0;
-    case PUBLISHED = 1;
+    case PUBLISHED = 0;
+    case HIDDEN = 1;
     case ARCHIVED = 2;
-    case HIDDEN = 3;
+    case DELETED = 3;
 }

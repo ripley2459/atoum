@@ -1,0 +1,2 @@
+[2023/01/24-22:09:17][INFO] Table 'content' has been created
+[2023/01/24-22:09:17][INFO] Will create instance in database.
