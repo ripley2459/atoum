@@ -2,6 +2,7 @@
 
 class Logger
 {
+    const DATE_FORMAT = 'Y-m-d H:i:s';
     private static ?Logger $_instance = null;
 
     private function __construct()
@@ -20,15 +21,15 @@ class Logger
         return self::$_instance;
     }
 
-    public static function logError(string $t): void
+    public static function logError(string $text): void
     {
-        Logger::log('[' . date("Y-m-d H:i:s") . ']' . '[ERROR] ' . $t);
+        Logger::log('[ERROR] ' . $text);
     }
 
     public static function log(string $text): void
     {
         $f = fopen(DIR . "/log.txt", 'a');
-        fwrite($f, '[' . date("Y/m/d-H:i:s") . ']' . $text . "\n");
+        fwrite($f, '[' . date(self::DATE_FORMAT) . ']' . $text . "\n");
         fclose($f);
     }
 

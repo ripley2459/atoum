@@ -2,7 +2,7 @@
 
 class FileHandler
 {
-    const DATE_FORMAT = "Y/m/d";
+    const DATE_FORMAT = 'Y/m/d';
     const ALLOWED_TYPES = ['image/giff', 'image/jpeg', 'image/png', 'video/mp4', 'video/ogg'];
     private static ?FileHandler $_instance = null;
 
@@ -46,6 +46,7 @@ class FileHandler
      * Télécharge les fichiers sur le serveur.
      * @param array $files
      * @return bool Vrai si et seulement tous les fichiers ont pu être envoyés sans erreurs.
+     * @throws Exception Dans le cas où le type n'est pas supporté
      */
     public static function uploadFiles(array $files): bool
     {
@@ -63,14 +64,27 @@ class FileHandler
         foreach ($bucket as $file) {
             if (!empty($file['tmp_name'])) {
                 if (true) { // Vérifier la taille du fichier manuellement
-                    if (in_array(mime_content_type($file['tmp_name']), self::ALLOWED_TYPES)) {
+                    $mimeType = mime_content_type($file['tmp_name']);
+                    if (in_array($mimeType, self::ALLOWED_TYPES)) {
                         self::checkDefaultPath();
                         $path = self::getPathForFile($file['name']);
                         if (!file_exists($path)) {
                             if (move_uploaded_file($file['tmp_name'], $path)) {
-                                if (Content::checkTable()) {
-                                    // TODO
+                                $instance = Content::createInstance(EContentType::fromMime($mimeType));
+                                if ($instance->registerInstance(0,
+                                    EContentType::fromMime($mimeType)->value,
+                                    EContentStatus::PUBLISHED->value,
+                                    0,
+                                    lightNormalize($file['name']),
+                                    $file['name'],
+                                    'null',
+                                    0)
+                                ) {
+                                    Logger::logInfo($file['name'] . ' has been registered in the database');
                                 }
+                            } else {
+                                unlink($file['tmp_name']);
+                                Logger::logError('Can\'t move the file to its destination');
                             }
                         }
                     }
