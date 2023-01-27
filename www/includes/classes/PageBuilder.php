@@ -22,7 +22,7 @@ class PageBuilder
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function index(): void
     {
@@ -31,7 +31,7 @@ class PageBuilder
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function head(): void
     {
@@ -40,7 +40,7 @@ class PageBuilder
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function header(): void
     {
@@ -49,7 +49,7 @@ class PageBuilder
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function body(): void
     {
@@ -58,7 +58,7 @@ class PageBuilder
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function footer(): void
     {

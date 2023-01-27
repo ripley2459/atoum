@@ -22,28 +22,38 @@ class SettingsPageBuilder
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function head(): void
     {
-        include SETTINGS_INCLUDES . 'head.php';
+        include SETTINGS . 'head.php';
     }
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function header(): void
     {
-        include SETTINGS_INCLUDES . 'header.php';
+        include SETTINGS . 'header.php';
     }
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function footer(): void
     {
-        include SETTINGS_INCLUDES . 'footer.php';
+        include SETTINGS . 'footer.php';
+    }
+
+    /**
+     * Fonction pour inclure le morceau de page.
+     * @return void Affiche directement le morceau de page.
+     */
+    public function body(): void
+    {
+        $page = $_GET['page'] ?? 'settings';
+        include SETTINGS . $page . '.php';
     }
 }

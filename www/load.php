@@ -1,18 +1,20 @@
 <?php
 
-if (file_exists('settings.php')) {
-    require_once __DIR__ . '/settings.php';
-} else {
-    header('Location: settings/install.php');
-}
-
 define('URL', sprintf('%s://%s', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']));
 
+if (file_exists(__DIR__ . '/settings.php')) {
+    require_once __DIR__ . '/settings.php';
+} else {
+    header('Location: ' . URL . '/settings/install.php');
+}
+
 const DIR = __DIR__;
-const INCLUDES = DIR . '/includes/';
-const CONTENT = DIR . '/content/';
 const SETTINGS = DIR . '/settings/';
 const SETTINGS_INCLUDES = SETTINGS . 'includes/';
+const SETTINGS_FUNCTIONS = SETTINGS_INCLUDES . 'functions/';
+const SETTINGS_FUNCTIONS_URL = URL . '/settings/includes/functions/';
+const INCLUDES = DIR . '/includes/';
+const CONTENT = DIR . '/content/';
 const CLASSES = INCLUDES . 'classes/';
 const INTERFACES = INCLUDES . 'interfaces/';
 const ENUMERATIONS = INCLUDES . 'enumerations/';
