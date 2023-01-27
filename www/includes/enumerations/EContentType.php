@@ -10,11 +10,21 @@ enum EContentType: int
     case PAGE = 5;
     case COMMENT = 6;
 
+    public static function fromInt(int $mime): EContentType
+    {
+        return EContentType::from($mime);
+    }
+
     public static function fromMime(string $mime): EContentType
     {
         return match ($mime) {
             'image/giff', 'image/jpeg', 'image/png' => EContentType::IMAGE,
             'video/mp4', 'video/ogg' => EContentType::MOVIE
         };
+    }
+
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
     }
 }

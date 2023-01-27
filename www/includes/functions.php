@@ -28,3 +28,21 @@ function nullOrEmpty(string $string): bool
 {
     return ($string === null || trim($string) === '');
 }
+
+
+/**
+ * Vérifie si une valeur est dans un ensemble. Si oui, retourne cette valeur, sinon, crée une erreur.
+ * @param $value
+ * @param array $allowed
+ * @return mixed La valeur indiquée si autorisée
+ */
+function whitelist($value, array $allowed): mixed
+{
+    $key = in_array($value, $allowed, true);
+
+    if ($key === false) {
+        throw new InvalidArgumentException('This value is not allowed here.');
+    } else {
+        return $value;
+    }
+}
