@@ -46,3 +46,15 @@ function whitelist($value, array $allowed): mixed
         return $value;
     }
 }
+
+
+/**
+ * @param string $input
+ * @return string ASC ou DESC. ASC par défaut.
+ */
+function switchOrderDirection(string $input): string
+{
+    if(!isset($input)) return 'ASC';
+
+    return str_contains($input, 'ASC') ? 'DESC' : 'ASC';
+}

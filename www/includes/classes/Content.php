@@ -2,7 +2,8 @@
 
 abstract class Content implements IData
 {
-    const COLUMNS = ['id', 'owner', 'type', 'status', 'views', 'slug', 'name', 'content', 'parent', 'date_created', 'date_modified'];
+    const COLUMNS = ['id', 'owner', 'type', 'status', 'views', 'slug', 'name', 'content', 'parent', 'dateCreated', 'dateModified'];
+    public string $_dateModified;
     protected int $_id;
     protected int $_owner;
     protected int $_type;
@@ -12,8 +13,7 @@ abstract class Content implements IData
     protected string $_name;
     protected string $_content;
     protected int $_parent;
-    protected string $_date_created;
-    public string $_date_modified;
+    protected string $_dateCreated;
 
     /**
      * @param int|null $id
@@ -39,8 +39,8 @@ abstract class Content implements IData
                 $this->_name = $d['name'];
                 $this->_content = $d['content'];
                 $this->_parent = $d['parent'];
-                $this->_date_created = $d['date_created'];
-                $this->_date_modified = $d['date_modified'];
+                $this->_dateCreated = $d['dateCreated'];
+                $this->_dateModified = $d['dateModified'];
             } catch (PDOException $e) {
                 Logger::logError('Can\'t get this instance from database');
                 Logger::logError($e->getMessage());
@@ -59,15 +59,41 @@ abstract class Content implements IData
      */
     public static abstract function getType(): EContentType;
 
-    public static function getAll(string $type = null, string $orderBy = null): array
+    /**
+     * @param int|null $type
+     * @param int|null $status
+     * @param string|null $orderBy
+     * @param int $limit
+     * @param int|null $currentPage La page actuelle pour la pagination
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null): array
     {
         global $DDB;
+
         if (self::checkTable()) {
             $s = 'SELECT id, type FROM ' . PREFIX . 'contents';
 
-            if (isset($type)) {
-                $type = whitelist((int)$type, EContentType::values());
-                $s .= ' WHERE type = ' . $type;
+            if (isset($type) || isset($status)) {
+                $s .= ' WHERE ';
+                if (isset($type)) {
+                    $type = whitelist($type, EContentType::values());
+                    $sType = ' type = ' . $type;
+                }
+                if (isset($status)) {
+                    $status = whitelist($status, EContentStatus::values());
+                    $sStatus = ' status = ' . $status;
+                }
+                if (isset($sType) && isset($sStatus)) {
+                    $s .= $sType . ' AND ' . $sStatus;
+                }
+                if (isset($sType) && !isset($sStatus)) {
+                    $s .= $sType;
+                }
+                if (!isset($sType) && isset($sStatus)) {
+                    $s .= $sStatus;
+                }
             }
 
             if (isset($orderBy)) {
@@ -78,14 +104,23 @@ abstract class Content implements IData
                 $s .= ' ORDER BY ' . $orderBy . ' ' . $orderDirection;
             }
 
+            $s .= isset($currentPage) ? ' LIMIT :limitMin, :limitMax' : ' LIMIT :limit';
+
             $r = $DDB->prepare($s);
+
+            if (isset($currentPage)) {
+                $r->bindValue(':limitMin', $currentPage * $limit - $limit, PDO::PARAM_INT);
+                $r->bindValue(':limitMax', $limit, PDO::PARAM_INT);
+            } else {
+                $r->bindValue(':limit', $limit, PDO::PARAM_INT);
+            }
 
             try {
                 $r->execute();
 
                 $content = [];
 
-                while ($d = $r->fetch()) {
+                while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
                     $newContent = self::createInstance(EContentType::fromInt($d['type']), $d['id']);
                     $content[] = $newContent;
                 }
@@ -130,8 +165,8 @@ abstract class Content implements IData
                 name VARCHAR(255) NOT NULL,
                 content LONGTEXT,
                 parent BIGINT(20) UNSIGNED default 0,
-                date_created DATETIME default CURRENT_TIMESTAMP,
-                date_modified DATETIME default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                dateCreated DATETIME default CURRENT_TIMESTAMP,
+                dateModified DATETIME default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )';
             $r = $DDB->prepare($s);
 
@@ -166,6 +201,114 @@ abstract class Content implements IData
             EContentType::COMMENT => new Comment($id),
             default => throw new Exception('This type is not supported!')
         };
+    }
+
+    public static function getAmount(int $type = null): int
+    {
+        global $DDB;
+        if (self::checkTable()) {
+            $s = 'SELECT COUNT(id) AS amount FROM ' . PREFIX . 'contents';
+
+            if (isset($type)) {
+                $type = whitelist($type, EContentType::values());
+                $s .= ' WHERE type = ' . $type;
+            }
+
+            $r = $DDB->prepare($s);
+
+            try {
+                $r->execute();
+                $d = $r->fetch(PDO::FETCH_ASSOC);
+                $amount = (int)$d['amount'];
+                $r->closeCursor();
+                return $amount;
+            } catch (PDOException $e) {
+                Logger::logError('Can\'t get the amount of registered instance in database');
+                Logger::logError($e->getMessage());
+                return -1;
+            }
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOwner(): int
+    {
+        return $this->_owner;
+    }
+
+    /**
+     * @return EContentStatus
+     */
+    public function getStatus(): EContentStatus
+    {
+        return EContentStatus::fromInt($this->_status);
+    }
+
+    /**
+     * @return int
+     */
+    public function getViews(): int
+    {
+        return $this->_views;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->_slug;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent(): string
+    {
+        return $this->_content;
+    }
+
+    /**
+     * @return int
+     */
+    public function getParent(): int
+    {
+        return $this->_parent;
+    }
+
+    /**
+     * @return DateTime
+     * @throws Exception
+     */
+    public function getDateCreated(): DateTime
+    {
+        return new DateTime($this->_dateCreated);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateModified(): DateTime
+    {
+        return $this->_dateModified;
     }
 
     /**
