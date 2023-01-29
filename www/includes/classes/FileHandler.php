@@ -3,7 +3,7 @@
 class FileHandler
 {
     const DATE_FORMAT = 'Y/m/d';
-    const ALLOWED_TYPES = ['image/giff', 'image/jpeg', 'image/png', 'video/mp4', 'video/ogg'];
+    const ALLOWED_TYPES = ['image/giff', 'image/gif', 'image/jpeg', 'image/png', 'video/mp4', 'video/ogg'];
     private static ?FileHandler $_instance = null;
 
     private function __construct()
@@ -43,7 +43,7 @@ class FileHandler
     }
 
     /**
-     * Télécharge les fichiers sur le serveur.
+     * Télécharge les fichiers sur le serveur et les enregistre dans la base de données.
      * @param array $files
      * @return bool Vrai si et seulement tous les fichiers ont pu être envoyés sans erreurs.
      * @throws Exception Dans le cas où le type n'est pas supporté
@@ -51,7 +51,7 @@ class FileHandler
     public static function uploadFiles(array $files): bool
     {
         $fileAmount = count($_FILES['files']['name']);
-
+        Logger::logInfo('Uploading ' . $fileAmount . ' file(s)');
         // Réorganise les fichiers pour être utilisables plus facilement.
         $bucket = [];
         $filesKeys = array_keys($files);
@@ -62,8 +62,9 @@ class FileHandler
         }
 
         foreach ($bucket as $file) {
+            Logger::logInfo('Uploading file: ' . $file['name']);
             if (!empty($file['tmp_name'])) {
-                if (true) { // Vérifier la taille du fichier manuellement
+                if (true) { // todo Vérifier la taille du fichier
                     $mimeType = mime_content_type($file['tmp_name']);
                     if (in_array($mimeType, self::ALLOWED_TYPES)) {
                         self::checkDefaultPath();
@@ -86,10 +87,10 @@ class FileHandler
                                 unlink($file['tmp_name']);
                                 Logger::logError('Can\'t move the file to its destination');
                             }
-                        }
-                    }
+                        } else Logger::logError('A file with that name already exist');
+                    } else Logger::logError('This type of file is not allowed');
                 }
-            }
+            } else Logger::logError('File is empty');
         }
 
         return false;

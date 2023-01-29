@@ -7,7 +7,7 @@ class Movie extends Content
      */
     public static function getType(): EContentType
     {
-        // TODO: Implement getType() method.
+        return EContentType::MOVIE;
     }
 
     /**

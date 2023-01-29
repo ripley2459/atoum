@@ -18,7 +18,6 @@ const CONTENT = DIR . '/content/';
 const CLASSES = INCLUDES . 'classes/';
 const INTERFACES = INCLUDES . 'interfaces/';
 const ENUMERATIONS = INCLUDES . 'enumerations/';
-const WIDGETS = INCLUDES . 'widgets/';
 const UPLOADS = CONTENT . 'uploads/';
 const UPLOADS_URL = URL . '/content/uploads/';
 
@@ -48,3 +47,5 @@ require_once CLASSES . 'User.php';
 require_once CLASSES . 'Comment.php';
 
 define('THEME', ThemeHandler::Instance()->getThemePath());
+define('THEME_URL', ThemeHandler::Instance()->getThemeURL());
+const BLOCKS = THEME . 'includes/blocks/';

@@ -2,11 +2,20 @@
 
 require_once dirname(__DIR__, 4) . '/load.php';
 
-if (!isset($_FILES['files'])) return;
+Logger::clear();
 
-if (empty($_FILES['files'])) return;
+if (!isset($_FILES['files'])) {
+    Logger::logError('The request to uploads files is null');
+    return;
+}
+
+if (empty($_FILES['files'])) {
+    Logger::logError('The request to uploads files is empty');
+    return;
+}
 
 try {
+    Logger::logInfo();
     echo FileHandler::uploadFiles($_FILES['files']);
 } catch (Exception $e) {
     Logger::logError($e->getMessage());

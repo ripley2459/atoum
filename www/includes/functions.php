@@ -54,7 +54,34 @@ function whitelist($value, array $allowed): mixed
  */
 function switchOrderDirection(string $input): string
 {
-    if(!isset($input)) return 'ASC';
+    if (!isset($input)) return 'ASC';
 
     return str_contains($input, 'ASC') ? 'DESC' : 'ASC';
+}
+
+/**
+ * Analyse un chemin et renvoie les fichiers en omettant "." et "..";
+ * @param $path
+ * @return array
+ */
+function normalizedScan($path): array
+{
+    return array_diff(scandir($path), ['.', '..']);
+}
+
+
+/**
+ * Affiche un block.
+ * @param string $block
+ * @return string
+ */
+function block(string $block): string
+{
+    $path = BLOCKS . $block . '.php';
+    if (is_file($path)) {
+        ob_start();
+        include $path;
+        return ob_get_clean();
+    }
+    return false;
 }

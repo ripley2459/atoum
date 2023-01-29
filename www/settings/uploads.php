@@ -1,6 +1,7 @@
 <h1>Uploads</h1>
 <h2>Upload</h2>
 <input type="file" id="filesUploader" multiple required/>
+<button onclick="uploadFiles()">Upload!</button>
 <h2>Your uploads</h2>
 <div id="uploadedFiles"></div>
 
@@ -13,15 +14,11 @@
         listFiles();
     });
 
-    filesUploader.addEventListener('change', event => {
-        uploadFile(filesUploader.files);
-    });
-
-    const uploadFile = (files) => {
+    const uploadFiles = () => {
         const request = new XMLHttpRequest();
         const formData = new FormData();
 
-        Array.from(files).forEach(f => formData.append('files[]', f));
+        Array.from(filesUploader.files).forEach(f => formData.append('files[]', f));
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
@@ -31,6 +28,7 @@
 
         request.open('POST', '<?= SETTINGS_FUNCTIONS_URL . 'uploads/uploadFiles.php' ?>', true);
         request.send(formData);
+        uploadedFiles.innerHTML = `<?= block('spinner0') ?>`;
     };
 
     const listFiles = () => {
@@ -52,18 +50,29 @@
 
         request.open('GET', from, true);
         request.send();
+        uploadedFiles.innerHTML = `<?= block('spinner0') ?>`;
     }
 
     const setType = (newType) => {
         let newURL = new URL(document.URL);
-        newURL.searchParams.set('type', newType);
+        let searchParams = newURL.searchParams;
+        if (searchParams.has('type')) {
+            searchParams.delete('type');
+        } else {
+            searchParams.set('type', newType);
+        }
         window.history.replaceState({id: '100'}, 'type', newURL);
         listFiles();
     }
 
     const setStatus = (newStatus) => {
         let newURL = new URL(document.URL);
-        newURL.searchParams.set('status', newStatus);
+        let searchParams = newURL.searchParams;
+        if (searchParams.has('status')) {
+            searchParams.delete('status');
+        } else {
+            searchParams.set('status', newStatus);
+        }
         window.history.replaceState({id: '100'}, 'status', newURL);
         listFiles();
     }
