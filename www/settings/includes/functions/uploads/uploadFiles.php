@@ -1,22 +1,49 @@
 <?php
 
+session_start();
+
 require_once dirname(__DIR__, 4) . '/load.php';
 
-Logger::clear();
-
-if (!isset($_FILES['files'])) {
-    Logger::logError('The request to uploads files is null');
-    return;
+if (isset($_POST['newFile'])) {
+    Logger::clear();
+    Logger::logInfo('New file upload ope');
+    $_SESSION['frag'] = 0;
 }
 
-if (empty($_FILES['files'])) {
-    Logger::logError('The request to uploads files is empty');
-    return;
-}
+$blob = $_FILES['file']['tmp_name'];
 
-try {
-    Logger::logInfo();
-    echo FileHandler::uploadFiles($_FILES['files']);
-} catch (Exception $e) {
-    Logger::logError($e->getMessage());
+if (!empty($blob)) {
+    $totalChunk = $_POST['chunkAmount'];
+    $frag = $_POST['frag'];
+
+    $finalName = lightNormalize($_POST['fileName']);
+    $finalFile = FileHandler::getPathForFile($_POST['fileName']);
+
+    FileHandler::checkDefaultPath();
+
+    if (move_uploaded_file($blob, UPLOADS . $finalName . '_part' . $frag)) {
+        $_SESSION['frag']++;
+
+        if ($_SESSION['frag'] >= $totalChunk) {
+            Logger::logInfo('Blobs are uploaded, will be merged');
+
+            for ($x = 1; $x <= $_SESSION['frag']; $x++) {
+                $tBlob = UPLOADS . $finalName . '_part' . $x;
+                $fBlob = fopen($tBlob, 'rb');
+                $cache = fread($fBlob, 1048576);
+                fclose($fBlob);
+
+                $final = fopen($finalFile, 'ab');
+                $write = fwrite($final, $cache);
+                fclose($final);
+
+                unlink($tBlob);
+            }
+        }
+    } else {
+        unlink($blob);
+        Logger::logError('Can\'t move the blob to its destination');
+    }
+} else {
+    Logger::logError('File is empty');
 }
