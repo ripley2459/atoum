@@ -5,7 +5,6 @@ session_start();
 require_once dirname(__DIR__, 4) . '/load.php';
 
 if (isset($_POST['newFile'])) {
-    Logger::clear();
     Logger::logInfo('New file upload ope');
     $_SESSION['frag'] = 0;
 }
@@ -24,6 +23,8 @@ if (!empty($blob)) {
     if (move_uploaded_file($blob, UPLOADS . $finalName . '_part' . $frag)) {
         $_SESSION['frag']++;
 
+        Logger::logInfo('Receiving blob ' . $_SESSION['frag'] . '/' . $totalChunk);
+
         if ($_SESSION['frag'] >= $totalChunk) {
             Logger::logInfo('Blobs are uploaded, will be merged');
 
@@ -39,10 +40,10 @@ if (!empty($blob)) {
 
                 unlink($tBlob);
             }
-            echo 'fileUploaded';
-        }
-        else {
-            Logger::logInfo('Waiting gor the rest of the file');
+
+            Logger::logInfo('Blobs merged');
+        } else {
+            Logger::logInfo('Waiting gor the rest of the file ' . $_SESSION['frag'] . '/' . $totalChunk);
         }
     } else {
         unlink($blob);

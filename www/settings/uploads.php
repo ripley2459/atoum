@@ -134,13 +134,7 @@
         end = Math.min(fileSize, chunkSize);
         progress = 0;
 
-        while (frag <= chunkAmount) {
-            uploadChunk();
-
-            start = end;
-            end = Math.min(fileSize, start + chunkSize);
-            frag++;
-        }
+        uploadChunk();
     }
 
     const uploadChunk = () => {
@@ -155,21 +149,24 @@
         formData.append("frag", frag); // L'index du bout de fichier actuellement traité
 
         request.onreadystatechange = () => {
-            if (request.readyState === 4 && request.status === 200) {
+            if (request.readyState === 4 && (request.status === 200 || request.status === 201 || request.status === 204)) {
                 progress++;
                 let id = file.name.replace(/\s+/g, '_').toLowerCase().concat("_inner_progressBar");
                 let progressValue = (progress / chunkAmount) * 100;
                 document.getElementById(id).style.width = progressValue + "%";
 
-                if(request.responseText.includes('fileUploaded')) { // Tout les bout de fichier son transmit, terminer le process pour ce fichier et passer au suivant
+                if (frag < chunkAmount) {
+                    start = end;
+                    end = Math.min(fileSize, start + chunkSize);
+                    frag++;
+                    uploadChunk();
+                } else /*if (request.responseText.includes('fileUploaded'))*/ {
                     fileIndex++;
-
                     if (fileIndex >= files.length) { // Tous les fichiers ont étés traités
                         filesUploadInfos.innerHTML = '';
                         listFiles();
                         return;
                     }
-
                     uploadFile();
                 }
             }
