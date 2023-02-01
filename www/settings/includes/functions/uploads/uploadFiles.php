@@ -39,6 +39,10 @@ if (!empty($blob)) {
 
                 unlink($tBlob);
             }
+            echo 'fileUploaded';
+        }
+        else {
+            Logger::logInfo('Waiting gor the rest of the file');
         }
     } else {
         unlink($blob);

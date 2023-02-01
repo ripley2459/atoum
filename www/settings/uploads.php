@@ -9,6 +9,7 @@
 
 <script>
     const filesUploader = document.querySelector("#filesUploader");
+    const filesUploadInfos = document.querySelector("#informations");
     const uploadedFiles = document.querySelector("#uploadedFiles");
     const urlParameters = new URLSearchParams(window.location.search);
 
@@ -90,6 +91,7 @@
     let file; // Le fichier actuellement traité
     let fileSize; // La taille du fichier actuellement traité
     let frag, start, end; // Le début, la fin et l'index du blob actuellement traité
+    let progress; // Utilisé pour afficher une sorte de progression
     let chunkAmount; // Le nombre total de blobs qui seront envoyés
 
     const uploadFiles = () => {
@@ -98,33 +100,47 @@
         files = filesUploader.files;
         fileIndex = 0;
 
-        uploadFile();
+        // Crée les barres de chargement
+        Array.from(files).forEach(f => {
+            let id = f.name.replace(/\s+/g, '_').toLowerCase();
+
+            let container = document.createElement('div');
+            let bar = document.createElement('div');
+            let innerBar = document.createElement('div');
+
+            bar.className = 'progressBar';
+            innerBar.id = id.concat('_inner_progressBar');
+            innerBar.className = 'inner_progressBar';
+
+            let p = document.createElement('p');
+            p.innerHTML = f.name;
+
+            container.appendChild(p);
+            bar.appendChild(innerBar);
+            container.appendChild(bar);
+
+            filesUploadInfos.appendChild(container);
+        })
+
+        uploadFile(); // Lancement de l'opération
     }
 
     const uploadFile = () => {
-        if (fileIndex >= files.length) { // Tous les fichiers ont étés traités
-            listFiles();
-            return;
-        }
-
         file = files[fileIndex];
         fileSize = file.size;
-        frag = 1;
+        frag = 1; // Commencer le traitement au premier fragment
         chunkAmount = Math.max(Math.ceil(fileSize / chunkSize), 1);
         start = 0;
         end = Math.min(fileSize, chunkSize);
+        progress = 0;
 
         while (frag <= chunkAmount) {
             uploadChunk();
 
             start = end;
-            end = start + chunkSize;
+            end = Math.min(fileSize, start + chunkSize);
             frag++;
         }
-
-        // Tout les bout de fichier son transmit, terminer le process pour ce fichier et passer au suivant
-        fileIndex++;
-        uploadFile()
     }
 
     const uploadChunk = () => {
@@ -137,6 +153,27 @@
         formData.append("fileName", file.name); // Le nom du bout de fichier
         formData.append("chunkAmount", chunkAmount); // Le nombre total de bouts de fichier à recevoir
         formData.append("frag", frag); // L'index du bout de fichier actuellement traité
+
+        request.onreadystatechange = () => {
+            if (request.readyState === 4 && request.status === 200) {
+                progress++;
+                let id = file.name.replace(/\s+/g, '_').toLowerCase().concat("_inner_progressBar");
+                let progressValue = (progress / chunkAmount) * 100;
+                document.getElementById(id).style.width = progressValue + "%";
+
+                if(request.responseText.includes('fileUploaded')) { // Tout les bout de fichier son transmit, terminer le process pour ce fichier et passer au suivant
+                    fileIndex++;
+
+                    if (fileIndex >= files.length) { // Tous les fichiers ont étés traités
+                        filesUploadInfos.innerHTML = '';
+                        listFiles();
+                        return;
+                    }
+
+                    uploadFile();
+                }
+            }
+        };
 
         request.open("POST", uploadDest);
         request.setRequestHeader("Cache-Control", "no-cache");

@@ -95,3 +95,17 @@
         opacity: 0;
     }
 }
+
+/**
+ * Progress bar
+ */
+.progressBar {
+    width: 25%;
+    background-color: dimgrey;
+}
+
+.inner_progressBar {
+    width: 0%;
+    height: 10px;
+    background-color: black;
+}
