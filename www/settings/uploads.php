@@ -73,6 +73,7 @@
     const setLimit = (newLimit) => {
         let newURL = new URL(document.URL);
         newURL.searchParams.set("limit", newLimit);
+        newURL.searchParams.set("currentPage", "1");
         window.history.replaceState({id: "100"}, "limit", newURL);
         listFiles();
     }
@@ -104,22 +105,16 @@
         Array.from(files).forEach(f => {
             let id = f.name.replace(/\s+/g, '_').toLowerCase();
 
-            let container = document.createElement('div');
-            let bar = document.createElement('div');
-            let innerBar = document.createElement('div');
+            let label = document.createElement('label');
+            label.htmlFor = id.concat('_progress');
+            label.innerHTML = f.name;
+            let progress = document.createElement('progress');
+            progress.id = id.concat('_progress');
+            progress.max = 100;
+            progress.value = 0;
 
-            bar.className = 'progressBar';
-            innerBar.id = id.concat('_inner_progressBar');
-            innerBar.className = 'inner_progressBar';
-
-            let p = document.createElement('p');
-            p.innerHTML = f.name;
-
-            container.appendChild(p);
-            bar.appendChild(innerBar);
-            container.appendChild(bar);
-
-            filesUploadInfos.appendChild(container);
+            filesUploadInfos.appendChild(label);
+            filesUploadInfos.appendChild(progress);
         })
 
         uploadFile(); // Lancement de l'opération
@@ -151,16 +146,16 @@
         request.onreadystatechange = () => {
             if (request.readyState === 4 && (request.status === 200 || request.status === 201 || request.status === 204)) {
                 progress++;
-                let id = file.name.replace(/\s+/g, '_').toLowerCase().concat("_inner_progressBar");
-                let progressValue = (progress / chunkAmount) * 100;
-                document.getElementById(id).style.width = progressValue + "%";
+                let id = file.name.replace(/\s+/g, '_').toLowerCase().concat("_progress");
+                document.getElementById(id).value = progress;
+                document.getElementById(id).max = chunkAmount;
 
                 if (frag < chunkAmount) {
                     start = end;
                     end = Math.min(fileSize, start + chunkSize);
                     frag++;
                     uploadChunk();
-                } else /*if (request.responseText.includes('fileUploaded'))*/ {
+                } else {
                     fileIndex++;
                     if (fileIndex >= files.length) { // Tous les fichiers ont étés traités
                         filesUploadInfos.innerHTML = '';

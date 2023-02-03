@@ -135,4 +135,26 @@ class FileHandler
     {
         return self::getPath() . lightNormalize($file);
     }
+
+
+    /**
+     * Ajoute x à la fin d'une chaine de caractères.
+     * Donne quelque chose comme "nom_du_fichier_2"
+     * @param string $fileName Le nom du fichier auquel sera éventuellement ajouté un nombre
+     * @param string $where L'emplacement où va se trouver le fichier (avec le "/" à la fin)
+     * @return string Le nom final du fichier
+     */
+    public static function getNextFreeName(string $fileName, string $where, int $iteration = 0): string
+    {
+        $infos = pathinfo($where . $fileName);
+        $ext = $infos['extension'];
+        $name = $infos['filename'];
+        $tryName = $iteration == 0 ? $fileName : $name . '_' . $iteration . '.' . $ext;
+
+        if (file_exists($where . $tryName)) {
+            return self::getNextFreeName($tryName, $where, $iteration + 1);
+        }
+
+        return $tryName;
+    }
 }
