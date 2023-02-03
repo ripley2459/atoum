@@ -22,7 +22,7 @@ class SettingsPageBuilder
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function head(): void
     {
@@ -31,7 +31,7 @@ class SettingsPageBuilder
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function header(): void
     {
@@ -40,20 +40,20 @@ class SettingsPageBuilder
 
     /**
      * Fonction pour inclure le morceau de page.
-     * @return void
-     */
-    public function body(): void
-    {
-        $page = $_GET['page'] ?? 'home';
-        include SETTINGS . 'settings/' . $page . '.php';
-    }
-
-    /**
-     * Fonction pour inclure le morceau de page.
-     * @return void
+     * @return void Affiche directement le morceau de page.
      */
     public function footer(): void
     {
         include SETTINGS . 'footer.php';
+    }
+
+    /**
+     * Fonction pour inclure le morceau de page.
+     * @return void Affiche directement le morceau de page.
+     */
+    public function body(): void
+    {
+        $page = $_GET['page'] ?? 'settings';
+        include SETTINGS . $page . '.php';
     }
 }

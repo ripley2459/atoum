@@ -1,25 +1,33 @@
 <?php
 
-if (file_exists('settings.php')) {
-    require_once __DIR__ . '/settings.php';
-} else {
-    header('Location: settings/install.php');
-}
-
 define('URL', sprintf('%s://%s', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']));
 
+if (file_exists(__DIR__ . '/settings.php')) {
+    require_once __DIR__ . '/settings.php';
+} else {
+    header('Location: ' . URL . '/settings/install.php');
+}
+
 const DIR = __DIR__;
+const SETTINGS = DIR . '/settings/';
+const SETTINGS_INCLUDES = SETTINGS . 'includes/';
+const SETTINGS_FUNCTIONS = SETTINGS_INCLUDES . 'functions/';
+const SETTINGS_FUNCTIONS_URL = URL . '/settings/includes/functions/';
 const INCLUDES = DIR . '/includes/';
 const CONTENT = DIR . '/content/';
-const SETTINGS = DIR . '/settings/';
 const CLASSES = INCLUDES . 'classes/';
 const INTERFACES = INCLUDES . 'interfaces/';
-const WIDGETS = INCLUDES . 'widgets/';
+const ENUMERATIONS = INCLUDES . 'enumerations/';
 const UPLOADS = CONTENT . 'uploads/';
 const UPLOADS_URL = URL . '/content/uploads/';
 
+require_once INCLUDES . 'functions.php';
+
 require_once INTERFACES . 'IData.php';
-require_once INTERFACES . 'IStatuable.php';
+require_once INTERFACES . 'IFile.php';
+
+require_once ENUMERATIONS . 'EContentStatus.php';
+require_once ENUMERATIONS . 'EContentType.php';
 
 require_once CLASSES . 'Logger.php';
 require_once CLASSES . 'Setting.php';
@@ -31,6 +39,7 @@ require_once CLASSES . 'Content.php';
 require_once CLASSES . 'Gallery.php';
 require_once CLASSES . 'Image.php';
 require_once CLASSES . 'Movie.php';
+require_once CLASSES . 'Page.php';
 require_once CLASSES . 'Playlist.php';
 require_once CLASSES . 'Relation.php';
 require_once CLASSES . 'Tag.php';
@@ -38,3 +47,5 @@ require_once CLASSES . 'User.php';
 require_once CLASSES . 'Comment.php';
 
 define('THEME', ThemeHandler::Instance()->getThemePath());
+define('THEME_URL', ThemeHandler::Instance()->getThemeURL());
+const BLOCKS = THEME . 'includes/blocks/';

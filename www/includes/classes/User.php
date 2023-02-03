@@ -1,11 +1,22 @@
 <?php
 
+/**
+ * Représente un utilisateur.
+ */
 class User implements IData
 {
     /**
      * @inheritDoc
      */
-    public function register(): void
+    public static function checkTable(): bool
+    {
+        // TODO: Implement checkTable() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function register(): bool
     {
         // TODO: Implement register() method.
     }
@@ -13,7 +24,7 @@ class User implements IData
     /**
      * @inheritDoc
      */
-    public function unregister(): void
+    public function unregister(): bool
     {
         // TODO: Implement unregister() method.
     }
@@ -21,7 +32,7 @@ class User implements IData
     /**
      * @inheritDoc
      */
-    public function save(): void
+    public function save(): bool
     {
         // TODO: Implement save() method.
     }

@@ -51,7 +51,7 @@ class Setting implements IData
     /**
      * @inheritDoc
      */
-    public function save(): void
+    public function save(): bool
     {
         global $DDB;
         $s = 'UPDATE ' . PREFIX . 'settings SET name = :name, value = :value WHERE id = :id';
@@ -83,7 +83,7 @@ class Setting implements IData
     /**
      * @inheritDoc
      */
-    public function register(): void
+    public function register(): bool
     {
         global $DDB;
         $s = 'INSERT INTO ' . PREFIX . 'settings SET name = :name, value = :value';
@@ -99,7 +99,7 @@ class Setting implements IData
     /**
      * @inheritDoc
      */
-    public function unregister(): void
+    public function unregister(): bool
     {
         global $DDB;
         $s = 'DELETE FROM ' . PREFIX . 'settings WHERE id = :id';
@@ -108,5 +108,13 @@ class Setting implements IData
             Logger::logInfo('Ce paramètre ' . $this->_name . ' a été supprimé');
         }
         $r->closeCursor();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function checkTable(): bool
+    {
+        // TODO: Implement checkTable() method.
     }
 }

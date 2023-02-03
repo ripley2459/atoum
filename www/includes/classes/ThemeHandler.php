@@ -4,11 +4,13 @@ class ThemeHandler
 {
     private static ?ThemeHandler $_instance = null;
     private string $_themeName;
+    private string $_themeURL;
     private string $_themePath;
 
     private function __construct()
     {
         $this->_themeName = Setting::value('theme');
+        $this->_themeURL = $this->_themeName == 'atoum' ? URL . '/includes/themes/atoum/' : URL . '/content/themes/' . $this->_themeName . '/';
         $this->_themePath = $this->_themeName == 'atoum' ? INCLUDES . 'themes/atoum/' : CONTENT . 'themes/' . $this->_themeName . '/';
     }
 
@@ -38,5 +40,13 @@ class ThemeHandler
     public function getThemePath(): string
     {
         return $this->_themePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThemeURL(): string
+    {
+        return $this->_themeURL;
     }
 }

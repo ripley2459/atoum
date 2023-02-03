@@ -5,9 +5,9 @@ class Image extends Content
     /**
      * @inheritDoc
      */
-    public static function getType(): int
+    public static function getType(): EContentType
     {
-        // TODO: Implement getType() method.
+        return EContentType::IMAGE;
     }
 
     /**
