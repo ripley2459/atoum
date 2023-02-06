@@ -6,11 +6,13 @@
 <div id="chunkInformations"></div>
 <h2>Your uploads</h2>
 <div id="uploadedFiles"></div>
+<div id="contentModal"></div>
 
 <script>
     const filesUploader = document.querySelector("#filesUploader");
     const filesUploadInfos = document.querySelector("#informations");
     const uploadedFiles = document.querySelector("#uploadedFiles");
+    const contentModal = document.querySelector("#contentModal");
     const urlParameters = new URLSearchParams(window.location.search);
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -34,9 +36,9 @@
             }
         };
 
-        request.open('GET', from, true);
+        request.open("GET", from);
         request.send();
-        uploadedFiles.innerHTML = `<?= block('spinner0') ?>`;
+        uploadedFiles.innerHTML = `<?= BlockSpinner0::echoS() ?>`;
     }
 
     const setType = (newType) => {
@@ -96,7 +98,7 @@
     let chunkAmount; // Le nombre total de blobs qui seront envoyés
 
     const uploadFiles = () => {
-        uploadedFiles.innerHTML = `<?= block('spinner0') ?>`;
+        uploadedFiles.innerHTML = `<?= BlockSpinner0::echoS() ?>`;
 
         files = filesUploader.files;
         fileIndex = 0;
@@ -170,5 +172,26 @@
         request.open("POST", uploadDest);
         request.setRequestHeader("Cache-Control", "no-cache");
         request.send(formData);
+    }
+
+    const openContentModal = (id) => {
+        const request = new XMLHttpRequest();
+        let from = new URL('<?= SETTINGS_FUNCTIONS_URL . 'uploads/openContentModal.php' ?>');
+
+        from.searchParams.set("id", id);
+
+        request.onreadystatechange = () => {
+            if (request.readyState === 4 && request.status === 200) {
+                contentModal.innerHTML = request.responseText;
+                toggleModal("contentModal-".concat(id));
+            }
+        };
+
+        request.open("GET", from);
+        request.send();
+    }
+
+    const deleteContent = () => {
+        // TODO
     }
 </script>

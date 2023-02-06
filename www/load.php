@@ -23,6 +23,8 @@ const UPLOADS_URL = URL . '/content/uploads/';
 
 require_once INCLUDES . 'functions.php';
 
+require_once INTERFACES . 'IBlock.php';
+require_once INTERFACES . 'IBlockNP.php';
 require_once INTERFACES . 'IData.php';
 require_once INTERFACES . 'IFile.php';
 
@@ -48,4 +50,9 @@ require_once CLASSES . 'Comment.php';
 
 define('THEME', ThemeHandler::Instance()->getThemePath());
 define('THEME_URL', ThemeHandler::Instance()->getThemeURL());
+
 const BLOCKS = THEME . 'includes/blocks/';
+
+require_once BLOCKS . 'ABlockContainer.php';
+require_once BLOCKS . 'BlockModal.php';
+require_once BLOCKS . 'BlockSpinner0.php';

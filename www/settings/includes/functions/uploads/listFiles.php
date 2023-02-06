@@ -13,7 +13,7 @@ $totalPages = ceil(Content::getAmount($type) / $limit);
 $minusPage = $currentPage == 1 ? '<button onclick="setCurrentPage(' . $currentPage - 1 . ')" disabled><</button>' : '<button onclick="setCurrentPage(' . $currentPage - 1 . ')"><</button>';
 $maxPage = $currentPage == $totalPages ? '<button onclick="setCurrentPage(' . $currentPage + 1 . ')" disabled>></button>' : '<button onclick="setCurrentPage(' . $currentPage + 1 . ')">></button>';
 
-$pagination = 'Number of lines: <button onclick="setLimit(25)">25</button><button onclick="setLimit(50)">50</button><button onclick="setLimit(75)">75</button><button onclick="setLimit(100)">100</button><button onclick="setLimit(200)">200</button>' . $minusPage . $currentPage . '/' . $totalPages . $maxPage;
+$pagination = '<div>Number of lines: <button onclick="setLimit(25)">25</button><button onclick="setLimit(50)">50</button><button onclick="setLimit(75)">75</button><button onclick="setLimit(100)">100</button><button onclick="setLimit(200)">200</button>' . $minusPage . $currentPage . '/' . $totalPages . $maxPage . '</div>';
 
 ?>
 
@@ -38,7 +38,11 @@ $pagination = 'Number of lines: <button onclick="setLimit(25)">25</button><butto
         </tr>
         <?php foreach (Content::getAll($type, $status, $orderBy, $limit, $currentPage) as $content): ?>
             <tr>
-                <td><?= $content->getName() ?></td>
+                <td><?= $content->getName() ?>
+                    <div>
+                        <input type="checkbox" id="<?= $content->getId() ?>" value="Bike"><button onclick="openContentModal(<?= $content->getId() ?>)">Edit</button><button onclick="deleteContent(<?= $content->getId() ?>)">Delete</button>
+                    </div>
+                </td>
                 <td>
                     <button onclick="setType(<?= $content->getType()->value ?>)"><?= ucfirst(strtolower($content->getType()->name)) ?></button>
                 </td>

@@ -68,20 +68,3 @@ function normalizedScan($path): array
 {
     return array_diff(scandir($path), ['.', '..']);
 }
-
-
-/**
- * Affiche un block.
- * @param string $block
- * @return string
- */
-function block(string $block): string
-{
-    $path = BLOCKS . $block . '.php';
-    if (is_file($path)) {
-        ob_start();
-        include $path;
-        return ob_get_clean();
-    }
-    return false;
-}
