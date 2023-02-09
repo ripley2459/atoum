@@ -10,14 +10,13 @@ if (file_exists(__DIR__ . '/settings.php')) {
 
 const DIR = __DIR__;
 const SETTINGS = DIR . '/settings/';
-const SETTINGS_INCLUDES = SETTINGS . 'includes/';
-const SETTINGS_FUNCTIONS = SETTINGS_INCLUDES . 'functions/';
-const SETTINGS_FUNCTIONS_URL = URL . '/settings/includes/functions/';
 const INCLUDES = DIR . '/includes/';
 const CONTENT = DIR . '/content/';
 const CLASSES = INCLUDES . 'classes/';
-const INTERFACES = INCLUDES . 'interfaces/';
 const ENUMERATIONS = INCLUDES . 'enumerations/';
+const FUNCTIONS = INCLUDES . 'functions/';
+const FUNCTIONS_URL = URL . '/includes/functions/';
+const INTERFACES = INCLUDES . 'interfaces/';
 const UPLOADS = CONTENT . 'uploads/';
 const UPLOADS_URL = URL . '/content/uploads/';
 

@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once dirname(__DIR__, 4) . '/load.php';
+require_once dirname(__DIR__, 2) . '/load.php';
 
 if (isset($_POST['newFile'])) {
     Logger::clear();

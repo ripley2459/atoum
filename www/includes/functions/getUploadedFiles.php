@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__DIR__, 4) . '/load.php';
+require_once dirname(__DIR__, 2) . '/load.php';
 
 $type = $_GET['type'] ?? null;
 $status = $_GET['status'] ?? null;

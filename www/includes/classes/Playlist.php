@@ -7,14 +7,6 @@ class Playlist extends Content
      */
     public static function getType(): EContentType
     {
-        // TODO: Implement getType() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function getInstance(): Content
-    {
-        // TODO: Implement getInstance() method.
+        return EContentType::PLAYLIST;
     }
 }

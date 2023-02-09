@@ -22,7 +22,7 @@
     const listFiles = () => {
         const request = new XMLHttpRequest();
         const params = new URLSearchParams(new URL(document.URL).toString());
-        let from = new URL('<?= SETTINGS_FUNCTIONS_URL . 'uploads/listFiles.php' ?>');
+        let from = new URL('<?= FUNCTIONS_URL . 'getUploadedFiles.php' ?>');
 
         if (params.has("type")) from.searchParams.set("type", params.get("type"));
         if (params.has("status")) from.searchParams.set("status", params.get("status"));
@@ -87,7 +87,7 @@
         listFiles();
     }
 
-    const uploadDest = new URL('<?= SETTINGS_FUNCTIONS_URL . 'uploads/uploadFiles.php' ?>');
+    const uploadDest = new URL('<?= FUNCTIONS_URL . 'uploadFiles.php' ?>');
     const chunkSize = 1048576; // La taille d'un blob en octets
     let files; // Liste des fichiers
     let fileIndex; // L'index du fichier actuellement traité
@@ -176,7 +176,7 @@
 
     const openContentModal = (id) => {
         const request = new XMLHttpRequest();
-        let from = new URL('<?= SETTINGS_FUNCTIONS_URL . 'uploads/openContentModal.php' ?>');
+        let from = new URL('<?= FUNCTIONS_URL . 'openContentModal.php' ?>');
 
         from.searchParams.set("id", id);
 
