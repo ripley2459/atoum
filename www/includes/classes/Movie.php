@@ -1,6 +1,6 @@
 <?php
 
-class Movie extends Content implements IFile
+class Movie extends AContent implements IFile
 {
     /**
      * @inheritDoc

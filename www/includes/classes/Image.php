@@ -1,6 +1,6 @@
 <?php
 
-class Image extends Content implements IFile
+class Image extends AContent implements IFile
 {
     /**
      * @inheritDoc

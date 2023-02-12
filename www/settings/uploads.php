@@ -38,7 +38,7 @@
 
         request.open("GET", from);
         request.send();
-        uploadedFiles.innerHTML = `<?= BlockSpinner0::echoS() ?>`;
+        uploadedFiles.innerHTML = `<?= BlockSpinner0::echo() ?>`;
     }
 
     const setType = (newType) => {
@@ -98,7 +98,7 @@
     let chunkAmount; // Le nombre total de blobs qui seront envoyés
 
     const uploadFiles = () => {
-        uploadedFiles.innerHTML = `<?= BlockSpinner0::echoS() ?>`;
+        uploadedFiles.innerHTML = `<?= BlockSpinner0::echo() ?>`;
 
         files = filesUploader.files;
         fileIndex = 0;

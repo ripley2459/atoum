@@ -1,8 +1,8 @@
 <?php
 
-abstract class Content implements IData
+abstract class AContent implements IData
 {
-    const COLUMNS = ['id', 'owner', 'type', 'status', 'views', 'slug', 'name', 'content', 'parent', 'dateCreated', 'dateModified'];
+    public const COLUMNS = ['id', 'owner', 'type', 'status', 'views', 'slug', 'name', 'content', 'parent', 'dateCreated', 'dateModified'];
     public string $_dateModified;
     protected int $_id;
     protected int $_owner;
@@ -99,9 +99,9 @@ abstract class Content implements IData
 
     /**
      * @param int $id
-     * @return Content
+     * @return AContent
      */
-    public static function getInstance(int $id): Content
+    public static function getInstance(int $id): AContent
     {
         global $DDB;
 
@@ -125,10 +125,10 @@ abstract class Content implements IData
      * Crée une nouvelle instance en fonction d'un type donné.
      * @param EContentType $mimeType
      * @param int|null $id
-     * @return Content
+     * @return AContent
      * @throws Exception Dans le cas où le type n'est pas supporté
      */
-    public static function createInstance(EContentType $mimeType, int $id = null): Content
+    public static function createInstance(EContentType $mimeType, int $id = null): AContent
     {
         return match ($mimeType) {
             EContentType::MOVIE => new Movie($id),

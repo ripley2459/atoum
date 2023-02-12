@@ -1,6 +1,6 @@
 <?php
 
-class Comment extends Content
+class Comment extends AContent
 {
     /**
      * @inheritDoc

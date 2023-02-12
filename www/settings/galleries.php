@@ -6,16 +6,20 @@ $contentType = EContentType::GALLERY;
 
 <h1>Galleries</h1>
 <div id="registerContent"></div>
+<h2>Your galleries</h2>
 <div id="registeredContent"></div>
+<div id="registeredImages"></div>
 
 <script>
     const registerForm = document.querySelector("#registerContent");
     const registeredContent = document.querySelector("#registeredContent");
+    const registeredImages = document.querySelector("#registeredImages");
     const contentModal = document.querySelector("#contentModal");
 
     document.addEventListener("DOMContentLoaded", function () {
         getRegisterForm();
         listContent();
+        listImages();
     });
 
     const registerContent = () => {
@@ -50,12 +54,12 @@ $contentType = EContentType::GALLERY;
 
         request.open("GET", from);
         request.send();
-        registerForm.innerHTML = `<?= BlockSpinner0::echoS() ?>`;
+        registerForm.innerHTML = `<?= BlockSpinner0::echo() ?>`;
     }
 
     const listContent = () => {
         const request = new XMLHttpRequest();
-        let from = new URL('<?= FUNCTIONS_URL . 'getUploadedFiles.php' ?>');
+        let from = new URL('<?= FUNCTIONS_URL . 'getGalleriesManagementForm.php' ?>');
 
         from.searchParams.set("type", <?= $contentType->value ?>);
 
@@ -67,6 +71,23 @@ $contentType = EContentType::GALLERY;
 
         request.open("GET", from);
         request.send();
-        registeredContent.innerHTML = `<?= BlockSpinner0::echoS() ?>`;
+        registeredContent.innerHTML = `<?= BlockSpinner0::echo() ?>`;
+    }
+
+    const listImages = () => {
+        const request = new XMLHttpRequest();
+        let from = new URL('<?= FUNCTIONS_URL . 'getImagesForGalleriesManagement.php' ?>');
+
+        from.searchParams.set("type", <?= $contentType->value ?>);
+
+        request.onreadystatechange = () => {
+            if (request.readyState === 4 && request.status === 200) {
+                registeredImages.innerHTML = request.responseText;
+            }
+        };
+
+        request.open("GET", from);
+        request.send();
+        registeredImages.innerHTML = `<?= BlockSpinner0::echo() ?>`;
     }
 </script>

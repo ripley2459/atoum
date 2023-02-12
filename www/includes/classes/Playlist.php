@@ -1,6 +1,6 @@
 <?php
 
-class Playlist extends Content
+class Playlist extends AContent
 {
     /**
      * @inheritDoc

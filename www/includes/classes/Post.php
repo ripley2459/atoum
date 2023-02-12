@@ -1,6 +1,6 @@
 <?php
 
-class Post extends Content
+class Post extends AContent
 {
     /**
      * @inheritDoc

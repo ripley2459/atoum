@@ -5,7 +5,7 @@ require_once dirname(__DIR__, 2) . '/load.php';
 if (!isset($_GET['id'])) return;
 $id = 'contentModal-' . $_GET['id'];
 $modalContent = '<button onclick="toggleModal(' . $id . ')">Close</button>';
-$content = Content::getInstance($_GET['id']);
+$content = AContent::getInstance($_GET['id']);
 // TODO FORMULAIRE POUR EDIT L'INSTANCE
 
 $modalContent .= '<form id="form">';

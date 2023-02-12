@@ -22,8 +22,6 @@ const UPLOADS_URL = URL . '/content/uploads/';
 
 require_once INCLUDES . 'functions.php';
 
-require_once INTERFACES . 'IBlock.php';
-require_once INTERFACES . 'IBlockNP.php';
 require_once INTERFACES . 'IData.php';
 require_once INTERFACES . 'IFile.php';
 
@@ -32,11 +30,13 @@ require_once ENUMERATIONS . 'EContentType.php';
 
 require_once CLASSES . 'Logger.php';
 require_once CLASSES . 'Setting.php';
+require_once CLASSES . 'RString.php';
 require_once CLASSES . 'FileHandler.php';
+require_once CLASSES . 'ABlock.php';
+require_once CLASSES . 'AContent.php';
 require_once CLASSES . 'PageBuilder.php';
 require_once CLASSES . 'SettingsPageBuilder.php';
 require_once CLASSES . 'ThemeHandler.php';
-require_once CLASSES . 'Content.php';
 require_once CLASSES . 'Gallery.php';
 require_once CLASSES . 'Image.php';
 require_once CLASSES . 'Movie.php';
@@ -53,5 +53,7 @@ define('THEME_URL', ThemeHandler::Instance()->getThemeURL());
 const BLOCKS = THEME . 'includes/blocks/';
 
 require_once BLOCKS . 'ABlockContainer.php';
+require_once BLOCKS . 'BlockContentLister.php';
 require_once BLOCKS . 'BlockModal.php';
+require_once BLOCKS . 'BlockPagination.php';
 require_once BLOCKS . 'BlockSpinner0.php';

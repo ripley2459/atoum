@@ -1,6 +1,6 @@
 <?php
 
-class Gallery extends Content
+class Gallery extends AContent
 {
     /**
      * @inheritDoc

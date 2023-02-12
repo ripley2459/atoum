@@ -38,7 +38,7 @@ if (!empty($blob)) {
 
             $mimeType = mime_content_type($finalFile);
             if (in_array($mimeType, FileHandler::ALLOWED_TYPES)) {
-                $instance = Content::createInstance(EContentType::fromMime($mimeType));
+                $instance = AContent::createInstance(EContentType::fromMime($mimeType));
                 if ($instance->registerInstance(0,
                     EContentType::fromMime($mimeType)->value,
                     EContentStatus::PUBLISHED->value,

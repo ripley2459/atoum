@@ -1,6 +1,6 @@
 <?php
 
-class Page extends Content
+class Page extends AContent
 {
     /**
      * @inheritDoc
