@@ -7,6 +7,7 @@ $status = $_GET['status'] ?? null;
 $orderBy = $_GET['orderBy'] ?? null;
 $orderDirection = isset($orderBy) ? switchOrderDirection($orderBy) : 'ASC';
 $limit = $_GET['limit'] ?? 100;
+$searchFor = $_GET['searchFor'] ?? null;
 $currentPage = $_GET['currentPage'] ?? 1;
 $totalPages = ceil(AContent::getAmount($type) / $limit);
 
@@ -21,7 +22,7 @@ $gallery = new BlockGrid('uploadImages');
 $gallery->setColumnCount(3);
 $pagination->display();
 
-foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage) as $content) {
+foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content) {
     $gallery->addElement('<img src="' . UPLOADS_URL . FileHandler::getPath($content) . '">');
 }
 

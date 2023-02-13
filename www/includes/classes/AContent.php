@@ -157,31 +157,28 @@ abstract class AContent implements IData
      * @return array
      * @throws Exception
      */
-    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null): array
+    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = null): array
     {
         global $DDB;
 
         if (self::checkTable()) {
             $s = 'SELECT id, type FROM ' . PREFIX . 'contents';
 
-            if (isset($type) || isset($status)) {
-                $s .= ' WHERE ';
+            if (isset($type) || isset($status) || !nullOrEmpty($searchFor)) {
+                $s .= ' WHERE';
+
+                if (!nullOrEmpty($searchFor)) {
+                    $s .= ' name LIKE :searchFor';
+                    if (isset($type) || isset($status)) $s .= ' AND';
+                }
+
                 if (isset($type)) {
-                    $type = whitelist($type, EContentType::values());
-                    $sType = ' type = ' . $type;
+                    $s .= ' type = ' . whitelist($type, EContentType::values());
+                    if (isset($status)) $s .= ' AND';
                 }
+
                 if (isset($status)) {
-                    $status = whitelist($status, EContentStatus::values());
-                    $sStatus = ' status = ' . $status;
-                }
-                if (isset($sType) && isset($sStatus)) {
-                    $s .= $sType . ' AND ' . $sStatus;
-                }
-                if (isset($sType) && !isset($sStatus)) {
-                    $s .= $sType;
-                }
-                if (!isset($sType) && isset($sStatus)) {
-                    $s .= $sStatus;
+                    $s .= ' status = ' . whitelist($status, EContentStatus::values());
                 }
             }
 
@@ -196,6 +193,10 @@ abstract class AContent implements IData
             $s .= isset($currentPage) ? ' LIMIT :limitMin, :limitMax' : ' LIMIT :limit';
 
             $r = $DDB->prepare($s);
+
+            if (!nullOrEmpty($searchFor)) {
+                $r->bindValue(':searchFor', '%' . $searchFor . '%', PDO::PARAM_STR);
+            }
 
             if (isset($currentPage)) {
                 $r->bindValue(':limitMin', $currentPage * $limit - $limit, PDO::PARAM_INT);

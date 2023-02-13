@@ -7,8 +7,10 @@ $contentType = EContentType::GALLERY;
 <h1>Galleries</h1>
 <div id="registerContent"></div>
 <h2>Your galleries</h2>
-<div id="registeredContent"></div>
-<div id="registeredImages"></div>
+<div class="row">
+    <div id="registeredContent" class="column"></div>
+    <div id="registeredImages" class="column"></div>
+</div>
 
 <script>
     const registerForm = document.querySelector("#registerContent");

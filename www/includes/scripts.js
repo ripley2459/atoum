@@ -60,3 +60,11 @@ const setCurrentPage = (newCurrentPage, callback = null) => {
     window.history.replaceState({id: "100"}, "currentPage", newURL);
     if (callback && (typeof callback == "function")) callback();
 }
+
+const setSearchFor = (newSearchFor, callback = null) => {
+    let newURL = new URL(document.URL);
+    newURL.searchParams.delete("searchFor");
+    newURL.searchParams.set("searchFor", newSearchFor);
+    window.history.replaceState({id: "100"}, "searchFor", newURL);
+    if (callback && (typeof callback == "function")) callback();
+}

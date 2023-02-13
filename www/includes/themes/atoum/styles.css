@@ -176,3 +176,14 @@ td {
 .grid img {
     width: 100%;
 }
+
+/*
+ * Rows & Columns
+ */
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+}
