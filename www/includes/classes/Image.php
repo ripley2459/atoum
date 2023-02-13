@@ -25,4 +25,12 @@ class Image extends AContent implements IFile
     {
         // TODO: Implement deleteContent() method.
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUploadName(): string
+    {
+        return $this->_slug;
+    }
 }

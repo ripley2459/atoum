@@ -12,10 +12,12 @@ class BlockPagination extends ABlockContainer
      */
     protected string $_onChangePage;
 
-    public function __construct(string $id, string $label = RString::EMPTY, int $currentPage = 0, int $totalPages = 1, string $onChangePage = RString::EMPTY, string...$classes)
+    /**
+     * @inheritDoc
+     */
+    public function __construct(string $id = RString::EMPTY, string $classes = RString::EMPTY, string $label = RString::EMPTY, int $currentPage = 0, int $totalPages = 1, string $onChangePage = RString::EMPTY)
     {
-        parent::__construct($id, RString::EMPTY, implode(" ", $classes));
-        $this->_content .= '<div>';
+        parent::__construct($id, $classes);
         $this->_label = $label;
         $this->_currentPage = $currentPage;
         $this->_totalPages = $totalPages;
@@ -36,6 +38,7 @@ class BlockPagination extends ABlockContainer
      */
     public function display(bool $echo = true): string
     {
+        $r = '<div ' . $this->getSignature() . '>';
         $r = $this->_content;
         $r .= $this->getPreviousPage();
         $r .= $this->_currentPage . '/' . $this->_totalPages;

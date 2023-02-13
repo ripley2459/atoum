@@ -13,6 +13,6 @@ $slug = lightNormalize($name);
 Logger::logInfo($slug);
 
 $newInstance = AContent::createInstance($type);
-if ($newInstance->registerInstance(0, $type->value, EContentStatus::PUBLISHED->value, 0, $name, $slug, 'null', 0)) {
+if ($newInstance->registerInstance(0, $type->value, EContentStatus::PUBLISHED->value, 0, $slug, $name, 'null', 0)) {
     Logger::logInfo($_POST['fileName'] . ' has been registered in the database');
 }

@@ -1,3 +1,10 @@
+:root {
+    --margin_base: 20px;
+}
+
+/*
+ * ================================================================================================
+ */
 /*
  * Table
  */
@@ -146,4 +153,26 @@ td {
     width: 100px;
     height: 100px;
     border: 1px solid black;
+}
+
+/*
+ * Grid
+ */
+.grid {
+    column-gap: calc(var(--margin_base) / 2);
+}
+
+.grid > * {
+    width: 100%;
+    margin-bottom: calc(var(--margin_base) / 2);
+    position: relative;
+    break-inside: avoid-column;
+}
+
+.grid > *:last-child {
+    margin-bottom: 0;
+}
+
+.grid img {
+    width: 100%;
 }

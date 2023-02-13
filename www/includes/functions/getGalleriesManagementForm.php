@@ -9,7 +9,7 @@ $orderDirection = isset($orderBy) ? switchOrderDirection($orderBy) : 'ASC';
 $limit = $_GET['limit'] ?? 100;
 $currentPage = $_GET['currentPage'] ?? 1;
 
-$pagination = new BlockPagination('galleriesPagination', 'number of lines: ', $currentPage, ceil(AContent::getAmount($type) / $limit));
+$pagination = new BlockPagination('galleriesPagination', RString::EMPTY, 'number of lines: ', $currentPage, ceil(AContent::getAmount($type) / $limit));
 $pagination->addLimitButton(25);
 $pagination->addLimitButton(50);
 $pagination->addLimitButton(100);

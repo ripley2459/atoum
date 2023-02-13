@@ -10,7 +10,7 @@ $limit = $_GET['limit'] ?? 100;
 $currentPage = $_GET['currentPage'] ?? 1;
 $totalPages = ceil(AContent::getAmount($type) / $limit);
 
-$pagination = new BlockPagination('contentPagination', 'number of lines: ', $currentPage, $totalPages, 'listFiles');
+$pagination = new BlockPagination('contentPagination', RString::EMPTY, 'number of lines: ', $currentPage, $totalPages, 'listFiles');
 $pagination->addLimitButton(25);
 $pagination->addLimitButton(50);
 $pagination->addLimitButton(100);

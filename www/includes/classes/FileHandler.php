@@ -123,7 +123,7 @@ class FileHandler
      */
     public static function getPath(IFile $file = null): string
     {
-        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' : UPLOADS . self::getDefaultPath() . '/';
+        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' . $file->getUploadName() : UPLOADS . self::getDefaultPath() . '/';
     }
 
     /**

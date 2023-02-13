@@ -13,6 +13,14 @@ class Movie extends AContent implements IFile
     /**
      * @inheritDoc
      */
+    public function getUploadName(): string
+    {
+        return $this->_slug;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getUploadedDate(): DateTime
     {
         return $this->getDateCreated();

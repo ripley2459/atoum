@@ -76,9 +76,14 @@ $contentType = EContentType::GALLERY;
 
     const listImages = () => {
         const request = new XMLHttpRequest();
-        let from = new URL('<?= FUNCTIONS_URL . 'getImagesForGalleriesManagement.php' ?>');
+        const params = new URLSearchParams(new URL(document.URL).toString());
+        let from = new URL('<?= FUNCTIONS_URL . 'getUploadedImages.php' ?>');
 
-        from.searchParams.set("type", <?= $contentType->value ?>);
+        from.searchParams.set("type", <?= EContentType::IMAGE->value ?>);
+        from.searchParams.set("status", <?= EContentStatus::PUBLISHED->value ?>);
+        if (params.has("orderBy")) from.searchParams.set("orderBy", params.get("orderBy"));
+        if (params.has("limit")) from.searchParams.set("limit", params.get("limit"));
+        if (params.has("currentPage")) from.searchParams.set("currentPage", params.get("currentPage"));
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {

@@ -2,20 +2,17 @@
 
 abstract class ABlockContainer extends ABlock
 {
-    protected string $_id;
-    protected array $_classes;
-    protected string $_content;
+    protected string $_content = RString::EMPTY;
 
     /**
      * @param string $id
-     * @param string $content
      * @param string ...$classes
+     * @param string $content
      */
-    public function __construct(string $id, string $content = RString::EMPTY, string...$classes)
+    public function __construct(string $id = RString::EMPTY, string $classes = RString::EMPTY, string $content = RString::EMPTY)
     {
-        $this->_id = $id;
+        parent::__construct($id, $classes);
+        $this->_classes .= 'container';
         $this->_content = $content;
-        $this->_classes[] = 'container';
-        if (count($classes) > 0) $this->_classes[] = $classes;
     }
 }
