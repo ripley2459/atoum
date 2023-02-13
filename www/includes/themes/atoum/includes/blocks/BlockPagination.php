@@ -5,6 +5,11 @@ class BlockPagination extends ABlockContainer
     protected string $_label;
     protected int $_currentPage;
     protected int $_totalPages;
+
+    /**
+     * Fonction JS appelé quand on change de page.
+     * @var string
+     */
     protected string $_onChangePage;
 
     public function __construct(string $id, string $label = RString::EMPTY, int $currentPage = 0, int $totalPages = 1, string $onChangePage = RString::EMPTY, string...$classes)
@@ -23,7 +28,7 @@ class BlockPagination extends ABlockContainer
      */
     public function addLimitButton(int $amount): void
     {
-        $this->_content .= '<button onclick="setLimit(' . $amount . ')">' . $amount . '</button>';
+        $this->_content .= '<button onclick="setLimit(' . $amount . ', ' . $this->_onChangePage . ')">' . $amount . '</button>';
     }
 
     /**
@@ -32,7 +37,6 @@ class BlockPagination extends ABlockContainer
     public function display(bool $echo = true): string
     {
         $r = $this->_content;
-
         $r .= $this->getPreviousPage();
         $r .= $this->_currentPage . '/' . $this->_totalPages;
         $r .= $this->getNextPage();
@@ -52,10 +56,10 @@ class BlockPagination extends ABlockContainer
     private function getPreviousPage(): string
     {
         if ($this->_currentPage == 1) {
-            return '<button onclick="setCurrentPage(' . $this->_currentPage - 1 . ')" disabled><</button>';
+            return '<button onclick="setCurrentPage(' . $this->_currentPage - 1 . ', ' . $this->_onChangePage . ')" disabled><</button>';
         }
 
-        return '<button onclick="setCurrentPage(' . $this->_currentPage - 1 . ')"><</button>';
+        return '<button onclick="setCurrentPage(' . $this->_currentPage - 1 . ', ' . $this->_onChangePage . ')"><</button>';
     }
 
     /**
@@ -64,9 +68,9 @@ class BlockPagination extends ABlockContainer
     private function getNextPage(): string
     {
         if ($this->_currentPage == $this->_totalPages) {
-            return '<button onclick="setCurrentPage(' . $this->_currentPage + 1 . ')" disabled>></button>';
+            return '<button onclick="setCurrentPage(' . $this->_currentPage + 1 . ', ' . $this->_onChangePage . ')" disabled>></button>';
         }
 
-        return '<button onclick="setCurrentPage(' . $this->_currentPage + 1 . ')">></button>';
+        return '<button onclick="setCurrentPage(' . $this->_currentPage + 1 . ', ' . $this->_onChangePage . ')">></button>';
     }
 }

@@ -23,19 +23,19 @@ $pagination->addLimitButton(400);
 <table>
     <tr>
         <th>
-            <button onclick="setOrderBy('<?= 'name_' . $orderDirection ?>')">Name</button>
+            <button onclick="setOrderBy('<?= 'name_' . $orderDirection ?>', listFiles)">Name</button>
         </th>
         <th>
-            <button onclick="setOrderBy('<?= 'type_' . $orderDirection ?>')">Type</button>
+            <button onclick="setOrderBy('<?= 'type_' . $orderDirection ?>', listFiles)">Type</button>
         </th>
         <th>
-            <button onclick="setOrderBy('<?= 'status_' . $orderDirection ?>')">Status</button>
+            <button onclick="setOrderBy('<?= 'status_' . $orderDirection ?>', listFiles)">Status</button>
         </th>
         <th>
-            <button onclick="setOrderBy('<?= 'dateCreated_' . $orderDirection ?>')">Created</button>
+            <button onclick="setOrderBy('<?= 'dateCreated_' . $orderDirection ?>', listFiles)">Created</button>
         </th>
         <th>
-            <button onclick="setOrderBy('<?= 'views_' . $orderDirection ?>')">Views</button>
+            <button onclick="setOrderBy('<?= 'views_' . $orderDirection ?>', listFiles)">Views</button>
         </th>
     </tr>
     <?php foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage) as $content): ?>
@@ -48,10 +48,10 @@ $pagination->addLimitButton(400);
                 </div>
             </td>
             <td>
-                <button onclick="setType(<?= $content->getType()->value ?>)"><?= ucfirst(strtolower($content->getType()->name)) ?></button>
+                <button onclick="setType(<?= $content->getType()->value ?>, listFiles)"><?= ucfirst(strtolower($content->getType()->name)) ?></button>
             </td>
             <td>
-                <button onclick="setStatus(<?= $content->getStatus()->value ?>)"><?= ucfirst(strtolower($content->getStatus()->name)) ?></button>
+                <button onclick="setStatus(<?= $content->getStatus()->value ?>, listFiles)"><?= ucfirst(strtolower($content->getStatus()->name)) ?></button>
             </td>
             <td><?= $content->getDateCreated()->format('Y/m/d H:i') ?></td>
             <td><?= $content->getViews() ?></td>

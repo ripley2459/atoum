@@ -3,6 +3,7 @@
 class PageBuilder
 {
     private static ?PageBuilder $_instance = null;
+    private array $_scripts = array();
 
     private function __construct()
     {
@@ -63,5 +64,28 @@ class PageBuilder
     public function footer(): void
     {
         include THEME . 'footer.php';
+    }
+
+
+    /**
+     * Permet d'ajouter le script JavaScript donné en pied de page.
+     * @param string $id
+     * @param string $content
+     * @return void
+     */
+    public function injectScript(string $id, string $content): void
+    {
+        $this->_scripts[$id] = $content;
+    }
+
+    public function displayScripts(): void
+    {
+        if (count($this->_scripts) > 0) {
+            echo '<script>';
+            foreach ($this->_scripts as $script) {
+                echo $script;
+            }
+            echo '</script>';
+        }
     }
 }

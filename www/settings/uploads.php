@@ -41,52 +41,6 @@
         uploadedFiles.innerHTML = `<?= BlockSpinner0::echo() ?>`;
     }
 
-    const setType = (newType) => {
-        let newURL = new URL(document.URL);
-        let searchParams = newURL.searchParams;
-        if (searchParams.has("type")) {
-            searchParams.delete("type");
-        } else {
-            searchParams.set("type", newType);
-        }
-        window.history.replaceState({id: "100"}, "type", newURL);
-        listFiles();
-    }
-
-    const setStatus = (newStatus) => {
-        let newURL = new URL(document.URL);
-        let searchParams = newURL.searchParams;
-        if (searchParams.has("status")) {
-            searchParams.delete("status");
-        } else {
-            searchParams.set("status", newStatus);
-        }
-        window.history.replaceState({id: "100"}, "status", newURL);
-        listFiles();
-    }
-
-    const setOrderBy = (newOrderBy) => {
-        let newURL = new URL(document.URL);
-        newURL.searchParams.set("orderBy", newOrderBy);
-        window.history.replaceState({id: "100"}, "orderBy", newURL);
-        listFiles();
-    }
-
-    const setLimit = (newLimit) => {
-        let newURL = new URL(document.URL);
-        newURL.searchParams.set("limit", newLimit);
-        newURL.searchParams.set("currentPage", "1");
-        window.history.replaceState({id: "100"}, "limit", newURL);
-        listFiles();
-    }
-
-    const setCurrentPage = (newCurrentPage) => {
-        let newURL = new URL(document.URL);
-        newURL.searchParams.set("currentPage", newCurrentPage);
-        window.history.replaceState({id: "100"}, "currentPage", newURL);
-        listFiles();
-    }
-
     const uploadDest = new URL('<?= FUNCTIONS_URL . 'uploadFiles.php' ?>');
     const chunkSize = 1048576; // La taille d'un blob en octets
     let files; // Liste des fichiers
