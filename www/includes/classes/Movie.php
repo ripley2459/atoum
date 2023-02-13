@@ -1,6 +1,6 @@
 <?php
 
-class Movie extends Content
+class Movie extends AContent implements IFile
 {
     /**
      * @inheritDoc
@@ -13,8 +13,16 @@ class Movie extends Content
     /**
      * @inheritDoc
      */
-    public static function getInstance(): Content
+    public function getUploadedDate(): DateTime
     {
-        // TODO: Implement getInstance() method.
+        return $this->getDateCreated();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteContent(): bool
+    {
+        // TODO: Implement deleteContent() method.
     }
 }

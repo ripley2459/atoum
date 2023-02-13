@@ -1,5 +1,5 @@
 <header>
-    <nav id="topnav">
+    <nav id="topNav">
         <a href="<?= URL ?>">Home</a>
         <a href="<?= URL . '/index.php?post=-1' ?>">Posts</a>
     </nav>

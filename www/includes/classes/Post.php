@@ -1,20 +1,12 @@
 <?php
 
-class Post extends Content
+class Post extends AContent
 {
     /**
      * @inheritDoc
      */
     public static function getType(): EContentType
     {
-        // TODO: Implement getType() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function getInstance(): Content
-    {
-        // TODO: Implement getInstance() method.
+        return EContentType::POST;
     }
 }

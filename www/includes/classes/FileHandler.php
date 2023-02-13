@@ -47,6 +47,7 @@ class FileHandler
      * @param array $files
      * @return bool Vrai si et seulement tous les fichiers ont pu être envoyés sans erreurs.
      * @throws Exception Dans le cas où le type n'est pas supporté
+     * @deprecated Utiliser la fonction éponyme.
      */
     public static function uploadFiles(array $files): bool
     {
@@ -71,7 +72,7 @@ class FileHandler
                         $path = self::getPathForFile($file['name']);
                         if (!file_exists($path)) {
                             if (move_uploaded_file($file['tmp_name'], $path)) {
-                                $instance = Content::createInstance(EContentType::fromMime($mimeType));
+                                $instance = AContent::createInstance(EContentType::fromMime($mimeType));
                                 if ($instance->registerInstance(0,
                                     EContentType::fromMime($mimeType)->value,
                                     EContentStatus::PUBLISHED->value,

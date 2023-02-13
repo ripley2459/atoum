@@ -10,9 +10,9 @@ enum EContentType: int
     case PAGE = 5;
     case COMMENT = 6;
 
-    public static function fromInt(int $mime): EContentType
+    public static function fromInt(int $int): EContentType
     {
-        return EContentType::from($mime);
+        return EContentType::from($int);
     }
 
     public static function fromMime(string $mime): EContentType

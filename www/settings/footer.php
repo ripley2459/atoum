@@ -1,11 +1,12 @@
 </div>
 <footer>
-    <div id="bottomnav">
+    <div id="bottomNav">
         <a href="<?= URL ?>">Home</a>
         <a href="<?= URL . '/settings/index.php?page=settings' ?>">Settings</a>
         <a href="https://github.com/ripley2459/atoum">About</a>
     </div>
     <script src="<?= URL . '/includes/scripts.js' ?>"></script>
+    <?= PageBuilder::Instance()->displayScripts() ?>
 </footer>
 </body>
 </html>

@@ -1,8 +1,8 @@
 <?php
 
-abstract class Content implements IData
+abstract class AContent implements IData
 {
-    const COLUMNS = ['id', 'owner', 'type', 'status', 'views', 'slug', 'name', 'content', 'parent', 'dateCreated', 'dateModified'];
+    public const COLUMNS = ['id', 'owner', 'type', 'status', 'views', 'slug', 'name', 'content', 'parent', 'dateCreated', 'dateModified'];
     public string $_dateModified;
     protected int $_id;
     protected int $_owner;
@@ -21,37 +21,126 @@ abstract class Content implements IData
     public function __construct(int $id = null)
     {
         if (isset($id)) {
-            global $DDB;
-            $s = 'SELECT * FROM ' . PREFIX . 'contents WHERE id = :id LIMIT 1';
+            if (self::checkTable()) {
+                global $DDB;
+                $s = 'SELECT * FROM ' . PREFIX . 'contents WHERE id = :id LIMIT 1';
+                $r = $DDB->prepare($s);
+                $r->bindValue(':id', $id, PDO::PARAM_INT);
+
+                try {
+                    $r->execute();
+                    $d = $r->fetch();
+
+                    $this->_id = $d['id'];
+                    $this->_owner = $d['owner'];
+                    $this->_type = $d['type'];
+                    $this->_status = $d['status'];
+                    $this->_views = $d['views'];
+                    $this->_slug = $d['slug'];
+                    $this->_name = $d['name'];
+                    $this->_content = $d['content'];
+                    $this->_parent = $d['parent'];
+                    $this->_dateCreated = $d['dateCreated'];
+                    $this->_dateModified = $d['dateModified'];
+                } catch (PDOException $e) {
+                    Logger::logError('Can\'t get this instance from database');
+                    Logger::logError($e->getMessage());
+                }
+            }
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function checkTable(): bool
+    {
+        global $DDB;
+        $s = 'SHOW TABLES LIKE \'' . PREFIX . 'contents\'';
+        $r = $DDB->prepare($s);
+
+        try {
+            $r->execute();
+        } catch (PDOException $e) {
+            Logger::logError('Error during check table process');
+            Logger::logError($e->getMessage());
+            return false;
+        }
+
+        if ($r->rowCount() > 0) {
+            return true;
+        } else {
+            $s = 'CREATE TABLE ' . PREFIX . 'contents (
+                id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                owner BIGINT(20) UNSIGNED default 0,
+                type BIGINT(20) UNSIGNED NOT NULl,
+                status TINYINT(255) UNSIGNED default 0,
+                views BIGINT(20) UNSIGNED default 0,
+                slug VARCHAR(255) NOT NULL,
+                name VARCHAR(255) NOT NULL,
+                content LONGTEXT,
+                parent BIGINT(20) UNSIGNED default 0,
+                dateCreated DATETIME default CURRENT_TIMESTAMP,
+                dateModified DATETIME default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )';
+            $r = $DDB->prepare($s);
+
+            try {
+                $r->execute();
+                Logger::logInfo('Table \'contents\' has been created');
+                return true;
+            } catch (PDOException $e) {
+                Logger::logError('Can\'t create table \'contents\'');
+                Logger::logError($e->getMessage());
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return AContent
+     */
+    public static function getInstance(int $id): AContent
+    {
+        global $DDB;
+
+        if (self::checkTable()) {
+            $s = 'SELECT id, type FROM ' . PREFIX . 'contents WHERE id = :id LIMIT 1';
             $r = $DDB->prepare($s);
             $r->bindValue(':id', $id, PDO::PARAM_INT);
 
             try {
                 $r->execute();
                 $d = $r->fetch();
-
-                $this->_id = $d['id'];
-                $this->_owner = $d['owner'];
-                $this->_type = $d['type'];
-                $this->_status = $d['status'];
-                $this->_views = $d['views'];
-                $this->_slug = $d['slug'];
-                $this->_name = $d['name'];
-                $this->_content = $d['content'];
-                $this->_parent = $d['parent'];
-                $this->_dateCreated = $d['dateCreated'];
-                $this->_dateModified = $d['dateModified'];
-            } catch (PDOException $e) {
-                Logger::logError('Can\'t get this instance from database');
+                return self::createInstance(EContentType::fromInt($d['type']), $d['id']);
+            } catch (Exception $e) {
+                Logger::logError('Can\'t get instance from database');
                 Logger::logError($e->getMessage());
             }
         }
     }
 
     /**
-     * @return Content
+     * Crée une nouvelle instance en fonction d'un type donné.
+     * @param EContentType $mimeType
+     * @param int|null $id
+     * @return AContent
+     * @throws Exception Dans le cas où le type n'est pas supporté
      */
-    public static abstract function getInstance(): Content;
+    public static function createInstance(EContentType $mimeType, int $id = null): AContent
+    {
+        return match ($mimeType) {
+            EContentType::MOVIE => new Movie($id),
+            EContentType::IMAGE => new Image($id),
+            EContentType::GALLERY => new Gallery($id),
+            EContentType::PLAYLIST => new Playlist($id),
+            EContentType::POST => new Post($id),
+            EContentType::PAGE => new Page($id),
+            EContentType::COMMENT => new Comment($id),
+            default => throw new Exception('This type is not supported!')
+        };
+    }
 
     /**
      * Donne le type de donnée.
@@ -133,74 +222,6 @@ abstract class Content implements IData
                 return [];
             }
         }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function checkTable(): bool
-    {
-        global $DDB;
-        $s = 'SHOW TABLES LIKE \'' . PREFIX . 'contents\'';
-        $r = $DDB->prepare($s);
-
-        try {
-            $r->execute();
-        } catch (PDOException $e) {
-            Logger::logError('Error during check table process');
-            Logger::logError($e->getMessage());
-            return false;
-        }
-
-        if ($r->rowCount() > 0) {
-            return true;
-        } else {
-            $s = 'CREATE TABLE ' . PREFIX . 'contents (
-                id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                owner BIGINT(20) UNSIGNED default 0,
-                type BIGINT(20) UNSIGNED NOT NULl,
-                status TINYINT(255) UNSIGNED default 0,
-                views BIGINT(20) UNSIGNED default 0,
-                slug VARCHAR(255) NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                content LONGTEXT,
-                parent BIGINT(20) UNSIGNED default 0,
-                dateCreated DATETIME default CURRENT_TIMESTAMP,
-                dateModified DATETIME default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            )';
-            $r = $DDB->prepare($s);
-
-            try {
-                $r->execute();
-                Logger::logInfo('Table \'contents\' has been created');
-                return true;
-            } catch (PDOException $e) {
-                Logger::logError('Can\'t create table \'contents\'');
-                Logger::logError($e->getMessage());
-                return false;
-            }
-        }
-    }
-
-    /**
-     * Crée une nouvelle instance en fonction d'un type donné.
-     * @param EContentType $mimeType
-     * @param int|null $id
-     * @return Content
-     * @throws Exception Dans le cas où le type n'est pas supporté
-     */
-    public static function createInstance(EContentType $mimeType, int $id = null): Content
-    {
-        return match ($mimeType) {
-            EContentType::MOVIE => new Movie($id),
-            EContentType::IMAGE => new Image($id),
-            EContentType::GALLERY => new Gallery($id),
-            EContentType::PLAYLIST => new Playlist($id),
-            EContentType::POST => new Post($id),
-            EContentType::PAGE => new Page($id),
-            EContentType::COMMENT => new Comment($id),
-            default => throw new Exception('This type is not supported!')
-        };
     }
 
     public static function getAmount(int $type = null): int
@@ -304,11 +325,12 @@ abstract class Content implements IData
     }
 
     /**
-     * @return string
+     * @return DateTime
+     * @throws Exception
      */
     public function getDateModified(): DateTime
     {
-        return $this->_dateModified;
+        return new DateTime($this->_dateModified);
     }
 
     /**
@@ -378,7 +400,26 @@ abstract class Content implements IData
         global $DDB;
 
         if (self::checkTable()) {
-            // TODO: Implement unregister() method.
+            $s = 'DELETE FROM ' . PREFIX . 'contents WHERE id = :id';
+            $r = $DDB->prepare($s);
+
+            $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
+
+            $flag = true;
+            if ($this instanceof IFile) {
+                $flag = $this->deleteContent();
+            }
+
+            if ($flag) {
+                try {
+                    $r->execute();
+                    $r->closeCursor();
+                    return true;
+                } catch (PDOException $e) {
+                    Logger::logError('Can\'t delete this instance from the database');
+                    Logger::logError($e->getMessage());
+                }
+            }
         }
 
         return false;

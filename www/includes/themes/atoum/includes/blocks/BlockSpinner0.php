@@ -1,29 +1,25 @@
 <?php
 
-class BlockSpinner0 implements IBlockNP
+class BlockSpinner0 extends ABlock
 {
-    /**
-     * @inheritDoc
-     */
-    public static function echoS(): void
+    public static function echo(): string
     {
-        $n = new BlockSpinner0();
-        $n->echo();
+        $w = new BlockSpinner0();
+        return $w->display(false);
     }
 
     /**
      * @inheritDoc
      */
-    public function echo(): void
+    public function display(bool $echo = true): string
     {
-        echo $this->display();
-    }
+        $r = '<div class="spinner0"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
 
-    /**
-     * @inheritDoc
-     */
-    public function display(): string
-    {
-        return '<div class="spinner0"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
+        if ($echo) {
+            echo $r;
+            return RString::EMPTY;
+        }
+
+        return $r;
     }
 }

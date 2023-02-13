@@ -1,6 +1,6 @@
 <?php
 
-abstract class ABlockContainer implements IBlock
+abstract class ABlockContainer extends ABlock
 {
     protected string $_id;
     protected array $_classes;
@@ -11,19 +11,11 @@ abstract class ABlockContainer implements IBlock
      * @param string $content
      * @param string ...$classes
      */
-    public function __construct(string $id, string $content = "", string...$classes)
+    public function __construct(string $id, string $content = RString::EMPTY, string...$classes)
     {
         $this->_id = $id;
         $this->_content = $content;
         $this->_classes[] = 'container';
         if (count($classes) > 0) $this->_classes[] = $classes;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function echo(): void
-    {
-        echo $this->display();
     }
 }

@@ -131,3 +131,19 @@ td {
     padding: 2.5%;
     border: 1px solid black;
 }
+
+/*
+ * Gallery
+ */
+#registeredGalleries {
+    background-color: bisque;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.galleryFolder {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+}

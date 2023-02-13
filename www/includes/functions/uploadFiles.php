@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once dirname(__DIR__, 4) . '/load.php';
+require_once dirname(__DIR__, 2) . '/load.php';
 
 if (isset($_POST['newFile'])) {
     Logger::clear();
@@ -38,7 +38,7 @@ if (!empty($blob)) {
 
             $mimeType = mime_content_type($finalFile);
             if (in_array($mimeType, FileHandler::ALLOWED_TYPES)) {
-                $instance = Content::createInstance(EContentType::fromMime($mimeType));
+                $instance = AContent::createInstance(EContentType::fromMime($mimeType));
                 if ($instance->registerInstance(0,
                     EContentType::fromMime($mimeType)->value,
                     EContentStatus::PUBLISHED->value,

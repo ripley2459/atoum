@@ -1,20 +1,12 @@
 <?php
 
-class Gallery extends Content
+class Gallery extends AContent
 {
     /**
      * @inheritDoc
      */
     public static function getType(): EContentType
     {
-        // TODO: Implement getType() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function getInstance(): Content
-    {
-        // TODO: Implement getInstance() method.
+        return EContentType::GALLERY;
     }
 }
