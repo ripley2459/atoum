@@ -68,3 +68,29 @@ const setSearchFor = (newSearchFor, callback = null) => {
     window.history.replaceState({id: "100"}, "searchFor", newURL);
     if (callback && (typeof callback == "function")) callback();
 }
+
+/*
+ * Drag n Drop
+ */
+function allowDrop(e) {
+    e.preventDefault();
+}
+
+function drag(e, callback = null) {
+    e.dataTransfer.setData("text", e.target.id);
+    if (callback && (typeof callback == "function")) callback();
+}
+
+function drop(e, callback = null) {
+    e.preventDefault();
+    let data = e.dataTransfer.getData("text");
+    e.target.appendChild(document.getElementById(data));
+    if (callback && (typeof callback == "function")) callback();
+}
+
+/*
+ * Grids
+ */
+function changeGridColumnsAmount(id, value) {
+    document.getElementById(id).style.columnCount = value;
+}

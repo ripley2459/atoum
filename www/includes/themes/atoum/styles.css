@@ -2,9 +2,15 @@
     --margin_base: 20px;
 }
 
-/*
- * ================================================================================================
- */
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#content {
+    margin: 0 calc(2 * var(--margin_base));
+}
+
 /*
  * Table
  */
@@ -140,19 +146,11 @@ td {
 }
 
 /*
- * Gallery
+ * Registered galleries
  */
-#registeredGalleries {
-    background-color: bisque;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-}
-
-.galleryFolder {
-    width: 100px;
-    height: 100px;
+#registeredGalleriesPresentation .gallery {
     border: 1px solid black;
+    width: 100%;
 }
 
 /*
@@ -184,6 +182,14 @@ td {
     display: flex;
 }
 
+.row .column {
+    margin-right: var(--margin_base);
+}
+
+.row .column:last-child {
+    margin-right: 0;
+}
+
 .column {
-    flex: 50%;
+    flex: calc(50% - var(--margin_base));
 }

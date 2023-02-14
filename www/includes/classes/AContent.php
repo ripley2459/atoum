@@ -154,10 +154,11 @@ abstract class AContent implements IData
      * @param string|null $orderBy
      * @param int $limit
      * @param int|null $currentPage La page actuelle pour la pagination
-     * @return array
+     * @param string $searchFor
+     * @return AContent[]
      * @throws Exception
      */
-    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = null): array
+    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY): array
     {
         global $DDB;
 
@@ -208,7 +209,7 @@ abstract class AContent implements IData
             try {
                 $r->execute();
 
-                $content = [];
+                $content = array();
 
                 while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
                     $newContent = self::createInstance(EContentType::fromInt($d['type']), $d['id']);
@@ -220,7 +221,7 @@ abstract class AContent implements IData
             } catch (PDOException $e) {
                 Logger::logError('Can\'t get all instances from database');
                 Logger::logError($e->getMessage());
-                return [];
+                return array();
             }
         }
     }

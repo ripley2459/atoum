@@ -7,7 +7,7 @@ $status = $_GET['status'] ?? null;
 $orderBy = $_GET['orderBy'] ?? null;
 $orderDirection = isset($orderBy) ? switchOrderDirection($orderBy) : 'ASC';
 $limit = $_GET['limit'] ?? 100;
-$searchFor = $_GET['searchFor'] ?? null;
+$searchFor = $_GET['searchFor'] ?? RString::EMPTY;
 $currentPage = $_GET['currentPage'] ?? 1;
 $totalPages = ceil(AContent::getAmount($type) / $limit);
 
