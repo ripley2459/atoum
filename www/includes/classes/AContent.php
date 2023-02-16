@@ -3,7 +3,6 @@
 abstract class AContent implements IData
 {
     public const COLUMNS = ['id', 'owner', 'type', 'status', 'views', 'slug', 'name', 'content', 'parent', 'dateCreated', 'dateModified'];
-    public string $_dateModified;
     protected int $_id;
     protected int $_owner;
     protected int $_type;
@@ -14,6 +13,7 @@ abstract class AContent implements IData
     protected string $_content;
     protected int $_parent;
     protected string $_dateCreated;
+    protected string $_dateModified;
 
     /**
      * @param int|null $id
