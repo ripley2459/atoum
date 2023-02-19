@@ -5,6 +5,7 @@
 <div id="informations"></div>
 <div id="chunkInformations"></div>
 <h2>Your uploads</h2>
+<input type="text" id="filesSearcher" onkeyup="setSearchFor(value, listFiles)"/>
 <div id="uploadedFiles"></div>
 <div id="contentModal"></div>
 
@@ -29,6 +30,7 @@
         if (params.has("orderBy")) from.searchParams.set("orderBy", params.get("orderBy"));
         if (params.has("limit")) from.searchParams.set("limit", params.get("limit"));
         if (params.has("currentPage")) from.searchParams.set("currentPage", params.get("currentPage"));
+        if (params.has("searchFor")) from.searchParams.set("searchFor", params.get("searchFor"));
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {

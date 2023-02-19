@@ -7,10 +7,11 @@ $status = $_GET['status'] ?? null;
 $orderBy = $_GET['orderBy'] ?? null;
 $orderDirection = isset($orderBy) ? switchOrderDirection($orderBy) : 'ASC';
 $limit = $_GET['limit'] ?? 100;
+$searchFor = $_GET['searchFor'] ?? RString::EMPTY;
 $currentPage = $_GET['currentPage'] ?? 1;
 $totalPages = ceil(AContent::getAmount($type) / $limit);
 
-$pagination = new BlockPagination('contentPagination', 'number of lines: ', $currentPage, $totalPages, 'listFiles');
+$pagination = new BlockPagination('contentPagination', RString::EMPTY, 'number of lines: ', $currentPage, $totalPages, 'listFiles');
 $pagination->addLimitButton(25);
 $pagination->addLimitButton(50);
 $pagination->addLimitButton(100);
@@ -38,7 +39,7 @@ $pagination->addLimitButton(400);
             <button onclick="setOrderBy('<?= 'views_' . $orderDirection ?>', listFiles)">Views</button>
         </th>
     </tr>
-    <?php foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage) as $content): ?>
+    <?php foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content): ?>
         <tr>
             <td><?= $content->getName() ?>
                 <div>

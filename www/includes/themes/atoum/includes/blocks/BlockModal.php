@@ -5,10 +5,19 @@ class BlockModal extends ABlockContainer
     /**
      * @inheritDoc
      */
+    public function __construct(string $id = RString::EMPTY, string $classes = RString::EMPTY)
+    {
+        parent::__construct($id, $classes);
+        $this->_classes .= ' modal';
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function display(bool $echo = true): string
     {
-        $this->_classes[] = 'modal';
-        $r = '<div id="' . $this->_id . '" class="' . implode(" ", $this->_classes) . '"><div class="content">' . $this->_content . '</div></div>';
+        $r = '<div ' . $this->getSignature() . '"><div class="content">' . $this->_content . '</div></div>';
 
         if ($echo) {
             echo $r;

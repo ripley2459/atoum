@@ -1,3 +1,16 @@
+:root {
+    --margin_base: 20px;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#content {
+    margin: 0 calc(2 * var(--margin_base));
+}
+
 /*
  * Table
  */
@@ -133,17 +146,50 @@ td {
 }
 
 /*
- * Gallery
+ * Registered galleries
  */
-#registeredGalleries {
-    background-color: bisque;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
+#registeredGalleriesPresentation .gallery {
+    border: 1px solid black;
+    width: 100%;
 }
 
-.galleryFolder {
-    width: 100px;
-    height: 100px;
-    border: 1px solid black;
+/*
+ * Grid
+ */
+.grid {
+    column-gap: calc(var(--margin_base) / 2);
+}
+
+.grid > * {
+    width: 100%;
+    margin-bottom: calc(var(--margin_base) / 2);
+    position: relative;
+    break-inside: avoid-column;
+}
+
+.grid > *:last-child {
+    margin-bottom: 0;
+}
+
+.grid img {
+    width: 100%;
+}
+
+/*
+ * Rows & Columns
+ */
+.row {
+    display: flex;
+}
+
+.row .column {
+    margin-right: var(--margin_base);
+}
+
+.row .column:last-child {
+    margin-right: 0;
+}
+
+.column {
+    flex: calc(50% - var(--margin_base));
 }

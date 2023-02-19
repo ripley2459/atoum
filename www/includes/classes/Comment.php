@@ -5,7 +5,7 @@ class Comment extends AContent
     /**
      * @inheritDoc
      */
-    public static function getType(): EContentType
+    public static function getType(): EDataType
     {
         // TODO: Implement getType() method.
     }

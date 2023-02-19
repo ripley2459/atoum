@@ -12,6 +12,11 @@ interface IFile
      */
     public function getUploadedDate(): DateTime;
 
+    /**
+     * Donne le nom de ce fichier sur le disque.
+     * @return string
+     */
+    public function getUploadName(): string;
 
     /**
      * Donne une chance à la classe de supprimer ses éléments.

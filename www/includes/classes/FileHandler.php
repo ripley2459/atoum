@@ -72,10 +72,10 @@ class FileHandler
                         $path = self::getPathForFile($file['name']);
                         if (!file_exists($path)) {
                             if (move_uploaded_file($file['tmp_name'], $path)) {
-                                $instance = AContent::createInstance(EContentType::fromMime($mimeType));
+                                $instance = AContent::createInstance(EDataType::fromMime($mimeType));
                                 if ($instance->registerInstance(0,
-                                    EContentType::fromMime($mimeType)->value,
-                                    EContentStatus::PUBLISHED->value,
+                                    EDataType::fromMime($mimeType)->value,
+                                    EDataStatus::PUBLISHED->value,
                                     0,
                                     lightNormalize($file['name']),
                                     $file['name'],
@@ -123,7 +123,7 @@ class FileHandler
      */
     public static function getPath(IFile $file = null): string
     {
-        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' : UPLOADS . self::getDefaultPath() . '/';
+        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' . $file->getUploadName() : UPLOADS . self::getDefaultPath() . '/';
     }
 
     /**

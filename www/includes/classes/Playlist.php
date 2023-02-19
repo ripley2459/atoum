@@ -5,8 +5,8 @@ class Playlist extends AContent
     /**
      * @inheritDoc
      */
-    public static function getType(): EContentType
+    public static function getType(): EDataType
     {
-        return EContentType::PLAYLIST;
+        return EDataType::PLAYLIST;
     }
 }

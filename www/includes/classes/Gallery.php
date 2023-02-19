@@ -5,8 +5,8 @@ class Gallery extends AContent
     /**
      * @inheritDoc
      */
-    public static function getType(): EContentType
+    public static function getType(): EDataType
     {
-        return EContentType::GALLERY;
+        return EDataType::GALLERY;
     }
 }

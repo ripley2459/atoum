@@ -5,9 +5,9 @@ class Image extends AContent implements IFile
     /**
      * @inheritDoc
      */
-    public static function getType(): EContentType
+    public static function getType(): EDataType
     {
-        return EContentType::IMAGE;
+        return EDataType::IMAGE;
     }
 
     /**
@@ -24,5 +24,13 @@ class Image extends AContent implements IFile
     public function deleteContent(): bool
     {
         // TODO: Implement deleteContent() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUploadName(): string
+    {
+        return $this->_slug;
     }
 }
