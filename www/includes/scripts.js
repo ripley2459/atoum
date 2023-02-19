@@ -75,18 +75,6 @@ function allowDrop(e) {
     e.preventDefault();
 }
 
-function drag(e, callback = null) {
-    e.dataTransfer.setData("text", e.target.id);
-    if (callback && (typeof callback == "function")) callback();
-}
-
-function drop(e, callback = null) {
-    e.preventDefault();
-    let data = e.dataTransfer.getData("text");
-    e.target.appendChild(document.getElementById(data));
-    if (callback && (typeof callback == "function")) callback();
-}
-
 /*
  * Grids
  */

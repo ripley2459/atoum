@@ -22,7 +22,7 @@ $pagination->addLimitButton(400);
 <?= $pagination->display() ?>
 <div id="registeredGalleriesPresentation">
     <?php foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content): ?>
-        <div id="<?= $content->getId() ?>" class="gallery" ondrop="drop(event, listImages)" ondragover="allowDrop(event)">
+        <div id="gallery<?= $content->getId() ?>" class="gallery" ondrop="addToGallery(event, <?= $content->getId() ?>)" ondragover="allowDrop(event)">
             <h3><?= $content->getName() ?></h3>
         </div>
     <?php endforeach ?>

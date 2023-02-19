@@ -23,7 +23,7 @@ $gallery->setColumnCount(3);
 $pagination->display();
 
 foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content) {
-    $gallery->addElement('<img id="' . $content->getId() .'" src="' . UPLOADS_URL . FileHandler::getPath($content) . '" draggable="true" ondragstart="drag(event)">');
+    $gallery->addElement('<img id="draggableImage' . $content->getId() .'" src="' . UPLOADS_URL . FileHandler::getPath($content) . '" draggable="true" ondragstart="bindImage(event, ' . $content->getId() .')" style="max-width:360px">');
 }
 
 $gallery->display();

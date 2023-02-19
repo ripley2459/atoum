@@ -111,6 +111,30 @@ class Relation implements IData
         return $r;
     }
 
+    public static function relationExists(int $type, int $a, int $b): bool
+    {
+        if (self::checkTable()) {
+            global $DDB;
+            $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND a = :a AND b = :b';
+            $r = $DDB->prepare($s);
+
+            $r->bindValue(':type', $type, PDO::PARAM_INT);
+            $r->bindValue(':a', $a, PDO::PARAM_INT);
+            $r->bindValue(':b', $b, PDO::PARAM_INT);
+
+            try {
+                $r->execute();
+                $d = $r->rowCount();
+                $r->closeCursor();
+                return $d > 0;
+            } catch (PDOException $e) {
+                Logger::logError($e->getMessage());
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Enregistre une nouvelle instance dans la base de données avec les paramètres donnés.
      * @param int $type

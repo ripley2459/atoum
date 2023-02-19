@@ -13,7 +13,9 @@ $contentType = EDataType::GALLERY;
     </div>
     <div class="column">
         <input type="text" id="imagesSearcher" onkeyup="setSearchFor(value, listImages)"/>
-        <input type="range" id="imagesGridColumnsAmount" onchange="changeGridColumnsAmount('registeredImagesGrid', this.value)" value="3" min="1" max="10" step="1">
+        <input type="range" id="imagesGridColumnsAmount"
+               onchange="changeGridColumnsAmount('registeredImagesGrid', this.value)" value="3" min="1" max="10"
+               step="1">
         <div id="registeredImages"></div>
     </div>
 </div>
@@ -103,5 +105,35 @@ $contentType = EDataType::GALLERY;
         request.open("GET", from);
         request.send();
         registeredImages.innerHTML = `<?= BlockSpinner0::echo() ?>`;
+    }
+
+    let draggedImageId;
+
+    const bindImage = (event, imageId) => {
+        event.dataTransfer.setData("text", event.target.id);
+        draggedImageId = imageId;
+    }
+
+    const addToGallery = (event, galleryId) => {
+        event.preventDefault();
+        let data = event.dataTransfer.getData("text");
+        event.target.appendChild(document.getElementById(data));
+
+        const request = new XMLHttpRequest();
+        let from = new URL('<?= FUNCTIONS_URL . 'createRelation.php' ?>');
+
+        from.searchParams.set("aId", draggedImageId);
+        from.searchParams.set("bId", galleryId);
+        from.searchParams.set("aType", <?= EDataType::IMAGE->value ?>);
+        from.searchParams.set("bType", <?= EDataType::GALLERY->value ?>);
+
+        request.onreadystatechange = () => {
+            if (request.readyState === 4 && request.status === 200) {
+                console.log("ok");
+            }
+        };
+
+        request.open("GET", from);
+        request.send();
     }
 </script>
