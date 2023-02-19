@@ -39,9 +39,9 @@ class BlockPagination extends ABlockContainer
     public function display(bool $echo = true): string
     {
         $r = '<div ' . $this->getSignature() . '>';
-        $r = $this->_content;
+        $r .= $this->_content;
         $r .= $this->getPreviousPage();
-        $r .= $this->_currentPage . '/' . $this->_totalPages;
+        $r .= '<spawn>' . $this->_currentPage . '/' . $this->_totalPages . '</spawn>';
         $r .= $this->getNextPage();
         $r .= '</div>';
 

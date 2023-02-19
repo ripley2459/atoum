@@ -2,7 +2,6 @@
  * Modal
  */
 function toggleModal(id) {
-    console.log(id);
     document.getElementById(id).classList.toggle("open");
 }
 

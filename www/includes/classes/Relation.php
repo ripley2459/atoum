@@ -78,19 +78,33 @@ class Relation implements IData
         }
     }
 
-    public static function getRelationType(EDataType $a, EDataType $b): int
+
+    /**
+     * Permet de connaitre le nombre décrivant la relation entre deux objets.
+     * Pour faire simple, l'objet A sera lié à l'objet B.
+     * @param EDataType $child
+     * @param EDataType $parent
+     * @return int
+     * @see getRelationsTypes()
+     */
+    public static function getRelationType(EDataType $child, EDataType $parent): int
     {
-        return self::getRelationsTypes()[$a->name][$b->name];
+        return self::getRelationsTypes()[$child->name][$parent->name];
     }
 
+
+    /**
+     * Construit et donne le tableau des types de relations possibles.
+     * @return array
+     */
     public static function getRelationsTypes(): array
     {
         $r = array();
 
-        foreach (EDataType::cases() as $dom) {
-            $domValue = $dom->value * 1000;
-            foreach (EDataType::cases() as $sub) {
-                $r[$dom->name][$sub->name] = $domValue + $sub->value;
+        foreach (EDataType::cases() as $sub) {
+            $domValue = $sub->value * 1000;
+            foreach (EDataType::cases() as $dom) {
+                $r[$sub->name][$dom->name] = $domValue + $dom->value;
             }
         }
 

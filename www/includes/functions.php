@@ -41,7 +41,7 @@ function whitelist($value, array $allowed): mixed
     $key = in_array($value, $allowed, true);
 
     if ($key === false) {
-        throw new InvalidArgumentException('This value is not allowed here.');
+        return $allowed[0];
     } else {
         return $value;
     }

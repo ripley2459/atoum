@@ -130,16 +130,16 @@
         request.send(formData);
     }
 
-    const openContentModal = (id) => {
+    const openContentModal = (contentId) => {
         const request = new XMLHttpRequest();
         let from = new URL('<?= FUNCTIONS_URL . 'openContentModal.php' ?>');
 
-        from.searchParams.set("id", id);
+        from.searchParams.set("contentId", contentId);
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
                 contentModal.innerHTML = request.responseText;
-                toggleModal("contentModal-".concat(id));
+                toggleModal("contentModal".concat(contentId));
             }
         };
 

@@ -18,6 +18,8 @@ $pagination->addLimitButton(100);
 $pagination->addLimitButton(200);
 $pagination->addLimitButton(400);
 
+$displayContent = $_GET['displayContent'] ?? true;
+
 ?>
 
 <?= $pagination->display() ?>
@@ -38,14 +40,13 @@ $pagination->addLimitButton(400);
         <th>
             <button onclick="setOrderBy('<?= 'views_' . $orderDirection ?>', listFiles)">Views</button>
         </th>
+        <?php if ($displayContent) echo '<th>Content</th>' ?>
     </tr>
     <?php foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content): ?>
         <tr>
             <td><?= $content->getName() ?>
                 <div>
-                    <input type="checkbox" id="<?= $content->getId() ?>" value="Bike">
-                    <button onclick="openContentModal(<?= $content->getId() ?>)">Edit</button>
-                    <button onclick="deleteContent(<?= $content->getId() ?>)">Delete</button>
+                    <input type="checkbox" id="<?= $content->getId() ?>" value="Bike"><button onclick="openContentModal(<?= $content->getId() ?>)">Edit</button><button onclick="deleteContent(<?= $content->getId() ?>)">Delete</button>
                 </div>
             </td>
             <td>
@@ -56,6 +57,7 @@ $pagination->addLimitButton(400);
             </td>
             <td><?= $content->getDateCreated()->format('Y/m/d H:i') ?></td>
             <td><?= $content->getViews() ?></td>
+            <?php if ($displayContent && $content instanceof IFile) echo '<td><img src="' . UPLOADS_URL . FileHandler::getPath($content) . '" style="max-width:360px"></td>' ?>
         </tr>
     <?php endforeach ?>
 </table>

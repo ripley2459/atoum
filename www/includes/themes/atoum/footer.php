@@ -1,5 +1,5 @@
 </div>
-<footer>
+<div id="footer">
     <div id="bottomNav">
         <a href="<?= URL ?>">Home</a>
         <a href="<?= URL . '/settings/index.php?page=settings' ?>">Settings</a>
@@ -7,6 +7,6 @@
     </div>
     <script src="<?= URL . '/includes/scripts.js' ?>"></script>
     <?= PageBuilder::Instance()->displayScripts() ?>
-</footer>
+</div>
 </body>
 </html>

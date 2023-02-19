@@ -2,6 +2,8 @@
 
 class SettingsPageBuilder
 {
+    const ALLOWED_PAGES = ['settings', 'galleries', 'uploads'];
+
     private static ?SettingsPageBuilder $_instance = null;
 
     private function __construct()
@@ -53,7 +55,7 @@ class SettingsPageBuilder
      */
     public function body(): void
     {
-        $page = $_GET['page'] ?? 'settings';
+        $page = isset($_GET['page']) ? whitelist($_GET['page'], self::ALLOWED_PAGES) : self::ALLOWED_PAGES[0];
         include SETTINGS . $page . '.php';
     }
 }

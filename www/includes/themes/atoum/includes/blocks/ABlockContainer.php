@@ -6,7 +6,7 @@ abstract class ABlockContainer extends ABlock
 
     /**
      * @param string $id
-     * @param string ...$classes
+     * @param string $classes
      * @param string $content
      */
     public function __construct(string $id = RString::EMPTY, string $classes = RString::EMPTY, string $content = RString::EMPTY)

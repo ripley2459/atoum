@@ -2,6 +2,8 @@
 
 class PageBuilder
 {
+    const ALLOWED_PAGES = ['welcome', 'home'];
+
     private static ?PageBuilder $_instance = null;
     private array $_scripts = array();
 
@@ -54,7 +56,8 @@ class PageBuilder
      */
     public function body(): void
     {
-        include THEME . 'body.php';
+        $page = isset($_GET['page']) ? whitelist($_GET['page'], self::ALLOWED_PAGES) : self::ALLOWED_PAGES[0];
+        include THEME . $page . '.php';
     }
 
     /**
