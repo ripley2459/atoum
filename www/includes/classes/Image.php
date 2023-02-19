@@ -5,9 +5,9 @@ class Image extends AContent implements IFile
     /**
      * @inheritDoc
      */
-    public static function getType(): EContentType
+    public static function getType(): EDataType
     {
-        return EContentType::IMAGE;
+        return EDataType::IMAGE;
     }
 
     /**

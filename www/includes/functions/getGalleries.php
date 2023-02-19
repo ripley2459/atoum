@@ -2,7 +2,7 @@
 
 require_once dirname(__DIR__, 2) . '/load.php';
 
-$type = EContentType::GALLERY->value;
+$type = EDataType::GALLERY->value;
 $status = $_GET['status'] ?? null;
 $orderBy = $_GET['orderBy'] ?? null;
 $orderDirection = isset($orderBy) ? switchOrderDirection($orderBy) : 'ASC';

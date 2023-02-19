@@ -1,15 +1,15 @@
 <?php
 
-enum EContentStatus: int
+enum EDataStatus: int
 {
     case PUBLISHED = 0;
     case HIDDEN = 1;
     case ARCHIVED = 2;
     case DELETED = 3;
 
-    public static function fromInt(int $value): EContentStatus
+    public static function fromInt(int $value): EDataStatus
     {
-        return EContentStatus::from($value);
+        return EDataStatus::from($value);
     }
 
     public static function values(): array

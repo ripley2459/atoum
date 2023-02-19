@@ -113,7 +113,7 @@ abstract class AContent implements IData
             try {
                 $r->execute();
                 $d = $r->fetch();
-                return self::createInstance(EContentType::fromInt($d['type']), $d['id']);
+                return self::createInstance(EDataType::fromInt($d['type']), $d['id']);
             } catch (Exception $e) {
                 Logger::logError('Can\'t get instance from database');
                 Logger::logError($e->getMessage());
@@ -123,21 +123,21 @@ abstract class AContent implements IData
 
     /**
      * Crée une nouvelle instance en fonction d'un type donné.
-     * @param EContentType $mimeType
+     * @param EDataType $mimeType
      * @param int|null $id
      * @return AContent
      * @throws Exception Dans le cas où le type n'est pas supporté
      */
-    public static function createInstance(EContentType $mimeType, int $id = null): AContent
+    public static function createInstance(EDataType $mimeType, int $id = null): AContent
     {
         return match ($mimeType) {
-            EContentType::MOVIE => new Movie($id),
-            EContentType::IMAGE => new Image($id),
-            EContentType::GALLERY => new Gallery($id),
-            EContentType::PLAYLIST => new Playlist($id),
-            EContentType::POST => new Post($id),
-            EContentType::PAGE => new Page($id),
-            EContentType::COMMENT => new Comment($id),
+            EDataType::MOVIE => new Movie($id),
+            EDataType::IMAGE => new Image($id),
+            EDataType::GALLERY => new Gallery($id),
+            EDataType::PLAYLIST => new Playlist($id),
+            EDataType::POST => new Post($id),
+            EDataType::PAGE => new Page($id),
+            EDataType::COMMENT => new Comment($id),
             default => throw new Exception('This type is not supported!')
         };
     }
@@ -146,7 +146,7 @@ abstract class AContent implements IData
      * Donne le type de donnée.
      * @return mixed
      */
-    public static abstract function getType(): EContentType;
+    public static abstract function getType(): EDataType;
 
     /**
      * @param int|null $type
@@ -174,12 +174,12 @@ abstract class AContent implements IData
                 }
 
                 if (isset($type)) {
-                    $s .= ' type = ' . whitelist($type, EContentType::values());
+                    $s .= ' type = ' . whitelist($type, EDataType::values());
                     if (isset($status)) $s .= ' AND';
                 }
 
                 if (isset($status)) {
-                    $s .= ' status = ' . whitelist($status, EContentStatus::values());
+                    $s .= ' status = ' . whitelist($status, EDataStatus::values());
                 }
             }
 
@@ -212,7 +212,7 @@ abstract class AContent implements IData
                 $content = array();
 
                 while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
-                    $newContent = self::createInstance(EContentType::fromInt($d['type']), $d['id']);
+                    $newContent = self::createInstance(EDataType::fromInt($d['type']), $d['id']);
                     $content[] = $newContent;
                 }
 
@@ -233,7 +233,7 @@ abstract class AContent implements IData
             $s = 'SELECT COUNT(id) AS amount FROM ' . PREFIX . 'contents';
 
             if (isset($type)) {
-                $type = whitelist($type, EContentType::values());
+                $type = whitelist($type, EDataType::values());
                 $s .= ' WHERE type = ' . $type;
             }
 
@@ -270,11 +270,11 @@ abstract class AContent implements IData
     }
 
     /**
-     * @return EContentStatus
+     * @return EDataStatus
      */
-    public function getStatus(): EContentStatus
+    public function getStatus(): EDataStatus
     {
-        return EContentStatus::fromInt($this->_status);
+        return EDataStatus::fromInt($this->_status);
     }
 
     /**

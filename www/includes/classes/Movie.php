@@ -5,9 +5,9 @@ class Movie extends AContent implements IFile
     /**
      * @inheritDoc
      */
-    public static function getType(): EContentType
+    public static function getType(): EDataType
     {
-        return EContentType::MOVIE;
+        return EDataType::MOVIE;
     }
 
     /**

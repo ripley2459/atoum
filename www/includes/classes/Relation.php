@@ -78,6 +78,25 @@ class Relation implements IData
         }
     }
 
+    public static function getRelationType(EDataType $a, EDataType $b): int
+    {
+        return self::getRelationsTypes()[$a->name][$b->name];
+    }
+
+    public static function getRelationsTypes(): array
+    {
+        $r = array();
+
+        foreach (EDataType::cases() as $dom) {
+            $domValue = $dom->value * 1000;
+            foreach (EDataType::cases() as $sub) {
+                $r[$dom->name][$sub->name] = $domValue + $sub->value;
+            }
+        }
+
+        return $r;
+    }
+
     /**
      * Enregistre une nouvelle instance dans la base de données avec les paramètres donnés.
      * @param int $type

@@ -25,8 +25,8 @@ require_once INCLUDES . 'functions.php';
 require_once INTERFACES . 'IData.php';
 require_once INTERFACES . 'IFile.php';
 
-require_once ENUMERATIONS . 'EContentStatus.php';
-require_once ENUMERATIONS . 'EContentType.php';
+require_once ENUMERATIONS . 'EDataStatus.php';
+require_once ENUMERATIONS . 'EDataType.php';
 
 require_once CLASSES . 'Logger.php';
 require_once CLASSES . 'Setting.php';

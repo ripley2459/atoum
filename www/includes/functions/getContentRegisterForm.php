@@ -6,7 +6,7 @@ if (!isset($_GET['type'])) {
     return;
 }
 
-$type = EContentType::fromInt($_GET['type']);
+$type = EDataType::fromInt($_GET['type']);
 
 ?>
 

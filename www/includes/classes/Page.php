@@ -5,8 +5,8 @@ class Page extends AContent
     /**
      * @inheritDoc
      */
-    public static function getType(): EContentType
+    public static function getType(): EDataType
     {
-        return EContentType::PAGE;
+        return EDataType::PAGE;
     }
 }
