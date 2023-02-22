@@ -12,10 +12,7 @@ $contentType = EDataType::GALLERY;
         <div id="registeredGalleries"></div>
     </div>
     <div class="column">
-        <input type="text" id="imagesSearcher" onkeyup="setSearchFor(value, listImages)"/>
-        <input type="range" id="imagesGridColumnsAmount"
-               onchange="changeGridColumnsAmount('registeredImagesGrid', this.value)" value="3" min="1" max="10"
-               step="1">
+        <input type="text" id="imagesSearcher" onkeyup="setURLParam('searchFor', value, listImages)"/><input type="range" id="imagesGridColumnsAmount" onchange="changeGridColumnsAmount('registeredImagesGrid', this.value)" value="3" min="1" max="10" step="1">
         <div id="registeredImages"></div>
     </div>
 </div>
@@ -95,6 +92,7 @@ $contentType = EDataType::GALLERY;
         if (params.has("limit")) from.searchParams.set("limit", params.get("limit"));
         if (params.has("currentPage")) from.searchParams.set("currentPage", params.get("currentPage"));
         if (params.has("searchFor")) from.searchParams.set("searchFor", params.get("searchFor"));
+        if (params.has("focus")) from.searchParams.set("focus", params.get("focus"));
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
@@ -122,14 +120,13 @@ $contentType = EDataType::GALLERY;
         const request = new XMLHttpRequest();
         let from = new URL('<?= FUNCTIONS_URL . 'createRelation.php' ?>');
 
-        from.searchParams.set("aId", draggedImageId);
-        from.searchParams.set("bId", galleryId);
-        from.searchParams.set("aType", <?= EDataType::IMAGE->value ?>);
-        from.searchParams.set("bType", <?= EDataType::GALLERY->value ?>);
+        from.searchParams.set("childId", draggedImageId);
+        from.searchParams.set("parentId", galleryId);
+        from.searchParams.set("childType", <?= EDataType::IMAGE->value ?>);
+        from.searchParams.set("parentType", <?= EDataType::GALLERY->value ?>);
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
-                console.log("ok");
             }
         };
 

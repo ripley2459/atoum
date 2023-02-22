@@ -119,6 +119,8 @@ abstract class AContent implements IData
                 Logger::logError($e->getMessage());
             }
         }
+
+        // TODO
     }
 
     /**
@@ -138,6 +140,7 @@ abstract class AContent implements IData
             EDataType::POST => new Post($id),
             EDataType::PAGE => new Page($id),
             EDataType::COMMENT => new Comment($id),
+            EDataType::TAG => new Tag($id),
             default => throw new Exception('This type is not supported!')
         };
     }
@@ -155,11 +158,13 @@ abstract class AContent implements IData
      * @param int $limit
      * @param int|null $currentPage La page actuelle pour la pagination
      * @param string $searchFor
+     * @param array|null $exclude Elément qui seront retirés du tableau donné.
      * @return AContent[]
      * @throws Exception
      */
-    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY): array
+    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY, array $exclude = null): array
     {
+        // TODO : créer un request builder, remplacer le $exclude par un INNER JOIN
         global $DDB;
 
         if (self::checkTable()) {
@@ -217,6 +222,8 @@ abstract class AContent implements IData
                 }
 
                 $r->closeCursor();
+
+                if (isset($exclude)) $content = array_diff($content, $exclude);
                 return $content;
             } catch (PDOException $e) {
                 Logger::logError('Can\'t get all instances from database');
@@ -224,6 +231,8 @@ abstract class AContent implements IData
                 return array();
             }
         }
+
+        return array();
     }
 
     public static function getAmount(int $type = null): int
@@ -251,6 +260,8 @@ abstract class AContent implements IData
                 return -1;
             }
         }
+
+        return 0;
     }
 
     /**
@@ -440,4 +451,14 @@ abstract class AContent implements IData
 
         return false;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function __toString(): string
+    {
+        return $this->_id;
+    }
+
+
 }

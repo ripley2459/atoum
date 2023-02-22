@@ -26,19 +26,19 @@ $displayContent = $_GET['displayContent'] ?? true;
 <table>
     <tr>
         <th>
-            <button onclick="setOrderBy('<?= 'name_' . $orderDirection ?>', listFiles)">Name</button>
+            <button onclick="setURLParam('orderBy', '<?= 'name_' . $orderDirection ?>', listFiles)">Name</button>
         </th>
         <th>
-            <button onclick="setOrderBy('<?= 'type_' . $orderDirection ?>', listFiles)">Type</button>
+            <button onclick="setURLParam('orderBy', '<?= 'type_' . $orderDirection ?>', listFiles)">Type</button>
         </th>
         <th>
-            <button onclick="setOrderBy('<?= 'status_' . $orderDirection ?>', listFiles)">Status</button>
+            <button onclick="setURLParam('orderBy', '<?= 'status_' . $orderDirection ?>', listFiles)">Status</button>
         </th>
         <th>
-            <button onclick="setOrderBy('<?= 'dateCreated_' . $orderDirection ?>', listFiles)">Created</button>
+            <button onclick="setURLParam('orderBy', '<?= 'dateCreated_' . $orderDirection ?>', listFiles)">Created</button>
         </th>
         <th>
-            <button onclick="setOrderBy('<?= 'views_' . $orderDirection ?>', listFiles)">Views</button>
+            <button onclick="setURLParam('orderBy', '<?= 'views_' . $orderDirection ?>', listFiles)">Views</button>
         </th>
         <?php if ($displayContent) echo '<th>Content</th>' ?>
     </tr>
@@ -50,10 +50,10 @@ $displayContent = $_GET['displayContent'] ?? true;
                 </div>
             </td>
             <td>
-                <button onclick="setType(<?= $content->getType()->value ?>, listFiles)"><?= ucfirst(strtolower($content->getType()->name)) ?></button>
+                <button onclick="toggleURLParam('type', <?= $content->getType()->value ?>, listFiles)"><?= ucfirst(strtolower($content->getType()->name)) ?></button>
             </td>
             <td>
-                <button onclick="setStatus(<?= $content->getStatus()->value ?>, listFiles)"><?= ucfirst(strtolower($content->getStatus()->name)) ?></button>
+                <button onclick="toggleURLParam('status', <?= $content->getStatus()->value ?>, listFiles)"><?= ucfirst(strtolower($content->getStatus()->name)) ?></button>
             </td>
             <td><?= $content->getDateCreated()->format('Y/m/d H:i') ?></td>
             <td><?= $content->getViews() ?></td>

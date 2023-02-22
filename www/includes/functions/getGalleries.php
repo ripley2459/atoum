@@ -23,7 +23,21 @@ $pagination->addLimitButton(400);
 <div id="registeredGalleriesPresentation">
     <?php foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content): ?>
         <div id="gallery<?= $content->getId() ?>" class="gallery" ondrop="addToGallery(event, <?= $content->getId() ?>)" ondragover="allowDrop(event)">
-            <h3><?= $content->getName() ?></h3>
+            <button onclick="toggleValueURLParam('focus', <?= $content->getId() ?>);listGalleries();listImages()"><?= $content->getName() ?></button>
+            <?php
+
+            $images = Relation::getChildren(Relation::getRelationType(EDataType::IMAGE, EDataType::GALLERY), $content->getId());
+
+            $gallery = new BlockGrid('gallery' . $content->getId());
+            $gallery->setColumnCount(3);
+
+            foreach ($images as $image) {
+                $gallery->addElement('<img src="' . UPLOADS_URL . FileHandler::getPath($image) . '" style="max-width:360px">');
+            }
+
+            $gallery->display();
+
+            ?>
         </div>
     <?php endforeach ?>
 </div>

@@ -10,6 +10,7 @@ $limit = $_GET['limit'] ?? 100;
 $searchFor = $_GET['searchFor'] ?? RString::EMPTY;
 $currentPage = $_GET['currentPage'] ?? 1;
 $totalPages = ceil(AContent::getAmount($type) / $limit);
+$focus = $_GET['focus'] ?? false;
 
 $pagination = new BlockPagination('imagesPagination', RString::EMPTY, 'number of lines: ', $currentPage, $totalPages, 'listImages');
 $pagination->addLimitButton(25);
@@ -22,8 +23,8 @@ $gallery = new BlockGrid('registeredImagesGrid');
 $gallery->setColumnCount(3);
 $pagination->display();
 
-foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content) {
-    $gallery->addElement('<img id="draggableImage' . $content->getId() .'" src="' . UPLOADS_URL . FileHandler::getPath($content) . '" draggable="true" ondragstart="bindImage(event, ' . $content->getId() .')" style="max-width:360px">');
+foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor, $focus ? Relation::getChildren(1002, $focus) : null) as $content) {
+    $gallery->addElement('<img id="draggableImage' . $content->getId() . '" src="' . UPLOADS_URL . FileHandler::getPath($content) . '" draggable="true" ondragstart="bindImage(event, ' . $content->getId() . ')" style="max-width:360px">');
 }
 
 $gallery->display();
