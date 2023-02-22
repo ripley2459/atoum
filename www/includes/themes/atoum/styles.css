@@ -120,6 +120,17 @@ td {
 }
 
 /*
+ * Collapse
+ */
+.collapse {
+    display: none;
+}
+
+.collapse.open {
+    display: block;
+}
+
+/*
  * Modal
  */
 .modal {

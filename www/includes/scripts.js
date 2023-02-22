@@ -12,6 +12,13 @@ window.onclick = function (e) {
 }
 
 /*
+ * Collapse
+ */
+function toggleCollapse(id) {
+    document.getElementById(id).classList.toggle("open");
+}
+
+/*
  * Search options
  */
 const toggleURLParam = (name, value, callback = null) => {
