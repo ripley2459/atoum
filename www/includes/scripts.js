@@ -12,59 +12,44 @@ window.onclick = function (e) {
 }
 
 /*
+ * Collapse
+ */
+function toggleCollapse(id) {
+    document.getElementById(id).classList.toggle("open");
+}
+
+/*
  * Search options
  */
-const setType = (newType, callback = null) => {
+const toggleURLParam = (name, value, callback = null) => {
     let newURL = new URL(document.URL);
-    let searchParams = newURL.searchParams;
-    if (searchParams.has("type")) {
-        searchParams.delete("type");
+    let sP = newURL.searchParams;
+    if (sP.has(name)) {
+        sP.delete(name);
     } else {
-        searchParams.set("type", newType);
+        sP.set(name, value);
     }
-    window.history.replaceState({id: "100"}, "type", newURL);
+    window.history.replaceState({id: "100"}, name, newURL);
     if (callback && (typeof callback == "function")) callback();
 }
 
-const setStatus = (newStatus, callback = null) => {
+const toggleValueURLParam = (name, newValue, callback = null) => {
     let newURL = new URL(document.URL);
-    let searchParams = newURL.searchParams;
-    if (searchParams.has("status")) {
-        searchParams.delete("status");
+    let sP = newURL.searchParams;
+    if (sP.has(name)) {
+        if (parseInt(sP.get(name)) === newValue) sP.delete(name);
+        else sP.set(name, newValue);
     } else {
-        searchParams.set("status", newStatus);
+        sP.set(name, newValue);
     }
-    window.history.replaceState({id: "100"}, "status", newURL);
+    window.history.replaceState({id: "100"}, name, newURL);
     if (callback && (typeof callback == "function")) callback();
 }
 
-const setOrderBy = (newOrderBy, callback = null) => {
+const setURLParam = (name, value, callback = null) => {
     let newURL = new URL(document.URL);
-    newURL.searchParams.set("orderBy", newOrderBy);
-    window.history.replaceState({id: "100"}, "orderBy", newURL);
-    if (callback && (typeof callback == "function")) callback();
-}
-
-const setLimit = (newLimit, callback = null) => {
-    let newURL = new URL(document.URL);
-    newURL.searchParams.set("limit", newLimit);
-    newURL.searchParams.set("currentPage", "1");
-    window.history.replaceState({id: "100"}, "limit", newURL);
-    if (callback && (typeof callback == "function")) callback();
-}
-
-const setCurrentPage = (newCurrentPage, callback = null) => {
-    let newURL = new URL(document.URL);
-    newURL.searchParams.set("currentPage", newCurrentPage);
-    window.history.replaceState({id: "100"}, "currentPage", newURL);
-    if (callback && (typeof callback == "function")) callback();
-}
-
-const setSearchFor = (newSearchFor, callback = null) => {
-    let newURL = new URL(document.URL);
-    newURL.searchParams.delete("searchFor");
-    newURL.searchParams.set("searchFor", newSearchFor);
-    window.history.replaceState({id: "100"}, "searchFor", newURL);
+    newURL.searchParams.set(name, value);
+    window.history.replaceState({id: "100"}, name, newURL);
     if (callback && (typeof callback == "function")) callback();
 }
 
@@ -73,18 +58,6 @@ const setSearchFor = (newSearchFor, callback = null) => {
  */
 function allowDrop(e) {
     e.preventDefault();
-}
-
-function drag(e, callback = null) {
-    e.dataTransfer.setData("text", e.target.id);
-    if (callback && (typeof callback == "function")) callback();
-}
-
-function drop(e, callback = null) {
-    e.preventDefault();
-    let data = e.dataTransfer.getData("text");
-    e.target.appendChild(document.getElementById(data));
-    if (callback && (typeof callback == "function")) callback();
 }
 
 /*

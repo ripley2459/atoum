@@ -3,8 +3,9 @@
 }
 
 * {
-    padding: 0;
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 #content {
@@ -120,6 +121,17 @@ td {
 }
 
 /*
+ * Collapse
+ */
+.collapse {
+    display: none;
+}
+
+.collapse.open {
+    display: block;
+}
+
+/*
  * Modal
  */
 .modal {
@@ -173,6 +185,10 @@ td {
 
 .grid img {
     width: 100%;
+}
+
+#linkedImagesGrid {
+    min-height: 100px;
 }
 
 /*

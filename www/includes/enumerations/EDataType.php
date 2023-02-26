@@ -2,14 +2,14 @@
 
 enum EDataType: int
 {
-    case TAG = 0;
-    case MOVIE = 1;
-    case PLAYLIST = 2;
-    case IMAGE = 3;
-    case GALLERY = 4;
-    case COMMENT = 5;
-    case POST = 6;
-    case PAGE = 7;
+    case MOVIE = 0;
+    case IMAGE = 1;
+    case GALLERY = 2;
+    case PLAYLIST = 3;
+    case POST = 4;
+    case PAGE = 5;
+    case COMMENT = 6;
+    case TAG = 7;
     case USER = 8;
 
     public static function fromInt(int $int): EDataType

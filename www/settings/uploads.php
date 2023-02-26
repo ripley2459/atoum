@@ -5,7 +5,7 @@
 <div id="informations"></div>
 <div id="chunkInformations"></div>
 <h2>Your uploads</h2>
-<input type="text" id="filesSearcher" onkeyup="setSearchFor(value, listFiles)"/>
+<input type="text" id="filesSearcher" onkeyup="setURLParam('searchFor', value, listFiles)"/>
 <div id="uploadedFiles"></div>
 <div id="contentModal"></div>
 

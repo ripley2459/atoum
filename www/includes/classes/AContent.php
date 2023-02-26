@@ -119,6 +119,8 @@ abstract class AContent implements IData
                 Logger::logError($e->getMessage());
             }
         }
+
+        // TODO
     }
 
     /**
@@ -138,6 +140,7 @@ abstract class AContent implements IData
             EDataType::POST => new Post($id),
             EDataType::PAGE => new Page($id),
             EDataType::COMMENT => new Comment($id),
+            EDataType::TAG => new Tag($id),
             default => throw new Exception('This type is not supported!')
         };
     }
@@ -160,6 +163,7 @@ abstract class AContent implements IData
      */
     public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY): array
     {
+        // TODO : créer un request builder, remplacer le $exclude par un INNER JOIN
         global $DDB;
 
         if (self::checkTable()) {
@@ -224,6 +228,8 @@ abstract class AContent implements IData
                 return array();
             }
         }
+
+        return array();
     }
 
     public static function getAmount(int $type = null): int
@@ -251,6 +257,8 @@ abstract class AContent implements IData
                 return -1;
             }
         }
+
+        return 0;
     }
 
     /**
@@ -440,4 +448,14 @@ abstract class AContent implements IData
 
         return false;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function __toString(): string
+    {
+        return $this->_id;
+    }
+
+
 }

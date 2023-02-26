@@ -30,7 +30,7 @@ class BlockPagination extends ABlockContainer
      */
     public function addLimitButton(int $amount): void
     {
-        $this->_content .= '<button onclick="setLimit(' . $amount . ', ' . $this->_onChangePage . ')">' . $amount . '</button>';
+        $this->_content .= '<button onclick="setURLParam(\'limit\', ' . $amount . ', ' . $this->_onChangePage . ')">' . $amount . '</button>';
     }
 
     /**
@@ -59,10 +59,10 @@ class BlockPagination extends ABlockContainer
     private function getPreviousPage(): string
     {
         if ($this->_currentPage == 1) {
-            return '<button onclick="setCurrentPage(' . $this->_currentPage - 1 . ', ' . $this->_onChangePage . ')" disabled><</button>';
+            return '<button onclick="setURLParam(\'currentPage\', ' . $this->_currentPage - 1 . ', ' . $this->_onChangePage . ')" disabled><</button>';
         }
 
-        return '<button onclick="setCurrentPage(' . $this->_currentPage - 1 . ', ' . $this->_onChangePage . ')"><</button>';
+        return '<button onclick="setURLParam(\'currentPage\', ' . $this->_currentPage - 1 . ', ' . $this->_onChangePage . ')"><</button>';
     }
 
     /**
@@ -71,9 +71,9 @@ class BlockPagination extends ABlockContainer
     private function getNextPage(): string
     {
         if ($this->_currentPage == $this->_totalPages) {
-            return '<button onclick="setCurrentPage(' . $this->_currentPage + 1 . ', ' . $this->_onChangePage . ')" disabled>></button>';
+            return '<button onclick="setURLParam(\'currentPage\', ' . $this->_currentPage + 1 . ', ' . $this->_onChangePage . ')" disabled>></button>';
         }
 
-        return '<button onclick="setCurrentPage(' . $this->_currentPage + 1 . ', ' . $this->_onChangePage . ')">></button>';
+        return '<button onclick="setURLParam(\'currentPage\', ' . $this->_currentPage + 1 . ', ' . $this->_onChangePage . ')">></button>';
     }
 }

@@ -2,9 +2,9 @@
 
 class SettingsPageBuilder
 {
-    const ALLOWED_PAGES = ['settings', 'galleries', 'uploads'];
-
+    const ALLOWED_PAGES = ['settings', 'editorGallery', 'galleries', 'uploads'];
     private static ?SettingsPageBuilder $_instance = null;
+    private string $_page;
 
     private function __construct()
     {
@@ -20,6 +20,20 @@ class SettingsPageBuilder
             self::$_instance = new SettingsPageBuilder();
         }
         return self::$_instance;
+    }
+
+    public function build(): void
+    {
+        if (isset($_GET['page']) && in_array($_GET['page'], self::ALLOWED_PAGES, true)) {
+            $this->_page = $_GET['page'];
+            $this->head();
+            $this->header();
+            $this->body();
+            $this->footer();
+        } else {
+            header('Location: ' . URL . '/settings/index.php?page=settings');
+            die();
+        }
     }
 
     /**
@@ -44,18 +58,17 @@ class SettingsPageBuilder
      * Fonction pour inclure le morceau de page.
      * @return void Affiche directement le morceau de page.
      */
-    public function footer(): void
+    public function body(): void
     {
-        include SETTINGS . 'footer.php';
+        include SETTINGS . $this->_page . '.php';
     }
 
     /**
      * Fonction pour inclure le morceau de page.
      * @return void Affiche directement le morceau de page.
      */
-    public function body(): void
+    public function footer(): void
     {
-        $page = isset($_GET['page']) ? whitelist($_GET['page'], self::ALLOWED_PAGES) : self::ALLOWED_PAGES[0];
-        include SETTINGS . $page . '.php';
+        include SETTINGS . 'footer.php';
     }
 }
