@@ -158,11 +158,10 @@ abstract class AContent implements IData
      * @param int $limit
      * @param int|null $currentPage La page actuelle pour la pagination
      * @param string $searchFor
-     * @param array|null $exclude Elément qui seront retirés du tableau donné.
      * @return AContent[]
      * @throws Exception
      */
-    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY, array $exclude = null): array
+    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY): array
     {
         // TODO : créer un request builder, remplacer le $exclude par un INNER JOIN
         global $DDB;
@@ -222,8 +221,6 @@ abstract class AContent implements IData
                 }
 
                 $r->closeCursor();
-
-                if (isset($exclude)) $content = array_diff($content, $exclude);
                 return $content;
             } catch (PDOException $e) {
                 Logger::logError('Can\'t get all instances from database');

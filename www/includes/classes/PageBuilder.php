@@ -3,9 +3,8 @@
 class PageBuilder
 {
     const ALLOWED_PAGES = ['welcome', 'home'];
-
     private static ?PageBuilder $_instance = null;
-    private array $_scripts = array();
+    private string $_page;
 
     private function __construct()
     {
@@ -23,13 +22,18 @@ class PageBuilder
         return self::$_instance;
     }
 
-    /**
-     * Fonction pour inclure le morceau de page.
-     * @return void Affiche directement le morceau de page.
-     */
-    public function index(): void
+    public function build(): void
     {
-        include THEME . 'index.php';
+        if (isset($_GET['page']) && in_array($_GET['page'], self::ALLOWED_PAGES, true)) {
+            $this->_page = $_GET['page'];
+            $this->head();
+            $this->header();
+            $this->body();
+            $this->footer();
+        } else {
+            header('Location: ' . URL . '/index.php?page=' . self::ALLOWED_PAGES[0]);
+            die();
+        }
     }
 
     /**
@@ -56,8 +60,7 @@ class PageBuilder
      */
     public function body(): void
     {
-        $page = isset($_GET['page']) ? whitelist($_GET['page'], self::ALLOWED_PAGES) : self::ALLOWED_PAGES[0];
-        include THEME . $page . '.php';
+        include THEME . $this->_page . '.php';
     }
 
     /**
@@ -69,16 +72,18 @@ class PageBuilder
         include THEME . 'footer.php';
     }
 
+    public function isWelcome(): bool
+    {
+        return $this->_page === self::ALLOWED_PAGES[0];
+    }
 
     /**
-     * Permet d'ajouter le script JavaScript donné en pied de page.
-     * @param string $id
-     * @param string $content
-     * @return void
+     * Fonction pour inclure le morceau de page.
+     * @return void Affiche directement le morceau de page.
      */
-    public function injectScript(string $id, string $content): void
+    public function index(): void
     {
-        $this->_scripts[$id] = $content;
+        include THEME . 'index.php';
     }
 
     public function displayScripts(): void

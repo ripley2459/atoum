@@ -2,12 +2,13 @@
 
 class Relation implements IData
 {
+    private const RELATION_FACTOR = 1000;
     private int $_id;
     private int $_type;
     private int $_child;
     private int $_parent;
     private string $_dateCreated;
-    private const RELATION_FACTOR = 1000;
+
     /**
      * @param int|null $id
      */
@@ -76,18 +77,6 @@ class Relation implements IData
                 return false;
             }
         }
-    }
-
-    /**
-     * @param int $type
-     * @return EDataType[]
-     */
-    public static function getElementsTypes(int $type): array
-    {
-        $t = explode(".", $type / self::RELATION_FACTOR);
-        $t[0] = EDataType::fromInt($t[0]);
-        $t[1] = EDataType::fromInt($t[1]);
-        return $t;
     }
 
     /**
@@ -161,6 +150,18 @@ class Relation implements IData
         return array();
     }
 
+    /**
+     * @param int $type
+     * @return EDataType[]
+     */
+    public static function getElementsTypes(int $type): array
+    {
+        $t = explode(".", $type / self::RELATION_FACTOR);
+        $t[0] = EDataType::fromInt($t[0]);
+        $t[1] = EDataType::fromInt($t[1]);
+        return $t;
+    }
+
     public static function relationExists(int $type, int $child, int $parent): bool
     {
         if (self::checkTable()) {
@@ -183,6 +184,29 @@ class Relation implements IData
         }
 
         return false;
+    }
+
+    public static function getRelation(int $type, int $child, int $parent): Relation
+    {
+        if (self::checkTable()) {
+            global $DDB;
+            $s = 'SELECT id FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent LIMIT 1';
+            $r = $DDB->prepare($s);
+
+            $r->bindValue(':type', $type, PDO::PARAM_INT);
+            $r->bindValue(':child', $child, PDO::PARAM_INT);
+            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
+
+            try {
+                $r->execute();
+                $d = $r->fetch(PDO::FETCH_ASSOC);
+                return new Relation($d['id']);
+            } catch (PDOException $e) {
+                Logger::logError($e->getMessage());
+            }
+        }
+
+        return new Relation();
     }
 
     /**

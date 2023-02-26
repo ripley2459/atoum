@@ -34,14 +34,16 @@ function nullOrEmpty(string $string): bool
  * Vérifie si une valeur est dans un ensemble. Si oui, retourne cette valeur, sinon, crée une erreur.
  * @param $value
  * @param array $allowed
- * @return mixed La valeur indiquée si autorisée
+ * @return string La valeur indiquée si autorisée
  */
-function whitelist($value, array $allowed): mixed
+function whitelist($value, array $allowed): string
 {
-    $key = in_array($value, $allowed, true);
+	if ($value === null) return $allowed[0];
+	
+    $flag = in_array($value, $allowed, true);
 
-    if ($key === false) {
-        return $allowed[0];
+    if ($flag === false) {
+        throw new InvalidArgumentException('This value is not allowed here!');
     } else {
         return $value;
     }

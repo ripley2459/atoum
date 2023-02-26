@@ -5,28 +5,18 @@ $contentType = EDataType::GALLERY;
 ?>
 
 <h1>Galleries</h1>
-<div id="registerContent"></div>
+<div id="registerGallery"></div>
 <h2>Your galleries</h2>
-<div class="row">
-    <div class="column">
-        <div id="registeredGalleries"></div>
-    </div>
-    <div class="column">
-        <input type="text" id="imagesSearcher" onkeyup="setURLParam('searchFor', value, listImages)"/><input type="range" id="imagesGridColumnsAmount" onchange="changeGridColumnsAmount('registeredImagesGrid', this.value)" value="3" min="1" max="10" step="1">
-        <div id="registeredImages"></div>
-    </div>
-</div>
+<div id="registeredGalleries"></div>
 
 <script>
-    const registerForm = document.querySelector("#registerContent");
+    const registerForm = document.querySelector("#registerGallery");
     const registeredGalleries = document.querySelector("#registeredGalleries");
-    const registeredImages = document.querySelector("#registeredImages");
     const contentModal = document.querySelector("#contentModal");
 
     document.addEventListener("DOMContentLoaded", function () {
         getRegisterForm();
-        listGalleries();
-        listImages();
+        getGalleries();
     });
 
     const registerContent = () => {
@@ -39,7 +29,7 @@ $contentType = EDataType::GALLERY;
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
                 getRegisterForm();
-                listGalleries();
+                getGalleries();
             }
         };
 
@@ -64,9 +54,9 @@ $contentType = EDataType::GALLERY;
         registerForm.innerHTML = `<?= BlockSpinner0::echo() ?>`;
     }
 
-    const listGalleries = () => {
+    const getGalleries = () => {
         const request = new XMLHttpRequest();
-        let from = new URL('<?= FUNCTIONS_URL . 'getGalleries.php' ?>');
+        let from = new URL('<?= FUNCTIONS_URL . 'galleries/getGalleries.php' ?>');
 
         from.searchParams.set("type", <?= $contentType->value ?>);
 
@@ -79,58 +69,5 @@ $contentType = EDataType::GALLERY;
         request.open("GET", from);
         request.send();
         registeredGalleries.innerHTML = `<?= BlockSpinner0::echo() ?>`;
-    }
-
-    const listImages = () => {
-        const request = new XMLHttpRequest();
-        const params = new URLSearchParams(new URL(document.URL).toString());
-        let from = new URL('<?= FUNCTIONS_URL . 'getUploadedImages.php' ?>');
-
-        from.searchParams.set("type", <?= EDataType::IMAGE->value ?>);
-        from.searchParams.set("status", <?= EDataStatus::PUBLISHED->value ?>);
-        if (params.has("orderBy")) from.searchParams.set("orderBy", params.get("orderBy"));
-        if (params.has("limit")) from.searchParams.set("limit", params.get("limit"));
-        if (params.has("currentPage")) from.searchParams.set("currentPage", params.get("currentPage"));
-        if (params.has("searchFor")) from.searchParams.set("searchFor", params.get("searchFor"));
-        if (params.has("focus")) from.searchParams.set("focus", params.get("focus"));
-
-        request.onreadystatechange = () => {
-            if (request.readyState === 4 && request.status === 200) {
-                registeredImages.innerHTML = request.responseText;
-            }
-        };
-
-        request.open("GET", from);
-        request.send();
-        registeredImages.innerHTML = `<?= BlockSpinner0::echo() ?>`;
-    }
-
-    let draggedImageId;
-
-    const bindImage = (event, imageId) => {
-        event.dataTransfer.setData("text", event.target.id);
-        draggedImageId = imageId;
-    }
-
-    const addToGallery = (event, galleryId) => {
-        event.preventDefault();
-        let data = event.dataTransfer.getData("text");
-        event.target.appendChild(document.getElementById(data));
-
-        const request = new XMLHttpRequest();
-        let from = new URL('<?= FUNCTIONS_URL . 'createRelation.php' ?>');
-
-        from.searchParams.set("childId", draggedImageId);
-        from.searchParams.set("parentId", galleryId);
-        from.searchParams.set("childType", <?= EDataType::IMAGE->value ?>);
-        from.searchParams.set("parentType", <?= EDataType::GALLERY->value ?>);
-
-        request.onreadystatechange = () => {
-            if (request.readyState === 4 && request.status === 200) {
-            }
-        };
-
-        request.open("GET", from);
-        request.send();
     }
 </script>
