@@ -16,6 +16,7 @@ $gallery = new Gallery($_GET['gallery']);
         <div id="linkedImages"></div>
     </div>
     <div class="column">
+        <input type="text" id="filesSearcher" onkeyup="setURLParam('searchFor', value, getImages)"/>
         <h2>Your images</h2>
         <div id="registeredImages"></div>
     </div>

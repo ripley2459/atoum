@@ -187,7 +187,8 @@ td {
     width: 100%;
 }
 
-#linkedImagesGrid {
+#linkedImagesGrid,
+#imagesGrid {
     min-height: 100px;
 }
 
