@@ -30,7 +30,7 @@ class BlockPagination extends ABlockContainer
      */
     public function addLimitButton(int $amount): void
     {
-        $this->_content .= '<button onclick="setURLParam(\'limit\', ' . $amount . ', ' . $this->_onChangePage . ')">' . $amount . '</button>';
+        $this->content .= '<button onclick="setURLParam(\'limit\', ' . $amount . ', ' . $this->_onChangePage . ')">' . $amount . '</button>';
     }
 
     /**
@@ -39,7 +39,7 @@ class BlockPagination extends ABlockContainer
     public function display(bool $echo = true): string
     {
         $r = '<div ' . $this->getSignature() . '>';
-        $r .= $this->_content;
+        $r .= $this->content;
         $r .= $this->getPreviousPage();
         $r .= '<spawn>' . $this->_currentPage . '/' . $this->_totalPages . '</spawn>';
         $r .= $this->getNextPage();

@@ -56,4 +56,5 @@ require_once BLOCKS . 'ABlockContainer.php';
 require_once BLOCKS . 'BlockGrid.php';
 require_once BLOCKS . 'BlockModal.php';
 require_once BLOCKS . 'BlockPagination.php';
+require_once BLOCKS . 'BlockGallery.php';
 require_once BLOCKS . 'BlockSpinner0.php';

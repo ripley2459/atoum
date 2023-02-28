@@ -10,6 +10,7 @@ $gallery = new Gallery($_GET['gallery']);
 ?>
 
 <h1><?= $gallery->getName() ?></h1>
+<a href="<?= URL ?>/index.php?page=viewGallery&gallery=<?= $gallery->getId() ?>" target="_blank">View</a>
 <div class="row">
     <div class="column">
         <h2>Linked images</h2>

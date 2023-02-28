@@ -2,7 +2,7 @@
 
 abstract class ABlockContainer extends ABlock
 {
-    protected string $_content = RString::EMPTY;
+    protected string $content = RString::EMPTY;
 
     /**
      * @param string $id
@@ -13,6 +13,6 @@ abstract class ABlockContainer extends ABlock
     {
         parent::__construct($id, $classes);
         $this->_classes .= 'container';
-        $this->_content = $content;
+        $this->content = $content;
     }
 }

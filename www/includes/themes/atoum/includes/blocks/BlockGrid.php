@@ -18,7 +18,7 @@ class BlockGrid extends ABlockContainer
      */
     public function display(bool $echo = true): string
     {
-        $r = '<div ' . $this->getSignature() . ' style="column-count: ' . $this->_columnCount . '">' . $this->_content . '</div>';
+        $r = '<div ' . $this->getSignature() . ' style="column-count: ' . $this->_columnCount . '">' . $this->content . '</div>';
 
         if ($echo) {
             echo $r;
@@ -35,7 +35,7 @@ class BlockGrid extends ABlockContainer
      */
     public function addElement(string $element): void
     {
-        $this->_content .= $element;
+        $this->content .= $element;
     }
 
     /**
