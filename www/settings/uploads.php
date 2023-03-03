@@ -50,7 +50,7 @@
     let file; // Le fichier actuellement traité
     let fileSize; // La taille du fichier actuellement traité
     let frag, start, end; // Le début, la fin et l'index du blob actuellement traité
-    let progress; // Utilisé pour afficher une sorte de progression
+    let progress, totalProgress, totalMaxProgress; // Utilisé pour afficher une sorte de progression
     let chunkAmount; // Le nombre total de blobs qui seront envoyés
 
     const uploadFiles = () => {
@@ -59,21 +59,16 @@
         files = filesUploader.files;
         fileIndex = 0;
 
+        totalProgress = totalMaxProgress = 0;
+
         // Crée les barres de chargement
         Array.from(files).forEach(f => {
-            let id = f.name.replace(/\s+/g, '_').toLowerCase();
-
-            let label = document.createElement('label');
-            label.htmlFor = id.concat('_progress');
-            label.innerHTML = f.name;
-            let progress = document.createElement('progress');
-            progress.id = id.concat('_progress');
-            progress.max = 100;
-            progress.value = 0;
-
-            filesUploadInfos.appendChild(label);
-            filesUploadInfos.appendChild(progress);
+            totalMaxProgress += Math.max(Math.ceil(f.size / chunkSize), 1);
+            let id = f.name.replace(/\s+/g, '_').toLowerCase().concat("Progress");
+            filesUploadInfos.appendChild(createProgressBar(id, f.name, 100));
         })
+
+        filesUploadInfos.insertBefore(createProgressBar("totalProgress", "Total", totalMaxProgress), filesUploadInfos.firstChild);
 
         uploadFile(); // Lancement de l'opération
     }
@@ -104,9 +99,13 @@
         request.onreadystatechange = () => {
             if (request.readyState === 4 && (request.status === 200 || request.status === 201 || request.status === 204)) {
                 progress++;
-                let id = file.name.replace(/\s+/g, '_').toLowerCase().concat("_progress");
+                totalProgress++;
+                let id = file.name.replace(/\s+/g, '_').toLowerCase().concat("Progress");
                 document.getElementById(id).value = progress;
                 document.getElementById(id).max = chunkAmount;
+
+                document.getElementById("totalProgress").value = totalProgress;
+                document.getElementById("totalProgress").max = totalMaxProgress;
 
                 if (frag < chunkAmount) {
                     start = end;
@@ -149,5 +148,21 @@
 
     const deleteContent = () => {
         // TODO
+    }
+
+    const createProgressBar = (id, text, maxProgress) => {
+        let div = document.createElement("div")
+        let label = document.createElement("label");
+        label.htmlFor = id;
+        label.innerHTML = text;
+        let progress = document.createElement("progress");
+        progress.id = id;
+        progress.max = maxProgress;
+        progress.value = 0;
+
+        div.appendChild(label);
+        div.appendChild(progress);
+
+        return div;
     }
 </script>
