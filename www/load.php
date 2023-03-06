@@ -37,13 +37,13 @@ require_once CLASSES . 'AContent.php';
 require_once CLASSES . 'PageBuilder.php';
 require_once CLASSES . 'SettingsPageBuilder.php';
 require_once CLASSES . 'ThemeHandler.php';
-require_once CLASSES . 'Gallery.php';
-require_once CLASSES . 'Image.php';
-require_once CLASSES . 'Movie.php';
-require_once CLASSES . 'Page.php';
-require_once CLASSES . 'Playlist.php';
 require_once CLASSES . 'Relation.php';
 require_once CLASSES . 'Tag.php';
+require_once CLASSES . 'Image.php';
+require_once CLASSES . 'Gallery.php';
+require_once CLASSES . 'Video.php';
+require_once CLASSES . 'Playlist.php';
+require_once CLASSES . 'Page.php';
 require_once CLASSES . 'User.php';
 require_once CLASSES . 'Comment.php';
 

@@ -2,7 +2,7 @@
 
 
 /**
- * Représente un objet ayant un ou plusieurs éléments sur le disque.
+ * Représente un objet ayant un fichier sur le disque.
  */
 interface IFile
 {

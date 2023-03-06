@@ -2,7 +2,7 @@
 
 enum EDataType: int
 {
-    case MOVIE = 0;
+    case VIDEO = 0;
     case IMAGE = 1;
     case GALLERY = 2;
     case PLAYLIST = 3;
@@ -21,7 +21,7 @@ enum EDataType: int
     {
         return match ($mime) {
             'image/giff', 'image/jpeg', 'image/png' => EDataType::IMAGE,
-            'video/mp4', 'video/ogg' => EDataType::MOVIE
+            'video/mp4', 'video/ogg' => EDataType::VIDEO
         };
     }
 

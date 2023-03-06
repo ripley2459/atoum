@@ -5,7 +5,7 @@ global $DDB;
 
 $type = EDataType::IMAGE->value;
 $status = EDataStatus::PUBLISHED->value;
-$orderBy = $_GET['orderBy'] ?? 'name_ASC';
+$orderBy = $_GET['orderBy'] ?? 'dateCreated_DESC';
 $orderDirection = isset($orderBy) ? switchOrderDirection($orderBy) : 'ASC';
 $limit = $_GET['limit'] ?? 100;
 $searchFor = $_GET['searchFor'] ?? RString::EMPTY;

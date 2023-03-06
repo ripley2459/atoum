@@ -56,6 +56,24 @@ const setURLParam = (name, value, callback = null) => {
     if (callback && (typeof callback == "function")) callback();
 }
 
+const getPagination = (zone) => {
+
+}
+
+const bindPagination = (params, from) => {
+    if (params.has("type")) from.searchParams.set("type", params.get("type"));
+    if (params.has("status")) from.searchParams.set("status", params.get("status"));
+    if (params.has("orderBy")) from.searchParams.set("orderBy", params.get("orderBy"));
+    if (params.has("limit")) from.searchParams.set("limit", params.get("limit"));
+    if (params.has("currentPage")) from.searchParams.set("currentPage", params.get("currentPage"));
+    if (params.has("searchFor")) from.searchParams.set("searchFor", params.get("searchFor"));
+    if (params.has("displayContent")) from.searchParams.set("displayContent", params.get("displayContent"));
+}
+
+const updatePagination = () => {
+
+}
+
 /*
  * Drag n Drop
  */

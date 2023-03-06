@@ -2,10 +2,9 @@
 
 session_start();
 
-require_once dirname(__DIR__, 2) . '/load.php';
+require_once dirname(__DIR__, 3) . '/load.php';
 
 if (isset($_POST['newFile'])) {
-    Logger::clear();
     $_SESSION['frag'] = 0;
 }
 
@@ -34,7 +33,7 @@ if (!empty($blob)) {
                 fclose($final);
 
                 unlink($tBlob);
-            } // Jusque là c'est ok
+            }
 
             $mimeType = mime_content_type($finalFile);
             if (in_array($mimeType, FileHandler::ALLOWED_TYPES)) {

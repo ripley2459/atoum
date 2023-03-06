@@ -37,13 +37,10 @@ $gallery = new Gallery($_GET['gallery']);
         const params = new URLSearchParams(new URL(document.URL).toString());
         let from = new URL('<?= FUNCTIONS_URL . 'galleries/getImages.php' ?>');
 
+        bindPagination(params, from);
         from.searchParams.set("gallery", <?= $gallery->getId() ?>);
         from.searchParams.set("type", <?= EDataType::IMAGE->value ?>);
         from.searchParams.set("status", <?= EDataStatus::PUBLISHED->value ?>);
-        if (params.has("orderBy")) from.searchParams.set("orderBy", params.get("orderBy"));
-        if (params.has("limit")) from.searchParams.set("limit", params.get("limit"));
-        if (params.has("currentPage")) from.searchParams.set("currentPage", params.get("currentPage"));
-        if (params.has("searchFor")) from.searchParams.set("searchFor", params.get("searchFor"));
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
@@ -61,13 +58,10 @@ $gallery = new Gallery($_GET['gallery']);
         const params = new URLSearchParams(new URL(document.URL).toString());
         let from = new URL('<?= FUNCTIONS_URL . 'galleries/getLinkedImages.php' ?>');
 
+        bindPagination(params, from);
         from.searchParams.set("gallery", <?= $gallery->getId() ?>);
         from.searchParams.set("type", <?= EDataType::IMAGE->value ?>);
         from.searchParams.set("status", <?= EDataStatus::PUBLISHED->value ?>);
-        if (params.has("orderBy")) from.searchParams.set("orderBy", params.get("orderBy"));
-        if (params.has("limit")) from.searchParams.set("limit", params.get("limit"));
-        if (params.has("currentPage")) from.searchParams.set("currentPage", params.get("currentPage"));
-        if (params.has("searchFor")) from.searchParams.set("searchFor", params.get("searchFor"));
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
@@ -92,7 +86,7 @@ $gallery = new Gallery($_GET['gallery']);
         event.target.appendChild(document.getElementById(data));
 
         const request = new XMLHttpRequest();
-        let from = new URL('<?= FUNCTIONS_URL . 'createRelation.php' ?>');
+        let from = new URL('<?= FUNCTIONS_URL . 'relations/createRelation.php' ?>');
 
         from.searchParams.set("childId", draggedImageId);
         from.searchParams.set("parentId", galleryId);
@@ -115,7 +109,7 @@ $gallery = new Gallery($_GET['gallery']);
         event.target.appendChild(document.getElementById(data));
 
         const request = new XMLHttpRequest();
-        let from = new URL('<?= FUNCTIONS_URL . 'deleteRelation.php' ?>');
+        let from = new URL('<?= FUNCTIONS_URL . 'relations/deleteRelation.php' ?>');
 
         from.searchParams.set("childId", draggedImageId);
         from.searchParams.set("parentId", galleryId);

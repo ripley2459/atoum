@@ -21,7 +21,7 @@ $contentType = EDataType::GALLERY;
 
     const registerContent = () => {
         const request = new XMLHttpRequest();
-        let from = new URL('<?= FUNCTIONS_URL . 'registerContent.php' ?>');
+        let from = new URL('<?= FUNCTIONS_URL . 'uploads/registerContent.php' ?>');
 
         from.searchParams.set("type", <?= $contentType->value ?>);
         from.searchParams.set("name", document.querySelector("#contentName").value);
@@ -39,7 +39,7 @@ $contentType = EDataType::GALLERY;
 
     const getRegisterForm = () => {
         const request = new XMLHttpRequest();
-        let from = new URL('<?= FUNCTIONS_URL . 'getContentRegisterForm.php' ?>');
+        let from = new URL('<?= FUNCTIONS_URL . 'uploads/getRegisterForm.php' ?>');
 
         from.searchParams.set("type", <?= $contentType->value ?>);
 

@@ -1,13 +1,13 @@
 <?php
 
-class Movie extends AContent implements IFile
+class Video extends AContent implements IFile
 {
     /**
      * @inheritDoc
      */
     public static function getType(): EDataType
     {
-        return EDataType::MOVIE;
+        return EDataType::VIDEO;
     }
 
     /**
@@ -32,5 +32,20 @@ class Movie extends AContent implements IFile
     public function deleteContent(): bool
     {
         // TODO: Implement deleteContent() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function display(bool $echo = true): string
+    {
+        $r = '<video id="movie' . $this->_id . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls></video>';
+
+        if ($echo) {
+            echo $r;
+            return RString::EMPTY;
+        }
+
+        return $r;
     }
 }

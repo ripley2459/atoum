@@ -20,7 +20,13 @@ $grid = new BlockGrid("registeredGalleriesGrid");
 $pagination->display();
 
 foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content) {
-    $grid->addElement('<a href="' . URL . '/index.php?page=viewGallery&gallery=' . $content->getId() . '"/>' . $content->getName() . '</a>');
+
+    /* TODO OVERKILL TO REFACTO */
+    $images = Relation::getChildren(Relation::getRelationType(EDataType::IMAGE, EDataType::GALLERY), $content->getId());
+    shuffle($images);
+    $preview = '<img src="' . UPLOADS_URL . FileHandler::getPath($images[0]) . '">';
+
+    $grid->addElement('<a href="' . URL . '/index.php?page=viewGallery&gallery=' . $content->getId() . '" class="gallery"/>' . $preview . '</a>');
 }
 
 $grid->display();
