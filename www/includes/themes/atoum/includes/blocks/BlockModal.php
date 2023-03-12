@@ -17,7 +17,7 @@ class BlockModal extends ABlockContainer
      */
     public function display(bool $echo = true): string
     {
-        $r = '<div ' . $this->getSignature() . '><div class="content">' . $this->_content . '</div></div>';
+        $r = '<div ' . $this->getSignature() . '><div class="content">' . $this->content . '</div></div>';
 
         if ($echo) {
             echo $r;

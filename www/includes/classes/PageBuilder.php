@@ -2,7 +2,7 @@
 
 class PageBuilder
 {
-    const ALLOWED_PAGES = ['welcome', 'home'];
+    const ALLOWED_PAGES = ['welcome', 'home', 'viewGallery', 'viewMovie', 'galleries', 'movies'];
     private static ?PageBuilder $_instance = null;
     private string $_page;
 

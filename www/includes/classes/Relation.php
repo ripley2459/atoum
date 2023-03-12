@@ -31,7 +31,6 @@ class Relation implements IData
                     $this->_parent = $d['parent'];
                     $this->_dateCreated = $d['dateCreated'];
                 } catch (PDOException $e) {
-                    Logger::logError('Can\'t get this instance from database');
                     Logger::logError($e->getMessage());
                 }
             }
@@ -50,7 +49,6 @@ class Relation implements IData
         try {
             $r->execute();
         } catch (PDOException $e) {
-            Logger::logError('Error during check table process');
             Logger::logError($e->getMessage());
             return false;
         }
@@ -69,10 +67,8 @@ class Relation implements IData
 
             try {
                 $r->execute();
-                Logger::logInfo('Table \'relations\' has been created');
                 return true;
             } catch (PDOException $e) {
-                Logger::logError('Can\'t create table \'relations\'');
                 Logger::logError($e->getMessage());
                 return false;
             }
@@ -244,7 +240,6 @@ class Relation implements IData
                 $r->execute();
                 return true;
             } catch (PDOException $e) {
-                Logger::logError('Can\'t register new instance in database');
                 Logger::logError($e->getMessage());
                 return false;
             }
@@ -271,7 +266,6 @@ class Relation implements IData
                 $r->closeCursor();
                 return true;
             } catch (PDOException $e) {
-                Logger::logError('Can\'t delete this instance from the database');
                 Logger::logError($e->getMessage());
             }
         }

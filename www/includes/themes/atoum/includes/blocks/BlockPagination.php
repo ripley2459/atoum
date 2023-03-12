@@ -30,7 +30,7 @@ class BlockPagination extends ABlockContainer
      */
     public function addLimitButton(int $amount): void
     {
-        $this->_content .= '<button onclick="setURLParam(\'limit\', ' . $amount . ', ' . $this->_onChangePage . ')">' . $amount . '</button>';
+        $this->content .= '<button onclick="setURLParam(\'limit\', ' . $amount . ', ' . $this->_onChangePage . ')">' . $amount . '</button>';
     }
 
     /**
@@ -39,7 +39,7 @@ class BlockPagination extends ABlockContainer
     public function display(bool $echo = true): string
     {
         $r = '<div ' . $this->getSignature() . '>';
-        $r .= $this->_content;
+        $r .= $this->content;
         $r .= $this->getPreviousPage();
         $r .= '<spawn>' . $this->_currentPage . '/' . $this->_totalPages . '</spawn>';
         $r .= $this->getNextPage();
@@ -75,5 +75,15 @@ class BlockPagination extends ABlockContainer
         }
 
         return '<button onclick="setURLParam(\'currentPage\', ' . $this->_currentPage + 1 . ', ' . $this->_onChangePage . ')">></button>';
+    }
+
+    public function addSearchForm(string $onSearch = RString::EMPTY): void
+    {
+        $this->content .= '<input type="text" id="' . $this->_id . 'Search" onkeyup="setURLParam(\'searchFor\', value' . ($onSearch == RString::EMPTY ? '' : ', ' . $onSearch) . ')"/>';
+    }
+
+    public function addCustomElement(string $element): void
+    {
+        $this->content .= $element;
     }
 }

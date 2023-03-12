@@ -43,7 +43,6 @@ abstract class AContent implements IData
                     $this->_dateCreated = $d['dateCreated'];
                     $this->_dateModified = $d['dateModified'];
                 } catch (PDOException $e) {
-                    Logger::logError('Can\'t get this instance from database');
                     Logger::logError($e->getMessage());
                 }
             }
@@ -62,7 +61,6 @@ abstract class AContent implements IData
         try {
             $r->execute();
         } catch (PDOException $e) {
-            Logger::logError('Error during check table process');
             Logger::logError($e->getMessage());
             return false;
         }
@@ -87,10 +85,8 @@ abstract class AContent implements IData
 
             try {
                 $r->execute();
-                Logger::logInfo('Table \'contents\' has been created');
                 return true;
             } catch (PDOException $e) {
-                Logger::logError('Can\'t create table \'contents\'');
                 Logger::logError($e->getMessage());
                 return false;
             }
@@ -115,7 +111,6 @@ abstract class AContent implements IData
                 $d = $r->fetch();
                 return self::createInstance(EDataType::fromInt($d['type']), $d['id']);
             } catch (Exception $e) {
-                Logger::logError('Can\'t get instance from database');
                 Logger::logError($e->getMessage());
             }
         }
@@ -133,7 +128,7 @@ abstract class AContent implements IData
     public static function createInstance(EDataType $mimeType, int $id = null): AContent
     {
         return match ($mimeType) {
-            EDataType::MOVIE => new Movie($id),
+            EDataType::VIDEO => new Video($id),
             EDataType::IMAGE => new Image($id),
             EDataType::GALLERY => new Gallery($id),
             EDataType::PLAYLIST => new Playlist($id),
@@ -223,7 +218,6 @@ abstract class AContent implements IData
                 $r->closeCursor();
                 return $content;
             } catch (PDOException $e) {
-                Logger::logError('Can\'t get all instances from database');
                 Logger::logError($e->getMessage());
                 return array();
             }
@@ -252,7 +246,6 @@ abstract class AContent implements IData
                 $r->closeCursor();
                 return $amount;
             } catch (PDOException $e) {
-                Logger::logError('Can\'t get the amount of registered instance in database');
                 Logger::logError($e->getMessage());
                 return -1;
             }
@@ -393,7 +386,6 @@ abstract class AContent implements IData
                 $r->execute();
                 return true;
             } catch (PDOException $e) {
-                Logger::logError('Can\'t register new instance in database');
                 Logger::logError($e->getMessage());
                 return false;
             }
@@ -426,7 +418,6 @@ abstract class AContent implements IData
                     $r->closeCursor();
                     return true;
                 } catch (PDOException $e) {
-                    Logger::logError('Can\'t delete this instance from the database');
                     Logger::logError($e->getMessage());
                 }
             }
@@ -449,13 +440,15 @@ abstract class AContent implements IData
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function __toString(): string
     {
         return $this->_id;
     }
 
-
+    /**
+     * Donne le code HTML pour afficher cet élément.
+     * @param bool $echo Si cet élément doit être retourné ou afficher via echo
+     * @return string
+     */
+    public abstract function display(bool $echo = true): string;
 }

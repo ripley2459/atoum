@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__DIR__, 2) . '/load.php';
+require_once dirname(__DIR__, 3) . '/load.php';
 
 if (!isset($_GET['type']) || !isset($_GET['name'])) {
     return;

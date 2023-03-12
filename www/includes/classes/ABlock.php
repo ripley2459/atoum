@@ -12,7 +12,7 @@ abstract class ABlock
     }
 
     /**
-     * affiche le bloc HTML pour afficher le block.
+     * Donne le code HTML pour afficher ce block.
      * @param bool $echo Si le bloc doit être retourné ou afficher via echo
      * @return string
      */
