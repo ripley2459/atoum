@@ -7,10 +7,11 @@ function toggleModal(id) {
 
 window.onclick = function (e) {
     if (e.target.classList.contains("modal")) {
+        if (e.target.classList.contains("gallery")) {
+            closeGallery(e);
+            return;
+        }
         e.target.classList.remove("open");
-    }
-    if (e.target.classList.contains("slideshow")) {
-        e.target.parentElement.classList.remove("open");
     }
 }
 
@@ -91,29 +92,39 @@ function changeGridColumnsAmount(id, value) {
 /*
  * Gallery
  */
+let autoSlider; // Passage auto des slides
+let slideIndex = 0;
+
 function plusSlide(n, g) {
     showSlides(slideIndex += n, g);
 }
 
 function currentSlide(s, g) {
+    clearTimeout(autoSlider);
     showSlides(slideIndex = s, g);
 }
 
-function showSlides(n, g) {
+function showSlides(slide, g) {
     let i;
     const gallery = document.getElementById(g);
-    const modal = gallery.getElementsByClassName("modal");
+    const modal = gallery.getElementsByClassName("modal")[0];
     const slides = gallery.getElementsByClassName("slide");
     const thumbnails = gallery.getElementsByClassName("thumbnail");
-    // const slideshowProgress = gallery.getElementById("slideshow-progress");
 
-    modal[0].classList.add("open");
+    if (slide < 0) {
+        clearTimeout(autoSlider);
+        modal.classList.remove("open");
+        return;
+    } else {
+        autoSlider = setTimeout(plusSlide, 10000, 1, g);
+        modal.classList.add("open");
+    }
 
-    if (n > slides.length) {
+    if (slide > slides.length) {
         slideIndex = 1;
     }
 
-    if (n < 1) {
+    if (slide < 1) {
         slideIndex = slides.length
     }
 
@@ -122,7 +133,6 @@ function showSlides(n, g) {
         thumbnails[i].classList.remove("open");
     }
 
-    // slideshowProgress.textContent = slideIndex + "/" + slides.length;
     slides[slideIndex - 1].classList.add("open");
 
     function clamp(x) {
@@ -139,4 +149,8 @@ function showSlides(n, g) {
     thumbnails[clamp(slideIndex - 1)].classList.add("open");
     thumbnails[clamp(slideIndex + 0)].classList.add("open");
     thumbnails[clamp(slideIndex + 1)].classList.add("open");
+}
+
+function closeGallery(e) {
+    showSlides(-1, e.target.parentElement.id);
 }
