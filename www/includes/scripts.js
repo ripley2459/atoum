@@ -1,18 +1,45 @@
 /*
- * Modal
+ * Window events
  */
-function toggleModal(id) {
-    document.getElementById(id).classList.toggle("open");
-}
+const eKeyLeft = new Event("eKeyLeft");
+const eKeyRight = new Event("eKeyRight");
+const eKeyEscape = new Event("eKeyEscape");
+
+document.onkeydown = function (e) {
+    switch (e.keyCode) {
+        case 27:
+            document.dispatchEvent(eKeyEscape);
+            break;
+        case 37:
+            document.dispatchEvent(eKeyLeft);
+            break;
+        case 38:
+            // alert('up');
+            break;
+        case 39:
+            document.dispatchEvent(eKeyRight);
+            break;
+        case 40:
+            // alert('down');
+            break;
+    }
+};
 
 window.onclick = function (e) {
     if (e.target.classList.contains("modal")) {
-        if (e.target.classList.contains("gallery")) {
-            closeGallery(e);
+        if (openedGallery != null && e.target.classList.contains("gallery")) {
+            closeGallery();
             return;
         }
         e.target.classList.remove("open");
     }
+}
+
+/*
+ * Modal
+ */
+function toggleModal(id) {
+    document.getElementById(id).classList.toggle("open");
 }
 
 /*
@@ -92,10 +119,12 @@ function changeGridColumnsAmount(id, value) {
 /*
  * Gallery
  */
+let openedGallery;
 let autoSlider; // Passage auto des slides
 let slideIndex = 0;
 
 function plusSlide(n, g) {
+    clearTimeout(autoSlider);
     showSlides(slideIndex += n, g);
 }
 
@@ -114,10 +143,12 @@ function showSlides(slide, g) {
     if (slide < 0) {
         clearTimeout(autoSlider);
         modal.classList.remove("open");
+        openedGallery = null;
         return;
     } else {
-        autoSlider = setTimeout(plusSlide, 10000, 1, g);
+        autoSlider = setTimeout(plusSlide, 5000, 1, g);
         modal.classList.add("open");
+        openedGallery = g;
     }
 
     if (slide > slides.length) {
@@ -151,6 +182,18 @@ function showSlides(slide, g) {
     thumbnails[clamp(slideIndex + 1)].classList.add("open");
 }
 
-function closeGallery(e) {
-    showSlides(-1, e.target.parentElement.id);
+function closeGallery() {
+    showSlides(-1, openedGallery);
 }
+
+document.addEventListener("eKeyEscape", () => {
+    if (openedGallery != null) closeGallery();
+});
+
+document.addEventListener("eKeyLeft", () => {
+    if (openedGallery != null) plusSlide(-1, openedGallery);
+});
+
+document.addEventListener("eKeyRight", () => {
+    if (openedGallery != null) plusSlide(1, openedGallery);
+});
