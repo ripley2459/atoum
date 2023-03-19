@@ -6,7 +6,23 @@ if (!isset($_GET['video'])) {
     die();
 }
 
-$videoId = $_GET['video'];
-$video = new Video($videoId);
+$video = new Video($_GET['video']);
 
-$video->display();
+?>
+
+<div class="layoutVideo">
+    <div class="video">
+        <?php
+
+        echo $video->display();
+        echo '<h1>' . $video->getName() . '</h1>';
+
+        ?>
+    </div>
+    <div class="underVideo">
+        <?php //echo $video->getRelatedMoviesByTags(); ?>
+    </div>
+    <div class="sideVideo">
+        <?php //echo $video->getRelatedMoviesByActors(); ?>
+    </div>
+</div>
