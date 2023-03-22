@@ -189,11 +189,26 @@ function closeGallery() {
 document.addEventListener("eKeyEscape", () => {
     if (openedGallery != null) closeGallery();
 });
-
 document.addEventListener("eKeyLeft", () => {
     if (openedGallery != null) plusSlide(-1, openedGallery);
 });
-
 document.addEventListener("eKeyRight", () => {
     if (openedGallery != null) plusSlide(1, openedGallery);
 });
+
+/*
+ * Editors
+ */
+const getContent = (url, resultId, contentId) => {
+    const result = document.getElementById(resultId);
+    const request = new XMLHttpRequest();
+    let from = new URL(url);
+    request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 200) {
+            result.innerHTML = request.responseText;
+        }
+    };
+    from.searchParams.set("contentId", contentId);
+    request.open("GET", from);
+    request.send();
+}

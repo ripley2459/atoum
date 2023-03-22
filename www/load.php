@@ -14,7 +14,6 @@ const INCLUDES = DIR . '/includes/';
 const CONTENT = DIR . '/content/';
 const CLASSES = INCLUDES . 'classes/';
 const ENUMERATIONS = INCLUDES . 'enumerations/';
-const FUNCTIONS = INCLUDES . 'functions/';
 const FUNCTIONS_URL = URL . '/includes/functions/';
 const INTERFACES = INCLUDES . 'interfaces/';
 const UPLOADS = CONTENT . 'uploads/';
@@ -50,11 +49,17 @@ require_once CLASSES . 'Comment.php';
 define('THEME', ThemeHandler::Instance()->getThemePath());
 define('THEME_URL', ThemeHandler::Instance()->getThemeURL());
 
-const BLOCKS = THEME . 'includes/blocks/';
+require_once THEME . 'load.php';
 
-require_once BLOCKS . 'ABlockContainer.php';
-require_once BLOCKS . 'BlockGrid.php';
-require_once BLOCKS . 'BlockModal.php';
-require_once BLOCKS . 'BlockPagination.php';
-require_once BLOCKS . 'BlockGallery.php';
-require_once BLOCKS . 'BlockSpinner0.php';
+const BLOCKS = [
+    'ABlockContainer',
+    'BlockGrid',
+    'BlockModal',
+    'BlockPagination',
+    'BlockGallery',
+    'BlockSpinner0',
+];
+
+foreach (BLOCKS as $block) {
+    require_once file_exists(THEME . 'includes/blocks/' . $block . '.php') ? THEME . 'includes/blocks/' . $block . '.php' : ThemeHandler::DefaultThemePath . 'includes/blocks/' . $block . '.php';
+}
