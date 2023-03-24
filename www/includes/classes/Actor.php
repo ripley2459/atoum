@@ -1,12 +1,12 @@
 <?php
 
-class Gallery extends AContent
+class Actor extends AContent
 {
     /**
      * @inheritDoc
      */
     public static function getType(): EDataType
     {
-        return EDataType::GALLERY;
+        return EDataType::ACTOR;
     }
 }

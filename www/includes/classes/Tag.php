@@ -1,36 +1,12 @@
 <?php
 
-class Tag implements IData
+class Tag extends AContent
 {
     /**
      * @inheritDoc
      */
-    public static function checkTable(): bool
+    public static function getType(): EDataType
     {
-        // TODO: Implement checkTable() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function register(): bool
-    {
-        // TODO: Implement register() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function unregister(): bool
-    {
-        // TODO: Implement unregister() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function save(): bool
-    {
-        // TODO: Implement save() method.
+        return EDataType::TAG;
     }
 }

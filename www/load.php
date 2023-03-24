@@ -53,6 +53,7 @@ require_once THEME . 'load.php';
 
 const BLOCKS = [
     'ABlockContainer',
+    'BlockSettings',
     'BlockGrid',
     'BlockModal',
     'BlockPagination',

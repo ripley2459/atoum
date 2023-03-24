@@ -3,6 +3,7 @@
 class FileHandler
 {
     const DATE_FORMAT = 'Y/m/d';
+    const DATE_FORMAT_LONG = 'Y-m-d\TH:i';
     const ALLOWED_TYPES = ['image/giff', 'image/gif', 'image/jpeg', 'image/png', 'video/mp4', 'video/ogg'];
     private static ?FileHandler $_instance = null;
 

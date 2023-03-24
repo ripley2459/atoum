@@ -12,7 +12,7 @@ $video = new Video($_GET['video']);
 
 <div class="layoutVideo">
     <div class="video">
-        <?= $video->display() ?>
+        <?= '<video id="movie' . $video->getId() . '" src="' . UPLOADS_URL . FileHandler::getPath($video) . '" controls></video>' ?>
         <div id="videoInfos">
             <h1><?= $video->getName() ?></h1>
             <button onclick="getContent('<?= FUNCTIONS_URL ?>videos/openVideoEditor.php', 'videoInfos', <?= $video->getId() ?>)">Edit</button>

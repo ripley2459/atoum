@@ -33,19 +33,4 @@ class Image extends AContent implements IFile
     {
         return $this->_slug;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function display(bool $echo = true): string
-    {
-        $r = '<img id="image' . $this->_id . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '">';
-
-        if ($echo) {
-            echo $r;
-            return RString::EMPTY;
-        }
-
-        return $r;
-    }
 }

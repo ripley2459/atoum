@@ -136,6 +136,8 @@ abstract class AContent implements IData
             EDataType::PAGE => new Page($id),
             EDataType::COMMENT => new Comment($id),
             EDataType::TAG => new Tag($id),
+            EDataType::ACTOR => new Actor($id),
+            EDataType::USER => throw new \Exception('To be implemented'),
             default => throw new Exception('This type is not supported!')
         };
     }
@@ -439,16 +441,4 @@ abstract class AContent implements IData
 
         return false;
     }
-
-    public function __toString(): string
-    {
-        return $this->_id;
-    }
-
-    /**
-     * Donne le code HTML pour afficher cet élément.
-     * @param bool $echo Si cet élément doit être retourné ou afficher via echo
-     * @return string
-     */
-    public abstract function display(bool $echo = true): string;
 }

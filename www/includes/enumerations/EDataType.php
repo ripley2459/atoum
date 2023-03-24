@@ -10,7 +10,8 @@ enum EDataType: int
     case PAGE = 5;
     case COMMENT = 6;
     case TAG = 7;
-    case USER = 8;
+    case ACTOR = 8;
+    case USER = 9;
 
     public static function fromInt(int $int): EDataType
     {
