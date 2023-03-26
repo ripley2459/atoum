@@ -2,7 +2,7 @@
 
 require_once dirname(__DIR__, 3) . '/load.php';
 
-$type = EDataType::TAG->value;
+$type = EDataType::ACTOR->value;
 $status = $_GET['status'] ?? null;
 $orderBy = $_GET['orderBy'] ?? null;
 $orderDirection = isset($orderBy) ? switchOrderDirection($orderBy) : 'ASC';
@@ -10,7 +10,7 @@ $limit = $_GET['limit'] ?? 100;
 $currentPage = $_GET['currentPage'] ?? 1;
 $searchFor = RString::EMPTY;
 
-$pagination = new BlockPagination('tagsPagination', RString::EMPTY, 'number of lines: ', $currentPage, ceil(AContent::getAmount($type) / $limit));
+$pagination = new BlockPagination('actorsPagination', RString::EMPTY, 'number of lines: ', $currentPage, ceil(AContent::getAmount($type) / $limit));
 $pagination->addLimitButton(25);
 $pagination->addLimitButton(50);
 $pagination->addLimitButton(100);

@@ -1,23 +1,23 @@
 <?php
 
-$contentType = EDataType::TAG;
+$contentType = EDataType::ACTOR;
 
 ?>
 
-<h1>Tags</h1>
-<div id="registerTag"></div>
-<h2>Your tags</h2>
-<div id="registeredTags"></div>
+<h1>Actors</h1>
+<div id="registerActor"></div>
+<h2>Your actors</h2>
+<div id="registeredActors"></div>
 <div id="contentModal"></div>
 
 <script>
-    const registerForm = document.querySelector("#registerTag");
-    const registeredTags = document.querySelector("#registeredTags");
+    const registerForm = document.querySelector("#registerActor");
+    const registeredActors = document.querySelector("#registeredActors");
     const contentModal = document.querySelector("#contentModal");
 
     document.addEventListener("DOMContentLoaded", function () {
         getRegisterForm();
-        getTags();
+        getActors();
     });
 
     const registerContent = () => {
@@ -30,7 +30,7 @@ $contentType = EDataType::TAG;
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
                 getRegisterForm();
-                getTags();
+                getActors();
             }
         };
 
@@ -55,21 +55,21 @@ $contentType = EDataType::TAG;
         registerForm.innerHTML = `<?= BlockSpinner0::echo() ?>`;
     }
 
-    const getTags = () => {
+    const getActors = () => {
         const request = new XMLHttpRequest();
-        let from = new URL('<?= FUNCTIONS_URL . 'tags/getTags.php' ?>');
+        let from = new URL('<?= FUNCTIONS_URL . 'actors/getActors.php' ?>');
 
         from.searchParams.set("type", <?= $contentType->value ?>);
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
-                registeredTags.innerHTML = request.responseText;
+                registeredActors.innerHTML = request.responseText;
             }
         };
 
         request.open("GET", from);
         request.send();
-        registeredTags.innerHTML = `<?= BlockSpinner0::echo() ?>`;
+        registeredActors.innerHTML = `<?= BlockSpinner0::echo() ?>`;
     }
 
     const openContentModal = (contentId) => {

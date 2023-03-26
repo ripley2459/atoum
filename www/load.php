@@ -37,6 +37,7 @@ require_once CLASSES . 'PageBuilder.php';
 require_once CLASSES . 'SettingsPageBuilder.php';
 require_once CLASSES . 'ThemeHandler.php';
 require_once CLASSES . 'Relation.php';
+require_once CLASSES . 'Actor.php';
 require_once CLASSES . 'Tag.php';
 require_once CLASSES . 'Image.php';
 require_once CLASSES . 'Gallery.php';

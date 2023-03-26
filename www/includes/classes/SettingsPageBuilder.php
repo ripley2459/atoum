@@ -2,7 +2,7 @@
 
 class SettingsPageBuilder
 {
-    const ALLOWED_PAGES = ['settings', 'editorGallery', 'galleries', 'uploads', 'tags'];
+    const ALLOWED_PAGES = ['settings', 'editorGallery', 'galleries', 'actors', 'uploads', 'tags'];
     private static ?SettingsPageBuilder $_instance = null;
     private string $_page;
 
