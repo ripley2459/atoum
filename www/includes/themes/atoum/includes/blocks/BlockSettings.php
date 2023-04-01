@@ -29,10 +29,32 @@ class BlockSettings extends ABlock
         $this->_sections .= '<label for="dateModified">Date created </label><input type="datetime-local" id="dateModified" name="dateModified"' . $date . ' disabled />';
     }
 
-    protected function getActorCheckbox(Actor $actor, bool $linked = false): string
+    /**
+     * Crée le nécessaire pour rechercher, ajouter et supprimer des éléments dynamiquement.
+     * @param string $fieldName
+     * @param EDataType $typeB
+     * @return void
+     * @throws Exception
+     */
+    public function addLiveSection(string $fieldName, EDataType $typeB): void
     {
-        $linked = !$linked ? ' checked' : RString::EMPTY;
-        return '<div><input type="checkbox" name="actors[]" id="actor' . $actor->getId() . '" value="' . $actor->getId() . '"' . $linked . '><label for="actor' . $actor->getId() . '"> ' . $actor->getName() . '</label></div>';
+        $field = $fieldName . '[]';
+        $in = RString::EMPTY;
+
+        foreach (Relation::getChildren(Relation::getRelationType($typeB, $this->_content::getType()), $this->_content->getId()) as $sub) {
+            $in .= $this->createLiveInput($sub->getName(), $field);
+        }
+
+        $this->_sections .= '<h4>Add ' . $fieldName . '</h4>';
+        $this->_sections .= '<div id="' . $fieldName . 'LiveSearchInputs">' . $in . '</div>';
+        $this->_sections .= '<input type="text" onkeyup="liveSearchSearch(this, \'' . $fieldName . '\')" onkeydown="liveSearchAdd(this, \'' . $fieldName . '\', \'' . $field . '\')">';
+        $this->_sections .= '<div id="' . $fieldName . 'LiveSearchResult"></div>';
+    }
+
+    private function createLiveInput(string $value, string $inputName): string
+    {
+        $value = normalize($value);
+        return '<div id="' . $value . 'LiveInput"><input id="' . $value . 'Field" class="hidden" type="text" name="' . $inputName . '" value="' . $value . '"><button type="button" onclick="liveSearchRemove(\'' . $value . 'LiveInput\')">x</button></div>';
     }
 
     /**
@@ -48,5 +70,11 @@ class BlockSettings extends ABlock
         }
 
         return $r;
+    }
+
+    protected function getActorCheckbox(Actor $actor, bool $linked = false): string
+    {
+        $linked = !$linked ? ' checked' : RString::EMPTY;
+        return '<div><input type="checkbox" name="actors[]" id="actor' . $actor->getId() . '" value="' . $actor->getId() . '"' . $linked . '><label for="actor' . $actor->getId() . '"> ' . $actor->getName() . '</label></div>';
     }
 }

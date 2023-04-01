@@ -212,3 +212,27 @@ const getContent = (url, resultId, contentId) => {
     request.open("GET", from);
     request.send();
 }
+
+/*
+ * Live search
+ */
+function liveSearchSearch(field, type) {
+
+    /*
+    let value = field.value;
+    if (value.length === 0) {
+        document.getElementById(type + "_live_search").innerHTML = "";
+        document.getElementById(type + "_live_search").style.border = "0px";
+        return;
+    }
+
+    const r = new XMLHttpRequest();
+    r.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById(type + "_live_search_result").innerHTML = this.responseText;
+            document.getElementById(type + "_live_search_result").style.border = "1px solid black";
+        }
+    }
+    r.open("GET", "../includes/functions/data/liveSearch.php?type=" + type + "&value=" + value, true);
+    r.send();*/
+}
