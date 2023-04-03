@@ -213,12 +213,7 @@ const getContent = (url, resultId, contentId) => {
     request.send();
 }
 
-/*
- * Live search
- */
-function liveSearchSearch(field, type) {
-
-    /*
+const liveSearchSearch = (field, type) => {
     let value = field.value;
     if (value.length === 0) {
         document.getElementById(type + "_live_search").innerHTML = "";
@@ -234,5 +229,5 @@ function liveSearchSearch(field, type) {
         }
     }
     r.open("GET", "../includes/functions/data/liveSearch.php?type=" + type + "&value=" + value, true);
-    r.send();*/
+    r.send();
 }

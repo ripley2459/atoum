@@ -5,6 +5,7 @@ class SettingsPageBuilder
     const ALLOWED_PAGES = ['settings', 'editorGallery', 'galleries', 'actors', 'uploads', 'tags'];
     private static ?SettingsPageBuilder $_instance = null;
     private string $_page;
+    private array $_scripts = array();
 
     private function __construct()
     {
@@ -70,5 +71,21 @@ class SettingsPageBuilder
     public function footer(): void
     {
         include SETTINGS . 'footer.php';
+    }
+
+    public function injectScript(string $script): void
+    {
+        $this->_scripts[] = $script;
+    }
+
+    public function displayScripts(): void
+    {
+        if (count($this->_scripts) > 0) {
+            foreach ($this->_scripts as $script) {
+                echo '<script>';
+                echo $script;
+                echo '</script>';
+            }
+        }
     }
 }

@@ -62,6 +62,10 @@ class BlockSettings extends ABlock
      */
     public function display(bool $echo = true): string
     {
+        $s = 'const liveSearchAdd = (field, type) => {
+    console.log(field);
+}';
+        PageBuilder::Instance()->injectScript($s);
         $r = '<div ' . $this->getSignature() . '>' . $this->_sections . '</div>';
 
         if ($echo) {
@@ -76,5 +80,11 @@ class BlockSettings extends ABlock
     {
         $linked = !$linked ? ' checked' : RString::EMPTY;
         return '<div><input type="checkbox" name="actors[]" id="actor' . $actor->getId() . '" value="' . $actor->getId() . '"' . $linked . '><label for="actor' . $actor->getId() . '"> ' . $actor->getName() . '</label></div>';
+    }
+
+    protected function getScripts(): string {
+        $scripts = RString::EMPTY;
+
+        $s = '';
     }
 }
