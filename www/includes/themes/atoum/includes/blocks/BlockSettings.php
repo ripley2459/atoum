@@ -46,9 +46,11 @@ class BlockSettings extends ABlock
         }
 
         $this->_sections .= '<h4>Add ' . $fieldName . '</h4>';
-        $this->_sections .= '<div id="' . $fieldName . 'LiveSearchInputs">' . $in . '</div>';
-        $this->_sections .= '<input type="text" onkeyup="liveSearchSearch(this, \'' . $fieldName . '\')" onkeydown="liveSearchAdd(this, \'' . $fieldName . '\', \'' . $field . '\')">';
-        $this->_sections .= '<div id="' . $fieldName . 'LiveSearchResult"></div>';
+        $this->_sections .= '<div id="' . $fieldName . 'DynDataInputs" class="dynDataSearch inputs';
+        $this->_sections .= $in == RString::EMPTY ? ' empty' : RString::EMPTY;
+        $this->_sections .= '">' . $in . '</div>';
+        $this->_sections .= '<input type="text" onkeyup="DynDataSearch(\'' . $fieldName . 'DynDataResults\', ' . $typeB->value . ', this)">'; // onkeydown="liveSearchAdd(this, \'' . $fieldName . '\', \'' . $field . '\')"
+        $this->_sections .= '<div id="' . $fieldName . 'DynDataResults" class="dynDataSearch results empty"></div>';
     }
 
     private function createLiveInput(string $value, string $inputName): string
@@ -62,9 +64,7 @@ class BlockSettings extends ABlock
      */
     public function display(bool $echo = true): string
     {
-        $s = 'const liveSearchAdd = (field, type) => {
-    console.log(field);
-}';
+        $s = RString::EMPTY;
         PageBuilder::Instance()->injectScript($s);
         $r = '<div ' . $this->getSignature() . '>' . $this->_sections . '</div>';
 

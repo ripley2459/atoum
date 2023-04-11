@@ -200,12 +200,12 @@ document.addEventListener("eKeyRight", () => {
  * Editors
  */
 const getContent = (url, resultId, contentId) => {
-    const result = document.getElementById(resultId);
+    const zone = document.getElementById(resultId);
     const request = new XMLHttpRequest();
     let from = new URL(url);
     request.onreadystatechange = () => {
         if (request.readyState === 4 && request.status === 200) {
-            result.innerHTML = request.responseText;
+            zone.innerHTML = request.responseText;
         }
     };
     from.searchParams.set("contentId", contentId);
@@ -213,21 +213,21 @@ const getContent = (url, resultId, contentId) => {
     request.send();
 }
 
-const liveSearchSearch = (field, type) => {
-    let value = field.value;
-    if (value.length === 0) {
-        document.getElementById(type + "_live_search").innerHTML = "";
-        document.getElementById(type + "_live_search").style.border = "0px";
+const DynDataSearch = (resultId, contentType, field) => {
+    const zone = document.getElementById(resultId);
+    let search = field.value;
+    if (search.length === 0) {
+        zone.innerHTML = "";
+        zone.classList.remove("empty");
         return;
     }
-
     const r = new XMLHttpRequest();
     r.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            document.getElementById(type + "_live_search_result").innerHTML = this.responseText;
-            document.getElementById(type + "_live_search_result").style.border = "1px solid black";
+            zone.innerHTML = this.responseText;
+            zone.classList.add("empty");
         }
     }
-    r.open("GET", "../includes/functions/data/liveSearch.php?type=" + type + "&value=" + value, true);
+    r.open("GET", window.location.origin.concat("/includes/functions/dynData/search.php?type=" + contentType + "&search=" + search), true);
     r.send();
 }
