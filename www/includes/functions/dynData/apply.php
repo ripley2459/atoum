@@ -1,32 +1,54 @@
 <?php
 
-require_once dirname(__DIR__, 3) . '/load.php';
+require_once dirname(__DIR__, 2) . '/load.php';
 global $DDB;
 
-if (!isset($_GET['type']) || nullOrEmpty($_GET['search'])) {
+if (!isset($_POST['id']) || !isset($_POST['type']) || !isset($_POST['name'])) {
     die;
 }
 
-$type = EDataType::from($_GET['type']);
-$search = $_GET['search'];
+$parent = AContent::createInstance(EDataType::from($_POST['type']), $_POST['id']);
+foreach (EDataType::cases() as $type) {
+    Relation::purgeFor(Relation::getRelationType($type, $parent->getType()), $parent->getId());
+}
 
-$s = 'SELECT id, type FROM ' . PREFIX . 'contents WHERE type = :type AND name LIKE :search';
-$r = $DDB->prepare($s);
+if (isset($_POST['sections'])) {
+    foreach (array_unique($_POST['sections']) as $section) {
+        $sectionName = str_replace('[]', '', $section);
 
-$r->bindValue(':type', $type->value, PDO::PARAM_INT);
-$r->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+        try {
+            $type = EDataType::fromName($sectionName);
+        } catch (Exception $e) {
+            die;
+        }
 
-try {
-    $r->execute();
+        $s = 'SELECT id FROM ' . PREFIX . 'contents WHERE name = :name';
+        $r = $DDB->prepare($s);
 
-    while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
-        $data = AContent::createInstance(EDataType::from($d['type']), $d['id']);
-        echo '<button type="button" onclick="DynDataAdd(\'' . $data->getName() . '\', ' . $type->value . ', \'' . strtolower($type->name) . '[]\')">' . $data->getName() . '</button>';
+        foreach (array_unique($_POST[$sectionName]) as $input) {
+            $r->bindValue(':name', $input, PDO::PARAM_STR);
+            $r->execute();
+
+            try {
+                if ($r->rowCount() > 0) {
+                    $d = $r->fetch();
+                    $data = AContent::createInstance($type, $d['id']);
+                } else {
+                    $data = AContent::createInstance($type);
+                    if (!$data->registerInstance(0, $type, EDataStatus::PUBLISHED, 0, lightNormalize($input), $input, "null", 0)) {
+                        echo 'A non blocking error has occurred: ' . $input;
+                        break;
+                    }
+                }
+            } catch (Exception $e) {
+                echo 'An error has occurred!';
+                break;
+            }
+
+            $relation = new Relation();
+            $relation->registerInstance(Relation::getRelationType($type, $parent->getType()), $data->getId(), $parent->getId());
+        }
+
+        $r->closeCursor();
     }
-
-    $r->closeCursor();
-} catch (PDOException $e) {
-    echo $e->getMessage();
-} catch (Exception $p) {
-    echo $p->getMessage();
 }

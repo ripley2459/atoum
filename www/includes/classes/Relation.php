@@ -105,6 +105,67 @@ class Relation implements IData
         return $r;
     }
 
+    public static function relationExists(int $type, int $child, int $parent): bool
+    {
+        if (self::checkTable()) {
+            global $DDB;
+            $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent';
+            $r = $DDB->prepare($s);
+
+            $r->bindValue(':type', $type, PDO::PARAM_INT);
+            $r->bindValue(':child', $child, PDO::PARAM_INT);
+            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
+
+            try {
+                $r->execute();
+                $d = $r->rowCount();
+                $r->closeCursor();
+                return $d > 0;
+            } catch (PDOException $e) {
+                Logger::logError($e->getMessage());
+            }
+        }
+
+        return false;
+    }
+
+    public static function getRelation(int $type, int $child, int $parent): Relation
+    {
+        if (self::checkTable()) {
+            global $DDB;
+            $s = 'SELECT id FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent LIMIT 1';
+            $r = $DDB->prepare($s);
+
+            $r->bindValue(':type', $type, PDO::PARAM_INT);
+            $r->bindValue(':child', $child, PDO::PARAM_INT);
+            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
+
+            try {
+                $r->execute();
+                $d = $r->fetch(PDO::FETCH_ASSOC);
+                return new Relation($d['id']);
+            } catch (PDOException $e) {
+                Logger::logError($e->getMessage());
+            }
+        }
+
+        return new Relation();
+    }
+
+    /**
+     * Supprime toutes les relations d'un type donné pour un objet.
+     * @param int $relationType
+     * @param int $contentId
+     * @return void
+     * @throws Exception
+     */
+    public static function purgeFor(int $relationType, int $contentId): void
+    {
+        foreach (Relation::getChildren($relationType, $contentId, true) as $relation) {
+            $relation->unregister();
+        }
+    }
+
     /**
      * Donne les éléments liés à un certain parent pour un certain type de relation.
      * Donne par exemple les images liées à une galerie.
@@ -157,51 +218,29 @@ class Relation implements IData
         return $t;
     }
 
-    public static function relationExists(int $type, int $child, int $parent): bool
+    /**
+     * @inheritDoc
+     */
+    public function unregister(): bool
     {
+        global $DDB;
+
         if (self::checkTable()) {
-            global $DDB;
-            $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent';
+            $s = 'DELETE FROM ' . PREFIX . 'relations WHERE id = :id';
             $r = $DDB->prepare($s);
 
-            $r->bindValue(':type', $type, PDO::PARAM_INT);
-            $r->bindValue(':child', $child, PDO::PARAM_INT);
-            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
+            $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
 
             try {
                 $r->execute();
-                $d = $r->rowCount();
                 $r->closeCursor();
-                return $d > 0;
+                return true;
             } catch (PDOException $e) {
                 Logger::logError($e->getMessage());
             }
         }
 
         return false;
-    }
-
-    public static function getRelation(int $type, int $child, int $parent): Relation
-    {
-        if (self::checkTable()) {
-            global $DDB;
-            $s = 'SELECT id FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent LIMIT 1';
-            $r = $DDB->prepare($s);
-
-            $r->bindValue(':type', $type, PDO::PARAM_INT);
-            $r->bindValue(':child', $child, PDO::PARAM_INT);
-            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
-
-            try {
-                $r->execute();
-                $d = $r->fetch(PDO::FETCH_ASSOC);
-                return new Relation($d['id']);
-            } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
-            }
-        }
-
-        return new Relation();
     }
 
     /**
@@ -241,31 +280,6 @@ class Relation implements IData
             } catch (PDOException $e) {
                 Logger::logError($e->getMessage());
                 return false;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function unregister(): bool
-    {
-        global $DDB;
-
-        if (self::checkTable()) {
-            $s = 'DELETE FROM ' . PREFIX . 'relations WHERE id = :id';
-            $r = $DDB->prepare($s);
-
-            $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
-
-            try {
-                $r->execute();
-                $r->closeCursor();
-                return true;
-            } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
             }
         }
 

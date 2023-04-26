@@ -11,6 +11,6 @@ $name = $_GET['name'];
 $slug = lightNormalize($name);
 
 $newInstance = AContent::createInstance($type);
-if ($newInstance->registerInstance(0, $type->value, EDataStatus::PUBLISHED->value, 0, $slug, $name, 'null', 0)) {
+if ($newInstance->registerInstance(0, $type, EDataStatus::PUBLISHED, 0, $slug, $name, 'null', 0)) {
     Logger::logInfo($_POST['fileName'] . ' has been registered in the database');
 }

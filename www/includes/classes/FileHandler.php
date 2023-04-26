@@ -75,8 +75,8 @@ class FileHandler
                             if (move_uploaded_file($file['tmp_name'], $path)) {
                                 $instance = AContent::createInstance(EDataType::fromMime($mimeType));
                                 if ($instance->registerInstance(0,
-                                    EDataType::fromMime($mimeType)->value,
-                                    EDataStatus::PUBLISHED->value,
+                                    EDataType::fromMime($mimeType),
+                                    EDataStatus::PUBLISHED,
                                     0,
                                     lightNormalize($file['name']),
                                     $file['name'],

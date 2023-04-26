@@ -26,6 +26,22 @@ enum EDataType: int
         };
     }
 
+    public static function fromName(string $value): EDataType
+    {
+        foreach (EDataType::cases() as $v) {
+            if ($value === strtolower($v->name)) {
+                return $v;
+            }
+        }
+
+        throw new Exception('Can\'t get the EDataType of this type');
+    }
+
+    public static function names(): array
+    {
+        return array_column(self::cases(), 'name');
+    }
+
     public static function values(): array
     {
         return array_column(self::cases(), 'value');

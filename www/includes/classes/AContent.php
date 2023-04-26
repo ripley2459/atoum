@@ -5,8 +5,8 @@ abstract class AContent implements IData
     public const COLUMNS = ['id', 'owner', 'type', 'status', 'views', 'slug', 'name', 'content', 'parent', 'dateCreated', 'dateModified'];
     protected int $_id;
     protected int $_owner;
-    protected int $_type;
-    protected int $_status;
+    protected EDataType $_type;
+    protected EDataStatus $_status;
     protected int $_views;
     protected string $_slug;
     protected string $_name;
@@ -33,8 +33,8 @@ abstract class AContent implements IData
 
                     $this->_id = $d['id'];
                     $this->_owner = $d['owner'];
-                    $this->_type = $d['type'];
-                    $this->_status = $d['status'];
+                    $this->_type = EDataType::from($d['type']);
+                    $this->_status = EDataStatus::from($d['status']);
                     $this->_views = $d['views'];
                     $this->_slug = $d['slug'];
                     $this->_name = $d['name'];
@@ -341,8 +341,8 @@ abstract class AContent implements IData
     /**
      * Enregistre une nouvelle instance dans la base de données avec les paramètres donnés.
      * @param int $owner
-     * @param int $type
-     * @param int $status
+     * @param EDataType $type
+     * @param EDataStatus $status
      * @param int $views
      * @param string $slug
      * @param string $name
@@ -350,7 +350,7 @@ abstract class AContent implements IData
      * @param int $parent
      * @return bool Si l'instance a été enregistrée avec succès
      */
-    public function registerInstance(int $owner, int $type, int $status, int $views, string $slug, string $name, ?string $content, int $parent): bool
+    public function registerInstance(int $owner, EDataType $type, EDataStatus $status, int $views, string $slug, string $name, ?string $content, int $parent): bool
     {
         $this->_owner = $owner;
         $this->_type = $type;
@@ -376,8 +376,8 @@ abstract class AContent implements IData
             $r = $DDB->prepare($s);
 
             $r->bindValue(':owner', $this->_owner, PDO::PARAM_INT);
-            $r->bindValue(':type', $this->_type, PDO::PARAM_INT);
-            $r->bindValue(':status', $this->_status, PDO::PARAM_INT);
+            $r->bindValue(':type', $this->_type->value, PDO::PARAM_INT);
+            $r->bindValue(':status', $this->_status->value, PDO::PARAM_INT);
             $r->bindValue(':views', $this->_views, PDO::PARAM_INT);
             $r->bindValue(':slug', $this->_slug, PDO::PARAM_STR);
             $r->bindValue(':name', $this->_name, PDO::PARAM_STR);
