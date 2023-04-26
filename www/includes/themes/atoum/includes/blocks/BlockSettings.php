@@ -4,6 +4,7 @@ class BlockSettings extends ABlock
 {
     protected AContent $_content;
     protected string $_sections = RString::EMPTY;
+    protected array $_dynInputs;
 
     public function __construct(EDataType $type, int $contentId, string $id = RString::EMPTY, string $classes = RString::EMPTY)
     {
@@ -11,19 +12,19 @@ class BlockSettings extends ABlock
         $this->_content = AContent::createInstance($type, $contentId);
     }
 
-    public function nameSection()
+    public function nameSection(): void
     {
         $name = $this->_content->getId() == null ? RString::EMPTY : 'value="' . $this->_content->getName() . '"';
         $this->_sections .= '<label for="name">Name </label><input type="text" name="name"' . $name . ' required />';
     }
 
-    public function dateCreated()
+    public function dateCreated(): void
     {
         $date = $this->_content->getId() == null ? RString::EMPTY : 'value="' . $this->_content->getDateCreated()->format(FileHandler::DATE_FORMAT_LONG) . '"';
         $this->_sections .= '<label for="dateCreated">Date created </label><input type="datetime-local" id="dateCreated" name="dateCreated"' . $date . ' disabled />';
     }
 
-    public function dateModified()
+    public function dateModified(): void
     {
         $date = $this->_content->getId() == null ? RString::EMPTY : 'value="' . $this->_content->getDateModified()->format(FileHandler::DATE_FORMAT_LONG) . '"';
         $this->_sections .= '<label for="dateModified">Date created </label><input type="datetime-local" id="dateModified" name="dateModified"' . $date . ' disabled />';
@@ -36,27 +37,31 @@ class BlockSettings extends ABlock
      * @return void
      * @throws Exception
      */
-    public function addLiveSection(string $fieldName, EDataType $typeB): void
+    public function liveSection(string $title, string $fieldName, EDataType $typeB): void
     {
-        $field = $fieldName . '[]';
         $in = RString::EMPTY;
+        $field = $fieldName . '[]';
+        $this->_dynInputs[] = $field;
 
-        foreach (Relation::getChildren(Relation::getRelationType($typeB, $this->_content::getType()), $this->_content->getId()) as $sub) {
+        foreach (Relation::getChildren(Relation::getRelationType($typeB, $this->_content->getType()), $this->_content->getId()) as $sub) {
             $in .= $this->createLiveInput($sub->getName(), $field);
         }
 
-        $this->_sections .= '<h4>Add ' . $fieldName . '</h4>';
+        $this->_sections .= '<h4>' . $title . '</h4>';
+
         $this->_sections .= '<div id="' . $fieldName . 'DynDataInputs" class="dynDataSearch inputs';
         $this->_sections .= $in == RString::EMPTY ? ' empty' : RString::EMPTY;
         $this->_sections .= '">' . $in . '</div>';
-        $this->_sections .= '<input type="text" onkeyup="DynDataSearch(\'' . $fieldName . 'DynDataResults\', ' . $typeB->value . ', this)">'; // onkeydown="liveSearchAdd(this, \'' . $fieldName . '\', \'' . $field . '\')"
+
+        $this->_sections .= '<input type="text" onkeyup="DynDataSearch(this, ' . $typeB->value . ', \'' . $fieldName . '\')" onkeydown="DynDataAdd(this.value, ' . $typeB->value . ', \'' . $field . '\')">';
+
         $this->_sections .= '<div id="' . $fieldName . 'DynDataResults" class="dynDataSearch results empty"></div>';
     }
 
     private function createLiveInput(string $value, string $inputName): string
     {
-        $value = normalize($value);
-        return '<div id="' . $value . 'LiveInput"><input id="' . $value . 'Field" class="hidden" type="text" name="' . $inputName . '" value="' . $value . '"><button type="button" onclick="liveSearchRemove(\'' . $value . 'LiveInput\')">x</button></div>';
+        $slug = normalize($value);
+        return '<div id="' . $slug . 'DynInput"><input id="' . $slug . 'Field" type="text" name="' . $inputName . '" value="' . $value . '"><button type="button" onclick="DynDataRemove(\'' . $slug . 'DynInput\')">x</button></div>';
     }
 
     /**
@@ -64,9 +69,7 @@ class BlockSettings extends ABlock
      */
     public function display(bool $echo = true): string
     {
-        $s = RString::EMPTY;
-        PageBuilder::Instance()->injectScript($s);
-        $r = '<div ' . $this->getSignature() . '>' . $this->_sections . '</div>';
+        $r = '<div ' . $this->getSignature() . '><form id="DynDataForm' . $this->_content->getId() . '">' . $this->_sections . '<button type="button" onclick="DynDataSubmit(\'DynDataForm\', ' . $this->_content->getId() . ', ' . $this->_content->getType()->value . ', [\'' . RString::join('\',\'', $this->_dynInputs) . '\'])">Save</button></form></div>';
 
         if ($echo) {
             echo $r;
@@ -74,17 +77,5 @@ class BlockSettings extends ABlock
         }
 
         return $r;
-    }
-
-    protected function getActorCheckbox(Actor $actor, bool $linked = false): string
-    {
-        $linked = !$linked ? ' checked' : RString::EMPTY;
-        return '<div><input type="checkbox" name="actors[]" id="actor' . $actor->getId() . '" value="' . $actor->getId() . '"' . $linked . '><label for="actor' . $actor->getId() . '"> ' . $actor->getName() . '</label></div>';
-    }
-
-    protected function getScripts(): string {
-        $scripts = RString::EMPTY;
-
-        $s = '';
     }
 }

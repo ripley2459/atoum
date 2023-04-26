@@ -77,7 +77,6 @@ class Relation implements IData
 
     /**
      * Permet de connaitre le nombre décrivant la relation entre deux objets.
-     * Pour faire simple, l'objet A sera lié à l'objet B.
      * @param EDataType $child
      * @param EDataType $parent
      * @return int

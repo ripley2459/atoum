@@ -11,6 +11,6 @@ $settings = new BlockSettings(EDataType::VIDEO, $_GET['contentId'], 'videoSettin
 $settings->nameSection();
 $settings->dateCreated();
 $settings->dateModified();
-$settings->addLiveSection('tags', EDataType::TAG);
+$settings->liveSection('Add tags', 'tags', EDataType::TAG);
 
 $settings->display();
