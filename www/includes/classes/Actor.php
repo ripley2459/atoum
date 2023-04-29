@@ -9,4 +9,12 @@ class Actor extends AContent
     {
         return EDataType::ACTOR;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function display(): string
+    {
+        return $this->_name;
+    }
 }

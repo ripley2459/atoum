@@ -18,4 +18,4 @@ foreach ($images as $image) {
     $gallery->addImage($image);
 }
 
-$gallery->display();
+echo $gallery->display();

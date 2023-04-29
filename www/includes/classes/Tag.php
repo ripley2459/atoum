@@ -9,4 +9,12 @@ class Tag extends AContent
     {
         return EDataType::TAG;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function display(): string
+    {
+        return $this->_name;
+    }
 }

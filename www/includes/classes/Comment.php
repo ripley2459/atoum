@@ -9,4 +9,12 @@ class Comment extends AContent
     {
         // TODO: Implement getType() method.
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function display(): string
+    {
+        return $this->_content;
+    }
 }

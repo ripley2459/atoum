@@ -9,4 +9,12 @@ class Page extends AContent
     {
         return EDataType::PAGE;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function display(): string
+    {
+        return $this->_content;
+    }
 }

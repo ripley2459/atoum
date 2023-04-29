@@ -33,4 +33,12 @@ class Video extends AContent implements IFile
     {
         // TODO: Implement deleteContent() method.
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function display(): string
+    {
+        return '<video id="' . $this->_slug . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls></video>';
+    }
 }

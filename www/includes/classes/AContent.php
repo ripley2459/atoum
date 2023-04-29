@@ -277,7 +277,7 @@ abstract class AContent implements IData
      */
     public function getStatus(): EDataStatus
     {
-        return EDataStatus::fromInt($this->_status);
+        return $this->_status;
     }
 
     /**
@@ -441,4 +441,6 @@ abstract class AContent implements IData
 
         return false;
     }
+
+    public abstract function display(): string;
 }
