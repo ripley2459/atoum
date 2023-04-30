@@ -1,13 +1,13 @@
 <?php
 
-class Comment extends AContent
+class Actor extends AContent
 {
     /**
      * @inheritDoc
      */
     public static function getType(): EDataType
     {
-        return EDataType::COMMENT;
+        return EDataType::ACTOR;
     }
 
     /**
@@ -15,6 +15,6 @@ class Comment extends AContent
      */
     public function display(): string
     {
-        return $this->_content;
+        return $this->_name;
     }
 }

@@ -6,6 +6,7 @@
         <a href="https://github.com/ripley2459/atoum">About</a>
     </div>
     <script src="<?= URL . '/includes/scripts.js' ?>"></script>
+    <?php PageBuilder::Instance()->displayScripts() ?>
 </div>
 </body>
 </html>

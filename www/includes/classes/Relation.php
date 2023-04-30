@@ -77,7 +77,6 @@ class Relation implements IData
 
     /**
      * Permet de connaitre le nombre décrivant la relation entre deux objets.
-     * Pour faire simple, l'objet A sera lié à l'objet B.
      * @param EDataType $child
      * @param EDataType $parent
      * @return int
@@ -104,58 +103,6 @@ class Relation implements IData
         }
 
         return $r;
-    }
-
-    /**
-     * Donne les éléments liés à un certain parent pour un certain type de relation.
-     * Donne par exemple les images liées à une galerie.
-     * @param int $relationType
-     * @param int $parent
-     * @param bool $invert Pour ne prendre que les éléments non liés au parent donné.
-     * @return AContent[]
-     * @throws Exception
-     */
-    public static function getChildren(int $relationType, int $parent, bool $invert = false): array
-    {
-        if (self::checkTable()) {
-            global $DDB;
-            $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND parent ' . ($invert ? '<>' : '=') . ' :parent';
-            $r = $DDB->prepare($s);
-
-            $r->bindValue(':type', $relationType, PDO::PARAM_INT);
-            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
-
-            try {
-                $r->execute();
-
-                $children = array();
-
-                while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
-                    $newContent = AContent::createInstance(self::getElementsTypes($relationType)[0], $d['child']);
-                    $children[] = $newContent;
-                }
-
-                $r->closeCursor();
-                return $children;
-            } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
-                return array();
-            }
-        }
-
-        return array();
-    }
-
-    /**
-     * @param int $type
-     * @return EDataType[]
-     */
-    public static function getElementsTypes(int $type): array
-    {
-        $t = explode(".", $type / self::RELATION_FACTOR);
-        $t[0] = EDataType::fromInt($t[0]);
-        $t[1] = EDataType::fromInt($t[1]);
-        return $t;
     }
 
     public static function relationExists(int $type, int $child, int $parent): bool
@@ -206,6 +153,111 @@ class Relation implements IData
     }
 
     /**
+     * Supprime toutes les relations d'un type donné pour un objet.
+     * @param int $relationType
+     * @param int $contentId
+     * @return void
+     * @throws Exception
+     */
+    public static function purgeFor(int $relationType, int $contentId): void
+    {
+        foreach (Relation::getChildren($relationType, $contentId, true) as $relation) {
+            $relation->unregister();
+        }
+    }
+
+    /**
+     * Donne les éléments liés à un certain parent pour un certain type de relation.
+     * Donne par exemple les images liées à une galerie.
+     * @param int $relationType
+     * @param int $parent
+     * @param bool $asRelation
+     * @param bool $invert Pour ne prendre que les éléments non liés au parent donné.
+     * @return AContent[]
+     * @throws Exception
+     */
+    public static function getChildren(int $relationType, int $parent, bool $asRelation = false, bool $invert = false): array
+    {
+        if (self::checkTable()) {
+            global $DDB;
+            $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND parent ' . ($invert ? '<>' : '=') . ' :parent';
+            $r = $DDB->prepare($s);
+
+            $r->bindValue(':type', $relationType, PDO::PARAM_INT);
+            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
+
+            try {
+                $r->execute();
+
+                $children = array();
+
+                while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
+                    if ($asRelation) {
+                        $newRelation = new Relation($d['id']);
+                        $children[] = $newRelation;
+                    } else {
+                        $newContent = AContent::createInstance(self::getElementsTypes($relationType)[0], $d['child']);
+                        $children[] = $newContent;
+                    }
+                }
+
+                $r->closeCursor();
+                return $children;
+            } catch (PDOException $e) {
+                // Logger::logError($e->getMessage());
+                return array();
+            }
+        }
+
+        return array();
+    }
+
+    /**
+     * @param int $type
+     * @return EDataType[]
+     */
+    public static function getElementsTypes(int $type): array
+    {
+        if (is_int($type / self::RELATION_FACTOR)) {
+
+            $t = array();
+            $t[0] = EDataType::from($type / self::RELATION_FACTOR);
+            $t[1] = EDataType::from(0);
+            return $t;
+        }
+
+        $t = explode(".", $type / self::RELATION_FACTOR);
+        $t[0] = EDataType::from($t[0]);
+        $t[1] = EDataType::from($t[1]);
+        return $t;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unregister(): bool
+    {
+        global $DDB;
+
+        if (self::checkTable()) {
+            $s = 'DELETE FROM ' . PREFIX . 'relations WHERE id = :id';
+            $r = $DDB->prepare($s);
+
+            $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
+
+            try {
+                $r->execute();
+                $r->closeCursor();
+                return true;
+            } catch (PDOException $e) {
+                Logger::logError($e->getMessage());
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Enregistre une nouvelle instance dans la base de données avec les paramètres donnés.
      * @param int $type
      * @param int $child
@@ -242,31 +294,6 @@ class Relation implements IData
             } catch (PDOException $e) {
                 Logger::logError($e->getMessage());
                 return false;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function unregister(): bool
-    {
-        global $DDB;
-
-        if (self::checkTable()) {
-            $s = 'DELETE FROM ' . PREFIX . 'relations WHERE id = :id';
-            $r = $DDB->prepare($s);
-
-            $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
-
-            try {
-                $r->execute();
-                $r->closeCursor();
-                return true;
-            } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
             }
         }
 

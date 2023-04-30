@@ -5,8 +5,8 @@ abstract class AContent implements IData
     public const COLUMNS = ['id', 'owner', 'type', 'status', 'views', 'slug', 'name', 'content', 'parent', 'dateCreated', 'dateModified'];
     protected int $_id;
     protected int $_owner;
-    protected int $_type;
-    protected int $_status;
+    protected EDataType $_type;
+    protected EDataStatus $_status;
     protected int $_views;
     protected string $_slug;
     protected string $_name;
@@ -33,8 +33,8 @@ abstract class AContent implements IData
 
                     $this->_id = $d['id'];
                     $this->_owner = $d['owner'];
-                    $this->_type = $d['type'];
-                    $this->_status = $d['status'];
+                    $this->_type = EDataType::from($d['type']);
+                    $this->_status = EDataStatus::from($d['status']);
                     $this->_views = $d['views'];
                     $this->_slug = $d['slug'];
                     $this->_name = $d['name'];
@@ -109,7 +109,7 @@ abstract class AContent implements IData
             try {
                 $r->execute();
                 $d = $r->fetch();
-                return self::createInstance(EDataType::fromInt($d['type']), $d['id']);
+                return self::createInstance(EDataType::from($d['type']), $d['id']);
             } catch (Exception $e) {
                 Logger::logError($e->getMessage());
             }
@@ -136,6 +136,8 @@ abstract class AContent implements IData
             EDataType::PAGE => new Page($id),
             EDataType::COMMENT => new Comment($id),
             EDataType::TAG => new Tag($id),
+            EDataType::ACTOR => new Actor($id),
+            EDataType::USER => throw new \Exception('To be implemented'),
             default => throw new Exception('This type is not supported!')
         };
     }
@@ -211,7 +213,7 @@ abstract class AContent implements IData
                 $content = array();
 
                 while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
-                    $newContent = self::createInstance(EDataType::fromInt($d['type']), $d['id']);
+                    $newContent = self::createInstance(EDataType::from($d['type']), $d['id']);
                     $content[] = $newContent;
                 }
 
@@ -275,7 +277,7 @@ abstract class AContent implements IData
      */
     public function getStatus(): EDataStatus
     {
-        return EDataStatus::fromInt($this->_status);
+        return $this->_status;
     }
 
     /**
@@ -339,8 +341,8 @@ abstract class AContent implements IData
     /**
      * Enregistre une nouvelle instance dans la base de données avec les paramètres donnés.
      * @param int $owner
-     * @param int $type
-     * @param int $status
+     * @param EDataType $type
+     * @param EDataStatus $status
      * @param int $views
      * @param string $slug
      * @param string $name
@@ -348,8 +350,10 @@ abstract class AContent implements IData
      * @param int $parent
      * @return bool Si l'instance a été enregistrée avec succès
      */
-    public function registerInstance(int $owner, int $type, int $status, int $views, string $slug, string $name, ?string $content, int $parent): bool
+    public function registerInstance(int $owner, EDataType $type, EDataStatus $status, int $views, string $slug, string $name, ?string $content, int $parent): bool
     {
+        global $DDB;
+
         $this->_owner = $owner;
         $this->_type = $type;
         $this->_status = $status;
@@ -359,7 +363,12 @@ abstract class AContent implements IData
         $this->_content = $content;
         $this->_parent = $parent;
 
-        return $this->register();
+        if ($this->register()) {
+            $this->_id = $DDB->lastInsertId();
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -374,8 +383,8 @@ abstract class AContent implements IData
             $r = $DDB->prepare($s);
 
             $r->bindValue(':owner', $this->_owner, PDO::PARAM_INT);
-            $r->bindValue(':type', $this->_type, PDO::PARAM_INT);
-            $r->bindValue(':status', $this->_status, PDO::PARAM_INT);
+            $r->bindValue(':type', $this->_type->value, PDO::PARAM_INT);
+            $r->bindValue(':status', $this->_status->value, PDO::PARAM_INT);
             $r->bindValue(':views', $this->_views, PDO::PARAM_INT);
             $r->bindValue(':slug', $this->_slug, PDO::PARAM_STR);
             $r->bindValue(':name', $this->_name, PDO::PARAM_STR);
@@ -440,15 +449,5 @@ abstract class AContent implements IData
         return false;
     }
 
-    public function __toString(): string
-    {
-        return $this->_id;
-    }
-
-    /**
-     * Donne le code HTML pour afficher cet élément.
-     * @param bool $echo Si cet élément doit être retourné ou afficher via echo
-     * @return string
-     */
-    public abstract function display(bool $echo = true): string;
+    public abstract function display(): string;
 }

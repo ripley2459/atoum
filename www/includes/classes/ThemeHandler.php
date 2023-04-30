@@ -2,6 +2,8 @@
 
 class ThemeHandler
 {
+    const DefaultThemeURL = URL . '/includes/themes/atoum/';
+    const DefaultThemePath = INCLUDES . 'themes/atoum/';
     private static ?ThemeHandler $_instance = null;
     private string $_themeName;
     private string $_themeURL;
@@ -10,8 +12,8 @@ class ThemeHandler
     private function __construct()
     {
         $this->_themeName = Setting::value('theme');
-        $this->_themeURL = $this->_themeName == 'atoum' ? URL . '/includes/themes/atoum/' : URL . '/content/themes/' . $this->_themeName . '/';
-        $this->_themePath = $this->_themeName == 'atoum' ? INCLUDES . 'themes/atoum/' : CONTENT . 'themes/' . $this->_themeName . '/';
+        $this->_themeURL = $this->_themeName == 'atoum' ? self::DefaultThemeURL : URL . '/content/themes/' . $this->_themeName . '/';
+        $this->_themePath = $this->_themeName == 'atoum' ? self::DefaultThemePath : CONTENT . 'themes/' . $this->_themeName . '/';
     }
 
     /**

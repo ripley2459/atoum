@@ -14,16 +14,9 @@ class BlockGallery extends ABlock
     /**
      * @inheritDoc
      */
-    public function display(bool $echo = true): string
+    public function display(): string
     {
-        $r = '<div ' . $this->getSignature() . '>' . $this->getGrid() . $this->getModal() . '</div>';
-
-        if ($echo) {
-            echo $r;
-            return RString::EMPTY;
-        }
-
-        return $r;
+        return '<div ' . $this->getSignature() . '>' . $this->getGrid() . $this->getModal() . '</div>';
     }
 
     private function getGrid(): string

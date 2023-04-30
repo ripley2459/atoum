@@ -49,6 +49,23 @@ function toggleCollapse(id) {
     document.getElementById(id).classList.toggle("open");
 }
 
+/**
+ * Applique au formulaire les boîtes cochées.
+ * @param name
+ * @param formData
+ * @param checkboxes
+ * @returns {*}
+ */
+function appendCheckBoxes(name, formData, checkboxes) {
+    for (let i = 0, len = checkboxes.length; i < len; i++) {
+        if (checkboxes[i].checked) {
+            formData.append(name, checkboxes[i].value);
+        }
+    }
+
+    return formData;
+}
+
 /*
  * Search options
  */
@@ -189,11 +206,137 @@ function closeGallery() {
 document.addEventListener("eKeyEscape", () => {
     if (openedGallery != null) closeGallery();
 });
-
 document.addEventListener("eKeyLeft", () => {
     if (openedGallery != null) plusSlide(-1, openedGallery);
 });
-
 document.addEventListener("eKeyRight", () => {
     if (openedGallery != null) plusSlide(1, openedGallery);
 });
+
+/*
+ * Editors
+ */
+const getContent = (url, resultId, contentId) => {
+    const zone = document.getElementById(resultId);
+    const request = new XMLHttpRequest();
+    let from = new URL(url);
+    request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 200) {
+            zone.innerHTML = request.responseText;
+        }
+    };
+    from.searchParams.set("contentId", contentId);
+    request.open("GET", from);
+    request.send();
+}
+
+/*
+ * Requests
+ */
+const getFrom = (url, where) => {
+    const zone = document.getElementById(where);
+    let from = new URL(url);
+    sendRequest(from, (request) => {
+        zone.innerHTML = request.responseText;
+    });
+}
+
+const sendRequest = (url, callback = null) => {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 200) {
+            if (callback && (typeof callback == "function")) {
+                callback(request);
+            }
+        }
+    };
+    request.open("GET", url);
+    request.send();
+}
+
+/*
+ * Dyn data
+ */
+const DynDataSearch = (input, type, field) => {
+    const zone = document.getElementById(field.concat("DynDataResults"));
+    if (input.value.length === 0) {
+        zone.innerHTML = "";
+        zone.classList.remove("noInput");
+        return;
+    }
+
+    let url = new URL(window.location.origin.concat("/includes/functions/dynData/search.php"));
+    url.searchParams.set("type", type);
+    url.searchParams.set("field", field);
+    url.searchParams.set("search", input.value);
+
+    getFrom(url, zone.id);
+}
+
+const DynDataAddOnClick = (input, type, field) => {
+    DynDataAdd(input, type, field);
+}
+
+const DynDataAddOnHit = (input, type, field) => {
+    if (event.key === 'Enter') {
+        DynDataAdd(input, type, field);
+    }
+}
+
+const DynDataAdd = (input, type, field) => {
+    const zone = document.getElementById(field.replace("[]", "").concat("DynDataInputs"));
+    let newDeleteButton, newField, newDiv;
+
+    newDiv = document.createElement('div');
+    newDiv.id = input.replace(/ /g, "_").toLowerCase() + 'DynInput';
+    newDiv.classList.add("dynInput")
+
+    newField = document.createElement('input');
+    newField.type = 'text';
+    newField.id = input.replace(/ /g, "_").toLowerCase() + 'Field';
+    newField.setAttribute("value", input); // Bugged ?
+    newField.name = field;
+
+    newDeleteButton = document.createElement('button');
+    newDeleteButton.innerHTML = 'x';
+    newDeleteButton.type = 'button';
+    newDeleteButton.onclick = function () {
+        document.getElementById(newDiv.id).remove();
+    };
+
+    newDiv.appendChild(newField);
+    newDiv.appendChild(newDeleteButton);
+    zone.appendChild(newDiv);
+}
+
+const DynDataRemove = (field) => {
+    document.getElementById(field).remove();
+}
+
+const DynDataSubmit = (formId, dataId, type, sections) => {
+    const request = new XMLHttpRequest();
+    const form = document.getElementById(formId.concat(dataId));
+    let formData = new FormData(form);
+    let url = new URL(window.location.origin.concat("/includes/functions/dynData/apply.php"));
+
+    formData.append("id", dataId);
+    formData.append("type", type);
+    formData.set("name", form.elements["name"].value);
+
+    console.log(sections);
+
+    sections.forEach(s => {
+        if (typeof form.elements[s] !== 'undefined') {
+            formData.append("sections[]", s);
+            formData = appendCheckBoxes(s, formData, form.elements[s]);
+        }
+    })
+
+    request.onload = function () {
+         document.getElementById('DynDataForm'.concat(dataId)).innerHTML = this.responseText;
+       // window.location.reload();
+    }
+
+    request.open("POST", url);
+    request.send(formData);
+}

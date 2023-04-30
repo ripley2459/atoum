@@ -9,12 +9,13 @@ if (!isset($_GET['gallery'])) {
 $galleryId = $_GET['gallery'];
 $random = isset($_GET['random']);
 $gallery = new BlockGallery('gallery' . $galleryId);
+$gallery->setColumnCount(5);
 $images = Relation::getChildren(Relation::getRelationType(EDataType::IMAGE, EDataType::GALLERY), $galleryId);
 
-if($random) shuffle($images);
+if ($random) shuffle($images);
 
 foreach ($images as $image) {
     $gallery->addImage($image);
 }
 
-$gallery->display();
+echo $gallery->display();

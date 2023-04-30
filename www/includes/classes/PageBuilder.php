@@ -2,9 +2,10 @@
 
 class PageBuilder
 {
-    const ALLOWED_PAGES = ['welcome', 'home', 'viewGallery', 'viewMovie', 'galleries', 'movies'];
+    const ALLOWED_PAGES = ['welcome', 'home', 'viewGallery', 'viewVideo', 'galleries', 'videos'];
     private static ?PageBuilder $_instance = null;
     private string $_page;
+    private array $_scripts = array();
 
     private function __construct()
     {
@@ -86,14 +87,20 @@ class PageBuilder
         include THEME . 'index.php';
     }
 
+    public function injectScript(string $script): void
+    {
+        $this->_scripts[] = $script;
+    }
+
     public function displayScripts(): void
     {
         if (count($this->_scripts) > 0) {
-            echo '<script>';
             foreach ($this->_scripts as $script) {
+
+                echo '<script>';
                 echo $script;
+                echo '</script>';
             }
-            echo '</script>';
         }
     }
 }

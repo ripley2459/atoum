@@ -10,12 +10,8 @@ enum EDataType: int
     case PAGE = 5;
     case COMMENT = 6;
     case TAG = 7;
-    case USER = 8;
-
-    public static function fromInt(int $int): EDataType
-    {
-        return EDataType::from($int);
-    }
+    case ACTOR = 8;
+    case USER = 9;
 
     public static function fromMime(string $mime): EDataType
     {
@@ -23,6 +19,25 @@ enum EDataType: int
             'image/giff', 'image/jpeg', 'image/png' => EDataType::IMAGE,
             'video/mp4', 'video/ogg' => EDataType::VIDEO
         };
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function fromName(string $value): EDataType
+    {
+        foreach (EDataType::cases() as $v) {
+            if ($value === strtolower($v->name)) {
+                return $v;
+            }
+        }
+
+        throw new Exception('Can\'t get the EDataType of this type');
+    }
+
+    public static function names(): array
+    {
+        return array_column(self::cases(), 'name');
     }
 
     public static function values(): array

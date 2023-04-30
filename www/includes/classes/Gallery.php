@@ -13,15 +13,16 @@ class Gallery extends AContent
     /**
      * @inheritDoc
      */
-    public function display(bool $echo = true): string
+    public function display(): string
     {
-        $r = '';
+        $gallery = new BlockGallery($this->_slug);
+        $gallery->setColumnCount(5);
+        $images = Relation::getChildren(Relation::getRelationType(EDataType::IMAGE, EDataType::GALLERY), $this->_id);
 
-        if ($echo) {
-            echo $r;
-            return RString::EMPTY;
+        foreach ($images as $image) {
+            $gallery->addImage($image);
         }
 
-        return $r;
+        return $gallery->display();
     }
 }

@@ -7,10 +7,19 @@ if (!isset($_GET['gallery'])) {
 
 $gallery = new Gallery($_GET['gallery']);
 
+$settings = new BlockSettings($gallery->getType(), $gallery->getId(), 'galleryRelations');
+
+$settings->nameSection();
+$settings->dateCreated();
+$settings->dateModified();
+$settings->liveSection('Add actors', EDataType::ACTOR);
+$settings->liveSection('Add tags', EDataType::TAG);
+
 ?>
 
 <h1><?= $gallery->getName() ?></h1>
 <a href="<?= URL ?>/index.php?page=viewGallery&gallery=<?= $gallery->getId() ?>" target="_blank">View</a>
+<?= $settings->display() ?>
 <div class="row">
     <div class="column">
         <h2>Linked images</h2>

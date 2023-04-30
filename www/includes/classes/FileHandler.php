@@ -3,6 +3,7 @@
 class FileHandler
 {
     const DATE_FORMAT = 'Y/m/d';
+    const DATE_FORMAT_LONG = 'Y-m-d\TH:i';
     const ALLOWED_TYPES = ['image/giff', 'image/gif', 'image/jpeg', 'image/png', 'video/mp4', 'video/ogg'];
     private static ?FileHandler $_instance = null;
 
@@ -74,8 +75,8 @@ class FileHandler
                             if (move_uploaded_file($file['tmp_name'], $path)) {
                                 $instance = AContent::createInstance(EDataType::fromMime($mimeType));
                                 if ($instance->registerInstance(0,
-                                    EDataType::fromMime($mimeType)->value,
-                                    EDataStatus::PUBLISHED->value,
+                                    EDataType::fromMime($mimeType),
+                                    EDataStatus::PUBLISHED,
                                     0,
                                     lightNormalize($file['name']),
                                     $file['name'],

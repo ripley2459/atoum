@@ -37,15 +37,8 @@ class Video extends AContent implements IFile
     /**
      * @inheritDoc
      */
-    public function display(bool $echo = true): string
+    public function display(): string
     {
-        $r = '<video id="movie' . $this->_id . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls></video>';
-
-        if ($echo) {
-            echo $r;
-            return RString::EMPTY;
-        }
-
-        return $r;
+        return '<video id="' . $this->_slug . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls></video>';
     }
 }

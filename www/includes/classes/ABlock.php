@@ -13,10 +13,9 @@ abstract class ABlock
 
     /**
      * Donne le code HTML pour afficher ce block.
-     * @param bool $echo Si le bloc doit être retourné ou afficher via echo
      * @return string
      */
-    public abstract function display(bool $echo = true): string;
+    public abstract function display(): string;
 
     protected function getSignature(): string
     {

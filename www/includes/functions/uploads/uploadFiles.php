@@ -39,8 +39,8 @@ if (!empty($blob)) {
             if (in_array($mimeType, FileHandler::ALLOWED_TYPES)) {
                 $instance = AContent::createInstance(EDataType::fromMime($mimeType));
                 if ($instance->registerInstance(0,
-                    EDataType::fromMime($mimeType)->value,
-                    EDataStatus::PUBLISHED->value,
+                    EDataType::fromMime($mimeType),
+                    EDataStatus::PUBLISHED,
                     0,
                     $finalName,
                     $_POST['fileName'],
