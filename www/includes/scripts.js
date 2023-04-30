@@ -289,6 +289,7 @@ const DynDataAdd = (input, type, field) => {
 
     newDiv = document.createElement('div');
     newDiv.id = input.replace(/ /g, "_").toLowerCase() + 'DynInput';
+    newDiv.classList.add("dynInput")
 
     newField = document.createElement('input');
     newField.type = 'text';

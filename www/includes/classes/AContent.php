@@ -352,6 +352,8 @@ abstract class AContent implements IData
      */
     public function registerInstance(int $owner, EDataType $type, EDataStatus $status, int $views, string $slug, string $name, ?string $content, int $parent): bool
     {
+        global $DDB;
+
         $this->_owner = $owner;
         $this->_type = $type;
         $this->_status = $status;
@@ -361,7 +363,12 @@ abstract class AContent implements IData
         $this->_content = $content;
         $this->_parent = $parent;
 
-        return $this->register();
+        if ($this->register()) {
+            $this->_id = $DDB->lastInsertId();
+            return true;
+        }
+
+        return false;
     }
 
     /**

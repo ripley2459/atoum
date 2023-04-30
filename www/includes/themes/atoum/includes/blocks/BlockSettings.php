@@ -62,7 +62,7 @@ class BlockSettings extends ABlock
     private function createLiveInput(string $value, string $inputName): string
     {
         $slug = normalize($value);
-        return '<div id="' . $slug . 'DynInput"><input id="' . $slug . 'Field" type="text" name="' . $inputName . '" value="' . $value . '"><button type="button" onclick="DynDataRemove(\'' . $slug . 'DynInput\')">x</button></div>';
+        return '<div id="' . $slug . 'DynInput" class="dynInput"><input id="' . $slug . 'Field" type="text" name="' . $inputName . '" value="' . $value . '"><button type="button" onclick="DynDataRemove(\'' . $slug . 'DynInput\')">x</button></div>';
     }
 
     /**
