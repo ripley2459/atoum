@@ -37,9 +37,10 @@ class BlockSettings extends ABlock
      * @return void
      * @throws Exception
      */
-    public function liveSection(string $title, string $fieldName, EDataType $typeB): void
+    public function liveSection(string $title, EDataType $typeB): void
     {
         $in = RString::EMPTY;
+        $fieldName = strtolower($typeB->name);
         $field = $fieldName . '[]';
         $this->_dynInputs[] = $field;
 
@@ -53,7 +54,7 @@ class BlockSettings extends ABlock
         $this->_sections .= $in == RString::EMPTY ? ' empty' : RString::EMPTY;
         $this->_sections .= '">' . $in . '</div>';
 
-        $this->_sections .= '<input type="text" onkeyup="DynDataSearch(this, ' . $typeB->value . ', \'' . $fieldName . '\')" onkeydown="DynDataAdd(this.value, ' . $typeB->value . ', \'' . $field . '\')">';
+        $this->_sections .= '<input type="text" onkeyup="DynDataSearch(this, ' . $typeB->value . ', \'' . $fieldName . '\')" onkeydown="DynDataAddOnHit(this.value, ' . $typeB->value . ', \'' . $field . '\')">';
 
         $this->_sections .= '<div id="' . $fieldName . 'DynDataResults" class="dynDataSearch results empty"></div>';
     }

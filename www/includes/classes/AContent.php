@@ -109,7 +109,7 @@ abstract class AContent implements IData
             try {
                 $r->execute();
                 $d = $r->fetch();
-                return self::createInstance(EDataType::fromInt($d['type']), $d['id']);
+                return self::createInstance(EDataType::from($d['type']), $d['id']);
             } catch (Exception $e) {
                 Logger::logError($e->getMessage());
             }
@@ -213,7 +213,7 @@ abstract class AContent implements IData
                 $content = array();
 
                 while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
-                    $newContent = self::createInstance(EDataType::fromInt($d['type']), $d['id']);
+                    $newContent = self::createInstance(EDataType::from($d['type']), $d['id']);
                     $content[] = $newContent;
                 }
 

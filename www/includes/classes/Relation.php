@@ -171,11 +171,12 @@ class Relation implements IData
      * Donne par exemple les images liées à une galerie.
      * @param int $relationType
      * @param int $parent
+     * @param bool $asRelation
      * @param bool $invert Pour ne prendre que les éléments non liés au parent donné.
      * @return AContent[]
      * @throws Exception
      */
-    public static function getChildren(int $relationType, int $parent, bool $invert = false): array
+    public static function getChildren(int $relationType, int $parent, bool $asRelation = false, bool $invert = false): array
     {
         if (self::checkTable()) {
             global $DDB;
@@ -191,14 +192,19 @@ class Relation implements IData
                 $children = array();
 
                 while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
-                    $newContent = AContent::createInstance(self::getElementsTypes($relationType)[0], $d['child']);
-                    $children[] = $newContent;
+                    if ($asRelation) {
+                        $newRelation = new Relation($d['id']);
+                        $children[] = $newRelation;
+                    } else {
+                        $newContent = AContent::createInstance(self::getElementsTypes($relationType)[0], $d['child']);
+                        $children[] = $newContent;
+                    }
                 }
 
                 $r->closeCursor();
                 return $children;
             } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
+                // Logger::logError($e->getMessage());
                 return array();
             }
         }
@@ -212,9 +218,17 @@ class Relation implements IData
      */
     public static function getElementsTypes(int $type): array
     {
+        if (is_int($type / self::RELATION_FACTOR)) {
+
+            $t = array();
+            $t[0] = EDataType::from($type / self::RELATION_FACTOR);
+            $t[1] = EDataType::from(0);
+            return $t;
+        }
+
         $t = explode(".", $type / self::RELATION_FACTOR);
-        $t[0] = EDataType::fromInt($t[0]);
-        $t[1] = EDataType::fromInt($t[1]);
+        $t[0] = EDataType::from($t[0]);
+        $t[1] = EDataType::from($t[1]);
         return $t;
     }
 

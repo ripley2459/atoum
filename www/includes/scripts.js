@@ -49,6 +49,23 @@ function toggleCollapse(id) {
     document.getElementById(id).classList.toggle("open");
 }
 
+/**
+ * Applique au formulaire les boîtes cochées.
+ * @param name
+ * @param formData
+ * @param checkboxes
+ * @returns {*}
+ */
+function appendCheckBoxes(name, formData, checkboxes) {
+    for (let i = 0, len = checkboxes.length; i < len; i++) {
+        if (checkboxes[i].checked) {
+            formData.append(name, checkboxes[i].value);
+        }
+    }
+
+    return formData;
+}
+
 /*
  * Search options
  */
@@ -248,38 +265,47 @@ const DynDataSearch = (input, type, field) => {
         return;
     }
 
-    let url = new URL(window.location.origin.concat("/includes/functions/searchDynData.php"));
+    let url = new URL(window.location.origin.concat("/includes/functions/dynData/search.php"));
     url.searchParams.set("type", type);
+    url.searchParams.set("field", field);
     url.searchParams.set("search", input.value);
 
     getFrom(url, zone.id);
 }
 
-const DynDataAdd = (input, type, field) => {
+const DynDataAddOnClick = (input, type, field) => {
+    DynDataAdd(input, type, field);
+}
+
+const DynDataAddOnHit = (input, type, field) => {
     if (event.key === 'Enter') {
-        const zone = document.getElementById(field.replace("[]", "").concat("DynDataInputs"));
-        let newDeleteButton, newField, newDiv;
-
-        newDiv = document.createElement('div');
-        newDiv.id = input.replace(/ /g, "_").toLowerCase() + 'DynInput';
-
-        newField = document.createElement('input');
-        newField.type = 'text';
-        newField.id = input.replace(/ /g, "_").toLowerCase() + 'Field';
-        newField.setAttribute("value", input); // Bugged ?
-        newField.name = field;
-
-        newDeleteButton = document.createElement('button');
-        newDeleteButton.innerHTML = 'x';
-        newDeleteButton.type = 'button';
-        newDeleteButton.onclick = function () {
-            document.getElementById(newDiv.id).remove();
-        };
-
-        newDiv.appendChild(newField);
-        newDiv.appendChild(newDeleteButton);
-        zone.appendChild(newDiv);
+        DynDataAdd(input, type, field);
     }
+}
+
+const DynDataAdd = (input, type, field) => {
+    const zone = document.getElementById(field.replace("[]", "").concat("DynDataInputs"));
+    let newDeleteButton, newField, newDiv;
+
+    newDiv = document.createElement('div');
+    newDiv.id = input.replace(/ /g, "_").toLowerCase() + 'DynInput';
+
+    newField = document.createElement('input');
+    newField.type = 'text';
+    newField.id = input.replace(/ /g, "_").toLowerCase() + 'Field';
+    newField.setAttribute("value", input); // Bugged ?
+    newField.name = field;
+
+    newDeleteButton = document.createElement('button');
+    newDeleteButton.innerHTML = 'x';
+    newDeleteButton.type = 'button';
+    newDeleteButton.onclick = function () {
+        document.getElementById(newDiv.id).remove();
+    };
+
+    newDiv.appendChild(newField);
+    newDiv.appendChild(newDeleteButton);
+    zone.appendChild(newDiv);
 }
 
 const DynDataRemove = (field) => {
@@ -290,11 +316,13 @@ const DynDataSubmit = (formId, dataId, type, sections) => {
     const request = new XMLHttpRequest();
     const form = document.getElementById(formId.concat(dataId));
     let formData = new FormData(form);
-    let url = new URL(window.location.origin.concat("/includes/functions/modifyData.php"));
+    let url = new URL(window.location.origin.concat("/includes/functions/dynData/apply.php"));
 
     formData.append("id", dataId);
     formData.append("type", type);
     formData.set("name", form.elements["name"].value);
+
+    console.log(sections);
 
     sections.forEach(s => {
         if (typeof form.elements[s] !== 'undefined') {
@@ -304,7 +332,8 @@ const DynDataSubmit = (formId, dataId, type, sections) => {
     })
 
     request.onload = function () {
-        document.getElementById('DynDataForm'.concat(dataId)).innerHTML = this.responseText;
+         document.getElementById('DynDataForm'.concat(dataId)).innerHTML = this.responseText;
+       // window.location.reload();
     }
 
     request.open("POST", url);

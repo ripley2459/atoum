@@ -6,11 +6,13 @@ if (!isset($_GET['contentId'])) {
     die();
 }
 
-$settings = new BlockSettings(EDataType::VIDEO, $_GET['contentId'], 'videoSettings');
+$video = new Video($_GET['contentId']);
+$settings = new BlockSettings($video->getType(), $video->getId(), 'videoSettings');
 
 $settings->nameSection();
 $settings->dateCreated();
 $settings->dateModified();
-$settings->liveSection('Add tags', 'tags', EDataType::TAG);
+$settings->liveSection('Add actors', EDataType::ACTOR);
+$settings->liveSection('Add tags', EDataType::TAG);
 
 $settings->display();

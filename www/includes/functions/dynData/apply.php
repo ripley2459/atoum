@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__DIR__, 2) . '/load.php';
+require_once dirname(__DIR__, 3) . '/load.php';
 global $DDB;
 
 if (!isset($_POST['id']) || !isset($_POST['type']) || !isset($_POST['name'])) {
@@ -19,6 +19,7 @@ if (isset($_POST['sections'])) {
         try {
             $type = EDataType::fromName($sectionName);
         } catch (Exception $e) {
+            echo $e->getMessage();
             die;
         }
 

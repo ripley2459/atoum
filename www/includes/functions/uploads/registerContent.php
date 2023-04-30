@@ -6,7 +6,7 @@ if (!isset($_GET['type']) || !isset($_GET['name'])) {
     return;
 }
 
-$type = EDataType::fromInt($_GET['type']);
+$type = EDataType::from($_GET['type']);
 $name = $_GET['name'];
 $slug = lightNormalize($name);
 

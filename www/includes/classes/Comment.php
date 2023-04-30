@@ -7,7 +7,7 @@ class Comment extends AContent
      */
     public static function getType(): EDataType
     {
-        // TODO: Implement getType() method.
+        return EDataType::COMMENT;
     }
 
     /**

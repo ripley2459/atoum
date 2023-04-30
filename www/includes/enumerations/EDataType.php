@@ -13,11 +13,6 @@ enum EDataType: int
     case ACTOR = 8;
     case USER = 9;
 
-    public static function fromInt(int $int): EDataType
-    {
-        return EDataType::from($int);
-    }
-
     public static function fromMime(string $mime): EDataType
     {
         return match ($mime) {
@@ -26,6 +21,9 @@ enum EDataType: int
         };
     }
 
+    /**
+     * @throws Exception
+     */
     public static function fromName(string $value): EDataType
     {
         foreach (EDataType::cases() as $v) {
