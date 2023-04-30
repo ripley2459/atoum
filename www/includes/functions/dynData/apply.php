@@ -8,9 +8,6 @@ if (!isset($_POST['id']) || !isset($_POST['type']) || !isset($_POST['name'])) {
 }
 
 $parent = AContent::createInstance(EDataType::from($_POST['type']), $_POST['id']);
-foreach (EDataType::cases() as $type) {
-    Relation::purgeFor(Relation::getRelationType($type, $parent->getType()), $parent->getId());
-}
 
 if (isset($_POST['sections'])) {
     foreach (array_unique($_POST['sections']) as $section) {
@@ -22,6 +19,8 @@ if (isset($_POST['sections'])) {
             echo $e->getMessage();
             die;
         }
+
+        Relation::purgeFor(Relation::getRelationType($type, $parent->getType()), $parent->getId());
 
         $s = 'SELECT id FROM ' . PREFIX . 'contents WHERE name = :name';
         $r = $DDB->prepare($s);
