@@ -41,4 +41,19 @@ class Video extends AContent implements IFile
     {
         return '<video id="' . $this->_slug . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls></video>';
     }
+
+    public function displayLink(): string
+    {
+        return '<a href="' . URL . '/index.php?page=viewVideo&video=' . $this->_id . '">' . $this->getPreview() . '</a>';
+    }
+
+    public function getPreview(): string
+    {
+        $path = UPLOADS_URL . FileHandler::getPath($this) . '.jpg';
+        if(!file_exists($path)) {
+            $path = ThemeHandler::DefaultThemeURL . 'images/video-placeholder.jpg';
+        }
+
+        return '<img class="preview" src="' . $path . '"/>';
+    }
 }

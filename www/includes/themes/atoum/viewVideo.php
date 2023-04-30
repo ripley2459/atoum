@@ -6,7 +6,19 @@ if (!isset($_GET['video'])) {
     die();
 }
 
+global $DDB;
 $video = new Video($_GET['video']);
+$relatedActors = new BlockGrid('relatedActors');
+foreach ($video->getRelatedFrom(EDataType::VIDEO, EDataType::ACTOR) as $related) {
+    $relatedActors->addElement($related->displayLink());
+}
+$relatedActors->setColumnCount(2);
+
+$relatedVideos = new BlockGrid('relatedVideos');
+foreach ($video->getRelatedFrom(EDataType::VIDEO, EDataType::TAG) as $related) {
+    $relatedVideos->addElement($related->displayLink());
+}
+$relatedVideos->setColumnCount(4);
 
 ?>
 
@@ -19,9 +31,9 @@ $video = new Video($_GET['video']);
         </div>
     </div>
     <div class="underVideo">
-        <?php //echo $video->getRelatedMoviesByTags(); ?>
+        <?php $relatedVideos->display() ?>
     </div>
     <div class="sideVideo">
-        <?php //echo $video->getRelatedMoviesByActors(); ?>
+        <?php $relatedActors->display() ?>
     </div>
 </div>

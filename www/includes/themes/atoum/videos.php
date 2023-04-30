@@ -18,7 +18,7 @@ $pagination = new BlockPagination('videosPagination', RString::EMPTY, 'number of
 $grid = new BlockGrid("registeredVideosGrid");
 
 foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content) {
-    $grid->addElement('<div class="video"><a href="' . URL . '/index.php?page=viewVideo&video=' . $content->getId() . '"/><img src="' . UPLOADS_URL . 'preview.png' . '"><span class="videoName">' . $content->getName() . '</span></a></div>');
+    $grid->addElement('<div class="video">' . $content->displayLink() . '<span class="videoName">' . $content->getName() . '</span></a></div>');
 }
 
 $grid->display();

@@ -257,6 +257,91 @@ abstract class AContent implements IData
     }
 
     /**
+     * Donne un tableau d'objets d'un certain type étant lié avec cet objet par un type donné.
+     * @param EDataType $second Le d'objet réellement recherché
+     * @param EDataType $first Le type d'objet permettant de faire le lien
+     * @return AContent[]
+     */
+    public function getRelatedFrom(EDataType $second, EDataType $first): array
+    {
+        global $DDB;
+        if (self::checkTable() && Relation::checkTable()) {
+            $firstArray = $this->getRelated($first);
+            $in = RString::EMPTY;
+
+            if (count($firstArray) > 0) {
+                foreach ($firstArray as $elem) {
+                    $in .= strval($elem->getId()) . ',';
+                }
+
+                $in = substr($in, 0, -1);
+
+                $s = 'SELECT parent FROM ' . PREFIX . 'relations WHERE type = :type AND child IN (' . $in . ')';
+                $r = $DDB->prepare($s);
+
+                $r->bindValue(':type', Relation::getRelationType($first, $second), PDO::PARAM_INT);
+
+                try {
+                    $r->execute();
+
+                    $related = array();
+                    while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
+                        if ($d['parent'] != $this->_id) {
+                            $related[] = AContent::createInstance($second, $d['parent']);
+                        }
+                    }
+
+                    return $related;
+                } catch (PDOException $e) {
+                    Logger::logError($e->getMessage());
+                } catch (Exception $f) {
+                    Logger::logError($f->getMessage());
+                }
+            }
+        }
+
+        return array();
+    }
+
+    /**
+     * Donne un tableau d'objets d'un certain type étant lié avec cet objet.
+     * @param EDataType $type Le type d'objet recherché
+     * @return AContent[]
+     */
+    public function getRelated(EDataType $type): array
+    {
+        global $DDB;
+        if (self::checkTable() && Relation::checkTable()) {
+            $s = 'SELECT child FROM ' . PREFIX . 'relations WHERE type = :type AND parent = :parent';
+            $r = $DDB->prepare($s);
+
+            $relationType = Relation::getRelationType($type, $this->_type);
+
+            $r->bindValue(':type', $relationType, PDO::PARAM_INT);
+            $r->bindValue(':parent', $this->_id, PDO::PARAM_INT);
+
+            try {
+                $r->execute();
+
+                $related = array();
+                while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
+                    if ($d['child'] != $this->_id) {
+                        $related[] = self::createInstance($type, $d['child']);
+                    }
+                }
+
+                return $related;
+            } catch (PDOException $e) {
+                Logger::logError($e->getMessage());
+            } catch (Exception $f) {
+                Logger::logError($f->getMessage());
+            }
+        }
+
+        return array();
+    }
+
+    /**
      * @return int
      */
     public function getId(): int

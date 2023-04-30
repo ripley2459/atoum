@@ -32,6 +32,8 @@ require_once CLASSES . 'Setting.php';
 require_once CLASSES . 'RString.php';
 require_once CLASSES . 'FileHandler.php';
 require_once CLASSES . 'ABlock.php';
+require_once CLASSES . 'ABlockContainer.php';
+require_once CLASSES . 'BlockSettings.php';
 require_once CLASSES . 'AContent.php';
 require_once CLASSES . 'PageBuilder.php';
 require_once CLASSES . 'SettingsPageBuilder.php';
@@ -53,8 +55,6 @@ define('THEME_URL', ThemeHandler::Instance()->getThemeURL());
 require_once THEME . 'load.php';
 
 const BLOCKS = [
-    'ABlockContainer',
-    'BlockSettings',
     'BlockGrid',
     'BlockModal',
     'BlockPagination',
