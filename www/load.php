@@ -30,6 +30,7 @@ require_once ENUMERATIONS . 'EDataType.php';
 require_once CLASSES . 'Logger.php';
 require_once CLASSES . 'Setting.php';
 require_once CLASSES . 'RString.php';
+require_once CLASSES . 'Researcher.php';
 require_once CLASSES . 'FileHandler.php';
 require_once CLASSES . 'ABlock.php';
 require_once CLASSES . 'ABlockContainer.php';
