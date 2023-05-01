@@ -149,8 +149,8 @@ abstract class AContent implements IData
     public static abstract function getType(): EDataType;
 
     /**
-     * @param int|null $type
-     * @param int|null $status
+     * @param EDataType|null $type
+     * @param EDataStatus|null $status
      * @param string|null $orderBy
      * @param int $limit
      * @param int|null $currentPage La page actuelle pour la pagination
@@ -158,7 +158,7 @@ abstract class AContent implements IData
      * @return AContent[]
      * @throws Exception
      */
-    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY): array
+    public static function getAll(EDataType $type = null, EDataStatus $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY): array
     {
         // TODO : créer un request builder, remplacer le $exclude par un INNER JOIN
         global $DDB;
@@ -175,12 +175,12 @@ abstract class AContent implements IData
                 }
 
                 if (isset($type)) {
-                    $s .= ' type = ' . whitelist($type, EDataType::values());
+                    $s .= ' type = ' . whitelist($type->value, EDataType::values());
                     if (isset($status)) $s .= ' AND';
                 }
 
                 if (isset($status)) {
-                    $s .= ' status = ' . whitelist($status, EDataStatus::values());
+                    $s .= ' status = ' . whitelist($status->value, EDataStatus::values());
                 }
             }
 
@@ -228,15 +228,14 @@ abstract class AContent implements IData
         return array();
     }
 
-    public static function getAmount(int $type = null): int
+    public static function getAmount(EDataType $type = null): int
     {
         global $DDB;
         if (self::checkTable()) {
             $s = 'SELECT COUNT(id) AS amount FROM ' . PREFIX . 'contents';
 
             if (isset($type)) {
-                $type = whitelist($type, EDataType::values());
-                $s .= ' WHERE type = ' . $type;
+                $s .= ' WHERE type = ' . whitelist($type->value, EDataType::values());
             }
 
             $r = $DDB->prepare($s);

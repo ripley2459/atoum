@@ -12,6 +12,7 @@ $settings = new BlockSettings($video->getType(), $video->getId(), 'videoSettings
 $settings->nameSection();
 $settings->dateCreated();
 $settings->dateModified();
+$settings->screenshotButton();
 $settings->liveSection('Add actors', EDataType::ACTOR);
 $settings->liveSection('Add tags', EDataType::TAG);
 

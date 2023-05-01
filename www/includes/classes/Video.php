@@ -51,7 +51,7 @@ class Video extends AContent implements IFile
     {
         $path = FileHandler::getPath($this) . '.png';
         if(!file_exists(UPLOADS . $path)) {
-            $path = ThemeHandler::DefaultThemeURL . 'images/video-placeholder.jpg';
+            $path = ThemeHandler::DefaultThemeURL . 'images/video-placeholder.png';
         }
 
         return '<img class="preview" src="' .UPLOADS_URL . $path . '"/>';

@@ -39,11 +39,75 @@ class Researcher
     }
 
     /**
-     * @return Researcher|null
+     * @param EDataType|null $type
      */
-    public static function getInstance(): ?Researcher
+    public function setType(?EDataType $type): void
     {
-        return self::$_instance;
+        $this->_type = $type;
+    }
+
+    /**
+     * @param EDataStatus|null $status
+     */
+    public function setStatus(?EDataStatus $status): void
+    {
+        $this->_status = $status;
+    }
+
+    /**
+     * @param string|null $orderBy
+     */
+    public function setOrderBy(?string $orderBy): void
+    {
+        $this->_orderBy = $orderBy;
+    }
+
+    /**
+     * @param string|null $orderDirection
+     */
+    public function setOrderDirection(?string $orderDirection): void
+    {
+        $this->_orderDirection = $orderDirection;
+    }
+
+    /**
+     * @param int $limit
+     */
+    public function setLimit(int $limit): void
+    {
+        $this->_limit = $limit;
+    }
+
+    /**
+     * @param string $searchFor
+     */
+    public function setSearchFor(string $searchFor): void
+    {
+        $this->_searchFor = $searchFor;
+    }
+
+    /**
+     * @param int $currentPage
+     */
+    public function setCurrentPage(int $currentPage): void
+    {
+        $this->_currentPage = $currentPage;
+    }
+
+    /**
+     * @param int $totalPages
+     */
+    public function setTotalPages(int $totalPages): void
+    {
+        $this->_totalPages = $totalPages;
+    }
+
+    /**
+     * @param bool $displayContent
+     */
+    public function setDisplayContent(bool $displayContent): void
+    {
+        $this->_displayContent = $displayContent;
     }
 
     /**

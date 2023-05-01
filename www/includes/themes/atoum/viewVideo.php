@@ -24,7 +24,7 @@ $relatedVideos->setColumnCount(4);
 
 <div class="layoutVideo">
     <div class="video">
-        <?= '<video id="movie' . $video->getId() . '" src="' . UPLOADS_URL . FileHandler::getPath($video) . '" controls></video>' ?>
+        <?= $video->display() ?>
         <div id="videoInfos">
             <h1><?= $video->getName() ?></h1>
             <button onclick="getContent('<?= FUNCTIONS_URL ?>videos/openVideoEditor.php', 'videoInfos', <?= $video->getId() ?>)">Edit</button>

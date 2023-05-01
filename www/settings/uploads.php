@@ -5,10 +5,8 @@
 <div id="informations"></div>
 <div id="chunkInformations"></div>
 <h2>Your uploads</h2>
-<input type="text" <?= isset($_GET['searchFor']) ? 'value="' . $_GET['searchFor'] . '"' : '' ?>
-       onkeyup="setURLParam('searchFor', value, listFiles)"/>
-<input type="checkbox" <?= isset($_GET['displayContent']) ? 'checked' : '' ?>
-       onclick="toggleURLParam('displayContent', value, listFiles)"/>
+<input type="text" <?= isset($_GET['searchFor']) ? 'value="' . $_GET['searchFor'] . '"' : '' ?> onkeyup="setURLParam('searchFor', value, listFiles)"/>
+<input type="checkbox" <?= isset($_GET['displayContent']) ? 'checked' : '' ?> onclick="toggleURLParam('displayContent', value, listFiles)"/>
 <div id="uploadedFiles"></div>
 <div id="contentModal"></div>
 

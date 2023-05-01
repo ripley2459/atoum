@@ -31,6 +31,17 @@ class BlockSettings extends ABlock
     }
 
     /**
+     * Réservé aux vidéo
+     * @return void
+     */
+    public function screenshotButton(): void {
+        if($this->_content->getType() == EDataType::VIDEO) {
+            $this->_sections .= '<button type="button" onclick="takeScreenshot(\'' . $this->_content->getSlug() . '\', ' . $this->_content->getId() . ')">Capture</button>';
+            $this->_sections .= '<canvas id="' . $this->_content->getSlug() . 'Canvas"></canvas>';
+        }
+    }
+
+    /**
      * Crée le nécessaire pour rechercher, ajouter et supprimer des éléments dynamiquement.
      * @param string $fieldName
      * @param EDataType $typeB
