@@ -2,23 +2,15 @@
 
 require_once dirname(__DIR__, 3) . '/load.php';
 
-$type = EDataType::GALLERY->value;
-$status = $_GET['status'] ?? null;
-$orderBy = $_GET['orderBy'] ?? null;
-$orderDirection = isset($orderBy) ? switchOrderDirection($orderBy) : 'ASC';
-$limit = $_GET['limit'] ?? 25;
-$currentPage = $_GET['currentPage'] ?? 1;
-$searchFor = RString::EMPTY;
+Researcher::Instance()->setType(EDataType::GALLERY);
+Researcher::Instance()->setStatus(EDataStatus::PUBLISHED);
+Researcher::Instance()->setOrderBy("dateCreated_DESC");
 
-$pagination = new BlockPagination('galleriesPagination', RString::EMPTY, 'number of lines: ', $currentPage, ceil(AContent::getAmount($type) / $limit));
-//$pagination->addLimitButton(5);
-//$pagination->addLimitButton(15);
-//$pagination->addLimitButton(30);
-
+$pagination = new BlockPagination('galleriesPagination', RString::EMPTY, 'number of lines: ', Researcher::Instance()->getCurrentPage(), ceil(AContent::getAmount(Researcher::Instance()->getType()) / Researcher::Instance()->getLimit()));
 $grid = new BlockGrid("registeredGalleriesGrid");
 $grid->setColumnCount(5);
 
-foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content) {
+foreach (AContent::getAll(Researcher::Instance()->getType(), Researcher::Instance()->getStatus(), Researcher::Instance()->getOrderBy(), Researcher::Instance()->getLimit(), Researcher::Instance()->getCurrentPage(), Researcher::Instance()->getSearchFor()) as $content) {
 
     /* TODO OVERKILL TO REFACTO */
     $images = Relation::getChildren(Relation::getRelationType(EDataType::IMAGE, EDataType::GALLERY), $content->getId());

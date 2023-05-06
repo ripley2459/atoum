@@ -8,17 +8,32 @@ if (!isset($_GET['video'])) {
 
 global $DDB;
 $video = new Video($_GET['video']);
-$relatedActors = new BlockGrid('relatedActors');
-foreach ($video->getRelatedFrom(EDataType::VIDEO, EDataType::ACTOR) as $related) {
-    $relatedActors->addElement($related->displayLink());
+$relatedVideosByActors = new BlockGrid('relatedActors');
+$rrr = $video->getRelatedFrom(EDataType::VIDEO, EDataType::ACTOR);
+shuffle($rrr);
+$rrr = array_splice($rrr, 0, 8);
+foreach ($rrr as $related) {
+    $relatedVideosByActors->addElement('<div>' . $related->displayLink() . '</div>');
 }
-$relatedActors->setColumnCount(2);
+$relatedVideosByActors->setColumnCount(2);
 
-$relatedVideos = new BlockGrid('relatedVideos');
-foreach ($video->getRelatedFrom(EDataType::VIDEO, EDataType::TAG) as $related) {
-    $relatedVideos->addElement($related->displayLink());
+$relatedVideosByTags = new BlockGrid('relatedVideos');
+$rrr = $video->getRelatedFrom(EDataType::VIDEO, EDataType::TAG);
+shuffle($rrr);
+$rrr = array_splice($rrr, 0, 16);
+foreach ($rrr as $related) {
+    $relatedVideosByTags->addElement('<div>' . $related->displayLink() . '</div>');
 }
-$relatedVideos->setColumnCount(4);
+$relatedVideosByTags->setColumnCount(4);
+
+$relatedActors = RString::EMPTY;
+foreach ($video->getRelated(EDataType::ACTOR) as $actor) {
+    $relatedActors .= $actor->display();
+}
+$relatedTags = RString::EMPTY;
+foreach ($video->getRelated(EDataType::TAG) as $tag) {
+    $relatedTags .= $tag->display();
+}
 
 ?>
 
@@ -27,13 +42,15 @@ $relatedVideos->setColumnCount(4);
         <?= $video->display() ?>
         <div id="videoInfos">
             <h1><?= $video->getName() ?></h1>
+            <div id="videoActors"><?= $relatedTags ?></div>
+            <div id="videoTags"><?= $relatedActors ?></div>
             <button onclick="getContent('<?= FUNCTIONS_URL ?>videos/openVideoEditor.php', 'videoInfos', <?= $video->getId() ?>)">Edit</button>
         </div>
     </div>
     <div class="underVideo">
-        <?php $relatedVideos->display() ?>
+        <?php $relatedVideosByTags->display() ?>
     </div>
     <div class="sideVideo">
-        <?php $relatedActors->display() ?>
+        <?php $relatedVideosByActors->display() ?>
     </div>
 </div>

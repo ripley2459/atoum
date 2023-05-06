@@ -39,10 +39,10 @@ foreach (AContent::getAll(Researcher::Instance()->getType(), Researcher::Instanc
     }
 }
 
-if (count($noTags) > 0) {
-    echo '<h2>These videos do not have at least 2 linked tags:</h2>';
+if (count($noThumbnails) > 0) {
+    echo '<h2>These videos do not have a thumbnail:</h2>';
     echo '<ul>';
-    foreach ($noTags as $no) {
+    foreach ($noThumbnails as $no) {
         echo '<li><a href="' . URL . '/index.php?page=viewVideo&video=' . $no->getId() . '">' . $no->getName() . '</a></li>';
     }
     echo '</ul>';
@@ -57,12 +57,11 @@ if (count($noActors) > 0) {
     echo '</ul>';
 }
 
-if (count($noThumbnails) > 0) {
-    echo '<h2>These videos do not have a thumbnail:</h2>';
+if (count($noTags) > 0) {
+    echo '<h2>These videos do not have at least 2 linked tags:</h2>';
     echo '<ul>';
-    foreach ($noThumbnails as $no) {
+    foreach ($noTags as $no) {
         echo '<li><a href="' . URL . '/index.php?page=viewVideo&video=' . $no->getId() . '">' . $no->getName() . '</a></li>';
     }
     echo '</ul>';
-
 }

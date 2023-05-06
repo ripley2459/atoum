@@ -302,26 +302,21 @@ td {
  * Video
  */
 .layoutVideo {
-    display: grid;
-    grid-template-columns: auto 33%;
-    grid-template-rows: auto 33%;
-    gap: var(--margin_base) var(--margin_base);
-    grid-template-areas:
-    'video sideVideo'
-    'underVideo sideVideo';
+	display: grid;
+  grid-template-columns: auto 33%;
+  grid-template-rows: auto 33%;
+  gap: var(--margin_base) var(--margin_base);
+  grid-auto-flow: row;
+  grid-template-areas:
+    "video sideVideo"
+    "underVideo sideVideo";
 }
 
-.layoutVideo .video {
-    grid-area: video;
-}
+.sideVideo { grid-area: sideVideo; }
 
-.layoutVideo .underVideo {
-    grid-area: underVideo;
-}
+.underVideo { grid-area: underVideo; }
 
-.layoutVideo .sideVideo {
-    grid-area: sideVideo;
-}
+.video { grid-area: video; }
 
 .layoutVideo .video > video {
     max-width: 360px;
