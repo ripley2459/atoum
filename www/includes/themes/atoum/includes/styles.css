@@ -317,6 +317,10 @@ td {
     max-width: 360px;
 }
 
+.screenCanvas {
+    display: none;
+}
+
 /*
  * Uploaded Files
  */
@@ -334,4 +338,14 @@ td {
 
 .collapsible.open > .content {
     display: block;
+}
+
+/*
+ * Chips
+ */
+.chip {
+    display: inline-block;
+    padding: calc(var(--margin_base) / 2);
+    border-radius: 5px;
+    border: 1px solid black;
 }

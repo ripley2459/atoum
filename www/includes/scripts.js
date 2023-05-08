@@ -355,6 +355,7 @@ const DynDataSubmit = (formId, dataId, type, sections) => {
 
     request.onload = function () {
         document.getElementById("DynDataForm".concat(dataId)).innerHTML = this.responseText;
+        window.location.reload();
     }
 
     request.open("POST", url);

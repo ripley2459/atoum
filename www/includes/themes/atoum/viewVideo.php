@@ -26,13 +26,15 @@ foreach ($rrr as $related) {
 }
 $relatedVideosByTags->setColumnCount(4);
 
-$relatedActors = RString::EMPTY;
-foreach ($video->getRelated(EDataType::ACTOR) as $actor) {
-    $relatedActors .= $actor->display();
+$tags = RString::EMPTY;
+$actors = RString::EMPTY;
+
+foreach ($video->getRelated(EDataType::ACTOR, true) as $actor) {
+    RString::concat($actors, RString::EMPTY, chipActor($actor));
 }
-$relatedTags = RString::EMPTY;
-foreach ($video->getRelated(EDataType::TAG) as $tag) {
-    $relatedTags .= $tag->display();
+
+foreach ($video->getRelated(EDataType::TAG, true) as $tag) {
+    RString::concat($tags, RString::EMPTY, chipTag($tag));
 }
 
 ?>
@@ -42,8 +44,10 @@ foreach ($video->getRelated(EDataType::TAG) as $tag) {
         <?= $video->display() ?>
         <div id="videoInfos">
             <h1><?= $video->getName() ?></h1>
-            <div id="videoActors"><?= $relatedTags ?></div>
-            <div id="videoTags"><?= $relatedActors ?></div>
+            <div class="chipsContainer">
+                <div class="chips actors"><?= $tags ?></div>
+                <div class="chips tags"><?= $actors ?></div>
+            </div>
             <button onclick="getContent('<?= FUNCTIONS_URL ?>videos/openVideoEditor.php', 'videoInfos', <?= $video->getId() ?>)">Edit</button>
         </div>
     </div>

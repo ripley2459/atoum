@@ -307,7 +307,7 @@ abstract class AContent implements IData
      * @param EDataType $type Le type d'objet recherché
      * @return AContent[]
      */
-    public function getRelated(EDataType $type): array
+    public function getRelated(EDataType $type, bool $sort = false): array
     {
         global $DDB;
         if (self::checkTable() && Relation::checkTable()) {
@@ -327,6 +327,10 @@ abstract class AContent implements IData
                     if ($d['child'] != $this->_id) {
                         $related[] = self::createInstance($type, $d['child']);
                     }
+                }
+
+                if($sort) {
+                    sort($related);
                 }
 
                 return $related;

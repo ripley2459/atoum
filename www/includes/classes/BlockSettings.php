@@ -37,7 +37,7 @@ class BlockSettings extends ABlock
     public function screenshotButton(): void {
         if($this->_content->getType() == EDataType::VIDEO) {
             $this->_sections .= '<button type="button" onclick="takeScreenshot(\'' . $this->_content->getSlug() . '\', ' . $this->_content->getId() . ')">Capture</button>';
-            $this->_sections .= '<canvas id="' . $this->_content->getSlug() . 'Canvas"></canvas>';
+            $this->_sections .= '<canvas id="' . $this->_content->getSlug() . 'Canvas" class="screenCanvas"></canvas>';
         }
     }
 
@@ -73,7 +73,7 @@ class BlockSettings extends ABlock
     private function createLiveInput(string $value, string $inputName): string
     {
         $slug = normalize($value);
-        return '<div id="' . $slug . 'DynInput" class="dynInput"><input id="' . $slug . 'Field" type="text" name="' . $inputName . '" value="' . $value . '"><button type="button" onclick="DynDataRemove(\'' . $slug . 'DynInput\')">x</button></div>';
+        return '<div id="' . $slug . 'DynInput" class="dynInput"><input id="' . $slug . 'Field" type="text" name="' . $inputName . '" value="' . $value . '" readonly><button type="button" onclick="DynDataRemove(\'' . $slug . 'DynInput\')">x</button></div>';
     }
 
     /**

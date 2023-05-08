@@ -54,6 +54,7 @@ define('THEME', ThemeHandler::Instance()->getThemePath());
 define('THEME_URL', ThemeHandler::Instance()->getThemeURL());
 
 require_once THEME . 'load.php';
+require_once THEME . 'includes/blocks/blocks.php';
 
 const BLOCKS = [
     'BlockGrid',

@@ -3,6 +3,7 @@
 class RString
 {
     public const EMPTY = '';
+    public const SPACE = ' ';
 
     /**
      * Join des chaînes de caractères avec la chaînes de caractère donnée.
@@ -24,5 +25,30 @@ class RString
         }
 
         return $joined;
+    }
+
+    /**
+     * @param string $main
+     * @param string $separator
+     * @param string $string
+     * @return void
+     */
+    public static function concat(string &$main, string $separator, string $string): void
+    {
+        if (self::nullOrEmpty($main)) {
+            $main = $string;
+            return;
+        }
+
+        $main .= $separator . $string;
+    }
+
+    /**
+     * @param string $string
+     * @return bool
+     */
+    public static function nullOrEmpty(string $string): bool
+    {
+        return $string === null || trim($string) === self::EMPTY;
     }
 }
