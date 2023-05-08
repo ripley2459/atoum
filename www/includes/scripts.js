@@ -46,7 +46,9 @@ function toggleModal(id) {
  * Collapse
  */
 function toggleCollapse(id) {
-    document.getElementById(id).classList.toggle("open");
+    let elem = document.getElementById(id);
+    let content = elem.getElementsByClassName("content")[0];
+    elem.classList.toggle("open");
 }
 
 /**
@@ -299,7 +301,7 @@ const DynDataAddOnClick = (input, type, field) => {
 }
 
 const DynDataAddOnHit = (input, type, field) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
         DynDataAdd(input, type, field);
     }
 }
@@ -309,18 +311,18 @@ const DynDataAdd = (input, type, field) => {
     let newDeleteButton, newField, newDiv;
 
     newDiv = document.createElement('div');
-    newDiv.id = input.replace(/ /g, "_").toLowerCase() + 'DynInput';
+    newDiv.id = input.replace(/ /g, "_").toLowerCase() + "DynInput";
     newDiv.classList.add("dynInput")
 
-    newField = document.createElement('input');
-    newField.type = 'text';
-    newField.id = input.replace(/ /g, "_").toLowerCase() + 'Field';
+    newField = document.createElement("input");
+    newField.type = "text";
+    newField.id = input.replace(/ /g, "_").toLowerCase() + "Field";
     newField.setAttribute("value", input); // Bugged ?
     newField.name = field;
 
-    newDeleteButton = document.createElement('button');
-    newDeleteButton.innerHTML = 'x';
-    newDeleteButton.type = 'button';
+    newDeleteButton = document.createElement("button");
+    newDeleteButton.innerHTML = "x";
+    newDeleteButton.type = "button";
     newDeleteButton.onclick = function () {
         document.getElementById(newDiv.id).remove();
     };
@@ -352,7 +354,7 @@ const DynDataSubmit = (formId, dataId, type, sections) => {
     })
 
     request.onload = function () {
-        document.getElementById('DynDataForm'.concat(dataId)).innerHTML = this.responseText;
+        document.getElementById("DynDataForm".concat(dataId)).innerHTML = this.responseText;
     }
 
     request.open("POST", url);

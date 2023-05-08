@@ -60,7 +60,8 @@ const BLOCKS = [
     'BlockModal',
     'BlockPagination',
     'BlockGallery',
-    'BlockSpinner0',
+    'BlockCollapsible',
+    'BlockSpinner0'
 ];
 
 foreach (BLOCKS as $block) {

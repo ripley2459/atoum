@@ -121,17 +121,6 @@ td {
 }
 
 /*
- * Collapse
- */
-.collapse {
-    display: none;
-}
-
-.collapse.open {
-    display: block;
-}
-
-/*
  * Modal
  */
 .modal {
@@ -302,21 +291,27 @@ td {
  * Video
  */
 .layoutVideo {
-	display: grid;
-  grid-template-columns: auto 33%;
-  grid-template-rows: auto 33%;
-  gap: var(--margin_base) var(--margin_base);
-  grid-auto-flow: row;
-  grid-template-areas:
+    display: grid;
+    grid-template-columns: auto 33%;
+    grid-template-rows: auto 33%;
+    gap: var(--margin_base) var(--margin_base);
+    grid-auto-flow: row;
+    grid-template-areas:
     "video sideVideo"
     "underVideo sideVideo";
 }
 
-.sideVideo { grid-area: sideVideo; }
+.sideVideo {
+    grid-area: sideVideo;
+}
 
-.underVideo { grid-area: underVideo; }
+.underVideo {
+    grid-area: underVideo;
+}
 
-.video { grid-area: video; }
+.video {
+    grid-area: video;
+}
 
 .layoutVideo .video > video {
     max-width: 360px;
@@ -328,4 +323,15 @@ td {
 #uploadedFiles img,
 #uploadedFiles video {
     max-width: 360px;
+}
+
+/*
+ * Collapsible
+ */
+.collapsible > .content {
+    display: none;
+}
+
+.collapsible.open > .content {
+    display: block;
 }
