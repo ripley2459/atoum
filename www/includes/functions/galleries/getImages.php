@@ -66,7 +66,7 @@ try {
 }
 
 foreach ($images as $image) {
-    $grid->addElement('<img id="image' . $image->getId() . '" src="' . UPLOADS_URL . FileHandler::getPath($image) . '" draggable="true" ondragstart="bindImage(event, ' . $image->getId() . ')" style="max-width:360px">');
+    $grid->addContent('<img id="image' . $image->getId() . '" src="' . UPLOADS_URL . FileHandler::getPath($image) . '" draggable="true" ondragstart="bindImage(event, ' . $image->getId() . ')" style="max-width:360px">');
 }
 
 ?>

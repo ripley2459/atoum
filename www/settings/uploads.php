@@ -36,7 +36,7 @@
 
         request.open("GET", from);
         request.send();
-        uploadedFiles.innerHTML = `<?= BlockSpinner0::echo() ?>`;
+        uploadedFiles.innerHTML = `<?= spinner0() ?>`;
     }
 
     const uploadDest = new URL('<?= FUNCTIONS_URL . 'uploads/uploadFiles.php' ?>');
@@ -50,7 +50,7 @@
     let chunkAmount; // Le nombre total de blobs qui seront envoyés
 
     const uploadFiles = () => {
-        uploadedFiles.innerHTML = `<?= BlockSpinner0::echo() ?>`;
+        uploadedFiles.innerHTML = `<?= spinner0() ?>`;
 
         files = filesUploader.files;
         fileIndex = 0;

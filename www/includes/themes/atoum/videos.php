@@ -16,8 +16,8 @@ $pagination->addLimitButton(200);
 $grid = new BlockGrid("registeredVideosGrid");
 
 foreach (AContent::getAll(Researcher::Instance()->getType(), Researcher::Instance()->getStatus(), Researcher::Instance()->getOrderBy(), Researcher::Instance()->getLimit(), Researcher::Instance()->getCurrentPage(), Researcher::Instance()->getSearchFor()) as $content) {
-    $grid->addElement('<div class="video">' . $content->displayLink() . '<span class="videoName">' . $content->getName() . '</span></a></div>');
+    $grid->addContent('<div class="video">' . $content->displayLink() . '<span class="videoName">' . $content->getName() . '</span></a></div>');
 }
 
-$pagination->display();
-$grid->display();
+echo $pagination->display();
+echo $grid->display();

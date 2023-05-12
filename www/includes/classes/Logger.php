@@ -18,6 +18,7 @@ class Logger
         if (is_null(self::$_instance)) {
             self::$_instance = new Logger();
         }
+
         return self::$_instance;
     }
 

@@ -34,8 +34,9 @@ class BlockSettings extends ABlock
      * Réservé aux vidéo
      * @return void
      */
-    public function screenshotButton(): void {
-        if($this->_content->getType() == EDataType::VIDEO) {
+    public function screenshotButton(): void
+    {
+        if ($this->_content->getType() == EDataType::VIDEO) {
             $this->_sections .= '<button type="button" onclick="takeScreenshot(\'' . $this->_content->getSlug() . '\', ' . $this->_content->getId() . ')">Capture</button>';
             $this->_sections .= '<canvas id="' . $this->_content->getSlug() . 'Canvas" class="screenCanvas"></canvas>';
         }
@@ -79,15 +80,8 @@ class BlockSettings extends ABlock
     /**
      * @inheritDoc
      */
-    public function display(bool $echo = true): string
+    public function display(): string
     {
-        $r = '<div ' . $this->getSignature() . '><form id="DynDataForm' . $this->_content->getId() . '">' . $this->_sections . '<button type="button" onclick="DynDataSubmit(\'DynDataForm\', ' . $this->_content->getId() . ', ' . $this->_content->getType()->value . ', [\'' . RString::join('\',\'', $this->_dynInputs) . '\'])">Save</button></form></div>';
-
-        if ($echo) {
-            echo $r;
-            return RString::EMPTY;
-        }
-
-        return $r;
+        return '<div ' . $this->getSignature() . '><form id="DynDataForm' . $this->_content->getId() . '">' . $this->_sections . '<button type="button" onclick="DynDataSubmit(\'DynDataForm\', ' . $this->_content->getId() . ', ' . $this->_content->getType()->value . ', [\'' . RString::join('\',\'', $this->_dynInputs) . '\'])">Save</button></form></div>';
     }
 }

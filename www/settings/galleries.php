@@ -51,7 +51,7 @@ $contentType = EDataType::GALLERY;
 
         request.open("GET", from);
         request.send();
-        registerForm.innerHTML = `<?= BlockSpinner0::echo() ?>`;
+        registerForm.innerHTML = `<?= spinner0() ?>`;
     }
 
     const getGalleries = () => {
@@ -68,6 +68,6 @@ $contentType = EDataType::GALLERY;
 
         request.open("GET", from);
         request.send();
-        registeredGalleries.innerHTML = `<?= BlockSpinner0::echo() ?>`;
+        registeredGalleries.innerHTML = `<?= spinner0() ?>`;
     }
 </script>

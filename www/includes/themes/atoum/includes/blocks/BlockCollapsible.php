@@ -7,7 +7,7 @@ class BlockCollapsible extends ABlockContainer
     public function __construct(string $text, string $id, string $classes = RString::EMPTY)
     {
         parent::__construct($id, $classes);
-        $this->_classes .= ' collapsible';
+        RString::concat($this->_classes, RString::SPACE, 'collapsible');
         $this->_text = $text;
     }
 

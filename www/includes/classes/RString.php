@@ -8,20 +8,20 @@ class RString
     /**
      * Join des chaînes de caractères avec la chaînes de caractère donnée.
      * @param string $separator
-     * @param array $string
+     * @param array $strings
      * @return string
      */
-    public static function join(string $separator, array $string): string
+    public static function join(string $separator, array $strings): string
     {
-        if (count($string) <= 0) {
+        if (count($strings) <= 0) {
             return RString::EMPTY;
         }
 
-        $joined = $string[0];
+        $joined = $strings[0];
 
-        for ($i = 1; $i < count($string); $i++) {
+        for ($i = 1; $i < count($strings); $i++) {
             $joined .= $separator;
-            $joined .= $string[$i];
+            $joined .= $strings[$i];
         }
 
         return $joined;

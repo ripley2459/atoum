@@ -20,6 +20,7 @@ class PageBuilder
         if (is_null(self::$_instance)) {
             self::$_instance = new PageBuilder();
         }
+
         return self::$_instance;
     }
 

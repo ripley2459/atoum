@@ -20,6 +20,7 @@ class SettingsPageBuilder
         if (is_null(self::$_instance)) {
             self::$_instance = new SettingsPageBuilder();
         }
+
         return self::$_instance;
     }
 

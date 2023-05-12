@@ -17,8 +17,8 @@ foreach (AContent::getAll(Researcher::Instance()->getType(), Researcher::Instanc
     shuffle($images);
     $preview = '<img src="' . UPLOADS_URL . FileHandler::getPath($images[0]) . '">';
 
-    $grid->addElement('<div class="gallery"><a href="' . URL . '/index.php?page=viewGallery&gallery=' . $content->getId() . '"/>' . $preview . '<span class="galleryName">' . $content->getName() . '</span></a></div>');
+    $grid->addContent('<div class="gallery"><a href="' . URL . '/index.php?page=viewGallery&gallery=' . $content->getId() . '"/>' . $preview . '<span class="galleryName">' . $content->getName() . '</span></a></div>');
 }
 
-$grid->display();
-$pagination->display();
+echo $grid->display();
+echo $pagination->display();

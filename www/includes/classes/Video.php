@@ -50,10 +50,10 @@ class Video extends AContent implements IFile
     public function getPreview(): string
     {
         $path = FileHandler::getPath($this) . '.png';
-        if(!file_exists(UPLOADS . $path)) {
+        if (!file_exists(UPLOADS . $path)) {
             $path = ThemeHandler::DefaultThemeURL . 'images/video-placeholder.png';
         }
 
-        return '<img class="preview" src="' .UPLOADS_URL . $path . '"/>';
+        return '<img class="preview" src="' . UPLOADS_URL . $path . '"/>';
     }
 }

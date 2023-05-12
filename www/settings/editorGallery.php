@@ -59,7 +59,7 @@ $settings->liveSection('Add tags', EDataType::TAG);
 
         request.open("GET", from);
         request.send();
-        registeredImages.innerHTML = `<?= BlockSpinner0::echo() ?>`;
+        registeredImages.innerHTML = `<?= spinner0() ?>`;
     }
 
     const getLinkedImages = () => {
@@ -80,7 +80,7 @@ $settings->liveSection('Add tags', EDataType::TAG);
 
         request.open("GET", from);
         request.send();
-        linkedImages.innerHTML = `<?= BlockSpinner0::echo() ?>`;
+        linkedImages.innerHTML = `<?= spinner0() ?>`;
     }
 
     let draggedImageId;

@@ -36,7 +36,7 @@ class BlockPagination extends ABlockContainer
     /**
      * @inheritDoc
      */
-    public function display(bool $echo = true): string
+    public function display(): string
     {
         $r = '<div ' . $this->getSignature() . '>';
         $r .= $this->_content;
@@ -44,12 +44,6 @@ class BlockPagination extends ABlockContainer
         $r .= '<spawn>' . $this->_currentPage . '/' . $this->_totalPages . '</spawn>';
         $r .= $this->getNextPage();
         $r .= '</div>';
-
-        if ($echo) {
-            echo $r;
-            return RString::EMPTY;
-        }
-
         return $r;
     }
 

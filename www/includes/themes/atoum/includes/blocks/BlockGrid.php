@@ -10,32 +10,15 @@ class BlockGrid extends ABlockContainer
     public function __construct(string $id = RString::EMPTY, string $classes = RString::EMPTY)
     {
         parent::__construct($id, $classes);
-        $this->_classes .= ' grid';
+        RString::concat($this->_classes, RString::SPACE, 'grid');
     }
 
     /**
      * @inheritDoc
      */
-    public function display(bool $echo = true): string
+    public function display(): string
     {
-        $r = '<div ' . $this->getSignature() . ' style="column-count: ' . $this->_columnCount . '">' . $this->_content . '</div>';
-
-        if ($echo) {
-            echo $r;
-            return RString::EMPTY;
-        }
-
-        return $r;
-    }
-
-    /**
-     * Ajoute un élément à cette grille.
-     * @param string $element
-     * @return void
-     */
-    public function addElement(string $element): void
-    {
-        $this->_content .= $element;
+        return '<div ' . $this->getSignature() . ' style="column-count: ' . $this->_columnCount . '">' . $this->_content . '</div>';
     }
 
     /**

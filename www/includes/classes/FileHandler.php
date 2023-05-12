@@ -20,6 +20,7 @@ class FileHandler
         if (is_null(self::$_instance)) {
             self::$_instance = new FileHandler();
         }
+
         return self::$_instance;
     }
 

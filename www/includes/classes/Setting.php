@@ -65,6 +65,14 @@ class Setting implements IData
     }
 
     /**
+     * @inheritDoc
+     */
+    public static function checkTable(): bool
+    {
+        // TODO: Implement checkTable() method.
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -108,13 +116,5 @@ class Setting implements IData
             Logger::logInfo('Ce paramètre ' . $this->_name . ' a été supprimé');
         }
         $r->closeCursor();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function checkTable(): bool
-    {
-        // TODO: Implement checkTable() method.
     }
 }

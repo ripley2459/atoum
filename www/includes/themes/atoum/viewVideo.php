@@ -13,7 +13,7 @@ $rrr = $video->getRelatedFrom(EDataType::VIDEO, EDataType::ACTOR);
 shuffle($rrr);
 $rrr = array_splice($rrr, 0, 8);
 foreach ($rrr as $related) {
-    $relatedVideosByActors->addElement('<div>' . $related->displayLink() . '</div>');
+    $relatedVideosByActors->addContent('<div>' . $related->displayLink() . '</div>');
 }
 $relatedVideosByActors->setColumnCount(2);
 
@@ -22,7 +22,7 @@ $rrr = $video->getRelatedFrom(EDataType::VIDEO, EDataType::TAG);
 shuffle($rrr);
 $rrr = array_splice($rrr, 0, 16);
 foreach ($rrr as $related) {
-    $relatedVideosByTags->addElement('<div>' . $related->displayLink() . '</div>');
+    $relatedVideosByTags->addContent('<div>' . $related->displayLink() . '</div>');
 }
 $relatedVideosByTags->setColumnCount(4);
 
@@ -52,9 +52,9 @@ foreach ($video->getRelated(EDataType::TAG, true) as $tag) {
         </div>
     </div>
     <div class="underVideo">
-        <?php $relatedVideosByTags->display() ?>
+        <?= $relatedVideosByTags->display() ?>
     </div>
     <div class="sideVideo">
-        <?php $relatedVideosByActors->display() ?>
+        <?= $relatedVideosByActors->display() ?>
     </div>
 </div>

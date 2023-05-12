@@ -17,6 +17,10 @@ abstract class ABlock
      */
     public abstract function display(): string;
 
+    /**
+     * La signature correspond à l'ensemble 'id="..." class="... ..."'.
+     * @return string
+     */
     protected function getSignature(): string
     {
         $r = RString::EMPTY;
