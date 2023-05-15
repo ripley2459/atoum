@@ -23,7 +23,7 @@ class Image extends AContent implements IFile
      */
     public function deleteContent(): bool
     {
-        // TODO: Implement deleteContent() method.
+        FileHandler::removeFile($this);
     }
 
     /**

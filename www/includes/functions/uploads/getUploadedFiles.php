@@ -35,7 +35,7 @@ $pagination->addLimitButton(200);
         <tr>
             <td><?= $content->getName() ?>
                 <div>
-                    <input type="checkbox" id="<?= $content->getId() ?>" value="Bike"><button onclick="openContentModal(<?= $content->getId() ?>)">Edit</button><button onclick="deleteContent(<?= $content->getId() ?>)">Delete</button>
+                    <input type="checkbox" id="<?= $content->getId() ?>" value="Bike"><button onclick="openContentModal(<?= $content->getId() ?>)">Edit</button><button onclick="deleteContent(<?= $content->getId() ?>, <?= $content->getType()->value ?>)">Delete</button>
                 </div>
             </td>
             <td>

@@ -1,10 +1,7 @@
-<h1>Uploads</h1>
-<h2>Upload</h2>
-<input type="file" id="filesUploader" multiple required/>
+<h1>Uploads</h1><h2>Upload</h2><input type="file" id="filesUploader" multiple required/>
 <button onclick="uploadFiles()">Upload!</button>
 <div id="informations"></div>
-<div id="chunkInformations"></div>
-<h2>Your uploads</h2>
+<div id="chunkInformations"></div><h2>Your uploads</h2>
 <input type="text" <?= isset($_GET['searchFor']) ? 'value="' . $_GET['searchFor'] . '"' : '' ?> onkeyup="setURLParam('searchFor', value, listFiles)"/>
 <input type="checkbox" <?= isset($_GET['displayContent']) ? 'checked' : '' ?> onclick="toggleURLParam('displayContent', value, listFiles)"/>
 <div id="uploadedFiles"></div>
@@ -150,8 +147,13 @@
         request.send();
     }
 
-    const deleteContent = () => {
-        // TODO
+    const deleteContent = (id, type) => {
+        if (confirm("Do you really want to remove that?")) {
+            let url = new URL('<?= FUNCTIONS_URL . 'uploads/deleteContent.php' ?>');
+            url.searchParams.set("id", id);
+            url.searchParams.set("type", type);
+            sendRequest(url, listFiles());
+        }
     }
 
     const createProgressBar = (id, text, maxProgress) => {

@@ -329,7 +329,7 @@ abstract class AContent implements IData
                     }
                 }
 
-                if($sort) {
+                if ($sort) {
                     sort($related);
                 }
 
@@ -497,7 +497,6 @@ abstract class AContent implements IData
     public function unregister(): bool
     {
         global $DDB;
-
         if (self::checkTable()) {
             $s = 'DELETE FROM ' . PREFIX . 'contents WHERE id = :id';
             $r = $DDB->prepare($s);
@@ -517,6 +516,8 @@ abstract class AContent implements IData
                 } catch (PDOException $e) {
                     Logger::logError($e->getMessage());
                 }
+            } else {
+                Logger::logError('Associated files can\'t be deleted!');
             }
         }
 

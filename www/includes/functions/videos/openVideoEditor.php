@@ -16,4 +16,4 @@ $settings->screenshotButton();
 $settings->liveSection('Add actors', EDataType::ACTOR);
 $settings->liveSection('Add tags', EDataType::TAG);
 
-$settings->display();
+echo $settings->display();

@@ -31,7 +31,7 @@ class Video extends AContent implements IFile
      */
     public function deleteContent(): bool
     {
-        // TODO: Implement deleteContent() method.
+        return FileHandler::removeFile($this);
     }
 
     /**
