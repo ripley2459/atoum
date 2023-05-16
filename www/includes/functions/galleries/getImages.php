@@ -13,7 +13,7 @@ $pagination->addLimitButton(50);
 $pagination->addLimitButton(100);
 $pagination->addLimitButton(200);
 $pagination->addLimitButton(400);
-$pagination->display();
+echo $pagination->display();
 
 $grid = new BlockGrid('imagesGrid');
 $grid->setColumnCount(4);
@@ -34,6 +34,8 @@ if (isset($orderBy)) {
     $orderBy = whitelist($orderParameters[0], AContent::COLUMNS);
     $orderDirection = whitelist($orderParameters[1], ['ASC', 'DESC']);
     $s .= ' ORDER BY ' . $orderBy . ' ' . $orderDirection;
+} else {
+    $s .= ' ORDER BY dateCreated DESC';
 }
 
 $s .= Researcher::Instance()->getCurrentPage() !== null ? ' LIMIT :limitMin, :limitMax' : ' LIMIT :limit';

@@ -8,7 +8,7 @@ $pagination->addLimitButton(50);
 $pagination->addLimitButton(100);
 $pagination->addLimitButton(200);
 $pagination->addLimitButton(400);
-$pagination->display();
+echo $pagination->display();
 
 $grid = new BlockGrid('linkedImagesGrid');
 $grid->setColumnCount(3);
