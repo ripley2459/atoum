@@ -19,4 +19,4 @@ foreach (AContent::getAll(Researcher::Instance()->getType(), Researcher::Instanc
     $grid->addContent('<a href="' . URL . '/settings/index.php?page=editorGallery&gallery=' . $content->getId() . '"/>' . $content->getName() . '</a>');
 }
 
-$grid->display();
+echo $grid->display();

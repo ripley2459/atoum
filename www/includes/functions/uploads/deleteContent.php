@@ -6,7 +6,17 @@ if (!isset($_GET['id']) || !isset($_GET['type'])) {
     die;
 }
 
-$id = $_GET['id'];
-$type = EDatatype::from($_GET['type']);
-$content = AContent::createInstance($type, $id);
+$dataId = $_GET['id'];
+$dataType = EDatatype::from($_GET['type']);
+$content = AContent::createInstance($dataType, $dataId);
+
+foreach (EDataType::cases() as $type) {
+    try {
+        Relation::purgeFor(Relation::getRelationType($type, $dataType), $dataId);
+        Relation::purgeFor(Relation::getRelationType($dataType, $type), $dataId);
+    } catch (Exception $e) {
+        Logger::logError($e);
+    }
+}
+
 $content->unregister();
