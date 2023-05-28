@@ -163,10 +163,9 @@ class FileHandler
         return $tryName;
     }
 
-
     /**
      * Supprime (ou renome) le fichier du disque.
-     * @param IFile $file Le ficheir sur le disque à supprimer
+     * @param IFile $file Le fichier sur le disque à supprimer
      * @param bool $renameOnly Si vrai le fichier est renommé avec le prefix "DELETED_".
      * @return bool
      */

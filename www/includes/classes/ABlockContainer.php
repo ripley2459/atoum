@@ -16,6 +16,11 @@ abstract class ABlockContainer extends ABlock
         $this->_content = $content;
     }
 
+    /**
+     * Ajoute à la chaîne de caractère déjà présente la chaîne de caractères donnée.
+     * @param string $newContent
+     * @return void
+     */
     public function addContent(string $newContent): void
     {
         RString::concat($this->_content, RString::EMPTY, $newContent);
