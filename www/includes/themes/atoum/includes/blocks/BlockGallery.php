@@ -60,7 +60,7 @@ class BlockGallery extends ABlock
     }
 
     /**
-     * Ajoute un élément à cette grille.
+     * Ajoute une image à cette grille.
      * @param Image $image
      * @return void
      */

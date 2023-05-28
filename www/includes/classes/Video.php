@@ -44,7 +44,7 @@ class Video extends AContent implements IFile
 
     public function displayLink(): string
     {
-        return '<a href="' . URL . '/index.php?page=viewVideo&video=' . $this->_id . '">' . $this->getPreview() . '</a>';
+        return '<a href="' . URL . '/index.php?page=video&video=' . $this->_id . '">' . $this->getPreview() . '</a>';
     }
 
     public function getPreview(): string

@@ -38,7 +38,9 @@ function nullOrEmpty(string $string): bool
  */
 function whitelist($value, array $allowed): string
 {
-	if ($value === null) return $allowed[0];
+	if ($value === null) {
+        return $allowed[0];
+    }
 	
     $flag = in_array($value, $allowed, true);
 
