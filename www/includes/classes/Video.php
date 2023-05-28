@@ -31,7 +31,7 @@ class Video extends AContent implements IFile
      */
     public function deleteContent(): bool
     {
-        // TODO: Implement deleteContent() method.
+        return FileHandler::removeFile($this);
     }
 
     /**
@@ -40,5 +40,20 @@ class Video extends AContent implements IFile
     public function display(): string
     {
         return '<video id="' . $this->_slug . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls></video>';
+    }
+
+    public function displayLink(): string
+    {
+        return '<a href="' . URL . '/index.php?page=viewVideo&video=' . $this->_id . '">' . $this->getPreview() . '</a>';
+    }
+
+    public function getPreview(): string
+    {
+        $path = FileHandler::getPath($this) . '.png';
+        if (!file_exists(UPLOADS . $path)) {
+            $path = ThemeHandler::DefaultThemeURL . 'images/video-placeholder.png';
+        }
+
+        return '<img class="preview" src="' . UPLOADS_URL . $path . '"/>';
     }
 }

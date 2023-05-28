@@ -2,24 +2,22 @@
 
 require_once dirname(__DIR__, 3) . '/load.php';
 
-$type = EDataType::VIDEO->value;
-$status = $_GET['status'] ?? null;
-$orderBy = $_GET['orderBy'] ?? null;
-$orderDirection = isset($orderBy) ? switchOrderDirection($orderBy) : 'ASC';
-$limit = $_GET['limit'] ?? 25;
-$currentPage = $_GET['currentPage'] ?? 1;
-$searchFor = RString::EMPTY;
+Researcher::Instance()->setType(EDataType::VIDEO);
+Researcher::Instance()->setStatus(EDataStatus::PUBLISHED);
+Researcher::Instance()->setOrderBy("dateCreated_DESC");
 
-$pagination = new BlockPagination('videosPagination', RString::EMPTY, 'number of lines: ', $currentPage, ceil(AContent::getAmount($type) / $limit));
-//$pagination->addLimitButton(5);
-//$pagination->addLimitButton(15);
-//$pagination->addLimitButton(30);
+$pagination = new BlockPagination('contentPagination', RString::EMPTY, 'number of lines: ', Researcher::Instance()->getCurrentPage(), Researcher::Instance()->getTotalPages(), 'listFiles');
+$pagination->addLimitButton(5);
+$pagination->addLimitButton(20);
+$pagination->addLimitButton(100);
+$pagination->addLimitButton(150);
+$pagination->addLimitButton(200);
 
 $grid = new BlockGrid("registeredVideosGrid");
 
-foreach (AContent::getAll($type, $status, $orderBy, $limit, $currentPage, $searchFor) as $content) {
-    $grid->addElement('<div class="video"><a href="' . URL . '/index.php?page=viewVideo&video=' . $content->getId() . '"/><img src="' . UPLOADS_URL . 'preview.png' . '"><span class="videoName">' . $content->getName() . '</span></a></div>');
+foreach (AContent::getAll(Researcher::Instance()->getType(), Researcher::Instance()->getStatus(), Researcher::Instance()->getOrderBy(), Researcher::Instance()->getLimit(), Researcher::Instance()->getCurrentPage(), Researcher::Instance()->getSearchFor()) as $content) {
+    $grid->addContent('<div class="video">' . $content->displayLink() . '<span class="videoName">' . $content->getName() . '</span></a></div>');
 }
 
-$grid->display();
-$pagination->display();
+echo $pagination->display();
+echo $grid->display();

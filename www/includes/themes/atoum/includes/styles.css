@@ -121,17 +121,6 @@ td {
 }
 
 /*
- * Collapse
- */
-.collapse {
-    display: none;
-}
-
-.collapse.open {
-    display: block;
-}
-
-/*
  * Modal
  */
 .modal {
@@ -306,25 +295,30 @@ td {
     grid-template-columns: auto 33%;
     grid-template-rows: auto 33%;
     gap: var(--margin_base) var(--margin_base);
+    grid-auto-flow: row;
     grid-template-areas:
-    'video sideVideo'
-    'underVideo sideVideo';
+    "video sideVideo"
+    "underVideo sideVideo";
 }
 
-.layoutVideo .video {
-    grid-area: video;
+.sideVideo {
+    grid-area: sideVideo;
 }
 
-.layoutVideo .underVideo {
+.underVideo {
     grid-area: underVideo;
 }
 
-.layoutVideo .sideVideo {
-    grid-area: sideVideo;
+.video {
+    grid-area: video;
 }
 
 .layoutVideo .video > video {
     max-width: 360px;
+}
+
+.screenCanvas {
+    display: none;
 }
 
 /*
@@ -333,4 +327,25 @@ td {
 #uploadedFiles img,
 #uploadedFiles video {
     max-width: 360px;
+}
+
+/*
+ * Collapsible
+ */
+.collapsible > .content {
+    display: none;
+}
+
+.collapsible.open > .content {
+    display: block;
+}
+
+/*
+ * Chips
+ */
+.chip {
+    display: inline-block;
+    padding: calc(var(--margin_base) / 2);
+    border-radius: 5px;
+    border: 1px solid black;
 }

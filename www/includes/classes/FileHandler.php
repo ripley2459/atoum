@@ -20,6 +20,7 @@ class FileHandler
         if (is_null(self::$_instance)) {
             self::$_instance = new FileHandler();
         }
+
         return self::$_instance;
     }
 
@@ -114,7 +115,9 @@ class FileHandler
      */
     public static function checkPath(string $directory): void
     {
-        if (!is_dir($directory)) mkdir($directory, 0777, true);
+        if (!is_dir($directory)) {
+            mkdir($directory, 0777, true);
+        }
     }
 
     /**
@@ -158,5 +161,21 @@ class FileHandler
         }
 
         return $tryName;
+    }
+
+    /**
+     * Supprime (ou renome) le fichier du disque.
+     * @param IFile $file Le fichier sur le disque à supprimer
+     * @param bool $renameOnly Si vrai le fichier est renommé avec le prefix "DELETED_".
+     * @return bool
+     */
+    public static function removeFile(IFile $file, bool $renameOnly = true): bool
+    {
+        if ($renameOnly) {
+            $path = UPLOADS . '/' . $file->getUploadedDate()->format(self::DATE_FORMAT) . '/';
+            return rename($path . $file->getUploadName(), $path . 'DELETED_' . $file->getUploadName());
+        } else {
+            return unlink(self::getPath($file));
+        }
     }
 }

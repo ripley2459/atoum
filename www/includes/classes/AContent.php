@@ -149,8 +149,8 @@ abstract class AContent implements IData
     public static abstract function getType(): EDataType;
 
     /**
-     * @param int|null $type
-     * @param int|null $status
+     * @param EDataType|null $type
+     * @param EDataStatus|null $status
      * @param string|null $orderBy
      * @param int $limit
      * @param int|null $currentPage La page actuelle pour la pagination
@@ -158,7 +158,7 @@ abstract class AContent implements IData
      * @return AContent[]
      * @throws Exception
      */
-    public static function getAll(int $type = null, int $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY): array
+    public static function getAll(EDataType $type = null, EDataStatus $status = null, string $orderBy = null, int $limit = 100, int $currentPage = null, string $searchFor = RString::EMPTY): array
     {
         // TODO : créer un request builder, remplacer le $exclude par un INNER JOIN
         global $DDB;
@@ -175,12 +175,12 @@ abstract class AContent implements IData
                 }
 
                 if (isset($type)) {
-                    $s .= ' type = ' . whitelist($type, EDataType::values());
+                    $s .= ' type = ' . whitelist($type->value, EDataType::values());
                     if (isset($status)) $s .= ' AND';
                 }
 
                 if (isset($status)) {
-                    $s .= ' status = ' . whitelist($status, EDataStatus::values());
+                    $s .= ' status = ' . whitelist($status->value, EDataStatus::values());
                 }
             }
 
@@ -228,15 +228,14 @@ abstract class AContent implements IData
         return array();
     }
 
-    public static function getAmount(int $type = null): int
+    public static function getAmount(EDataType $type = null): int
     {
         global $DDB;
         if (self::checkTable()) {
             $s = 'SELECT COUNT(id) AS amount FROM ' . PREFIX . 'contents';
 
             if (isset($type)) {
-                $type = whitelist($type, EDataType::values());
-                $s .= ' WHERE type = ' . $type;
+                $s .= ' WHERE type = ' . whitelist($type->value, EDataType::values());
             }
 
             $r = $DDB->prepare($s);
@@ -254,6 +253,95 @@ abstract class AContent implements IData
         }
 
         return 0;
+    }
+
+    /**
+     * Donne un tableau d'objets d'un certain type étant lié avec cet objet par un type donné.
+     * @param EDataType $second Le d'objet réellement recherché
+     * @param EDataType $first Le type d'objet permettant de faire le lien
+     * @return AContent[]
+     */
+    public function getRelatedFrom(EDataType $second, EDataType $first): array
+    {
+        global $DDB;
+        if (self::checkTable() && Relation::checkTable()) {
+            $firstArray = $this->getRelated($first);
+            $in = RString::EMPTY;
+
+            if (count($firstArray) > 0) {
+                foreach ($firstArray as $elem) {
+                    $in .= strval($elem->getId()) . ',';
+                }
+
+                $in = substr($in, 0, -1);
+
+                $s = 'SELECT parent FROM ' . PREFIX . 'relations WHERE type = :type AND child IN (' . $in . ')';
+                $r = $DDB->prepare($s);
+
+                $r->bindValue(':type', Relation::getRelationType($first, $second), PDO::PARAM_INT);
+
+                try {
+                    $r->execute();
+
+                    $related = array();
+                    while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
+                        if ($d['parent'] != $this->_id) {
+                            $related[] = AContent::createInstance($second, $d['parent']);
+                        }
+                    }
+
+                    return $related;
+                } catch (PDOException $e) {
+                    Logger::logError($e->getMessage());
+                } catch (Exception $f) {
+                    Logger::logError($f->getMessage());
+                }
+            }
+        }
+
+        return array();
+    }
+
+    /**
+     * Donne un tableau d'objets d'un certain type étant lié avec cet objet.
+     * @param EDataType $type Le type d'objet recherché
+     * @return AContent[]
+     */
+    public function getRelated(EDataType $type, bool $sort = false): array
+    {
+        global $DDB;
+        if (self::checkTable() && Relation::checkTable()) {
+            $s = 'SELECT child FROM ' . PREFIX . 'relations WHERE type = :type AND parent = :parent';
+            $r = $DDB->prepare($s);
+
+            $relationType = Relation::getRelationType($type, $this->_type);
+
+            $r->bindValue(':type', $relationType, PDO::PARAM_INT);
+            $r->bindValue(':parent', $this->_id, PDO::PARAM_INT);
+
+            try {
+                $r->execute();
+
+                $related = array();
+                while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
+                    if ($d['child'] != $this->_id) {
+                        $related[] = self::createInstance($type, $d['child']);
+                    }
+                }
+
+                if ($sort) {
+                    sort($related);
+                }
+
+                return $related;
+            } catch (PDOException $e) {
+                Logger::logError($e->getMessage());
+            } catch (Exception $f) {
+                Logger::logError($f->getMessage());
+            }
+        }
+
+        return array();
     }
 
     /**
@@ -409,7 +497,6 @@ abstract class AContent implements IData
     public function unregister(): bool
     {
         global $DDB;
-
         if (self::checkTable()) {
             $s = 'DELETE FROM ' . PREFIX . 'contents WHERE id = :id';
             $r = $DDB->prepare($s);
@@ -429,6 +516,8 @@ abstract class AContent implements IData
                 } catch (PDOException $e) {
                     Logger::logError($e->getMessage());
                 }
+            } else {
+                Logger::logError('Associated files can\'t be deleted!');
             }
         }
 

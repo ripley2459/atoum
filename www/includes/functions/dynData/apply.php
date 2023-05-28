@@ -22,11 +22,12 @@ if (isset($_POST['sections'])) {
 
         Relation::purgeFor(Relation::getRelationType($type, $parent->getType()), $parent->getId());
 
-        $s = 'SELECT id FROM ' . PREFIX . 'contents WHERE name = :name';
+        $s = 'SELECT id FROM ' . PREFIX . 'contents WHERE name = :name AND type = :type';
         $r = $DDB->prepare($s);
 
         foreach (array_unique($_POST[$sectionName]) as $input) {
             $r->bindValue(':name', $input, PDO::PARAM_STR);
+            $r->bindValue(':type', $type->value, PDO::PARAM_STR);
             $r->execute();
 
             try {

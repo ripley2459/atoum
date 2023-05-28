@@ -31,6 +31,18 @@ class BlockSettings extends ABlock
     }
 
     /**
+     * Réservé aux vidéo
+     * @return void
+     */
+    public function screenshotButton(): void
+    {
+        if ($this->_content->getType() == EDataType::VIDEO) {
+            $this->_sections .= '<button type="button" onclick="takeScreenshot(\'' . $this->_content->getSlug() . '\', ' . $this->_content->getId() . ')">Capture</button>';
+            $this->_sections .= '<canvas id="' . $this->_content->getSlug() . 'Canvas" class="screenCanvas"></canvas>';
+        }
+    }
+
+    /**
      * Crée le nécessaire pour rechercher, ajouter et supprimer des éléments dynamiquement.
      * @param string $fieldName
      * @param EDataType $typeB
@@ -62,21 +74,14 @@ class BlockSettings extends ABlock
     private function createLiveInput(string $value, string $inputName): string
     {
         $slug = normalize($value);
-        return '<div id="' . $slug . 'DynInput" class="dynInput"><input id="' . $slug . 'Field" type="text" name="' . $inputName . '" value="' . $value . '"><button type="button" onclick="DynDataRemove(\'' . $slug . 'DynInput\')">x</button></div>';
+        return '<div id="' . $slug . 'DynInput" class="dynInput"><input id="' . $slug . 'Field" type="text" name="' . $inputName . '" value="' . $value . '" readonly><button type="button" onclick="DynDataRemove(\'' . $slug . 'DynInput\')">x</button></div>';
     }
 
     /**
      * @inheritDoc
      */
-    public function display(bool $echo = true): string
+    public function display(): string
     {
-        $r = '<div ' . $this->getSignature() . '><form id="DynDataForm' . $this->_content->getId() . '">' . $this->_sections . '<button type="button" onclick="DynDataSubmit(\'DynDataForm\', ' . $this->_content->getId() . ', ' . $this->_content->getType()->value . ', [\'' . RString::join('\',\'', $this->_dynInputs) . '\'])">Save</button></form></div>';
-
-        if ($echo) {
-            echo $r;
-            return RString::EMPTY;
-        }
-
-        return $r;
+        return '<div ' . $this->getSignature() . '><form id="DynDataForm' . $this->_content->getId() . '">' . $this->_sections . '<button type="button" onclick="DynDataSubmit(\'DynDataForm\', ' . $this->_content->getId() . ', ' . $this->_content->getType()->value . ', [\'' . RString::join('\',\'', $this->_dynInputs) . '\'])">Save</button></form></div>';
     }
 }

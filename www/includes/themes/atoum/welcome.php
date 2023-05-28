@@ -1,1 +1,1 @@
-<h1>Welcome to Atoum</h1>
+<h1>Welcome</h1>

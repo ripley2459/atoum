@@ -2,10 +2,8 @@
 
 class PageBuilder
 {
-    const ALLOWED_PAGES = ['welcome', 'home', 'viewGallery', 'viewVideo', 'galleries', 'videos'];
     private static ?PageBuilder $_instance = null;
     private string $_page;
-    private array $_scripts = array();
 
     private function __construct()
     {
@@ -20,21 +18,24 @@ class PageBuilder
         if (is_null(self::$_instance)) {
             self::$_instance = new PageBuilder();
         }
+
         return self::$_instance;
     }
 
     public function build(): void
     {
-        if (isset($_GET['page']) && in_array($_GET['page'], self::ALLOWED_PAGES, true)) {
+        if (isset($_GET['page']) && in_array($_GET['page'], ALLOWED_PAGES, true)) {
             $this->_page = $_GET['page'];
-            $this->head();
-            $this->header();
-            $this->body();
-            $this->footer();
+        } elseif (!isset($_GET['page'])) {
+            $this->_page = 'welcome';
         } else {
-            header('Location: ' . URL . '/index.php?page=' . self::ALLOWED_PAGES[0]);
-            die();
+            $this->_page = 'unknown';
         }
+
+        $this->head();
+        $this->header();
+        $this->body();
+        $this->footer();
     }
 
     /**
@@ -73,11 +74,6 @@ class PageBuilder
         include THEME . 'footer.php';
     }
 
-    public function isWelcome(): bool
-    {
-        return $this->_page === self::ALLOWED_PAGES[0];
-    }
-
     /**
      * Fonction pour inclure le morceau de page.
      * @return void Affiche directement le morceau de page.
@@ -85,22 +81,5 @@ class PageBuilder
     public function index(): void
     {
         include THEME . 'index.php';
-    }
-
-    public function injectScript(string $script): void
-    {
-        $this->_scripts[] = $script;
-    }
-
-    public function displayScripts(): void
-    {
-        if (count($this->_scripts) > 0) {
-            foreach ($this->_scripts as $script) {
-
-                echo '<script>';
-                echo $script;
-                echo '</script>';
-            }
-        }
     }
 }

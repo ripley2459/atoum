@@ -46,7 +46,9 @@ function toggleModal(id) {
  * Collapse
  */
 function toggleCollapse(id) {
-    document.getElementById(id).classList.toggle("open");
+    let elem = document.getElementById(id);
+    let content = elem.getElementsByClassName("content")[0];
+    elem.classList.toggle("open");
 }
 
 /**
@@ -257,6 +259,27 @@ const sendRequest = (url, callback = null) => {
 /*
  * Dyn data
  */
+const takeScreenshot = (fromVideo, videoId = null) => {
+    const video = document.getElementById(fromVideo);
+    const canvas = document.getElementById(fromVideo.concat("Canvas"));
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+    if (videoId === null) {
+        return;
+    }
+
+    const request = new XMLHttpRequest();
+    const formData = new FormData();
+    const url = new URL(window.location.origin.concat("/includes/functions/videos/createThumbnail.php"));
+    url.searchParams.set("videoId", videoId);
+    formData.set("image", canvas.toDataURL('image/png', 1));
+    request.open("POST", url);
+    request.send(formData);
+}
+
 const DynDataSearch = (input, type, field) => {
     const zone = document.getElementById(field.concat("DynDataResults"));
     if (input.value.length === 0) {
@@ -278,7 +301,7 @@ const DynDataAddOnClick = (input, type, field) => {
 }
 
 const DynDataAddOnHit = (input, type, field) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
         DynDataAdd(input, type, field);
     }
 }
@@ -288,18 +311,18 @@ const DynDataAdd = (input, type, field) => {
     let newDeleteButton, newField, newDiv;
 
     newDiv = document.createElement('div');
-    newDiv.id = input.replace(/ /g, "_").toLowerCase() + 'DynInput';
+    newDiv.id = input.replace(/ /g, "_").toLowerCase() + "DynInput";
     newDiv.classList.add("dynInput")
 
-    newField = document.createElement('input');
-    newField.type = 'text';
-    newField.id = input.replace(/ /g, "_").toLowerCase() + 'Field';
+    newField = document.createElement("input");
+    newField.type = "text";
+    newField.id = input.replace(/ /g, "_").toLowerCase() + "Field";
     newField.setAttribute("value", input); // Bugged ?
     newField.name = field;
 
-    newDeleteButton = document.createElement('button');
-    newDeleteButton.innerHTML = 'x';
-    newDeleteButton.type = 'button';
+    newDeleteButton = document.createElement("button");
+    newDeleteButton.innerHTML = "x";
+    newDeleteButton.type = "button";
     newDeleteButton.onclick = function () {
         document.getElementById(newDiv.id).remove();
     };
@@ -323,8 +346,6 @@ const DynDataSubmit = (formId, dataId, type, sections) => {
     formData.append("type", type);
     formData.set("name", form.elements["name"].value);
 
-    console.log(sections);
-
     sections.forEach(s => {
         if (typeof form.elements[s] !== 'undefined') {
             formData.append("sections[]", s);
@@ -333,8 +354,8 @@ const DynDataSubmit = (formId, dataId, type, sections) => {
     })
 
     request.onload = function () {
-         document.getElementById('DynDataForm'.concat(dataId)).innerHTML = this.responseText;
-       // window.location.reload();
+        document.getElementById("DynDataForm".concat(dataId)).innerHTML = this.responseText;
+        window.location.reload();
     }
 
     request.open("POST", url);
