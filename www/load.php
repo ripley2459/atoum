@@ -33,6 +33,7 @@ require_once CLASSES . 'ABlock.php';
 require_once CLASSES . 'ABlockContainer.php';
 require_once CLASSES . 'AContent.php';
 require_once CLASSES . 'Actor.php';
+require_once CLASSES . 'BlockReseacher.php';
 require_once CLASSES . 'BlockSettings.php';
 require_once CLASSES . 'Comment.php';
 require_once CLASSES . 'EDataStatus.php';
