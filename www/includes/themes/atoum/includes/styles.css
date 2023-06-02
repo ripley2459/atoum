@@ -396,3 +396,27 @@ td {
 	border-color: black;
 	color: black;
 }
+
+/*
+ * To top
+ */
+#toTop {
+    display: none;
+    position: fixed;
+    bottom: var(--margin_base);
+    right: var(--margin_base);
+    z-index: 99;
+    font-size: 17px;
+    outline: none;
+    background-color: var(--color-nav);
+    color: var(--color-background);
+    border: 2px solid white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+#toTop:hover {
+    border-color: black;
+    color: black;
+}
