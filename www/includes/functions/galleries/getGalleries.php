@@ -16,7 +16,7 @@ $grid = new BlockGrid("registeredGalleriesGrid");
 $pagination->display();
 
 foreach (AContent::getAll(Researcher::Instance()->getType(), Researcher::Instance()->getStatus(), Researcher::Instance()->getOrderBy(), Researcher::Instance()->getLimit(), Researcher::Instance()->getCurrentPage(), Researcher::Instance()->getSearchFor()) as $content) {
-    $grid->addContent('<a href="' . URL . '/settings/index.php?page=editorGallery&gallery=' . $content->getId() . '"/>' . $content->getName() . '</a>');
+    $grid->addContent('<a href="' . URL . '/settings/index.php?page=gallery&gallery=' . $content->getId() . '"/>' . $content->getName() . '</a>');
 }
 
 echo $grid->display();
