@@ -29,7 +29,6 @@ function nullOrEmpty(string $string): bool
     return ($string === null || trim($string) === '');
 }
 
-
 /**
  * Vérifie si une valeur est dans un ensemble. Si oui, retourne cette valeur, sinon, crée une erreur.
  * @param $value
