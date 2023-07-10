@@ -382,3 +382,21 @@ const DynDataSubmit = (formId, dataId, type, sections) => {
     request.open("POST", url);
     request.send(formData);
 }
+
+const listData = () => {
+    const request = new XMLHttpRequest();
+    const params = new URLSearchParams(new URL(document.URL).toString());
+    let from = new URL(window.location.origin.concat("uploads/getData.php"));
+
+    bindPagination(params, from);
+
+    request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 200) {
+            uploadedFiles.innerHTML = request.responseText;
+        }
+    };
+
+    request.open("GET", from);
+    request.send();
+    uploadedFiles.innerHTML = `<?= spinner0() ?>`;
+}

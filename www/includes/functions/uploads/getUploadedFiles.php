@@ -4,10 +4,9 @@ require_once dirname(__DIR__, 3) . '/load.php';
 
 $pagination = new BlockPagination('contentPagination', RString::EMPTY, 'number of lines: ', Researcher::Instance()->getCurrentPage(), Researcher::Instance()->getTotalPages(), 'listFiles');
 $pagination->addLimitButton(5);
+$pagination->addLimitButton(10);
 $pagination->addLimitButton(20);
-$pagination->addLimitButton(100);
-$pagination->addLimitButton(150);
-$pagination->addLimitButton(200);
+$pagination->addLimitButton(50);
 
 ?>
 
