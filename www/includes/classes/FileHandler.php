@@ -5,24 +5,6 @@ class FileHandler
     const DATE_FORMAT = 'Y/m/d';
     const DATE_FORMAT_LONG = 'Y-m-d\TH:i';
     const ALLOWED_TYPES = ['image/giff', 'image/gif', 'image/jpeg', 'image/png', 'video/mp4', 'video/ogg'];
-    private static ?FileHandler $_instance = null;
-
-    private function __construct()
-    {
-    }
-
-    /**
-     * Singleton.
-     * @return FileHandler
-     */
-    public static function Instance(): FileHandler
-    {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new FileHandler();
-        }
-
-        return self::$_instance;
-    }
 
     /**
      * Donne l'url du fichier fourni, sinon l'url par défaut du dossier d'envois.
@@ -31,7 +13,7 @@ class FileHandler
      */
     public static function getUrl(IFile $file = null): string
     {
-        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' : UPLOADS_URL . self::getDefaultPath() . '/';
+        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' : UPLOADS_URL . self::getDate() . '/';
     }
 
     /**
@@ -39,64 +21,9 @@ class FileHandler
      * Donne quelque chose comme "2023/01/21"
      * @return string
      */
-    private static function getDefaultPath(): string
+    private static function getDate(): string
     {
         return date(self::DATE_FORMAT);
-    }
-
-    /**
-     * Télécharge les fichiers sur le serveur et les enregistre dans la base de données.
-     * @param array $files
-     * @return bool Vrai si et seulement tous les fichiers ont pu être envoyés sans erreurs.
-     * @throws Exception Dans le cas où le type n'est pas supporté
-     * @deprecated Utiliser la fonction éponyme.
-     */
-    public static function uploadFiles(array $files): bool
-    {
-        $fileAmount = count($_FILES['files']['name']);
-        Logger::logInfo('Uploading ' . $fileAmount . ' file(s)');
-        // Réorganise les fichiers pour être utilisables plus facilement.
-        $bucket = [];
-        $filesKeys = array_keys($files);
-        for ($i = 0; $i < $fileAmount; $i++) {
-            foreach ($filesKeys as $key) {
-                $bucket[$i][$key] = $files[$key][$i];
-            }
-        }
-
-        foreach ($bucket as $file) {
-            Logger::logInfo('Uploading file: ' . $file['name']);
-            if (!empty($file['tmp_name'])) {
-                if (true) { // todo Vérifier la taille du fichier
-                    $mimeType = mime_content_type($file['tmp_name']);
-                    if (in_array($mimeType, self::ALLOWED_TYPES)) {
-                        self::checkDefaultPath();
-                        $path = self::getPathForFile($file['name']);
-                        if (!file_exists($path)) {
-                            if (move_uploaded_file($file['tmp_name'], $path)) {
-                                $instance = AContent::createInstance(EDataType::fromMime($mimeType));
-                                if ($instance->registerInstance(0,
-                                    EDataType::fromMime($mimeType),
-                                    EDataStatus::PUBLISHED,
-                                    0,
-                                    lightNormalize($file['name']),
-                                    $file['name'],
-                                    'null',
-                                    0)
-                                ) {
-                                    Logger::logInfo($file['name'] . ' has been registered in the database');
-                                }
-                            } else {
-                                unlink($file['tmp_name']);
-                                Logger::logError('Can\'t move the file to its destination');
-                            }
-                        } else Logger::logError('A file with that name already exist');
-                    } else Logger::logError('This type of file is not allowed');
-                }
-            } else Logger::logError('File is empty');
-        }
-
-        return false;
     }
 
     /**
@@ -127,7 +54,7 @@ class FileHandler
      */
     public static function getPath(IFile $file = null): string
     {
-        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' . $file->getUploadName() : UPLOADS . self::getDefaultPath() . '/';
+        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' . $file->getUploadName() : UPLOADS . self::getDate() . '/';
     }
 
     /**
@@ -138,7 +65,7 @@ class FileHandler
      */
     public static function getPathForFile(string $file): string
     {
-        return self::getPath() . lightNormalize($file);
+        return self::getPath() . R::sanitize($file);
     }
 
 

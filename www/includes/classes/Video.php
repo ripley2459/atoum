@@ -1,13 +1,13 @@
 <?php
 
-class Video extends AContent implements IFile
+class Video extends Content implements IFile
 {
     /**
      * @inheritDoc
      */
-    public static function getType(): EDataType
+    public function getUploadedDate(): DateTime
     {
-        return EDataType::VIDEO;
+        return $this->getDateCreated();
     }
 
     /**
@@ -21,39 +21,36 @@ class Video extends AContent implements IFile
     /**
      * @inheritDoc
      */
-    public function getUploadedDate(): DateTime
-    {
-        return $this->getDateCreated();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function deleteContent(): bool
     {
         return FileHandler::removeFile($this);
     }
 
-    /**
-     * @inheritDoc
-     */
+    #[\Override]
     public function display(): string
     {
-        return '<video id="' . $this->_slug . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls></video>';
+        return '<a href="' . URL . '/index.php?page=video&id=' . $this->_id . '">' . $this->getPoster() . '</a>';
     }
 
-    public function displayLink(): string
-    {
-        return '<a href="' . URL . '/index.php?page=video&video=' . $this->_id . '">' . $this->getPreview() . '</a>';
-    }
-
-    public function getPreview(): string
+    /**
+     * Donne du code HTML pour afficher l'image de preview de la video ou l'image par défaut.
+     * @param bool $inVideo true pour avoir "poster=link"
+     * @return string
+     */
+    public function getPoster(bool $inVideo = false): string
     {
         $path = FileHandler::getPath($this) . '.png';
-        if (!file_exists(UPLOADS . $path)) {
-            $path = ThemeHandler::DefaultThemeURL . 'images/video-placeholder.png';
-        }
+        $path = file_exists(UPLOADS . $path) ? UPLOADS_URL . $path : URL . '/content/themes/video-placeholder.png';
+        if ($inVideo) return 'poster="' . $path . '"';
+        return '<img class="preview" src="' . $path . '"/>';
+    }
 
-        return '<img class="preview" src="' . UPLOADS_URL . $path . '"/>';
+    /**
+     * Donne du code HTML pour avoir un lecteur vidéo permettant de lire cette video.
+     * @return string
+     */
+    public function player(): string
+    {
+        return '<video id="' . $this->_slug . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls ' . $this->getPoster(true) . '></video>';
     }
 }

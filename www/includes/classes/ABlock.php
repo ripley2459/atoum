@@ -5,34 +5,27 @@ abstract class ABlock
     protected string $_id;
     protected string $_classes;
 
-    public function __construct(string $id = RString::EMPTY, string $classes = RString::EMPTY)
+    public function __construct(string $id = R::EMPTY, string $classes = R::EMPTY)
     {
         $this->_id = $id;
         $this->_classes = $classes;
     }
 
     /**
-     * Donne le code HTML pour afficher ce block.
+     * Affiche ce widget.
      * @return string
      */
     public abstract function display(): string;
 
     /**
-     * La signature correspond à l'ensemble 'id="..." class="... ..."'.
+     * Donne l'id et les classes de ce widget utilisable dans une balise HTML.
      * @return string
      */
-    protected function getSignature(): string
+    protected function signature(): string
     {
-        $r = RString::EMPTY;
-
-        if (!nullOrEmpty($this->_id)) {
-            $r .= 'id="' . $this->_id . '"';
-        }
-
-        if (!nullOrEmpty($this->_classes)) {
-            $r .= 'class="' . $this->_classes . '"';
-        }
-
+        $r = R::EMPTY;
+        if (!R::nullOrEmpty($this->_id)) $r .= 'id="' . $this->_id . '"';
+        if (!R::nullOrEmpty($this->_classes)) $r .= 'class="' . $this->_classes . '"';
         return $r;
     }
 }

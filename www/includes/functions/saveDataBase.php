@@ -10,7 +10,7 @@ $path = CONTENT . 'backups/';
 $file = $path . 'save_' . DBNAME . '_' . date('Y-m-d-H-i-s') . '.sql';
 FileHandler::checkPath($path);
 
-$mysqldump = 'C:\wamp64\bin\mysql\mysql8.0.31\bin' . '\mysqldump';
+$mysqldump = MY_SQL_PATH;
 $database = DBNAME;
 $user = USER;
 $pass = PASSWORD;

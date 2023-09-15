@@ -12,63 +12,37 @@ if (file_exists(__DIR__ . '/settings.php')) {
         throw new PDOException($e->getMessage(), (int)$e->getCode());
     }
 } else {
-    header('Location: ' . URL . '/settings/install.php');
+    echo '<h1>Unable to reach website\'s settings!</h1>';
     die;
 }
 
 const DIR = __DIR__;
-const SETTINGS = DIR . '/settings/';
-const INCLUDES = DIR . '/includes/';
 const CONTENT = DIR . '/content/';
+const INCLUDES = DIR . '/includes/';
 const CLASSES = INCLUDES . 'classes/';
-const FUNCTIONS_URL = URL . '/includes/functions/';
+const PAGES = DIR . '/content/pages/';
 const UPLOADS = CONTENT . 'uploads/';
 const UPLOADS_URL = URL . '/content/uploads/';
 
-require_once INCLUDES . 'functions.php';
+require_once CLASSES . 'R.php';
+require_once CLASSES . 'Logger.php';
+require_once CLASSES . 'Builder.php';
+require_once CLASSES . 'Request.php';
+require_once CLASSES . 'FileHandler.php';
+require_once CLASSES . 'Blocks.php';
+require_once CLASSES . 'ABlock.php';
+require_once CLASSES . 'ABlockContainer.php';
+require_once CLASSES . 'BlockTable.php';
+require_once CLASSES . 'BlockGallery.php';
 
 require_once CLASSES . 'IData.php';
 require_once CLASSES . 'IFile.php';
-require_once CLASSES . 'ABlock.php';
-require_once CLASSES . 'ABlockContainer.php';
-require_once CLASSES . 'AContent.php';
-require_once CLASSES . 'Actor.php';
-require_once CLASSES . 'BlockSettings.php';
-require_once CLASSES . 'Comment.php';
-require_once CLASSES . 'EDataStatus.php';
 require_once CLASSES . 'EDataType.php';
-require_once CLASSES . 'FileHandler.php';
-require_once CLASSES . 'Gallery.php';
-require_once CLASSES . 'Image.php';
-require_once CLASSES . 'Logger.php';
-require_once CLASSES . 'Page.php';
-require_once CLASSES . 'PageBuilder.php';
-require_once CLASSES . 'Playlist.php';
-require_once CLASSES . 'RString.php';
+require_once CLASSES . 'EDataStatus.php';
 require_once CLASSES . 'Relation.php';
-require_once CLASSES . 'Researcher.php';
-require_once CLASSES . 'Setting.php';
-require_once CLASSES . 'SettingsPageBuilder.php';
-require_once CLASSES . 'Tag.php';
-require_once CLASSES . 'ThemeHandler.php';
-require_once CLASSES . 'User.php';
+require_once CLASSES . 'Content.php';
+require_once CLASSES . 'Image.php';
 require_once CLASSES . 'Video.php';
 
-define('THEME', ThemeHandler::Instance()->getThemePath());
-define('THEME_URL', ThemeHandler::Instance()->getThemeURL());
-
-require_once THEME . 'load.php';
-require_once THEME . 'includes/functions.php';
-
-const BLOCKS = [
-    'blocks',
-    'BlockGrid',
-    'BlockModal',
-    'BlockPagination',
-    'BlockGallery',
-    'BlockCollapsible'
-];
-
-foreach (BLOCKS as $block) {
-    require_once file_exists(THEME . 'includes/blocks/' . $block . '.php') ? THEME . 'includes/blocks/' . $block . '.php' : ThemeHandler::DefaultThemePath . 'includes/blocks/' . $block . '.php';
-}
+Content::checkTable();
+Relation::checkTable();

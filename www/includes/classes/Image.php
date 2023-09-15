@@ -1,15 +1,7 @@
 <?php
 
-class Image extends AContent implements IFile
+class Image extends Content implements IFile
 {
-    /**
-     * @inheritDoc
-     */
-    public static function getType(): EDataType
-    {
-        return EDataType::IMAGE;
-    }
-
     /**
      * @inheritDoc
      */
@@ -21,17 +13,17 @@ class Image extends AContent implements IFile
     /**
      * @inheritDoc
      */
-    public function deleteContent(): bool
+    public function getUploadName(): string
     {
-        FileHandler::removeFile($this);
+        return $this->_slug;
     }
 
     /**
      * @inheritDoc
      */
-    public function getUploadName(): string
+    public function deleteContent(): bool
     {
-        return $this->_slug;
+        FileHandler::removeFile($this);
     }
 
     /**

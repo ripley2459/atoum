@@ -1,7 +1,14 @@
 <?php
 
+/**
+ * La classe Relation représente un lien entre deux EDataType.
+ * Stocké sous forme de int unsigned dans la base de données, une relation est construite comme suit:
+ * RELATION_FACTOR * CHILD_TYPE + PARENT_TYPE.
+ * A est lié à B si et seulement si un ligne existe contenant child=A->ID & parent=B->ID.
+ */
 class Relation implements IData
 {
+    public const COLUMNS = ['id', 'type', 'child', 'parent', 'dateCreated'];
     private const RELATION_FACTOR = 1000;
     private int $_id;
     private int $_type;
@@ -9,68 +16,26 @@ class Relation implements IData
     private int $_parent;
     private string $_dateCreated;
 
-    /**
-     * @param int|null $id
-     */
     public function __construct(int $id = null)
     {
         if (isset($id)) {
-            if (self::checkTable()) {
-                global $DDB;
-                $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE id = :id LIMIT 1';
-                $r = $DDB->prepare($s);
-                $r->bindValue(':id', $id, PDO::PARAM_INT);
+            global $DDB;
 
-                try {
-                    $r->execute();
-                    $d = $r->fetch();
-
-                    $this->_id = $d['id'];
-                    $this->_type = $d['type'];
-                    $this->_child = $d['child'];
-                    $this->_parent = $d['parent'];
-                    $this->_dateCreated = $d['dateCreated'];
-                } catch (PDOException $e) {
-                    Logger::logError($e->getMessage());
-                }
-            }
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function checkTable(): bool
-    {
-        global $DDB;
-        $s = 'SHOW TABLES LIKE \'' . PREFIX . 'relations\'';
-        $r = $DDB->prepare($s);
-
-        try {
-            $r->execute();
-        } catch (PDOException $e) {
-            Logger::logError($e->getMessage());
-            return false;
-        }
-
-        if ($r->rowCount() > 0) {
-            return true;
-        } else {
-            $s = 'CREATE TABLE ' . PREFIX . 'relations (
-                id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                type BIGINT(20) UNSIGNED NOT NULl,
-                child BIGINT(20) UNSIGNED NOT NULl,
-                parent BIGINT(20) UNSIGNED NOT NULl,
-                dateCreated DATETIME default CURRENT_TIMESTAMP
-            )';
+            $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE id = :id LIMIT 1';
             $r = $DDB->prepare($s);
+            $r->bindValue(':id', $id, PDO::PARAM_INT);
 
             try {
                 $r->execute();
-                return true;
+                $d = $r->fetch();
+                $this->_id = $d['id'];
+                $this->_type = $d['type'];
+                $this->_child = $d['child'];
+                $this->_parent = $d['parent'];
+                $this->_dateCreated = $d['dateCreated'];
+                $r->closeCursor();
             } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
-                return false;
+                throw new PDOException($e->getMessage());
             }
         }
     }
@@ -107,49 +72,20 @@ class Relation implements IData
 
     public static function relationExists(int $type, int $child, int $parent): bool
     {
-        if (self::checkTable()) {
-            global $DDB;
-            $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent';
-            $r = $DDB->prepare($s);
+        global $DDB;
 
-            $r->bindValue(':type', $type, PDO::PARAM_INT);
-            $r->bindValue(':child', $child, PDO::PARAM_INT);
-            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
+        $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent';
+        $r = $DDB->prepare($s);
 
-            try {
-                $r->execute();
-                $d = $r->rowCount();
-                $r->closeCursor();
-                return $d > 0;
-            } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
-            }
+        $r->bindValue(':type', $type, PDO::PARAM_INT);
+        $r->bindValue(':child', $child, PDO::PARAM_INT);
+        $r->bindValue(':parent', $parent, PDO::PARAM_INT);
+
+        try {
+            return $r->execute() && $r->rowCount() > 0 && $r->closeCursor();
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage());
         }
-
-        return false;
-    }
-
-    public static function getRelation(int $type, int $child, int $parent): Relation
-    {
-        if (self::checkTable()) {
-            global $DDB;
-            $s = 'SELECT id FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent LIMIT 1';
-            $r = $DDB->prepare($s);
-
-            $r->bindValue(':type', $type, PDO::PARAM_INT);
-            $r->bindValue(':child', $child, PDO::PARAM_INT);
-            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
-
-            try {
-                $r->execute();
-                $d = $r->fetch(PDO::FETCH_ASSOC);
-                return new Relation($d['id']);
-            } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
-            }
-        }
-
-        return new Relation();
     }
 
     /**
@@ -173,53 +109,47 @@ class Relation implements IData
      * @param int $parent
      * @param bool $asRelation
      * @param bool $invert Pour ne prendre que les éléments non liés au parent donné.
-     * @return AContent[]
+     * @return Content[]|Relation[]
      * @throws Exception
      */
     public static function getChildren(int $relationType, int $parent, bool $asRelation = false, bool $invert = false): array
     {
-        if (self::checkTable()) {
-            global $DDB;
-            $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND parent ' . ($invert ? '<>' : '=') . ' :parent';
-            $r = $DDB->prepare($s);
+        global $DDB;
 
-            $r->bindValue(':type', $relationType, PDO::PARAM_INT);
-            $r->bindValue(':parent', $parent, PDO::PARAM_INT);
+        $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND parent ' . ($invert ? '<>' : '=') . ' :parent';
+        $r = $DDB->prepare($s);
 
-            try {
-                $r->execute();
+        $r->bindValue(':type', $relationType, PDO::PARAM_INT);
+        $r->bindValue(':parent', $parent, PDO::PARAM_INT);
 
-                $children = array();
+        try {
+            $r->execute();
+            $children = array();
 
-                while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
-                    if ($asRelation) {
-                        $newRelation = new Relation($d['id']);
-                        $children[] = $newRelation;
-                    } else {
-                        $newContent = AContent::createInstance(self::getElementsTypes($relationType)[0], $d['child']);
-                        $children[] = $newContent;
-                    }
+            while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
+                if ($asRelation) {
+                    $newRelation = new Relation($d['id']);
+                    $children[] = $newRelation;
+                } else {
+                    $newContent = Content::get($d['child'], self::getTypesFromRelation($relationType)[0]);
+                    $children[] = $newContent;
                 }
-
-                $r->closeCursor();
-                return $children;
-            } catch (PDOException $e) {
-                // Logger::logError($e->getMessage());
-                return array();
             }
-        }
 
-        return array();
+            $r->closeCursor();
+            return $children;
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage());
+        }
     }
 
     /**
      * @param int $type
      * @return EDataType[]
      */
-    public static function getElementsTypes(int $type): array
+    public static function getTypesFromRelation(int $type): array
     {
         if (is_int($type / self::RELATION_FACTOR)) {
-
             $t = array();
             $t[0] = EDataType::from($type / self::RELATION_FACTOR);
             $t[1] = EDataType::from(0);
@@ -238,23 +168,15 @@ class Relation implements IData
     public function unregister(): bool
     {
         global $DDB;
+        $s = 'DELETE FROM ' . PREFIX . 'relations WHERE id = :id';
+        $r = $DDB->prepare($s);
+        $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
 
-        if (self::checkTable()) {
-            $s = 'DELETE FROM ' . PREFIX . 'relations WHERE id = :id';
-            $r = $DDB->prepare($s);
-
-            $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
-
-            try {
-                $r->execute();
-                $r->closeCursor();
-                return true;
-            } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
-            }
+        try {
+            return $r->execute() && $r->closeCursor();
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage());
         }
-
-        return false;
     }
 
     /**
@@ -264,48 +186,73 @@ class Relation implements IData
      * @param int $parent
      * @return bool Si l'instance a été enregistrée avec succès
      */
-    public function registerInstance(int $type, int $child, int $parent): bool
+    public static function insert(int $type, int $child, int $parent): bool
     {
-        $this->_type = $type;
-        $this->_child = $child;
-        $this->_parent = $parent;
-
-        return $this->register();
+        $args = array();
+        $args['type'] = $type;
+        $args['child'] = $child;
+        $args['parent'] = $parent;
+        return self::register($args);
     }
 
     /**
+     * @param array $args
      * @inheritDoc
      */
-    public function register(): bool
+    public static function register(array $args): bool
     {
         global $DDB;
 
-        if (self::checkTable()) {
-            $s = 'INSERT INTO ' . PREFIX . 'relations SET type = :type, child = :child, parent = :parent';
-            $r = $DDB->prepare($s);
+        $s = 'INSERT INTO ' . PREFIX . 'relations SET type = :type, child = :child, parent = :parent';
+        $r = $DDB->prepare($s);
 
-            $r->bindValue(':type', $this->_type, PDO::PARAM_INT);
-            $r->bindValue(':child', $this->_child, PDO::PARAM_INT);
-            $r->bindValue(':parent', $this->_parent, PDO::PARAM_INT);
+        $r->bindValue(':type', $args['type'], PDO::PARAM_INT);
+        $r->bindValue(':child', $args['child'], PDO::PARAM_INT);
+        $r->bindValue(':parent', $args['parent'], PDO::PARAM_INT);
 
-            try {
-                $r->execute();
-                return true;
-            } catch (PDOException $e) {
-                Logger::logError($e->getMessage());
-                return false;
-            }
+        try {
+            return $r->execute() && $r->closeCursor();
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage());
         }
-
-        return false;
     }
 
     /**
      * @inheritDoc
      */
-    public function save(): bool
+    public static function checkTable(): bool
     {
-        Logger::logError('Irrelevant to save a relation'); // todo
+        global $DDB;
+
+        $s = 'SHOW TABLES LIKE \'' . PREFIX . 'relations\'';
+        $r = $DDB->prepare($s);
+
+        try {
+            $r->execute();
+            if ($r->rowCount() > 0) {
+                return $r->closecursor();
+            } else {
+                $s = 'CREATE TABLE ' . PREFIX . 'relations (
+                    id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    type BIGINT(20) UNSIGNED NOT NULl,
+                    child BIGINT(20) UNSIGNED NOT NULl,
+                    parent BIGINT(20) UNSIGNED NOT NULl,
+                    dateCreated DATETIME default CURRENT_TIMESTAMP
+                )';
+
+                return $DDB->prepare($s)->execute();
+            }
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage());
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(): bool
+    {
+        Logger::logError('Irrelevant to save a relation');
         return false;
     }
 }

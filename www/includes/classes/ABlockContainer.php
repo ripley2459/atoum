@@ -2,27 +2,12 @@
 
 abstract class ABlockContainer extends ABlock
 {
-    protected string $_content = RString::EMPTY;
+    protected string $_content = R::EMPTY;
 
-    /**
-     * @param string $id
-     * @param string $classes
-     * @param string $content
-     */
-    public function __construct(string $id = RString::EMPTY, string $classes = RString::EMPTY, string $content = RString::EMPTY)
+    public function __construct(string $id = R::EMPTY, string $classes = R::EMPTY, string $content = R::EMPTY)
     {
         parent::__construct($id, $classes);
-        RString::concat($this->_classes, RString::SPACE, 'container');
+        R::append($this->_classes, R::SPACE, 'container');
         $this->_content = $content;
-    }
-
-    /**
-     * Ajoute à la chaîne de caractère déjà présente la chaîne de caractères donnée.
-     * @param string $newContent
-     * @return void
-     */
-    public function addContent(string $newContent): void
-    {
-        RString::concat($this->_content, RString::EMPTY, $newContent);
     }
 }

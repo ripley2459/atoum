@@ -32,7 +32,7 @@ enum EDataType: int
             }
         }
 
-        throw new Exception('Can\'t get the EDataType of this type');
+        throw new Exception('Can\'t get the EDataType of this type: ' . $value);
     }
 
     public static function names(): array
