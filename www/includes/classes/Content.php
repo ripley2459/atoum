@@ -154,6 +154,14 @@ class Content implements IData
     }
 
     /**
+     * @return EDataType
+     */
+    public function getType(): EDataType
+    {
+        return $this->_type;
+    }
+
+    /**
      * @inheritDoc
      */
     public function unregister(): bool
@@ -177,9 +185,11 @@ class Content implements IData
     /**
      * @inheritDoc
      */
-    public function update(): bool
+    public function update(array $args): bool
     {
         global $DDB;
+
+        $this->_name = $args['name'] ?? $this->_name;
 
         $s = 'UPDATE ' . PREFIX . 'contents SET owner = :owner, type = :type, status = :status, views = :views, slug = :slug, name = :name, content = :content, parent = :parent WHERE id = :id';
         $r = $DDB->prepare($s);
@@ -265,14 +275,6 @@ class Content implements IData
     public function getOwner(): int
     {
         return $this->_owner;
-    }
-
-    /**
-     * @return EDataType
-     */
-    public function getType(): EDataType
-    {
-        return $this->_type;
     }
 
     /**

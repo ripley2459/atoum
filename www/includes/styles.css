@@ -214,3 +214,11 @@ td:first-child {
     border-radius: 4px;
     border: 1px solid #bbb;
 }
+
+/**
+ * Accordion
+ */
+.accordion.panel {
+    max-height: 0;
+    overflow: hidden;
+}

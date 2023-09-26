@@ -50,6 +50,8 @@ $content = Content::get($_GET['id'], $content->getType());
             </div>
         </div>
 
+        <div id="feedbacks"></div>
+
         <?php if ($content->getType() == EDataType::GALLERY) { ?>
 
             <div class="row">

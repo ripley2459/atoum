@@ -8,7 +8,6 @@ $relatedVideosByActors = R::EMPTY;
 $rrr = $video->getRelatedFrom(EDataType::VIDEO, EDataType::ACTOR);
 shuffle($rrr);
 $rrr = array_splice($rrr, 0, 16);
-var_dump($rrr);
 foreach ($rrr as $related) {
     $relatedVideosByActors .= '<div>' . $related->display() . '</div>';
 }

@@ -58,4 +58,9 @@ class Blocks
     {
         return $dateTime->format('d M Y H:i');
     }
+
+    public static function accordion(string $id, string $title, string $content, string $classes = R::EMPTY): string
+    {
+        return '<button id="' . $id . '-button" onclick="accordion(\'' . $id . '\')" class="accordion button">' . $title . '</button><div id="' . $id . '-panel" class="accordion panel">' . $content . '</div>';
+    }
 }

@@ -5,28 +5,14 @@ class Video extends Content implements IFile
     /**
      * @inheritDoc
      */
-    public function getUploadedDate(): DateTime
-    {
-        return $this->getDateCreated();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getUploadName(): string
-    {
-        return $this->_slug;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function deleteContent(): bool
     {
         return FileHandler::removeFile($this);
     }
 
-    #[\Override]
+    /**
+     * @inheritDoc
+     */
     public function display(): string
     {
         return '<a href="' . URL . '/index.php?page=video&id=' . $this->_id . '">' . $this->getPoster() . '</a>';
@@ -39,10 +25,14 @@ class Video extends Content implements IFile
      */
     public function getPoster(bool $inVideo = false): string
     {
-        $path = FileHandler::getPath($this) . '.png';
-        $path = file_exists(UPLOADS . $path) ? UPLOADS_URL . $path : URL . '/content/themes/video-placeholder.png';
-        if ($inVideo) return 'poster="' . $path . '"';
-        return '<img class="preview" src="' . $path . '"/>';
+        $path = $this->hasPoster() ? UPLOADS_URL . FileHandler::getPath($this) . '.png' : URL . '/content/themes/video-placeholder.png';
+        return $inVideo ? 'poster="' . $path . '"' : '<img class="preview" src="' . $path . '"/>';
+    }
+
+    public function hasPoster(): bool
+    {
+        $flag = file_exists(UPLOADS . FileHandler::getPath($this) . '.png');
+        return $flag;
     }
 
     /**
@@ -52,5 +42,40 @@ class Video extends Content implements IFile
     public function player(): string
     {
         return '<video id="' . $this->_slug . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls ' . $this->getPoster(true) . '></video>';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(array $args): bool
+    {
+        $infos = pathinfo($this->_slug);
+        $before = UPLOADS . FileHandler::getPath($this);
+        $this->_slug = R::sanitize($args['name'] ?? $this->_name) . '.' . $infos['extension'];
+        $flag = parent::update($args);
+
+        if ($flag) {
+            $after = UPLOADS . FileHandler::getPath($this);
+            $flag = rename($before, $after);
+            rename($before . '.png', $after . '.png');
+        }
+
+        return $flag;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUploadedDate(): DateTime
+    {
+        return $this->getDateCreated();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUploadName(): string
+    {
+        return $this->_slug;
     }
 }

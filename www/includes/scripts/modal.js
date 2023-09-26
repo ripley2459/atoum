@@ -84,6 +84,12 @@ function applyEdit(sections) {
         });
     })
 
+    request.onreadystatechange = () => {
+        if (request.readyState === 4 && request.status === 200) {
+            document.getElementById("feedbacks").innerHTML = request.responseText;
+        }
+    };
+
     request.open("POST", destination);
     request.send(formData);
 }

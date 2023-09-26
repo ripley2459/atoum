@@ -18,7 +18,7 @@ if (!empty($blob)) {
         $_SESSION['frag']++;
 
         if ($_SESSION['frag'] >= $totalChunk) {
-            $finalFile = FileHandler::getPathForFile($finalName);
+            $finalFile = FileHandler::createPath($finalName);
 
             for ($x = 1; $x <= $_SESSION['frag']; $x++) {
                 $tBlob = UPLOADS . $finalName . '_part' . $x;

@@ -250,7 +250,7 @@ class Relation implements IData
     /**
      * @inheritDoc
      */
-    public function update(): bool
+    public function update(array $args): bool
     {
         Logger::logError('Irrelevant to save a relation');
         return false;

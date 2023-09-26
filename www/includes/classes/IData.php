@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Représente un objet pouvant être sauvegardé et chargé depuis la base de données.
+ */
 interface IData
 {
     /**
@@ -7,6 +10,12 @@ interface IData
      * @return bool Vrai si l'instance a été sauvegardée avec succès.
      */
     public static function register(array $args): bool;
+
+    /**
+     * Vérifie et crée si besoin la table associée à cette instance.
+     * @return bool Vrai si la table existe ou a été créée avec succès.
+     */
+    public static function checkTable(): bool;
 
     /**
      * Supprime cette instance de la base de données.
@@ -18,11 +27,5 @@ interface IData
      * Sauvegarde les changements effectués sur cette instance.
      * @return bool Vrai si l'instance a été modifiée avec succès.
      */
-    public function update(): bool;
-
-    /**
-     * Vérifie et crée si besoin la table associée à cette instance.
-     * @return bool Vrai si la table existe ou a été créée avec succès.
-     */
-    public static function checkTable(): bool;
+    public function update(array $args): bool;
 }

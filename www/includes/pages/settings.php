@@ -1,17 +1,14 @@
 <h1>Settings</h1>
-<div>
-    <div class="row">
-        <div class="twelve columns">
-            <label>Save DB</label>
-            <button onclick="<?= R::createFunctionJS('getFrom', URL . '/includes/functions/saveDataBase.php', 'informations') ?>">Save DB</button>
-            <div id="informations" class="u-full-width"></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <label>Restore values</label>
-            <button onclick="<?= R::createFunctionJS('getFrom', URL . '/includes/functions/restoreOld.php', 'informations-old') ?>">Restore values</button>
-            <div id="informations-old" class="u-full-width"></div>
-        </div>
-    </div>
+
+<!-- Temporary system for testing and automation! -->
+<div class="row">
+    <button onclick="<?= R::createFunctionJS('putFrom', URL . '/includes/functions/saveDataBase.php', 'feedbacks') ?>">Save DB</button>
+    <?php foreach (R::recursiveScan(CONTENT . 'scripts/') as $script) {
+        $script = str_replace(CONTENT . 'scripts/', R::EMPTY, $script);
+        $script = str_replace('.php', R::EMPTY, $script);
+        ?>
+        <button onclick="<?= R::createFunctionJS('putFrom', URL . '/content/scripts/' . $script, 'feedbacks') ?>"><?= $script ?></button>
+    <?php } ?>
 </div>
+
+<div id="feedbacks" class="u-full-width"></div>

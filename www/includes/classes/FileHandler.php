@@ -3,31 +3,10 @@
 class FileHandler
 {
     const DATE_FORMAT = 'Y/m/d';
-    const DATE_FORMAT_LONG = 'Y-m-d\TH:i';
     const ALLOWED_TYPES = ['image/giff', 'image/gif', 'image/jpeg', 'image/png', 'video/mp4', 'video/ogg'];
 
     /**
-     * Donne l'url du fichier fourni, sinon l'url par défaut du dossier d'envois.
-     * @param IFile|null $file
-     * @return string
-     */
-    public static function getUrl(IFile $file = null): string
-    {
-        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' : UPLOADS_URL . self::getDate() . '/';
-    }
-
-    /**
-     * Donne la date utilisée comme chemin pour les fichiers stockés sur le serveur.
-     * Donne quelque chose comme "2023/01/21"
-     * @return string
-     */
-    private static function getDate(): string
-    {
-        return date(self::DATE_FORMAT);
-    }
-
-    /**
-     * Vérifie si le chemin par défaut existe, sinon le crée.
+     * Checks if the default directory exists, and if not, creates it.
      * @return void
      */
     public static function checkDefaultPath(): void
@@ -36,15 +15,13 @@ class FileHandler
     }
 
     /**
-     * Vérifie si le chemin donné existe, sinon le crée.
-     * @param string $directory
+     * Checks if a directory exists, and if not, creates it along with any necessary parent directories.
+     * @param string $directory The directory path to check or create.
      * @return void
      */
     public static function checkPath(string $directory): void
     {
-        if (!is_dir($directory)) {
-            mkdir($directory, 0777, true);
-        }
+        if (!is_dir($directory)) mkdir($directory, 0777, true);
     }
 
     /**
@@ -58,16 +35,23 @@ class FileHandler
     }
 
     /**
-     * Crée un chemin pour un fichier destiné à être envoyé.
-     * Donne quelque chose comme "content/uploads/2023/01/16/nom_du_fichier.ext"
-     * @param string $file
-     * @return string
+     * Gets the current date as a formatted string.
+     * @return string The current date in the specified format.
      */
-    public static function getPathForFile(string $file): string
+    private static function getDate(): string
     {
-        return self::getPath() . R::sanitize($file);
+        return date(self::DATE_FORMAT);
     }
 
+    /**
+     * Donne l'url du fichier fourni, sinon l'url par défaut du dossier d'envois.
+     * @param IFile|null $file
+     * @return string
+     */
+    public static function getUrl(IFile $file = null): string
+    {
+        return $file ? $file->getUploadedDate()->format(self::DATE_FORMAT) . '/' : UPLOADS_URL . self::getDate() . '/';
+    }
 
     /**
      * Ajoute x à la fin d'une chaine de caractères.
@@ -83,26 +67,25 @@ class FileHandler
         $name = $infos['filename'];
         $tryName = $iteration == 0 ? $fileName : $name . '_' . $iteration . '.' . $ext;
 
-        if (file_exists($where . $tryName)) {
-            return self::getNextFreeName($tryName, $where, $iteration + 1);
-        }
+        if (file_exists($where . $tryName)) return self::getNextFreeName($tryName, $where, $iteration + 1);
 
         return $tryName;
     }
 
+    public static function createPath(string $file): string
+    {
+        return self::getPath() . R::sanitize($file);
+    }
+
     /**
-     * Supprime (ou renome) le fichier du disque.
+     * Delete (or rename) the file(s).
      * @param IFile $file Le fichier sur le disque à supprimer
      * @param bool $renameOnly Si vrai le fichier est renommé avec le prefix "DELETED_".
      * @return bool
      */
     public static function removeFile(IFile $file, bool $renameOnly = true): bool
     {
-        if ($renameOnly) {
-            $path = UPLOADS . '/' . $file->getUploadedDate()->format(self::DATE_FORMAT) . '/';
-            return rename($path . $file->getUploadName(), $path . 'DELETED_' . $file->getUploadName());
-        } else {
-            return unlink(self::getPath($file));
-        }
+        $path = UPLOADS . '/' . $file->getUploadedDate()->format(self::DATE_FORMAT) . '/';
+        return $renameOnly ? rename($path . $file->getUploadName(), $path . 'DELETED_' . $file->getUploadName()) : unlink(self::getPath($file));
     }
 }

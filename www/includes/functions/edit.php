@@ -5,9 +5,14 @@ R::require('id', 'name', 'date', 'views', 'sections');
 global $DDB;
 
 $content = new Content($_POST['id']);
+$content = Content::get($content->getId(), $content->getType());
 
 $s = 'SELECT id FROM ' . PREFIX . 'contents WHERE name = :name AND type = :type';
 $r = $DDB->prepare($s);
+
+$args = array();
+$args['name'] = $_POST['name'];
+$content->update($args);
 
 foreach (array_unique($_POST['sections']) as $section) {
     try {

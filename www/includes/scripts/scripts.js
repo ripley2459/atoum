@@ -54,3 +54,15 @@ const unlinkImage = (event, ids) => {
     request.open("GET", destination);
     request.send();
 }
+
+function accordion(id) {
+    const accordion = document.getElementById(id + "-button");
+    const panel = document.getElementById(id + "-panel");
+    if (accordion.classList.contains("open")) {
+        accordion.classList.remove("open");
+        panel.style.maxHeight = "0px";
+    } else {
+        accordion.classList.add("open");
+        panel.style.maxHeight = "none";
+    }
+}
