@@ -43,6 +43,10 @@ $content = Content::get($_GET['id'], $content->getType());
 
         <div class="row">
             <div class="twelve columns">
+                <?php if ($content->getType() == EDataType::VIDEO) { ?>
+                    <button class="u-pull-left" onclick="setPreview('<?= $content->getSlug() ?>', <?= $content->getId() ?>)">Set preview</button>
+                    <canvas id="<?= $content->getSlug() ?>-canvas" class="thumbnail-canvas"></canvas>
+                <?php } ?>
                 <div class="u-pull-right">
                     <button onclick="closeEdit()">Cancel</button>
                     <button onclick="applyEdit(['actor-<?= $content->getId() ?>[]','tag-<?= $content->getId() ?>[]'])" class="button-primary">Save</button>
@@ -57,7 +61,7 @@ $content = Content::get($_GET['id'], $content->getType());
             <div class="row">
                 <div class="six columns">
                     <div class="row"></div>
-                    <div class="row" id="linkedImages"></div>
+                    <div class="rowgrid fake-container" style="column-count: 5" id="linkedImages"></div>
                 </div>
                 <div class="six columns">
                     <div class="row">
@@ -75,7 +79,7 @@ $content = Content::get($_GET['id'], $content->getType());
                         </div>
                         <div id="pagination-edit" class="six columns"></div>
                     </div>
-                    <div class="row" id="registeredImages"></div>
+                    <div id="registeredImages" class="row grid fake-container" style="column-count: 5"></div>
                 </div>
             </div>
 

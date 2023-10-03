@@ -69,8 +69,8 @@ class Builder
     }
 
     /**
-     * Return an array containing uploads search arguments.
-     * @return array
+     * Return an array containing search arguments.
+     * @return ['display', 'type', 'status', 'order', 'limit', 'search', 'view']
      */
     public static function searchArgs(): array
     {
@@ -82,7 +82,7 @@ class Builder
         $args['order'] = $_GET['order'] ?? 'dateCreated_ASC';
         $args['limit'] = $_GET['limit'] ?? 100;
         $args['search'] = isset($_GET['search']) && !R::nullOrEmpty($_GET['search']) ? $_GET['search'] : null;
-        $args['page'] = $_GET['page'] ?? 1;
+        $args['view'] = $_GET['view'] ?? 1;
 
         return $args;
     }

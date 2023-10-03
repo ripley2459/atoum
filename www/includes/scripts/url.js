@@ -1,4 +1,4 @@
-const urlParams = ["display", "type", "status", "order", "limit", "page", "show", "display", "search"];
+const urlParams = ["display", "type", "status", "order", "limit", "view", "show", "display", "search"];
 
 function bindParams(url) {
     const params = new URLSearchParams(new URL(document.URL).toString());

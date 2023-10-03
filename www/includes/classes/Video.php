@@ -57,7 +57,7 @@ class Video extends Content implements IFile
         if ($flag) {
             $after = UPLOADS . FileHandler::getPath($this);
             $flag = rename($before, $after);
-            rename($before . '.png', $after . '.png');
+            if ($this->hasPoster()) rename($before . '.png', $after . '.png');
         }
 
         return $flag;

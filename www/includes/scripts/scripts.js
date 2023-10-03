@@ -1,54 +1,35 @@
 /*
- * Drag n Drop
+ * Gallery settings
  */
-const linkedImages = document.querySelector("#linkedImages");
-const registeredImages = document.querySelector("#registeredImages");
-let draggedImageId;
-const bindImage = (event, imageId) => {
-    event.dataTransfer.setData("text", event.target.id);
-    draggedImageId = imageId;
+
+
+function linkImage(button, imageId, ids) {
+    applyImage(imageId, ids, new URL(window.location.origin.concat("/includes/functions/createRelation.php")));
+    button.onclick = () => unlinkImage(button, imageId, ids);
+    const linkedImages = document.querySelector("#linkedImages");
+    const registeredImages = document.querySelector("#registeredImages");
+    linkedImages.appendChild(button);
+    registeredImages.removeChild(button);
 }
 
-function allowDrop(e) {
-    e.preventDefault();
+function unlinkImage(button, imageId, ids) {
+    applyImage(imageId, ids, new URL(window.location.origin.concat("/includes/functions/deleteRelation.php")));
+    button.onclick = () => linkImage(button, imageId, ids);
+    const linkedImages = document.querySelector("#linkedImages");
+    const registeredImages = document.querySelector("#registeredImages");
+    registeredImages.appendChild(button);
+    linkedImages.removeChild(button);
 }
 
-const linkImage = (event, ids) => {
-    event.preventDefault();
-    let data = event.dataTransfer.getData("text");
-    event.target.appendChild(document.getElementById(data));
+function applyImage(id, ids, destination) {
     const request = new XMLHttpRequest();
-    let destination = new URL(window.location.origin.concat("/includes/functions/createRelation.php"));
-    destination.searchParams.set("childId", draggedImageId);
+    destination.searchParams.set("childId", id);
     destination.searchParams.set("parentId", ids[0]);
     destination.searchParams.set("childType", ids[1]);
     destination.searchParams.set("parentType", ids[2]);
 
     request.onreadystatechange = () => {
-        if (request.readyState === 4 && request.status === 200) {
-            document.getElementById("feedbacks").innerHTML = request.responseText;
-        }
-    }
-
-    request.open("GET", destination);
-    request.send();
-}
-
-const unlinkImage = (event, ids) => {
-    event.preventDefault();
-    let data = event.dataTransfer.getData("text");
-    event.target.appendChild(document.getElementById(data));
-    const request = new XMLHttpRequest();
-    let destination = new URL(window.location.origin.concat("/includes/functions/deleteRelation.php"));
-    destination.searchParams.set("childId", draggedImageId);
-    destination.searchParams.set("parentId", ids[0]);
-    destination.searchParams.set("childType", ids[1]);
-    destination.searchParams.set("parentType", ids[2]);
-
-    request.onreadystatechange = () => {
-        if (request.readyState === 4 && request.status === 200) {
-            document.getElementById("feedbacks").innerHTML = request.responseText;
-        }
+        if (request.readyState === 4 && request.status === 200) document.getElementById("feedbacks").innerHTML = request.responseText;
     }
 
     request.open("GET", destination);

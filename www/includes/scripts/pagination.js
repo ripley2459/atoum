@@ -7,8 +7,8 @@ function updatePagination(id) {
     let actualPage = 1;
     let nextPage = 2;
 
-    if (url.searchParams.has('page')) {
-        actualPage = Number(url.searchParams.get('page'));
+    if (url.searchParams.has('view')) {
+        actualPage = Number(url.searchParams.get('view'));
         previousPage = Number(actualPage) - Number(1);
         nextPage = Number(actualPage) + Number(1);
     }
@@ -22,13 +22,13 @@ function updatePagination(id) {
 
     if (actualPage !== 1) {
         previousButton.onclick = function () {
-            set('page', previousPage);
+            set('view', previousPage);
             atoumEvents.dispatchEvent("onUpdatePagination");
         }
     }
 
     nextButton.onclick = function () {
-        set('page', nextPage);
+        set('view', nextPage);
         atoumEvents.dispatchEvent("onUpdatePagination");
     }
 

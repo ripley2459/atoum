@@ -8,7 +8,7 @@ $r = Request::select(PREFIX . 'contents', 'id', 'type')
     ->where('status', '=', Builder::searchArgs()['status'])
     ->where('name', 'LIKE', Builder::searchArgs()['search'])
     ->orderBy(Builder::searchArgs()['order'])
-    ->offset(Builder::searchArgs()['page'])
+    ->offset(Builder::searchArgs()['view'])
     ->limit(Builder::searchArgs()['limit']);
 
 $data = $r->execute();

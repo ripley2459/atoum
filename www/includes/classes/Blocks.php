@@ -63,4 +63,14 @@ class Blocks
     {
         return '<button id="' . $id . '-button" onclick="accordion(\'' . $id . '\')" class="accordion button">' . $title . '</button><div id="' . $id . '-panel" class="accordion panel">' . $content . '</div>';
     }
+
+    public static function chipTag(Content $tag): string
+    {
+        return '<a href="#" class="button">' . $tag->getName() . '</a>';
+    }
+
+    public static function chipActor(Content $actor): string
+    {
+        return '<a href="#" class="button">' . $actor->getName() . '</a>';
+    }
 }

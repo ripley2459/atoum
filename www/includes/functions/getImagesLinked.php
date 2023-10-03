@@ -5,8 +5,8 @@ R::require('id');
 
 $content = new Content($_GET['id']);
 
-$e = '<div class="grid fake-container" style="column-count: 5" ondrop="linkImage(event, [' . $content->getId() . ',' . EDataType::IMAGE->value . ',' . EDataType::GALLERY->value . '])" ondragover="allowDrop(event)">';
-foreach (Relation::getChildren(Relation::getRelationType(EDataType::IMAGE, $content->getType()), $content->getId()) as $img) {
-    $e .= '<img id="' . $img->getSlug() . '" src="' . UPLOADS_URL . FileHandler::getPath($img) . '" draggable="true" ondragstart="bindImage(event, ' . $img->getId() . ')"/>';
-}
-echo $e . '</div>';
+foreach (Relation::getChildren(Relation::getRelationType(EDataType::IMAGE, $content->getType()), $content->getId()) as $img) { ?>
+    <button class="image-button" onclick="unlinkImage(this,<?= $img->getId() ?>,[<?= $content->getId() ?>,<?= EDataType::IMAGE->value ?>,<?= EDataType::GALLERY->value ?>])">
+        <img src="<?= UPLOADS_URL . FileHandler::getPath($img) ?>"/>
+    </button>
+<?php } ?>
