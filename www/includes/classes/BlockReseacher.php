@@ -16,6 +16,22 @@ class BlockReseacher extends ABlock
     }
 
     /**
+     * Ajouter des boutons pour rechercher rapidement un type de IData.
+     * @param EDataType ...$types
+     * @return void
+     */
+    public function buttonSection(EDataType...$types): void
+    {
+        $buttons = RString::EMPTY;
+
+        foreach ($types as $type) {
+            RString::concat($buttons, RString::EMPTY, '<button onclick="setURLParam(\'type\',' . $type->value . ', listData)">' . ucwords(strtolower($type->name)) . '</button>');
+        }
+
+        RString::concat($this->_sections, RString::EMPTY, '<div>' . $buttons . '</div>');
+    }
+
+    /**
      * Crée le nécessaire pour rechercher, ajouter et supprimer des éléments dynamiquement.
      * @param string $fieldName
      * @param EDataType $typeB
@@ -40,17 +56,17 @@ class BlockReseacher extends ABlock
         $this->_sections .= '<div id="' . $fieldName . 'DynDataResults" class="dynDataSearch results empty"></div>';
     }
 
-    private function createLiveInput(string $value, string $inputName): string
-    {
-        $slug = normalize($value);
-        return '<div id="' . $slug . 'DynInput" class="dynInput"><input id="' . $slug . 'Field" type="text" name="' . $inputName . '" value="' . $value . '" readonly><button type="button" onclick="DynDataRemove(\'' . $slug . 'DynInput\')">x</button></div>';
-    }
-
     /**
      * @inheritDoc
      */
     public function display(): string
     {
         return '<div ' . $this->getSignature() . '>' . $this->_sections . '</div>';
+    }
+
+    private function createLiveInput(string $value, string $inputName): string
+    {
+        $slug = normalize($value);
+        return '<div id="' . $slug . 'DynInput" class="dynInput"><input id="' . $slug . 'Field" type="text" name="' . $inputName . '" value="' . $value . '" readonly><button type="button" onclick="DynDataRemove(\'' . $slug . 'DynInput\')">x</button></div>';
     }
 }

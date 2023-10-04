@@ -5,6 +5,7 @@
 $reseach = new BlockReseacher();
 
 $reseach->searchSection();
+$reseach->buttonSection(EDataType::GALLERY, EDataType::VIDEO);
 $reseach->liveSection('With tags', EDataType::TAG);
 $reseach->liveSection('With actors', EDataType::ACTOR);
 

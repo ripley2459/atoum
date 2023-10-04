@@ -531,10 +531,28 @@ abstract class AContent implements IData
     {
         global $DDB;
 
-        if (self::checkTable()) {
-            // TODO: Implement save() method.
-        }
+		if (self::checkTable()) {
+			$s = 'UPDATE ' . PREFIX . 'contents SET owner = :owner, type = :type, status = :status, views = :views, slug = :slug, name = :name, content = :content, parent = :parent WHERE id = :id';
+			$r = $DDB->prepare($s);
 
+			$r->bindValue(':owner', $this->_owner, PDO::PARAM_INT);
+			$r->bindValue(':type', $this->_type->value, PDO::PARAM_INT);
+			$r->bindValue(':status', $this->_status->value, PDO::PARAM_INT);
+			$r->bindValue(':views', $this->_views, PDO::PARAM_INT);
+			$r->bindValue(':slug', $this->_slug, PDO::PARAM_STR);
+			$r->bindValue(':name', $this->_name, PDO::PARAM_STR);
+			$r->bindValue(':content', $this->_content, PDO::PARAM_STR);
+			$r->bindValue(':parent', $this->_parent, PDO::PARAM_INT);
+			$r->bindValue(':id', $this->_id, PDO::PARAM_INT);
+
+			try {
+				$r->execute();
+				return true;
+			} catch (PDOException $e) {
+				Logger::logError($e->getMessage());
+				return false;
+			}
+		}
         return false;
     }
 
