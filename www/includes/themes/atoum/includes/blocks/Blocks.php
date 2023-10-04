@@ -2,13 +2,14 @@
 
 function chipTag(Tag $tag): string
 {
-    return '<a href="#" class="chip">' . $tag->display() . '</a>';
+    return '<a href="#" class="chip">' . $tag->getName() . '</a>';
 }
 
 function chipActor(Actor $actor): string
 {
-    return '<a href="#" class="chip">' . $actor->display() . '</a>';
+    return '<a href="#" class="chip">' . $actor->getName() . '</a>';
 }
+
 
 function spinner0(): string
 {

@@ -8,5 +8,9 @@
     <script src="<?= URL . '/includes/scripts.js' ?>"></script>
     <?php SettingsPageBuilder::Instance()->displayScripts() ?>
 </div>
+<?php
+    $toTopButton = new BlockToTop();
+    echo $toTopButton->display();
+?>
 </body>
 </html>

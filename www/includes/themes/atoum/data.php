@@ -1,6 +1,15 @@
 <h1>Data</h1>
 
 <?php
+
+$reseach = new BlockReseacher();
+
+$reseach->searchSection();
+$reseach->liveSection('With tags', EDataType::TAG);
+$reseach->liveSection('With actors', EDataType::ACTOR);
+
+echo $reseach->display();
+
 /*
 
 require_once dirname(__DIR__, 3) . '/load.php';

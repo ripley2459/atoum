@@ -7,5 +7,9 @@
     </div>
     <script src="<?= URL . '/includes/scripts.js' ?>"></script>
 </div>
+<?php
+$toTopButton = new BlockToTop();
+echo $toTopButton->display();
+?>
 </body>
 </html>

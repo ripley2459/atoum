@@ -69,6 +69,27 @@ function appendCheckBoxes(name, formData, checkboxes) {
 }
 
 /*
+ * To top
+ */
+const toTopButton = document.getElementById("toTop");
+window.onscroll = function () {
+    scrollFunction()
+};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        toTopButton.style.display = "block";
+    } else {
+        toTopButton.style.display = "none";
+    }
+}
+
+function toTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
+/*
  * Search options
  */
 const toggleURLParam = (name, value, callback = null) => {

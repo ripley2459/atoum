@@ -5,20 +5,13 @@ if (!isset($_GET['gallery'])) {
     die();
 }
 
-$gallery = new Gallery($_GET['gallery']);
-
-$settings = new BlockSettings($gallery->getType(), $gallery->getId(), 'galleryRelations');
-
-$settings->nameSection();
-$settings->dateCreated();
-$settings->dateModified();
-$settings->liveSection('Add actors', EDataType::ACTOR);
-$settings->liveSection('Add tags', EDataType::TAG);
+$data = new Gallery($_GET['gallery']);
+$settings = BlockSettings::base($data);
 
 ?>
 
-<h1><?= $gallery->getName() ?></h1>
-<a href="<?= URL ?>/index.php?page=viewGallery&gallery=<?= $gallery->getId() ?>" target="_blank">View</a>
+<h1><?= $data->getName() ?></h1>
+<a href="<?= URL ?>/index.php?page=gallery&gallery=<?= $data->getId() ?>" target="_blank">View</a>
 <?= $settings->display() ?>
 <div class="row">
     <div class="column">
@@ -47,7 +40,7 @@ $settings->liveSection('Add tags', EDataType::TAG);
         let from = new URL('<?= FUNCTIONS_URL . 'galleries/getImages.php' ?>');
 
         bindPagination(params, from);
-        from.searchParams.set("gallery", <?= $gallery->getId() ?>);
+        from.searchParams.set("gallery", <?= $data->getId() ?>);
         from.searchParams.set("type", <?= EDataType::IMAGE->value ?>);
         from.searchParams.set("status", <?= EDataStatus::PUBLISHED->value ?>);
 
@@ -68,7 +61,7 @@ $settings->liveSection('Add tags', EDataType::TAG);
         let from = new URL('<?= FUNCTIONS_URL . 'galleries/getLinkedImages.php' ?>');
 
         bindPagination(params, from);
-        from.searchParams.set("gallery", <?= $gallery->getId() ?>);
+        from.searchParams.set("gallery", <?= $data->getId() ?>);
         from.searchParams.set("type", <?= EDataType::IMAGE->value ?>);
         from.searchParams.set("status", <?= EDataStatus::PUBLISHED->value ?>);
 

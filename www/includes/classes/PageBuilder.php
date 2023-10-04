@@ -26,16 +26,14 @@ class PageBuilder
     {
         if (isset($_GET['page']) && in_array($_GET['page'], ALLOWED_PAGES, true)) {
             $this->_page = $_GET['page'];
-        } elseif (!isset($_GET['page'])) {
-            $this->_page = 'welcome';
+            $this->head();
+            $this->header();
+            $this->body();
+            $this->footer();
         } else {
-            $this->_page = 'unknown';
+            header('Location: ' . URL . '/index.php?page=' . UNKNOWN_PAGE); // Overkill to relocate.
+            die();
         }
-
-        $this->head();
-        $this->header();
-        $this->body();
-        $this->footer();
     }
 
     /**

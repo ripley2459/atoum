@@ -6,14 +6,7 @@ if (!isset($_GET['contentId'])) {
     die();
 }
 
-$video = new Video($_GET['contentId']);
-$settings = new BlockSettings($video->getType(), $video->getId(), 'videoSettings');
-
-$settings->nameSection();
-$settings->dateCreated();
-$settings->dateModified();
+$data = new Video($_GET['contentId']);
+$settings = BlockSettings::base($data);
 $settings->screenshotButton();
-$settings->liveSection('Add actors', EDataType::ACTOR);
-$settings->liveSection('Add tags', EDataType::TAG);
-
 echo $settings->display();

@@ -39,12 +39,13 @@ class Video extends AContent implements IFile
      */
     public function display(): string
     {
-        return '<video id="' . $this->_slug . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls></video>';
-    }
+        $poster = RString::EMPTY;
+        $path = FileHandler::getPath($this) . '.png';
+        if (file_exists(UPLOADS . $path)) {
+            $poster = 'poster="' . UPLOADS_URL . $path . '"';
+        }
 
-    public function displayLink(): string
-    {
-        return '<a href="' . URL . '/index.php?page=video&video=' . $this->_id . '">' . $this->getPreview() . '</a>';
+        return '<video id="' . $this->_slug . '" src="' . UPLOADS_URL . FileHandler::getPath($this) . '" controls ' . $poster . '"></video>';
     }
 
     public function getPreview(): string
@@ -55,5 +56,10 @@ class Video extends AContent implements IFile
         }
 
         return '<img class="preview" src="' . UPLOADS_URL . $path . '"/>';
+    }
+
+    public function displayLink(): string
+    {
+        return '<a href="' . URL . '/index.php?page=video&video=' . $this->_id . '">' . $this->getPreview() . '</a>';
     }
 }
