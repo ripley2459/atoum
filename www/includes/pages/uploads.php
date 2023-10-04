@@ -20,7 +20,7 @@
 
     <div class="twelve columns">
         <label for="filter-search">Search</label>
-        <input class="u-full-width" type="text" placeholder="search for..." id="filter-search" onkeyup="set('search', value)">
+        <input class="u-full-width" type="text" placeholder="search for..." id="filter-search" onkeyup="set('search', value)" value="<?= Builder::searchArgs()['search'] ?>">
     </div>
 
 </div>
@@ -40,7 +40,7 @@
         <select class="u-full-width" id="type" onchange="set('type', value)">
             <option value="-1">All</option>
             <?php foreach (EDataType::cases() as $type) { ?>
-                <option value="<?= $type->value ?>"> <?= ucfirst(strtolower($type->name)) ?></option>
+                <option <?= $type->value == Builder::searchArgs()['type'] ? 'selected' : R::EMPTY ?> value="<?= $type->value ?>"> <?= ucfirst(strtolower($type->name)) ?></option>
             <?php } ?>
         </select>
     </div>

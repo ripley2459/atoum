@@ -332,3 +332,35 @@ td:first-child {
         opacity: 0;
     }
 }
+
+/*
+ * Top nav
+ */
+#topNav {
+    overflow: hidden;
+    background-color: #33C3F0;
+    border-bottom: 1px solid #33C3F0;
+}
+
+#topNav a {
+    color: #FFF;
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+#topNav a:hover {
+    color: #FFF;
+    background-color: #1EAEDB;
+    border-color: #1EAEDB;
+}
