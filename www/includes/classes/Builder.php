@@ -83,6 +83,8 @@ class Builder
         $args['limit'] = $_GET['limit'] ?? 100;
         $args['search'] = isset($_GET['search']) && !R::nullOrEmpty($_GET['search']) ? $_GET['search'] : null;
         $args['view'] = $_GET['view'] ?? 1;
+        $args['actors'] = $_GET['actors'] ?? R::EMPTY;
+        $args['tags'] = $_GET['tags'] ?? R::EMPTY;
 
         return $args;
     }

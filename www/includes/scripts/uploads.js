@@ -1,5 +1,24 @@
 document.addEventListener("DOMContentLoaded", getUploads);
 atoumEvents.addEventListener("onURLModified", getUploads);
+atoumEvents.addEventListener("onTypeaheadModify", bindActorsAndTagsInURL);
+
+function bindActorsAndTagsInURL(field) {
+    if (field === "actor-filter" || field === "tag-filter") {
+        let actors = [];
+        let inputs = document.querySelectorAll('input[name=\"' + "actor-filter[]" + '\"]');
+        inputs.forEach(function (input) {
+            actors.push(input.value);
+        });
+        let tags = [];
+        inputs = document.querySelectorAll('input[name=\"' + "tag-filter[]" + '\"]');
+        inputs.forEach(function (input) {
+            tags.push(input.value);
+        });
+
+        setArray("actors", actors);
+        setArray("tags", tags);
+    }
+}
 
 function getUploads() {
     let where = new URL(window.location.origin.concat("/includes/functions/getUploads.php"));

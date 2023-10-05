@@ -17,7 +17,7 @@ function typeaheadSearch(field, type) {
     putFrom(url, zone.id);
 }
 
-function typeaheadAdd(field, value = null) {
+function typeaheadAdd(field, value = null, callback = null) {
     const input = document.getElementById(field);
     const zone = document.getElementById(field.concat('-input'));
     const finalValue = value === null ? input.value : value;
@@ -39,7 +39,7 @@ function typeaheadAdd(field, value = null) {
     newDeleteButton.innerHTML = "x";
     newDeleteButton.type = "button";
     newDeleteButton.onclick = function () {
-        typeaheadRemove(newDiv.id);
+        typeaheadRemove(field, newDiv.id);
     };
 
     newDiv.appendChild(newField);
@@ -48,10 +48,12 @@ function typeaheadAdd(field, value = null) {
 
     input.value = "";
     typeaheadSearch(field, 0);
+    atoumEvents.dispatchEvent("onTypeaheadModify", field);
 }
 
-function typeaheadRemove(div) {
+function typeaheadRemove(field, div) {
     document.getElementById(div).remove();
+    atoumEvents.dispatchEvent("onTypeaheadModify", field);
 }
 
 function typeaheadOnKey(field) {

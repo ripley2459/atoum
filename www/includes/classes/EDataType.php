@@ -12,6 +12,7 @@ enum EDataType: int
     case TAG = 7;
     case ACTOR = 8;
     case USER = 9;
+    case MENU = 10;
 
     public static function fromMime(string $mime): EDataType
     {
@@ -27,9 +28,7 @@ enum EDataType: int
     public static function fromName(string $value): EDataType
     {
         foreach (EDataType::cases() as $v) {
-            if ($value === strtolower($v->name)) {
-                return $v;
-            }
+            if ($value === strtolower($v->name)) return $v;
         }
 
         throw new Exception('Can\'t get the EDataType of this type: ' . $value);

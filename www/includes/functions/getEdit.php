@@ -20,26 +20,28 @@ $content = Content::get($_GET['id'], $content->getType());
             </div>
         </div>
 
-        <div class="row">
-            <div class="six columns">
-                <label for="date">Upload date</label>
-                <input class="u-full-width" type="text" placeholder="<?= Blocks::formattedDate($content->getDateCreated()) ?>" value="<?= Blocks::formattedDate($content->getDateCreated()) ?>" id="date-<?= $content->getId() ?>">
+        <?php if ($content->getType() != EDataType::MENU) { ?>
+            <div class="row">
+                <div class="six columns">
+                    <label for="date">Upload date</label>
+                    <input class="u-full-width" type="text" placeholder="<?= Blocks::formattedDate($content->getDateCreated()) ?>" value="<?= Blocks::formattedDate($content->getDateCreated()) ?>" id="date-<?= $content->getId() ?>">
+                </div>
+
+                <div class="six columns">
+                    <label for="views">Views</label>
+                    <input class="u-full-width" type="number" id="views-<?= $content->getId() ?>" min="0" value="<?= $content->getViews() ?>">
+                </div>
             </div>
 
-            <div class="six columns">
-                <label for="views">Views</label>
-                <input class="u-full-width" type="number" id="views-<?= $content->getId() ?>" min="0" value="<?= $content->getViews() ?>">
+            <div class="row">
+                <div class="six columns">
+                    <?= Blocks::searchData('actor-' . $content->getId(), 'Actors', 'actors...', EDataType::ACTOR, $content) ?>
+                </div>
+                <div class="six columns">
+                    <?= Blocks::searchData('tag-' . $content->getId(), 'Tags', 'tag...', EDataType::TAG, $content) ?>
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="six columns">
-                <?= Blocks::searchData('actor-' . $content->getId(), 'Actors', 'actors...', EDataType::ACTOR, $content) ?>
-            </div>
-            <div class="six columns">
-                <?= Blocks::searchData('tag-' . $content->getId(), 'Tags', 'tag...', EDataType::TAG, $content) ?>
-            </div>
-        </div>
+        <?php } ?>
 
         <div class="row">
             <div class="twelve columns">

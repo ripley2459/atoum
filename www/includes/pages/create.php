@@ -4,7 +4,7 @@ require_once dirname(__DIR__, 2) . '/load.php';
 R::require('create');
 
 $type = EDataType::from($_GET['create']);
-R::whitelist($type, [EDataType::GALLERY]);
+R::whitelist($type, [EDataType::GALLERY, EDataType::MENU]);
 
 ?>
 

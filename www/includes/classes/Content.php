@@ -38,6 +38,7 @@ class Content implements IData
                 $this->_parent = $d['parent'];
                 $this->_dateCreated = $d['dateCreated'];
                 $this->_dateModified = $d['dateModified'];
+                $r->closeCursor();
             } catch (PDOException $e) {
                 throw new PDOException($e->getMessage());
             }
@@ -72,7 +73,7 @@ class Content implements IData
                 dateCreated DATETIME default CURRENT_TIMESTAMP,
                 dateModified DATETIME default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )';
-                return $DDB->prepare($s)->execute();
+                return $DDB->prepare($s)->execute() && $r->closeCursor();
             }
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
@@ -132,7 +133,7 @@ class Content implements IData
         $r->bindValue(':parent', $args['parent'], PDO::PARAM_INT);
 
         try {
-            return $r->execute();
+            return $r->execute() && $r->closeCursor();
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
@@ -167,6 +168,7 @@ class Content implements IData
     public function unregister(): bool
     {
         global $DDB;
+
         $s = 'DELETE FROM ' . PREFIX . 'contents WHERE id = :id';
         $r = $DDB->prepare($s);
         $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
@@ -218,7 +220,7 @@ class Content implements IData
         if (count($firstArray) > 0) {
             $in = R::EMPTY;
             foreach ($firstArray as $elem) {
-                if ($elem->getId() != $this->_id) $in .= strval($elem->getId()) . ',';
+                if ($elem->getId() != $this->_id) $in .= $elem->getId() . ',';
             }
 
             $in = substr($in, 0, -1);
@@ -235,6 +237,7 @@ class Content implements IData
                     if ($d['parent'] != $this->_id) $related[] = Content::get($d['parent'], $second);
                 }
 
+                $r->closeCursor();
                 return $related;
             } catch (PDOException $e) {
                 Logger::logError($e->getMessage());

@@ -29,20 +29,21 @@ require_once CLASSES . 'Logger.php';
 require_once CLASSES . 'Builder.php';
 require_once CLASSES . 'Request.php';
 require_once CLASSES . 'FileHandler.php';
+require_once CLASSES . 'IData.php';
+require_once CLASSES . 'IFile.php';
+require_once CLASSES . 'EDataType.php';
+require_once CLASSES . 'EDataStatus.php';
+require_once CLASSES . 'Setting.php';
 require_once CLASSES . 'Blocks.php';
 require_once CLASSES . 'ABlock.php';
 require_once CLASSES . 'ABlockContainer.php';
 require_once CLASSES . 'BlockTable.php';
 require_once CLASSES . 'BlockGallery.php';
-
-require_once CLASSES . 'IData.php';
-require_once CLASSES . 'IFile.php';
-require_once CLASSES . 'EDataType.php';
-require_once CLASSES . 'EDataStatus.php';
 require_once CLASSES . 'Relation.php';
 require_once CLASSES . 'Content.php';
 require_once CLASSES . 'Image.php';
 require_once CLASSES . 'Video.php';
 
+Setting::checkTable();
 Content::checkTable();
 Relation::checkTable();

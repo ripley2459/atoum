@@ -12,6 +12,7 @@
     <div class="six columns">
         <label>Create</label>
         <a class="button" href="<?= URL . '/index.php?page=create&create=' . EDataType::GALLERY->value ?>"><?= ucfirst(strtolower(EDataType::GALLERY->name)) ?></a>
+        <a class="button" href="<?= URL . '/index.php?page=create&create=' . EDataType::MENU->value ?>"><?= ucfirst(strtolower(EDataType::MENU->name)) ?></a>
     </div>
 
 </div>

@@ -1,4 +1,4 @@
-const urlParams = ["display", "type", "status", "order", "limit", "view", "show", "display", "search"];
+const urlParams = ["display", "type", "status", "order", "limit", "view", "show", "display", "search", "actors", "tags"];
 
 function bindParams(url) {
     const params = new URLSearchParams(new URL(document.URL).toString());
@@ -29,6 +29,12 @@ function set(name, value) {
     newURL.searchParams.set(name, value);
     window.history.replaceState({id: "100"}, name, newURL);
     atoumEvents.dispatchEvent("onURLModified");
+}
+
+function setArray(name, array) {
+    if (array.length <= 0) set(name, null);
+    let value = encodeURIComponent(JSON.stringify(array));
+    set(name, value);
 }
 
 function remove(name) {

@@ -62,6 +62,12 @@ class Request
         return $this;
     }
 
+    public function innerJoin(string $joined, Request $sub): Request
+    {
+        $this->_sub = $sub;
+        return $this;
+    }
+
     /**
      * @return PDOStatement The ready to fetch data.
      */

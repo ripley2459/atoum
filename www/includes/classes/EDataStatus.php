@@ -13,9 +13,7 @@ enum EDataStatus: int
     public static function fromName(string $value): EDataType
     {
         foreach (EDataType::cases() as $v) {
-            if ($value === strtolower($v->name)) {
-                return $v;
-            }
+            if ($value === strtolower($v->name)) return $v;
         }
 
         throw new Exception('Can\'t get the EDataStatus of this type');

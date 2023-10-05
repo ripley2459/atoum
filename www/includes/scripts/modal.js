@@ -82,7 +82,7 @@ function applyEdit(sections) {
         inputs.forEach(function (input) {
             formData.append(cc, input.value);
         });
-    })
+    });
 
     request.onreadystatechange = () => {
         if (request.readyState === 4 && request.status === 200) {

@@ -12,7 +12,7 @@ class Blocks
         return '<button onclick="' . R::createFunctionJS('toggleBetween', $param, $valueA, $valueB) . '">' . $text . '</button>';
     }
 
-    public static function searchData(string $id, string $label, string $placeholder, EDataType $type, Content $content = null): string
+    public static function searchData(string $id, string $label, string $placeholder, EDataType $type, Content $content = null, string $onAdd = null): string
     {
         $existing = R::EMPTY;
         if (isset($content)) {
@@ -35,7 +35,7 @@ class Blocks
     {
         $r = '<div id="' . strtolower($content->getSlug()) . '-input-container" class="input u-full-width">';
         $r .= '<input id="' . strtolower($content->getSlug()) . '-value" type="text" value="' . $content->getName() . '" name="' . $field . '[]" readonly>';
-        $r .= '<button type="button" onclick="' . R::createFunctionJS('typeaheadRemove', strtolower($content->getSlug()) . '-input-container') . '">x</button>';
+        $r .= '<button type="button" onclick="' . R::createFunctionJS('typeaheadRemove', $field, strtolower($content->getSlug()) . '-input-container') . '">x</button>';
         $r .= '</div>';
         return $r;
     }

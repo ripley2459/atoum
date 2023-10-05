@@ -2,9 +2,9 @@
 
 /**
  * La classe Relation représente un lien entre deux EDataType.
- * Stocké sous forme de int unsigned dans la base de données, une relation est construite comme suit:
+ * Stockée sous forme de int unsigned dans la base de données, une relation est construite comme suit:
  * RELATION_FACTOR * CHILD_TYPE + PARENT_TYPE.
- * A est lié à B si et seulement si un ligne existe contenant child=A->ID & parent=B->ID.
+ * A est lié à B si et seulement si une ligne existe contenant child=A->Id & parent=B->Id.
  */
 class Relation implements IData
 {
