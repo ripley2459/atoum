@@ -5,7 +5,7 @@ class BlockGallery extends ABlock
     private int $_columnCount = 4;
     private array $_images = array();
 
-    public function __construct(string $id = R::EMPTY, string $classes = R::EMPTY)
+    public function __construct(string $id, string $classes = R::EMPTY)
     {
         parent::__construct($id, $classes);
         R::append($this->_classes, R::SPACE, 'gallery');
@@ -59,9 +59,9 @@ class BlockGallery extends ABlock
         return $r;
     }
 
-    public function getImages(int $galleryId, bool $random = false): void
+    public function getImages(Content $gallery, bool $random = false): void
     {
-        $images = Relation::getChildren(Relation::getRelationType(EDataType::IMAGE, EDataType::GALLERY), $galleryId);
+        $images = Relation::getChildren(Relation::getRelationType(EDataType::IMAGE, EDataType::GALLERY), $gallery->getId());
         if ($random) shuffle($images);
         foreach ($images as $image) {
             $this->addImage($image);

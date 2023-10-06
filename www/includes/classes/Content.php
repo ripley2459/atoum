@@ -272,6 +272,15 @@ class Content implements IData
         return $this->_id;
     }
 
+    public function increaseViews(): bool
+    {
+        global $DDB;
+        $s = 'UPDATE ' . PREFIX . 'contents SET views = views + 1 WHERE id = :id';
+        $r = $DDB->prepare($s);
+        $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
+        return $r->execute() && $r->closeCursor();
+    }
+
     /**
      * @return int
      */

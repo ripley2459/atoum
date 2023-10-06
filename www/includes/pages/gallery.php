@@ -3,7 +3,9 @@
 global $DDB;
 R::require('id');
 
-$gallery = new BlockGallery('gallery-' . $_GET['id']);
+$gallery = new Content($_GET['id']);
+$block = new BlockGallery('gallery-' . $gallery->getId());
+
 if ($_GET['id'] == 'random') {
     $s = 'SELECT id FROM ' . PREFIX . 'contents WHERE type = :type ORDER BY RAND() LIMIT 100';
     $r = $DDB->prepare($s);
@@ -12,11 +14,11 @@ if ($_GET['id'] == 'random') {
 
     $images = array();
     while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
-        $gallery->addImage(new Image($d['id']));
+        $block->addImage(new Image($d['id']));
     }
 } else {
-    $gallery->getImages($_GET['id'], true);
+    $block->getImages($gallery, true);
 }
 
-
-echo $gallery->display();
+echo $block->display();
+$gallery->increaseViews();
