@@ -29,6 +29,8 @@ foreach ($video->getRelated(EDataType::TAG) as $tag) {
     R::append($tags, R::SPACE, Blocks::chipTag($tag));
 }
 
+$video->increaseViews();
+
 ?>
 
 <div class="row">

@@ -252,7 +252,7 @@ class Relation implements IData
      */
     public function update(array $args): bool
     {
-        Logger::logError('Irrelevant to save a relation');
+        Logger::logError('Irrelevant to save a relation!');
         return false;
     }
 }

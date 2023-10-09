@@ -24,7 +24,8 @@ class BlockGallery extends ABlock
         $r = '<div id="' . $this->_id . '-grid" class="gallery grid" style="column-count: ' . $this->_columnCount . '">';
         $pointer = 0;
         foreach ($this->_images as $image) {
-            $r .= '<img src="' . UPLOADS_URL . FileHandler::getPath($image) . '" onclick="showSlide(' . ++$pointer . ', \'' . $this->_id . '\')">';
+            $r .= '<img src="' . UPLOADS_URL . FileHandler::getPath($image) . '" loading="lazy" onclick="showSlide(' . ++$pointer . ', \'' . $this->_id . '\')">';
+            $image->increaseViews();
         }
         $r .= '</div>';
 
@@ -75,6 +76,6 @@ class BlockGallery extends ABlock
 
     public function getFeedbacks(): string
     {
-        return '<div id="' . $this->_id . '-feedbacks" class="gallery feedbacks">></div>';
+        return '<div id="' . $this->_id . '-feedbacks" class="gallery feedbacks"></div>';
     }
 }

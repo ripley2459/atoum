@@ -34,12 +34,16 @@ $content = Content::get($_GET['id'], $content->getType());
             </div>
 
             <div class="row">
+                <?php if ($content->getType() != EDataType::ACTOR){ ?>
                 <div class="six columns">
                     <?= Blocks::searchData('actor-' . $content->getId(), 'Actors', 'actors...', EDataType::ACTOR, $content) ?>
                 </div>
                 <div class="six columns">
+                    <?php } ?>
                     <?= Blocks::searchData('tag-' . $content->getId(), 'Tags', 'tag...', EDataType::TAG, $content) ?>
+                    <?php if ($content->getType() != EDataType::ACTOR){ ?>
                 </div>
+            <?php } ?>
             </div>
         <?php } ?>
 
