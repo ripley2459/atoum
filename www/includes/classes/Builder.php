@@ -79,9 +79,9 @@ class Builder
         $args['display'] = $_GET['display'] ?? 1;
         $args['type'] = isset($_GET['type']) && $_GET['type'] != -1 ? R::whitelist(intval($_GET['type']), EDataType::values()) : null;
         $args['status'] = isset($_GET['status']) ? R::whitelist(intval($_GET['status']), EDataStatus::values()) : EDataStatus::PUBLISHED->value;
-        $args['order'] = $_GET['order'] ?? 'dateCreated_ASC';
+        $args['order'] = $_GET['order'] ?? 'dateCreated_DESC';
         $args['limit'] = $_GET['limit'] ?? 100;
-        $args['search'] = isset($_GET['search']) && !R::nullOrEmpty($_GET['search']) ? $_GET['search'] : null;
+        $args['search'] = isset($_GET['search']) && !R::blank($_GET['search']) ? $_GET['search'] : null;
         $args['view'] = $_GET['view'] ?? 1;
         $args['actors'] = $_GET['actors'] ?? R::EMPTY;
         $args['tags'] = $_GET['tags'] ?? R::EMPTY;

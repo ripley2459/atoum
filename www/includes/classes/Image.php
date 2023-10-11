@@ -2,6 +2,14 @@
 
 class Image extends Content implements IFile
 {
+    private ?string $_src = null;
+
+    public function __construct(string $src)
+    {
+        $_src = $src;
+    }
+
+
     /**
      * @inheritDoc
      */

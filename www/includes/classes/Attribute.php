@@ -18,8 +18,8 @@ class Attribute
     public function __toString(): string
     {
         $r = R::EMPTY;
-        if (!R::nullOrEmpty($this->_id)) $r .= 'id="' . $this->_id . '"';
-        if (!R::nullOrEmpty($this->_classes)) $r .= 'class="' . $this->_classes . '"';
+        if (!R::blank($this->_id)) $r .= 'id="' . $this->_id . '"';
+        if (!R::blank($this->_classes)) $r .= 'class="' . $this->_classes . '"';
 
         return $r;
     }

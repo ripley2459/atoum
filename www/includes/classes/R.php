@@ -18,6 +18,7 @@ class R
      * Space string that equals ' ';
      */
     public const SPACE = ' ';
+
     /**
      * Primitive event system.
      * @var array The array that contains every event and their functions.
@@ -150,7 +151,7 @@ class R
             self::checkArgument(is_string($value) || is_array($value));
             if (is_string($value)) self::append($main, $separator, $value);
             else if (is_array($value)) {
-                if (!self::nullOrEmpty($main)) $main .= $separator;
+                if (!self::blank($main)) $main .= $separator;
                 $main .= self::concat($separator, ...$value);
             }
         }
@@ -179,10 +180,10 @@ class R
      */
     public static function append(string &$main, string $separator, string...$strings): void
     {
-        $main = !self::nullOrEmpty($main) ? $main : self::EMPTY;
+        $main = !self::blank($main) ? $main : self::EMPTY;
 
         if (count($strings) > 0) {
-            $main = !R::nullOrEmpty($main) ? $main . $separator . $strings[0] : $strings[0];
+            $main = !R::blank($main) ? $main . $separator . $strings[0] : $strings[0];
             for ($i = 1; $i < count($strings); $i++) {
                 $main .= $separator . $strings[$i];
             }
@@ -190,13 +191,17 @@ class R
     }
 
     /**
-     * Checks whether a given string is either null or empty (contains only whitespace).
-     * @param string $string The string to check.
-     * @return bool Returns true if the string is null or contains only whitespace; otherwise, returns false.
+     * Checks if a given value is blank (null, empty, equals to R::Empty or count === 0).
+     * @param mixed &$value The value to be checked.
+     * @return bool Returns true if the value is null or empty, otherwise false.
      */
-    public static function nullOrEmpty(string &$string): bool
+    public static function blank(mixed &$value): bool
     {
-        return !isset($string) || trim($string) === self::EMPTY;
+        if (is_null($value)) return true;
+        if (is_string($value)) return trim($value) === self::EMPTY;
+        if (is_numeric($value) || is_bool($value)) return false;
+        if ($value instanceof Countable) return count($value) === 0;
+        return empty($value);
     }
 
     /**
@@ -248,22 +253,22 @@ class R
      * Saves a result of the first call then returns the cached value.
      * @param $target
      * @return __anonymous
-     * @example memoize($user)->count();
+     * @example memorize($user)->count();
      */
-    public static function memoize($target): object
+    public static function memorize($target): object
     {
-        static $memo = new WeakMap();
+        static $mem = new WeakMap();
 
-        return new class ($target, $memo) {
-            public function __construct(protected $target, protected &$memo)
+        return new class ($target, $mem) {
+            public function __construct(protected $target, protected &$mem)
             {
             }
 
             public function __call($method, $params)
             {
-                $this->memo[$this->target] ??= [];
+                $this->mem[$this->target] ??= [];
                 $signature = $method . crc32(json_encode($params));
-                return $this->memo[$this->target][$signature] ??= $this->target->$method(...$params);
+                return $this->mem[$this->target][$signature] ??= $this->target->$method(...$params);
             }
         };
     }
@@ -280,7 +285,7 @@ class R
      */
     public static function bind(string $name, callable $function): void
     {
-        self::checkArgument(!self::nullOrEmpty($name) && is_callable($function), 'Invalid event binding!');
+        self::checkArgument(!self::blank($name) && is_callable($function), 'Invalid event binding!');
         self::$_events[$name][] = $function;
     }
 
@@ -309,7 +314,7 @@ class R
      */
     public static function call(string $name): void
     {
-        self::checkArgument(!self::nullOrEmpty($name) && is_callable(self::$_events[$name]), 'Invalid event name!');
+        self::checkArgument(!self::blank($name) && is_callable(self::$_events[$name]), 'Invalid event name!');
         $args = func_get_args();
         array_shift($args);
         self::checkArgument(call_user_func_array(self::$_events[$name], $args) !== false, 'Event function failed!');

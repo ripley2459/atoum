@@ -100,7 +100,7 @@ class Request
             }
         }
 
-        if (isset($this->_orderBy) && !R::nullOrEmpty($this->_orderBy)) {
+        if (isset($this->_orderBy) && !R::blank($this->_orderBy)) {
             $order = explode('_', $this->_orderBy);
             $s .= ' ORDER BY ' . $order[0] . ' ' . $order[1];
         }
@@ -134,7 +134,7 @@ class Request
 
     public function where(string $column, string $operation, mixed $value): Request
     {
-        if ($operation == 'LIKE' && is_string($value) && !R::nullOrEmpty($value)) $value = '%' . $value . '%'; // Special case. TODO
+        if ($operation == 'LIKE' && is_string($value) && !R::blank($value)) $value = '%' . $value . '%'; // Special case. TODO
         if (isset($value)) $this->_where[] = [$this->_table . '#' . $column, $operation, $value];
         return $this;
     }
