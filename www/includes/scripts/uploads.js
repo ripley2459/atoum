@@ -136,3 +136,12 @@ function createProgressBar(id, text, maxProgress) {
     div.appendChild(progress);
     return div;
 }
+
+function unregister(id, type) {
+    function refresh() {
+        closeEdit();
+        getUploads();
+    }
+
+    if (confirm("Are you sure?")) sendRequest(window.location.origin.concat("/includes/functions/unregister.php?id=" + id + "&type=" + type), refresh);
+}

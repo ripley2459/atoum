@@ -174,7 +174,7 @@ class Content implements IData
         $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
 
         $flag = true;
-        if ($this instanceof IFile) $flag = $this->deleteContent();
+        if ($this instanceof IFile || $this->_type == EDataType::IMAGE || $this->_type == EDataType::VIDEO) $flag = $this->deleteContent();
         if ($flag) {
             try {
                 return $r->execute() && $r->closeCursor();

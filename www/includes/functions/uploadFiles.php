@@ -12,7 +12,7 @@ $blob = $_FILES['file']['tmp_name'];
 if (!empty($blob)) {
     $totalChunk = $_POST['chunkAmount'];
     $frag = $_POST['frag'];
-    $finalName = FileHandler::getNextFreeName(R::sanitize($_POST['fileName']), FileHandler::getPath());
+    $finalName = pathinfo(R::nextName(FileHandler::getPath() . R::sanitize($_POST['fileName'])))['basename'];
 
     if (move_uploaded_file($blob, UPLOADS . $finalName . '_part' . $frag)) {
         $_SESSION['frag']++;

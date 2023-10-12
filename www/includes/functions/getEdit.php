@@ -53,6 +53,9 @@ $content = Content::get($_GET['id'], $content->getType());
                     <button class="u-pull-left" onclick="setPreview('<?= $content->getSlug() ?>', <?= $content->getId() ?>)">Set preview</button>
                     <canvas id="<?= $content->getSlug() ?>-canvas" class="thumbnail-canvas"></canvas>
                 <?php } ?>
+                <div class="u-pull-left">
+                    <button onclick="unregister(<?= $content->getId() ?>,<?= $content->getType()->value ?>)">Delete</button>
+                </div>
                 <div class="u-pull-right">
                     <button onclick="closeEdit()">Cancel</button>
                     <button onclick="applyEdit(['actor-<?= $content->getId() ?>[]','tag-<?= $content->getId() ?>[]'])" class="button-primary">Save</button>

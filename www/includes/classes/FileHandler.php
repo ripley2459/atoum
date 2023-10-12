@@ -59,6 +59,7 @@ class FileHandler
      * @param string $fileName Le nom du fichier auquel sera éventuellement ajouté un nombre
      * @param string $where L'emplacement où va se trouver le fichier (avec le "/" à la fin)
      * @return string Le nom final du fichier
+     * @deprecated
      */
     public static function getNextFreeName(string $fileName, string $where, int $iteration = 0): string
     {
