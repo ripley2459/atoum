@@ -5,6 +5,7 @@
     <?php
     FileHandler::checkPath(CONTENT . 'scripts/');
     foreach (R::recursiveScan(CONTENT . 'scripts/') as $script) {
+        if (str_contains($script, 'disabled')) continue;
         $script = str_replace(CONTENT . 'scripts/', R::EMPTY, $script);
         $script = str_replace('.php', R::EMPTY, $script);
         ?>

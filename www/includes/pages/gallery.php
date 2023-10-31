@@ -16,9 +16,7 @@ if ($_GET['id'] == 'random') {
     while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
         $block->addImage(new Image($d['id']));
     }
-} else {
-    $block->getImages($gallery, true);
-}
+} else $block->getImages($gallery, true);
 
 echo $block->display();
 $gallery->increaseViews();

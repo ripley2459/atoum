@@ -19,23 +19,24 @@ while ($d = $data->fetch(PDO::FETCH_ASSOC)) {
 }
 
 if (Builder::searchArgs()['display'] == 1) {
-    foreach ($contents as $content) {
-        echo '
-            <tr>
-                <td>' . $content->getName() . '</td>
-                <td>' . Blocks::buttonUrlParamSet($content->getType()->name, 'type', $content->getType()->value, 'noparse:getUploads') . '</td>
-                <td>' . $content->getDateCreated()->format('Y/m/d H:i') . '</td>
-                <td>' . $content->getViews() . '</td>
-                <td>' . $content->getContent() . '</td>
-                <td><button onclick="' . R::createFunctionJS('openEdit', $content->getId(), $content->getType()->value) . '">Edit</button>' . Blocks::viewLink($content) . '</td>
-            </tr>';
-    }
-} else if (Builder::searchArgs()['display'] == 0) {
-    $e = '<div class="grid" style="column-count: 5">';
-    foreach ($contents as $content) {
-        $e .= $content->display();
-    }
-    echo $e . '</div>';
-} else {
-    echo 'No valid display configuration provided!';
-}
+    foreach ($contents as $content) { ?>
+        <tr>
+            <td><?= $content->getName() ?></td>
+            <td><?= Blocks::buttonUrlParamSet($content->getType()->name, 'type', $content->getType()->value, 'noparse:getUploads') ?></td>
+            <td><?= $content->getDateCreated()->format('Y/m/d H:i') ?></td>
+            <td><?= $content->getViews() ?></td>
+            <td><?= $content->getContent() ?></td>
+            <td>
+                <button onclick="<?= R::createFunctionJS('openEdit', $content->getId(), $content->getType()->value) ?>">Edit</button><?= Blocks::viewLink($content) ?>
+            </td>
+        </tr>
+    <?php }
+} else if (Builder::searchArgs()['display'] == 0) { ?>
+    <div class="grid" style="column-count: 5">
+        <?php foreach ($contents as $content) {
+            echo $content->display();
+        } ?>
+    </div>
+<?php } else { ?>
+    <h1>No valid display configuration provided!</h1>
+<?php } ?>

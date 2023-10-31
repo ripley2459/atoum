@@ -7,7 +7,25 @@ class Video extends Content implements IFile
      */
     public function deleteContent(): bool
     {
-        return FileHandler::removeFile($this);
+        $path = UPLOADS . '/' . $this->getUploadedDate()->format(FileHandler::DATE_FORMAT) . '/';
+        return rename($path . $this->getUploadName(), $path . 'DELETED_' . $this->getUploadName())
+            && rename($path . $this->getUploadName() . '.png', $path . 'DELETED_' . $this->getUploadName() . '.png');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUploadedDate(): DateTime
+    {
+        return $this->getDateCreated();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUploadName(): string
+    {
+        return $this->_slug;
     }
 
     /**
@@ -31,8 +49,7 @@ class Video extends Content implements IFile
 
     public function hasPoster(): bool
     {
-        $flag = file_exists(UPLOADS . FileHandler::getPath($this) . '.png');
-        return $flag;
+        return file_exists(UPLOADS . FileHandler::getPath($this) . '.png');
     }
 
     /**
@@ -61,21 +78,5 @@ class Video extends Content implements IFile
         }
 
         return $flag;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getUploadedDate(): DateTime
-    {
-        return $this->getDateCreated();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getUploadName(): string
-    {
-        return $this->_slug;
     }
 }

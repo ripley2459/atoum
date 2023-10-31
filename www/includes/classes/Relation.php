@@ -40,6 +40,47 @@ class Relation implements IData
         }
     }
 
+    public static function relationExists(int $type, int $child, int $parent): bool
+    {
+        global $DDB;
+
+        $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent';
+        $r = $DDB->prepare($s);
+
+        $r->bindValue(':type', $type, PDO::PARAM_INT);
+        $r->bindValue(':child', $child, PDO::PARAM_INT);
+        $r->bindValue(':parent', $parent, PDO::PARAM_INT);
+
+        try {
+            return $r->execute() && $r->rowCount() > 0 && $r->closeCursor();
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage());
+        }
+    }
+
+    /**
+     * Supprime toutes les occurances de l'objet donné de la base de données des relations.
+     * @param Content $content
+     * @return void
+     * @throws Exception
+     */
+    public static function obliterate(Content $content): void
+    {
+        die;
+
+        foreach (EDataType::cases() as $type) {
+            $type = Relation::getRelationType($type, $content->getType());
+            foreach (Relation::getParents($type, $content->getId(), true) as $relation) {
+                $relation->unregister();
+            }
+
+            $type = Relation::getRelationType($content->getType(), $type);
+            foreach (Relation::getParents($type, $content->getId(), true) as $relation) {
+                $relation->unregister();
+            }
+        }
+    }
+
     /**
      * Permet de connaitre le nombre décrivant la relation entre deux objets.
      * @param EDataType $child
@@ -70,19 +111,78 @@ class Relation implements IData
         return $r;
     }
 
-    public static function relationExists(int $type, int $child, int $parent): bool
+    /**
+     * Donne les éléments liés à un certain parent pour un certain type de relation.
+     * Donne par exemple les images liées à une galerie.
+     * @param int $relationType
+     * @param int $parent
+     * @param bool $asRelation
+     * @param bool $invert Pour ne prendre que les éléments non liés au parent donné.
+     * @return Content[]|Relation[]
+     * @throws Exception
+     */
+    public static function getParents(int $relationType, int $child, bool $asRelation = false, bool $invert = false): array
     {
         global $DDB;
 
-        $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND child = :child AND parent = :parent';
+        $s = 'SELECT * FROM ' . PREFIX . 'relations WHERE type = :type AND child ' . ($invert ? '<>' : '=') . ' :child';
         $r = $DDB->prepare($s);
 
-        $r->bindValue(':type', $type, PDO::PARAM_INT);
+        $r->bindValue(':type', $relationType, PDO::PARAM_INT);
         $r->bindValue(':child', $child, PDO::PARAM_INT);
-        $r->bindValue(':parent', $parent, PDO::PARAM_INT);
 
         try {
-            return $r->execute() && $r->rowCount() > 0 && $r->closeCursor();
+            $r->execute();
+            $parents = array();
+
+            while ($d = $r->fetch(PDO::FETCH_ASSOC)) {
+                if ($asRelation) {
+                    $newRelation = new Relation($d['id']);
+                    $parents[] = $newRelation;
+                } else {
+                    $newContent = Content::get($d['parent'], self::getTypesFromRelation($relationType)[0]);
+                    $parents[] = $newContent;
+                }
+            }
+
+            $r->closeCursor();
+            return $parents;
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param int $type
+     * @return EDataType[]
+     */
+    public static function getTypesFromRelation(int $type): array
+    {
+        if (is_int($type / self::RELATION_FACTOR)) {
+            $t = array();
+            $t[0] = EDataType::from($type / self::RELATION_FACTOR);
+            $t[1] = EDataType::from(0);
+            return $t;
+        }
+
+        $t = explode(".", $type / self::RELATION_FACTOR);
+        $t[0] = EDataType::from($t[0]);
+        $t[1] = EDataType::from($t[1]);
+        return $t;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unregister(): bool
+    {
+        global $DDB;
+        $s = 'DELETE FROM ' . PREFIX . 'relations WHERE id = :id';
+        $r = $DDB->prepare($s);
+        $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
+
+        try {
+            return $r->execute() && $r->closeCursor();
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
@@ -138,42 +238,6 @@ class Relation implements IData
 
             $r->closeCursor();
             return $children;
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
-        }
-    }
-
-    /**
-     * @param int $type
-     * @return EDataType[]
-     */
-    public static function getTypesFromRelation(int $type): array
-    {
-        if (is_int($type / self::RELATION_FACTOR)) {
-            $t = array();
-            $t[0] = EDataType::from($type / self::RELATION_FACTOR);
-            $t[1] = EDataType::from(0);
-            return $t;
-        }
-
-        $t = explode(".", $type / self::RELATION_FACTOR);
-        $t[0] = EDataType::from($t[0]);
-        $t[1] = EDataType::from($t[1]);
-        return $t;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function unregister(): bool
-    {
-        global $DDB;
-        $s = 'DELETE FROM ' . PREFIX . 'relations WHERE id = :id';
-        $r = $DDB->prepare($s);
-        $r->bindValue(':id', $this->_id, PDO::PARAM_INT);
-
-        try {
-            return $r->execute() && $r->closeCursor();
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
