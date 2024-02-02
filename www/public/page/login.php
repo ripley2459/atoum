@@ -1,4 +1,7 @@
-<div class="container">
+<?php App::setTitle('Atoum - Login');
+App::setDescription('Atoum - Login'); ?>
+
+<div class="container settings">
     <h1>Login</h1>
     <form id="formLogin">
         <label for="username">Username</label>

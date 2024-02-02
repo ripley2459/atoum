@@ -20,15 +20,16 @@ if ($display == 'grid') {
     ?>
     <tr>
         <td colspan="4">
-            <div class="grid" style="column-count: 5">
+            <div class="masonry" style="column-count: 5">
                 <?php foreach ($values as $value) {
                     if ($value->getType() == EDataType::IMAGE)
                         image($value);
                     else if ($value->getType() == EDataType::VIDEO)
                         videoLinkWithPoster($value);
-                    else ?>
+                    else { ?>
                         <div><?= $value->getName() ?></div>
-                <?php } ?>
+                    <?php }
+                } ?>
             </div>
         </td>
     </tr>
@@ -38,16 +39,18 @@ if ($display == 'grid') {
         <tr>
             <td><?= $value->getName() ?></td>
             <td>
-                <button onclick="toggleParam('type', <?= $value->getType()->value ?>)"><?php eDataTypeToString($value->getType()) ?></button>
+                <button class="light" onclick="toggleParam('type', <?= $value->getType()->value ?>)"><?php eDataTypeToString($value->getType()) ?></button>
             </td>
             <td><?= $value->getDateCreated()->format('j F Y') ?></td>
             <td>
-                <a class="button button-primary" href="<?= App::getLink('edit', 'data=' . $value->getId()) ?>" target="_blank">Edit</a>
+                <a class="button light" href="<?= App::getLink('edit', 'data=' . $value->getId()) ?>" target="_blank">Edit</a>
                 <?php if ($value->getType() == EDataType::GALLERY) { ?>
-                    <a class="button button-primary" href="<?= App::getLink('gallery', 'gallery=' . $value->getId()) ?>">View</a>
+                    <a class="button light" href="<?= App::getLink('gallery', 'gallery=' . $value->getId()) ?>">View</a>
                     <?php
                 } else if ($value->getType() == EDataType::VIDEO) { ?>
-                    <a class="button button-primary" href="<?= App::getLink('video', 'video=' . $value->getId()) ?>">View</a>
+                    <a class="button light" href="<?= App::getLink('video', 'video=' . $value->getId()) ?>">View</a>
+                <?php } else if ($value->getType() == EDataType::PLAYLIST) { ?>
+                    <a class="button light" href="<?= App::getLink('playlist', 'playlist=' . $value->getId()) ?>">View</a>
                 <?php } ?>
             </td>
         </tr>

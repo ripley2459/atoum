@@ -207,7 +207,6 @@ class R
      * @param string $message Custom error message to display if the parameter is not set and no default is provided.
      * @param bool $noException If true, echoes the error message and terminates script execution; otherwise, throws an exception.
      * @return mixed The value of the specified parameter if set, default value if provided, or error handling based on $noException.
-     * @throws InvalidArgumentException If the parameter is not set, no default value is provided, and $noException is false.
      * @see require()
      */
     public static function getParameter(string $parameter, mixed $default = null, string $message = R::EMPTY, bool $noException = false): mixed

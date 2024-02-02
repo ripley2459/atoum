@@ -1,3 +1,6 @@
+<?php App::setTitle('Atoum - Register');
+App::setDescription('Atoum - Register'); ?>
+
 <div class="container">
 
     <h1>Create an account</h1>

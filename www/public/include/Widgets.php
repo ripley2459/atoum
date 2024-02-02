@@ -32,57 +32,31 @@ function image(Content $image): void
     <img id="<?= $image->getSlug() ?>" src="<?= FileHandler::getURL($image) ?>" alt="<?= $image->getName() ?>"/>
 <?php }
 
-function videoLinkWithPoster(Content $video): void
-{ ?>
-    <a href="<?= App::getLink('video', 'video=' . $video->getId()) ?>"><img id="<?= $video->getSlug() ?>" src="<?= videoPoster($video) ?>" alt="<?= $video->getName() ?>"/></a>
-<?php }
-
-function videoPoster(Content $content): string
-{
-    $poster = FileHandler::getURL($content) . '.png';
-    return file_exists(FileHandler::getPath($content) . '.png') ? $poster : App::include('video-poster-placeholder.png');
-}
-
-function videoPlayer(Content $video): void
-{ ?>
-    <video id="<?= $video->getSlug() ?>" src="<?= FileHandler::getURL($video) ?>" controls poster="<?= videoPoster($video) ?>"></video>
-<?php }
-
 function eDataTypeToString(EDataType $type): void
 { ?>
     <?= ucwords(strtolower($type->name)) ?>
 <?php }
 
-function chipTag(Content $tag): void
-{ ?>
-    <a href="#" class="button"><?= $tag->getName() ?></a>
-<?php }
-
-function chipActor(Content $actor): void
-{ ?>
-    <a href="#" class="button"><?= $actor->getName() ?></a>
-<?php }
-
 function pagination(bool $displayMode): void
 { ?>
-    <div class="row">
+    <div class="row u-padd-top u-padd-bot">
         <?php if ($displayMode) { ?>
             <div class="four columns">
-                <button onclick="setParam('displayMode', 'table')" name="displayMode" id="displayMode-table">Table</button>
-                <button onclick="setParam('displayMode', 'grid')" name="displayMode" id="displayMode-grid">Grid</button>
+                <button class="light" onclick="setParam('displayMode', 'table')" name="displayMode" id="displayMode-table">Table</button>
+                <button class="light" onclick="setParam('displayMode', 'grid')" name="displayMode" id="displayMode-grid">Grid</button>
             </div>
         <?php } ?>
         <div id="pagination" class="<?= $displayMode ? 'four' : 'six' ?> columns">
-            <button onclick="setParam('offset', 10)" name="offset" id="offset-10">◄</button>
-            <button onclick="setParam('offset', 25)" name="offset" id="offset-25">5/10</button>
-            <button onclick="setParam('offset', 50)" name="offset" id="offset-50">►</button>
+            <button class="light" onclick="setParam('offset', 10)" name="offset" id="offset-10">◄</button>
+            <button class="light" onclick="setParam('offset', 25)" name="offset" id="offset-25">5/10</button>
+            <button class="light" onclick="setParam('offset', 50)" name="offset" id="offset-50">►</button>
         </div>
         <div class="<?= $displayMode ? 'four' : 'six' ?> columns">
-            <button onclick="setParam('limit', 20)" name="limit" id="limit-20">20</button>
-            <button onclick="setParam('limit', 50)" name="limit" id="limit-50">50</button>
-            <button onclick="setParam('limit', 100)" name="limit" id="limit-100">100</button>
-            <button onclick="setParam('limit', 200)" name="limit" id="limit-200">200</button>
-            <button onclick="setParam('limit', 500)" name="limit" id="limit-500">500</button>
+            <button class="light" onclick="setParam('limit', 20)" name="limit" id="limit-20">20</button>
+            <button class="light" onclick="setParam('limit', 50)" name="limit" id="limit-50">50</button>
+            <button class="light" onclick="setParam('limit', 100)" name="limit" id="limit-100">100</button>
+            <button class="light" onclick="setParam('limit', 200)" name="limit" id="limit-200">200</button>
+            <button class="light" onclick="setParam('limit', 500)" name="limit" id="limit-500">500</button>
         </div>
     </div>
 <?php }
@@ -101,74 +75,183 @@ function notification(string $content): void
     </div>
 <?php }
 
-function gallery(Content $reference): void
-{ ?>
-    <div id="<?= $reference->getSlug() ?>-gallery" class="gallery">
-        <div id="<?= $reference->getSlug() ?>-gallery-grid" class="gallery grid" style="column-count: 4">
-            <?php $i = 0;
-            foreach (Relation::getRelated($reference, EDataType::IMAGE) as $image) { ?>
-                <img src="<?= FileHandler::getURL($image) ?>" onclick="showSlide(<?= ++$i ?>, '<?= $reference->getSlug() ?>-gallery')" alt="<?= $image->getName() ?>">
-            <?php } ?>
-        </div>
-        <div id="<?= $reference->getSlug() ?>-gallery-modal" class="gallery modal">
-            <div id="<?= $reference->getSlug() ?>-gallery-controls" class="gallery controls">1/100</div>
-            <div id="<?= $reference->getSlug() ?>-gallery-slides" class="gallery slides">
-                <?php $i = 0;
-                foreach (Relation::getRelated($reference, EDataType::IMAGE) as $image) { ?>
-                    <img src="<?= FileHandler::getURL($image) ?>" onclick="showSlide(<?= ++$i ?>, '<?= $reference->getSlug() ?>-gallery')" alt="<?= $image->getName() ?>">
-                <?php } ?>
-            </div>
-            <div id="<?= $reference->getSlug() ?>-gallery-thumbnails" class="gallery thumbnails">
-                <?php $i = 0;
-                foreach (Relation::getRelated($reference, EDataType::IMAGE) as $image) { ?>
-                    <img src="<?= FileHandler::getURL($image) ?>" onclick="showSlide(<?= ++$i ?>, '<?= $reference->getSlug() ?>-gallery')" alt="<?= $image->getName() ?>">
-                <?php } ?>
-            </div>
-        </div>
-    </div>
-<?php }
-
-function videoInfos(Content $reference): void
-{ ?>
-    <div id="video-<?= $reference->getId() ?>-info">
-        <div class="row">
-            <h1><?= $reference->getName() ?></h1>
-        </div>
-        <div class="row">
-            <div class="six columns">
-                <?php foreach (Relation::getRelated($reference, EDataType::ACTOR) as $actor) {
-                    chipActor($actor);
-                } ?>
-            </div>
-            <div class="six columns">
-                <?php foreach (Relation::getRelated($reference, EDataType::TAG) as $tag) {
-                    chipTag($tag);
-                } ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="four columns">
-                <?= $reference->getDateCreated()->format('d/m/Y') ?>
-            </div>
-            <div class="four columns">
-                <?= $reference->getViews() . ' views' ?>
-            </div>
-            <div class="four columns">
-                <a class="button" href="<?= App::getLink('edit', 'data=' . $reference->getId()) ?>" target="_blank">Edit</a>
-            </div>
-        </div>
-    </div>
-<?php }
-
-function videoRelatedBy(Content $reference, EDataType $type, int $amount = -1): void
-{
-    foreach (Relation::getRelatedStepped($reference, $type, EDataType::VIDEO, $amount) as $video)
-        videoLinkWithPoster($video);
-}
+/* ==================================================
+ * Loader
+ */
 
 function loadingPage(): void
 { ?>
     <div id="loadingPage">
         <span class="loader"></span>
+    </div>
+<?php }
+
+function last(int $amount = 100): void
+{
+    $data = RDB::select('contents', 'id')
+        //->where('type', '=', EDataType::IMAGE->value)
+        //->or()
+        ->where('type', '=', EDataType::VIDEO->value)
+        ->or()
+        ->where('type', '=', EDataType::GALLERY->value)
+        ->limit($amount)
+        ->orderBy('id', 'DESC')
+        ->execute();
+
+    $values = array();
+    while ($d = $data->fetch(PDO::FETCH_ASSOC))
+        $values[] = new Content($d['id']);
+    $data->closeCursor();
+    ?>
+    <div class="masonry">
+        <?php foreach ($values as $value) {
+            switch ($value->getType()) {
+                case EDataType::IMAGE:
+                    image($value);
+                    break;
+                case EDataType::VIDEO:
+                    videoLinkWithPoster($value);
+                    break;
+                case EDataType::GALLERY:
+                    $value->getName();
+                    break;
+                default:
+                    throw new \Exception('Unexpected value');
+            }
+        } ?>
+    </div>
+<?php }
+
+/* ==================================================
+ * Video
+ */
+
+function videoLinkWithPoster(Content $video): void
+{ ?>
+    <!-- class="video-preview" -->
+    <a href="<?= App::getLink('video', 'video=' . $video->getId()) ?>" data-src="<?= FileHandler::getURL($video) ?>">
+        <img id="<?= $video->getSlug() ?>-poster" class="video-thumbnail" src="<?= videoPoster($video) ?>" alt="<?= $video->getName() ?>"/>
+    </a>
+<?php }
+
+function videoPoster(Content $content, bool $asImage = false): string
+{
+    $poster = FileHandler::getURL($content) . '.png';
+    $poster = file_exists(FileHandler::getPath($content) . '.png') ? $poster : App::include('video-poster-placeholder.png');
+    return $asImage ? '<img id="video-' . $content->getId() . '-poster" class="video-thumbnail" src="' . $poster . '" alt="' . $content->getName() . '"/>' : $poster;
+}
+
+function videoPlayer(Content $video): void
+{ ?>
+    <div id="<?= $video->getId() ?>-video-container" class="video-container">
+        <video id="<?= $video->getId() ?>-video-player" class="video-player" src="<?= FileHandler::getURL($video) ?>" controls poster="<?= videoPoster($video) ?>"></video>
+    </div>
+<?php }
+
+/* ==================================================
+ * Gallery
+ */
+
+function galleryFromContent(Content $data): void
+{
+    $images = Relation::getRelated($data, EDataType::IMAGE, shuffle: true);
+    galleryFromImages($data->getId(), $images);
+}
+
+function galleryFromImages(string $galleryId, array $images): void
+{ ?>
+    <div id="<?= $galleryId ?>-gallery-container" class="gallery-container">
+        <div id="<?= $galleryId ?>-gallery-grid" class="gallery-grid masonry">
+            <?php $i = 0;
+            foreach ($images as $image) { ?>
+                <img src="<?= FileHandler::getURL($image) ?>" onclick="showSlide(<?= ++$i ?>, '<?= $galleryId ?>-gallery')" alt="<?= $image->getName() ?>">
+            <?php } ?>
+        </div>
+        <div id="<?= $galleryId ?>-gallery-modal" class="gallery-modal modal">
+            <div id="<?= $galleryId ?>-gallery-controls" class="gallery-controls">1/100</div>
+            <div id="<?= $galleryId ?>-gallery-slides" class="gallery-slides">
+                <?php $i = 0;
+                foreach ($images as $image) { ?>
+                    <img src="<?= FileHandler::getURL($image) ?>" class="gallery-slide" onclick="showSlide(<?= ++$i ?>, '<?= $galleryId ?>-gallery')" alt="<?= $image->getName() ?>">
+                <?php } ?>
+            </div>
+            <div id="<?= $galleryId ?>-gallery-thumbnails" class="gallery-thumbnails">
+                <?php $i = 0;
+                foreach ($images as $image) { ?>
+                    <img src="<?= FileHandler::getURL($image) ?>" onclick="showSlide(<?= ++$i ?>, '<?= $galleryId ?>-gallery')" alt="<?= $image->getName() ?>">
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+<?php }
+
+/* ==================================================
+ * Data
+ */
+
+function dataInfo(Content $data): void
+{ ?>
+    <div id="<?= $data->getId() ?>-data-container" class="data-container">
+        <div class="row">
+            <h1><?= $data->getName() ?></h1>
+        </div>
+        <div class="row">
+            <h3>With</h3>
+            <div class="actors list">
+                <?php
+                $actors = array();
+                foreach (Relation::getRelated($data, EDataType::ACTOR) as $actor) {
+                    $actors[] = $actor ?>
+                    <a href="#" class="button light"><?= $actor->getName() ?></a>
+                <?php } ?>
+            </div>
+        </div>
+        <div class="row">
+            <h3>Tags</h3>
+            <div class="tags list">
+                <?php
+                $tags = array();
+                foreach ($actors as $actor)
+                    foreach (Relation::getRelated($actor, EDataType::TAG) as $sub)
+                        $tags[] = $sub;
+                foreach (Relation::getRelated($data, EDataType::TAG) as $sub)
+                    $tags[] = $sub;
+                $tags = array_unique($tags);
+                foreach ($tags as $sub) { ?>
+                    <a href="#" class="button light"><?= $sub->getName() ?></a>
+                <?php } ?>
+            </div>
+        </div>
+        <div class="row">
+            <h3>Settings</h3>
+            <div class="settings list">
+                <a class="button light" href="<?= App::getLink('edit', 'data=' . $data->getId()) ?>" target="_blank">Edit</a>
+            </div>
+        </div>
+    </div>
+<?php }
+
+/* ==================================================
+ * Data
+ */
+
+function playlist(Content $data): void
+{
+    $active = R::getParameter('video', -1);
+    $videos = Relation::getRelated($data, EDataType::VIDEO);
+    $actual = $videos[0]; ?>
+    <div id="<?= $data->getId() ?>-playlist-container" class="playlist-container">
+        <div id="<?= $data->getId() ?>-playlist-videos" class="playlist-videos row">
+            <?php foreach ($videos as $video) {
+                if ($video->getId() == $active)
+                    $actual = $video; ?>
+                <a href="<?= App::getLink('playlist', 'playlist=' . $data->getId(), 'video=' . $video->getId()) ?>">
+                    <img src="<?= videoPoster($video) ?>"
+                         onclick="setParam('video',<?= $video->getId() ?>)"
+                         alt="<?= $video->getName() ?>">
+                </a>
+            <?php } ?>
+        </div>
+        <?php videoPlayer($active == -1 ? $videos[0] : $actual); ?>
     </div>
 <?php }

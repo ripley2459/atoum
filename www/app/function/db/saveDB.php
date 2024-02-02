@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$path = path_CONTENT . 'backups/';
+$path = path_DATA . 'backups/';
 $file = $path . 'save_' . DBNAME . '_' . date('Y-m-d-H-i-s') . '.sql';
 FileHandler::checkPath($path);
 

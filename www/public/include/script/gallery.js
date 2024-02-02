@@ -82,3 +82,45 @@ const setSlide = (n) => {
     thumbnails[clamp(slide + 0)].classList.add("active");
     thumbnails[clamp(slide + 1)].classList.add("active");
 }
+
+const videoPreviews = document.querySelectorAll(".video-preview");
+
+videoPreviews.forEach(function (link) {
+    let video;
+    link.addEventListener("mouseover", function () {
+        if (!video) {
+            video = document.createElement("video");
+            video.src = link.getAttribute("data-src");
+            video.muted = true;
+            video.loop = true;
+            video.style.display = "block";
+            link.appendChild(video);
+
+            video.style.position = "absolute";
+            video.style.zIndex = "10";
+            video.style.top = "0";
+
+            video.addEventListener("mouseout", function () {
+                video.pause();
+                video.currentTime = 0;
+                video.remove();
+                video = null;
+            });
+
+            video.play();
+        }
+    });
+
+    link.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.location.href = link.href;
+    });
+});
+
+/* ==================================================
+ * Playlist
+ */
+
+const showVideo = (id, zone) => {
+    setParam('index', id);
+}

@@ -2,7 +2,6 @@
 
 class FileHandler
 {
-    public const SEPARATOR = '/';
     public const DATE_FORMAT = 'Y/m/d';
     public const ALLOWED_TYPES = ['image/giff', 'image/gif', 'image/jpeg', 'image/png', 'video/mp4', 'video/ogg'];
 
@@ -19,12 +18,12 @@ class FileHandler
 
     public static function getURL(Content $file): string
     {
-        return R::concat(self::SEPARATOR, URL, 'public', 'content/uploads', $file->getDateCreated()->format(self::DATE_FORMAT), $file->getSlug());
+        return R::concat('/', URL, 'public', 'data/uploads', $file->getDateCreated()->format(self::DATE_FORMAT), $file->getSlug());
     }
 
     public static function getPath(Content $file): string
     {
-        return R::concat(self::SEPARATOR, path_CONTENT, 'uploads', $file->getDateCreated()->format(self::DATE_FORMAT), $file->getSlug());
+        return path_DATA . 'uploads/' . $file->getDateCreated()->format(self::DATE_FORMAT) . '/' . $file->getSlug();
     }
 
     /**
@@ -32,6 +31,6 @@ class FileHandler
      */
     public static function getDefaultPath(): string
     {
-        return path_CONTENT . 'uploads' . self::SEPARATOR . date(self::DATE_FORMAT) . self::SEPARATOR;
+        return path_DATA . 'uploads/' . date(self::DATE_FORMAT) . '/';
     }
 }

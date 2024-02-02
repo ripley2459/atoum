@@ -1,5 +1,2 @@
-<div class="container">
-
-    <h1>Home</h1>
-
-</div>
+<?php App::setTitle('Atoum - Home');
+App::setDescription('Atoum - Home'); ?>

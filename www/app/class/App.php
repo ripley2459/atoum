@@ -6,10 +6,11 @@
 class App
 {
     protected static string $_page;
-    protected static string $_title = 'title';
-    protected static string $_description = 'description';
-    protected static string $_author = 'author';
+    protected static string $_title = '%%TITLE%%';
+    protected static string $_description = '%%DESCRIPTION%%';
+    protected static string $_author = '%%AUTHOR%%';
     protected static array $_searchArguments;
+    protected static string $_buffer;
 
     /**
      * Build the whole page.
@@ -23,11 +24,22 @@ class App
         Auth::start();
         Auth::set('location', URL . $_SERVER['REQUEST_URI']);
 
+        ob_start();
         self::$_page = R::whitelist($_GET['page'] ?? LANDING_PAGE, ALLOWED_PAGES, UNKNOWN_PAGE);
+
         require_once path_PUBLIC . 'include/head.php';
         require_once path_PUBLIC . 'include/header.php';
         require_once path_PUBLIC . 'page/' . self::$_page . '.php';
         require_once path_PUBLIC . 'include/footer.php';
+
+        self::$_buffer = ob_get_contents();
+
+        self::$_buffer = str_replace('%%TITLE%%', self::$_title, self::$_buffer);
+        self::$_buffer = str_replace('%%DESCRIPTION%%', self::$_description, self::$_buffer);
+        self::$_buffer = str_replace('%%AUTHOR%%', self::$_author, self::$_buffer);
+
+        ob_end_clean();
+        echo self::$_buffer;
     }
 
     /**
@@ -39,6 +51,14 @@ class App
     }
 
     /**
+     * @param string $title
+     */
+    public static function setTitle(string $title): void
+    {
+        self::$_title = $title;
+    }
+
+    /**
      * @return string
      */
     public static function getDescription(): string
@@ -47,11 +67,27 @@ class App
     }
 
     /**
+     * @param string $description
+     */
+    public static function setDescription(string $description): void
+    {
+        self::$_description = $description;
+    }
+
+    /**
      * @return string
      */
     public static function getAuthor(): string
     {
         return self::$_author;
+    }
+
+    /**
+     * @param string $author
+     */
+    public static function setAuthor(string $author): void
+    {
+        self::$_author = $author;
     }
 
     /**

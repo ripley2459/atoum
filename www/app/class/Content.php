@@ -225,4 +225,9 @@ class Content extends AContent
 
         return $update && $rename;
     }
+
+    public function __toString(): string
+    {
+        return $this->slug;
+    }
 }

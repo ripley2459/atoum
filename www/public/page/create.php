@@ -3,17 +3,23 @@
 if (!Auth::isLoggedIn())
     App::redirect('home');
 
+App::setTitle('Atoum - Create');
+App::setDescription('Atoum - Create');
+
 $type = EDataType::from(R::getParameter('data'));
 
-R::whitelist($type, [EDataType::GALLERY]);
+R::whitelist($type, [EDataType::GALLERY, EDataType::PLAYLIST]);
 
 ?>
 
-<div class="container">
-    <h1>Create - <?= eDataTypeToString($type) ?></h1>
-    <label for="name">Name</label>
-    <input class="u-full-width" type="text" placeholder="name..." id="name">
+<div class="container settings">
+    <h1>Create - <?php eDataTypeToString($type) ?></h1>
+    <div class="u-padd-bot">
+        <label for="name">Name</label>
+        <input class="u-full-width u-padd-bot" type="text" placeholder="name..." id="name">
+    </div>
     <button onclick="create()" class="button-primary">Create</button>
+
 </div>
 
 <div id="feedbacks"></div>

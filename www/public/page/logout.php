@@ -1,4 +1,7 @@
-<div class="container">
+<?php App::setTitle('Atoum - Logout');
+App::setDescription('Atoum - logout'); ?>
+
+<div class="container settings">
 
     <h1>Logout</h1>
 

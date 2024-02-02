@@ -105,27 +105,29 @@ class Relation extends AData
      * @param AContent $reference
      * @param EDataType $child
      * @param bool $selectChild
-     * @param int $amount
+     * @param int $amount If > 0 only the first $amount results are kept.
+     * @param bool $shuffle If true, the results will be shuffled.
      * @return array
      */
-    public static function getRelated(AContent $reference, EDataType $child, bool $selectChild = true, int $amount = -1): array
+    public static function getRelated(AContent $reference, EDataType $child, bool $selectChild = true, int $amount = -1, bool $shuffle = false): array
     {
-        $data = RDB::select(self::getTableName(), $selectChild ? 'child' : 'parent')
+        $request = RDB::select(self::getTableName(), $selectChild ? 'child' : 'parent')
             ->where('type', '=', $selectChild ? self::getTypeFor($child, $reference->getType()) : self::getTypeFor($reference->getType(), $child))
-            ->where($selectChild ? 'parent' : 'child', '=', $reference->getId())
-            ->execute();
+            ->where($selectChild ? 'parent' : 'child', '=', $reference->getId());
+        if ($shuffle)
+            $request->orderBy('id', 'RAND()');
+        if ($amount > 0)
+            $request->limit($amount);
+
+        $data = $request->execute();
 
         $values = array();
         while ($d = $data->fetch(PDO::FETCH_ASSOC))
-            $values[] = new Content($d[$selectChild ? 'child' : 'parent']);
+            if ($d[$selectChild ? 'child' : 'parent'] != $reference->getId())
+                $values[] = new Content($d[$selectChild ? 'child' : 'parent']);
         $data->closeCursor();
 
-        if ($amount > 0) { // TODO Implement a cleaner way to get this!
-            shuffle($values);
-            $values = array_slice($values, 0, $amount);
-        }
-
-        return $values;
+        return array_unique($values);
     }
 
     /**
@@ -201,7 +203,7 @@ class Relation extends AData
      * @param int $amount
      * @return array
      */
-    public static function getRelatedStepped(AContent $reference, EDataType $first, EDataType $second, $amount = -1): array
+    public static function getRelatedStepped(AContent $reference, EDataType $first, EDataType $second, int $amount = -1): array
     {
         $sub = RDB::select(self::getTableName(), 'child')
             ->where('type', '=', self::getTypeFor($first, $reference->getType()))
@@ -213,8 +215,11 @@ class Relation extends AData
 
         $values = array();
         while ($d = $data->fetch(PDO::FETCH_ASSOC))
-            $values[] = new Content($d['parent']);
+            if ($d['parent'] != $reference->getId())
+                $values[] = new Content($d['parent']);
         $data->closeCursor();
+
+        $values = array_unique($values);
 
         if ($amount > 0) { // TODO Implement a cleaner way to get this!
             shuffle($values);

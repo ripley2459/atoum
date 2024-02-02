@@ -8,25 +8,24 @@
 define('URL', sprintf('%s://%s', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']));
 
 const DIR = __DIR__ . '/';
-const path_CLASS = DIR . 'app/class/';
 const path_PUBLIC = DIR . 'public/';
-const path_CONTENT = DIR . 'public/content/';
+const path_DATA = DIR . 'public/data/';
 
 /**
  * As we do not use an autoloader, the files to integrate are listed here.
  */
-require_once path_CLASS . 'R.php';
-require_once path_CLASS . 'FileHandler.php';
-require_once path_CLASS . 'RDB.php';
-require_once path_CLASS . 'RDB_Where.php';
-require_once path_CLASS . 'EDataType.php';
-require_once path_CLASS . 'App.php';
-require_once path_CLASS . 'Auth.php';
-require_once path_CLASS . 'AData.php';
-require_once path_CLASS . 'AContent.php';
-require_once path_CLASS . 'User.php';
-require_once path_CLASS . 'Content.php';
-require_once path_CLASS . 'Relation.php';
+require_once DIR . 'app/class/' . 'R.php';
+require_once DIR . 'app/class/' . 'FileHandler.php';
+require_once DIR . 'app/class/' . 'RDB.php';
+require_once DIR . 'app/class/' . 'RDB_Where.php';
+require_once DIR . 'app/class/' . 'EDataType.php';
+require_once DIR . 'app/class/' . 'App.php';
+require_once DIR . 'app/class/' . 'Auth.php';
+require_once DIR . 'app/class/' . 'AData.php';
+require_once DIR . 'app/class/' . 'AContent.php';
+require_once DIR . 'app/class/' . 'User.php';
+require_once DIR . 'app/class/' . 'Content.php';
+require_once DIR . 'app/class/' . 'Relation.php';
 require_once path_PUBLIC . 'include/Widgets.php';
 
 if (file_exists(DIR . 'config.php')) {
@@ -43,4 +42,4 @@ if (file_exists(DIR . 'config.php')) {
 User::checkTable();
 Content::checkTable();
 Relation::checkTable();
-FileHandler::checkPath(path_CONTENT);
+FileHandler::checkPath(path_DATA);

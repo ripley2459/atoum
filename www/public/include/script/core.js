@@ -7,9 +7,15 @@ const func = (func) => {
  */
 
 const putFrom = (from, putHere) => {
+    const area = document.getElementById(putHere);
+    area.innerHTML = spinner();
     sendRequest(new URL(from), (request) => {
-        document.getElementById(putHere).innerHTML = request.responseText;
+        area.innerHTML = request.responseText;
     });
+}
+
+const spinner = () => {
+    return '<div class="spinner"></div>';
 }
 
 /**
@@ -203,9 +209,12 @@ const updatePagination = () => {
 
     let previousButton = document.createElement("button");
     previousButton.innerHTML = "◄";
+    previousButton.classList.add("light");
     let actualButton = document.createElement("button");
     actualButton.innerHTML = actualPage.toString();
+    actualButton.classList.add("light");
     let nextButton = document.createElement("button");
+    nextButton.classList.add("light");
     nextButton.innerHTML = "►";
 
     if (actualPage !== 1) {
@@ -226,7 +235,15 @@ const updatePagination = () => {
     zone.appendChild(nextButton);
 }
 
-const saveDB = (from, putHere) => {
+const saveDB = (putHere) => {
     let destination = new URL(func('db/saveDB'));
-    putFrom(destination, 'notifications');
+    putFrom(destination, putHere);
 }
+
+/* ==================================================
+ * Loading page
+ */
+
+window.addEventListener('load', () => {
+    document.getElementById("loadingPage").style.display = 'none';
+});

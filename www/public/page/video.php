@@ -1,22 +1,29 @@
 <?php
 
-$video = new Content(R::getParameter('video'));
+$data = new Content(R::getParameter('video'));
+
+App::setTitle('Atoum - ' . $data->getName());
+App::setDescription($data->getName());
+
+videoPlayer($data);
+dataInfo($data);
 
 ?>
-<div class="container">
+
+<div id="<?= $data->getId() ?>-related-container" class="related-container">
     <div class="row">
-        <div class="two-thirds column">
-            <div id="main-video">
-                <?php videoPlayer($video) ?>
-                <?php videoInfos($video) ?>
-            </div>
-            <div id="related-videos" class="grid" style="column-count: 4">
-                <?php videoRelatedBy($video,EDataType::TAG, 16) ?>
+        <div class="six columns">
+            <h3>Related by tags</h3>
+            <div class="masonry">
+                <?php foreach (Relation::getRelatedStepped($data, EDataType::TAG, EDataType::VIDEO, 16) as $sub)
+                    videoLinkWithPoster($sub); ?>
             </div>
         </div>
-        <div class="one-third column">
-            <div id="related-actors" class="grid" style="column-count: 2">
-                <?php videoRelatedBy($video,EDataType::ACTOR, 16) ?>
+        <div class="six columns">
+            <h3>Related by actors</h3>
+            <div class="masonry">
+                <?php foreach (Relation::getRelatedStepped($data, EDataType::ACTOR, EDataType::VIDEO, 16) as $sub)
+                    videoLinkWithPoster($sub); ?>
             </div>
         </div>
     </div>

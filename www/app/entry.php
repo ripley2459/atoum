@@ -18,6 +18,8 @@ const ALLOWED_FUNCTIONS = [
     'data/typeaheadSearch',
     'gallery/getImagesLinked',
     'gallery/getImagesNonLinked',
+    'playlist/getVideosLinked',
+    'playlist/getVideosNonLinked',
     'relation/createRelation',
     'relation/deleteRelation',
     'db/saveDB'

@@ -3,21 +3,33 @@
 if (!Auth::isLoggedIn())
     App::redirect('home');
 
+App::setTitle('Atoum - Uploads');
+App::setDescription('Atoum - Uploads');
+
+/*
+<div id="side-menu">
+    <button onclick="setParam('type', <?= EDataType::VIDEO->value ?>)" name="type" id="type-<?= EDataType::VIDEO->value ?>"><?= EDataType::VIDEO->name ?></button>
+<button onclick="setParam('type', <?= EDataType::GALLERY->value ?>)" name="type" id="type-<?= EDataType::GALLERY->value ?>"><?= EDataType::GALLERY->name ?></button>
+<button onclick="setParam('type', <?= EDataType::ACTOR->value ?>)" name="type" id="type-<?= EDataType::ACTOR->value ?>"><?= EDataType::ACTOR->name ?></button>
+<button onclick="setParam('type', <?= EDataType::IMAGE->value ?>)" name="type" id="type-<?= EDataType::IMAGE->value ?>"><?= EDataType::IMAGE->name ?></button>
+</div>
+*/
 ?>
 
-<div class="container">
+<div class="container settings">
 
     <h1>Uploads</h1>
 
-    <div class="row">
+    <div class="row u-padd-top">
         <div id="dataUploadForm" class="six columns">
             <label for="filesUploader">Upload</label>
             <input type="file" id="filesUploader" multiple required/>
-            <button onclick="uploadData()">Upload!</button>
+            <button class="light" onclick="uploadData()">Upload!</button>
         </div>
         <div class="six columns">
             <label>Create</label>
-            <a href="<?= App::getLink('create', 'data=' . EDataType::GALLERY->value) ?>" class="button">Gallery</a>
+            <a href="<?= App::getLink('create', 'data=' . EDataType::PLAYLIST->value) ?>" class="button light">Playlist</a>
+            <a href="<?= App::getLink('create', 'data=' . EDataType::GALLERY->value) ?>" class="button light">Gallery</a>
         </div>
     </div>
 
@@ -25,14 +37,14 @@ if (!Auth::isLoggedIn())
 
     <div id="dataSearchForm">
 
-        <div class="row">
+        <div class="row u-padd-top">
             <div class="twelve columns">
                 <label for="search">Search</label>
                 <input type="text" name="search" id="search" class="u-full-width" placeholder="search for..." onkeyup="setParam('search', value)">
             </div>
         </div>
 
-        <div class="row">
+        <div class="row u-padd-top">
             <div class="four columns">
                 <?php typeahead('actor-filter', 'With actors', 'actors...', EDataType::ACTOR) ?>
             </div>
@@ -46,7 +58,7 @@ if (!Auth::isLoggedIn())
                 <select name="type" id="type" class="u-full-width" onchange="toggleParam('type', value)">
                     <option value="" selected="selected">All</option>
                     <?php foreach (EDataType::cases() as $type) { ?>
-                        <option value="<?= $type->value ?>"><?= ucfirst(strtolower($type->name)) ?></option>
+                        <option <?php if ($type->value == R::getParameter('type', -1)) echo 'selected ' ?> value="<?= $type->value ?>"><?= ucfirst(strtolower($type->name)) ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -54,26 +66,26 @@ if (!Auth::isLoggedIn())
 
         <?php pagination(true) ?>
 
-        <table class="u-full-width">
-            <thead>
-            <tr>
-                <th>
-                    <button onclick="toggleBetweenParams('orderBy', 'name_ASC', 'name_DESC')" name="orderBy" id="orderBy-name">Name</button>
-                </th>
-                <th>
-                    <button onclick="toggleBetweenParams('orderBy', 'type_ASC', 'type_DESC')" name="orderBy" id="orderBy-type">Type</button>
-                </th>
-                <th>
-                    <button onclick="toggleBetweenParams('orderBy', 'dateCreated_ASC', 'dateCreated_DESC')" name="orderBy" id="orderBy-dateCreated">Date Created</button>
-                </th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-
-            <tbody id="feedbacks"></tbody>
-        </table>
-
     </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>
+                <button class="light" onclick="toggleBetweenParams('orderBy', 'name_ASC', 'name_DESC')" name="orderBy" id="orderBy-name">Name</button>
+            </th>
+            <th>
+                <button class="light" onclick="toggleBetweenParams('orderBy', 'type_ASC', 'type_DESC')" name="orderBy" id="orderBy-type">Type</button>
+            </th>
+            <th>
+                <button class="light" onclick="toggleBetweenParams('orderBy', 'dateCreated_ASC', 'dateCreated_DESC')" name="orderBy" id="orderBy-dateCreated">Date Created</button>
+            </th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody id="feedbacks"></tbody>
+    </table>
 
 </div>
 
