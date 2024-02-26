@@ -51,6 +51,8 @@ if ($display == 'grid') {
                     <a class="button light" href="<?= App::getLink('video', 'video=' . $value->getId()) ?>">View</a>
                 <?php } else if ($value->getType() == EDataType::PLAYLIST) { ?>
                     <a class="button light" href="<?= App::getLink('playlist', 'playlist=' . $value->getId()) ?>">View</a>
+                <?php } else if ($value->getType() == EDataType::ACTOR) { ?>
+                    <a class="button light" href="<?= App::getLink('actor', 'actor=' . $value->getId()) ?>">View</a>
                 <?php } ?>
             </td>
         </tr>

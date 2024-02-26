@@ -4,11 +4,11 @@ function typeahead(string $name, string $label, string $placeholder, EDataType $
 { ?>
     <div>
         <label for="<?= $name ?>"><?= $label ?></label>
-        <div class="typeahead">
-            <div id="<?= $name ?>-input">
+        <div class="typeahead-container">
+            <div id="<?= $name ?>-input" class="typeahead-inputs-container">
                 <?php if (isset($reference)) {
                     foreach (Relation::getRelated($reference, $type) as $in) { ?>
-                        <div id="<?= strtolower($in->getSlug()) ?>-input-container" class="input">
+                        <div id="<?= strtolower($in->getSlug()) ?>-input-container" class="typeahead-input-container light">
                             <input type="text" class="<?= $name ?>-value" value="<?= $in->getName() ?>" readonly="" name="<?= $name ?>[]">
                             <button type="button" onclick="typeaheadRemove('<?= $name ?>[]', '<?= strtolower($in->getSlug()) ?>-input-container')">x</button>
                         </div>
@@ -17,7 +17,7 @@ function typeahead(string $name, string $label, string $placeholder, EDataType $
                 <input class="u-full-width" type="text" placeholder="<?= $placeholder ?>" id="<?= $name ?>" onkeyup="typeaheadSearch('<?= $name ?>', <?= $type->value ?>)"
                        onkeydown="typeaheadOnKey('<?= $name ?>')">
             </div>
-            <div id="<?= $name ?>-result" class="search-result"></div>
+            <div id="<?= $name ?>-result" class="typeahead-search-result-container"></div>
         </div>
     </div>
 <?php }
@@ -39,24 +39,24 @@ function eDataTypeToString(EDataType $type): void
 
 function pagination(bool $displayMode): void
 { ?>
-    <div class="row u-padd-top u-padd-bot">
+    <div class="row u-space-top u u-space-bot">
         <?php if ($displayMode) { ?>
             <div class="four columns">
-                <button class="light" onclick="setParam('displayMode', 'table')" name="displayMode" id="displayMode-table">Table</button>
-                <button class="light" onclick="setParam('displayMode', 'grid')" name="displayMode" id="displayMode-grid">Grid</button>
+                <button onclick="setParam('displayMode', 'table')" name="displayMode" id="displayMode-table">Table</button>
+                <button onclick="setParam('displayMode', 'grid')" name="displayMode" id="displayMode-grid">Grid</button>
             </div>
         <?php } ?>
         <div id="pagination" class="<?= $displayMode ? 'four' : 'six' ?> columns">
-            <button class="light" onclick="setParam('offset', 10)" name="offset" id="offset-10">◄</button>
-            <button class="light" onclick="setParam('offset', 25)" name="offset" id="offset-25">5/10</button>
-            <button class="light" onclick="setParam('offset', 50)" name="offset" id="offset-50">►</button>
+            <button onclick="setParam('offset', 10)" name="offset" id="offset-10">◄</button>
+            <button onclick="setParam('offset', 25)" name="offset" id="offset-25">5/10</button>
+            <button onclick="setParam('offset', 50)" name="offset" id="offset-50">►</button>
         </div>
         <div class="<?= $displayMode ? 'four' : 'six' ?> columns">
-            <button class="light" onclick="setParam('limit', 20)" name="limit" id="limit-20">20</button>
-            <button class="light" onclick="setParam('limit', 50)" name="limit" id="limit-50">50</button>
-            <button class="light" onclick="setParam('limit', 100)" name="limit" id="limit-100">100</button>
-            <button class="light" onclick="setParam('limit', 200)" name="limit" id="limit-200">200</button>
-            <button class="light" onclick="setParam('limit', 500)" name="limit" id="limit-500">500</button>
+            <button onclick="setParam('limit', 20)" name="limit" id="limit-20">20</button>
+            <button onclick="setParam('limit', 50)" name="limit" id="limit-50">50</button>
+            <button onclick="setParam('limit', 100)" name="limit" id="limit-100">100</button>
+            <button onclick="setParam('limit', 200)" name="limit" id="limit-200">200</button>
+            <button onclick="setParam('limit', 500)" name="limit" id="limit-500">500</button>
         </div>
     </div>
 <?php }
@@ -86,6 +86,9 @@ function loadingPage(): void
     </div>
 <?php }
 
+/**
+ * @throws Exception
+ */
 function last(int $amount = 100): void
 {
     $data = RDB::select('contents', 'id')
@@ -116,7 +119,7 @@ function last(int $amount = 100): void
                     $value->getName();
                     break;
                 default:
-                    throw new \Exception('Unexpected value');
+                    throw new Exception('Unexpected value');
             }
         } ?>
     </div>
@@ -137,7 +140,7 @@ function videoLinkWithPoster(Content $video): void
 function videoPoster(Content $content, bool $asImage = false): string
 {
     $poster = FileHandler::getURL($content) . '.png';
-    $poster = file_exists(FileHandler::getPath($content) . '.png') ? $poster : App::include('video-poster-placeholder.png');
+    $poster = FileHandler::hasThumbnail($content) ? $poster : App::include('video-poster-placeholder.png');
     return $asImage ? '<img id="video-' . $content->getId() . '-poster" class="video-thumbnail" src="' . $poster . '" alt="' . $content->getName() . '"/>' : $poster;
 }
 
@@ -168,7 +171,17 @@ function galleryFromImages(string $galleryId, array $images): void
             <?php } ?>
         </div>
         <div id="<?= $galleryId ?>-gallery-modal" class="gallery-modal modal">
-            <div id="<?= $galleryId ?>-gallery-controls" class="gallery-controls">1/100</div>
+            <div id="<?= $galleryId ?>-gallery-controls" class="gallery-controls">
+                <div id="<?= $galleryId ?>-gallery-controls-position" class="gallery-control">1/100</div>
+                <div id="<?= $galleryId ?>-gallery-controls-duration" class="gallery-control">5000ms</div>
+                <?php $i = 0;
+                foreach ($images as $image) { ?>
+                    <div class="gallery-controls-votes">
+                        <?php buttonDislike($image) ?>
+                        <?php buttonLike($image) ?>
+                    </div>
+                <?php } ?>
+            </div>
             <div id="<?= $galleryId ?>-gallery-slides" class="gallery-slides">
                 <?php $i = 0;
                 foreach ($images as $image) { ?>
@@ -192,21 +205,24 @@ function galleryFromImages(string $galleryId, array $images): void
 function dataInfo(Content $data): void
 { ?>
     <div id="<?= $data->getId() ?>-data-container" class="data-container">
-        <div class="row">
+        <section>
             <h1><?= $data->getName() ?></h1>
-        </div>
-        <div class="row">
+        </section>
+        <section class="u-space-top">
+            <?php voteBar($data) ?>
+        </section>
+        <section class="u-space-top">
             <h3>With</h3>
             <div class="actors list">
                 <?php
                 $actors = array();
                 foreach (Relation::getRelated($data, EDataType::ACTOR) as $actor) {
                     $actors[] = $actor ?>
-                    <a href="#" class="button light"><?= $actor->getName() ?></a>
+                    <a href="#"><?= $actor->getName() ?></a>
                 <?php } ?>
             </div>
-        </div>
-        <div class="row">
+        </section>
+        <section class="u-space-top">
             <h3>Tags</h3>
             <div class="tags list">
                 <?php
@@ -218,17 +234,48 @@ function dataInfo(Content $data): void
                     $tags[] = $sub;
                 $tags = array_unique($tags);
                 foreach ($tags as $sub) { ?>
-                    <a href="#" class="button light"><?= $sub->getName() ?></a>
+                    <a href="#"><?= $sub->getName() ?></a>
                 <?php } ?>
             </div>
-        </div>
-        <div class="row">
+        </section>
+        <section class="u-space-top">
             <h3>Settings</h3>
             <div class="settings list">
-                <a class="button light" href="<?= App::getLink('edit', 'data=' . $data->getId()) ?>" target="_blank">Edit</a>
+                <a href="<?= App::getLink('edit', 'data=' . $data->getId()) ?>" target="_blank">Edit</a>
             </div>
-        </div>
+        </section>
     </div>
+<?php }
+
+/* ==================================================
+ * Vote
+ */
+
+function voteBar(Content $data): void
+{ ?>
+    <div id="<?= $data->getId() ?>-vote-main-container" class="vote-main-container">
+        <?php buttonDislike($data) ?>
+        <div id="<?= $data->getId() ?>-vote-container" class="vote-container">
+            <div id="<?= $data->getId() ?>-vote-value" class="vote-value" style="width: <?= $data->getRatio() ?>%"></div>
+        </div>
+        <?php buttonLike($data) ?>
+        <?php buttonViews($data) ?>
+    </div>
+<?php }
+
+function buttonDislike(Content $data): void
+{ ?>
+    <button onclick="dislike(<?= $data->getId() ?>)"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <?= count($data->getDislikes()) ?></button>
+<?php }
+
+function buttonLike(Content $data): void
+{ ?>
+    <button onclick="like(<?= $data->getId() ?>)"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <?= count($data->getLikes()) ?></button>
+<?php }
+
+function buttonViews(Content $data): void
+{ ?>
+    <button onclick="addView(<?= $data->getId() ?>)"><i class="fa fa-eye" aria-hidden="true"></i> <?= $data->getViews() ?></button>
 <?php }
 
 /* ==================================================

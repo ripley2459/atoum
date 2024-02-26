@@ -2,16 +2,13 @@
 App::setDescription('Atoum - logout'); ?>
 
 <div class="container settings">
-
     <h1>Logout</h1>
-
     <form id="formLogout">
+        <?= Auth::getTokenField() ?>
         <button type="submit" name="logout">Logout</button>
     </form>
-
+    <div id="feedbacks"></div>
 </div>
-
-<div id="feedbacks"></div>
 
 <script>
 

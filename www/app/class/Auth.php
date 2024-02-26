@@ -65,7 +65,7 @@ class Auth
                 );
             }
 
-            $_SESSION = [];
+            $_SESSION = array();
             self::$_open = !session_destroy();
             R::checkArgument(!self::$_open, 'Failed to destroy the session!');
         }

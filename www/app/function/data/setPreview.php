@@ -1,7 +1,5 @@
 <?php
 
-R::require('id', 'image');
-
 $content = new Content(R::getParameter('id'));
 $image = R::getParameter('image');
 

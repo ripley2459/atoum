@@ -3,46 +3,58 @@
 
 $data = new Content(R::getParameter('data'));
 
-App::setTitle('Atoum - Edit-' . $data->getName());
-App::setDescription('Atoum - Edit-' . $data->getName()); ?>
+App::setTitle('Atoum - Edit: ' . $data->getName());
+App::setDescription('Atoum - Edit:' . $data->getName()); ?>
 
 <div class="container settings">
 
     <h1>Edit - <?php eDataTypeToString($data->getType()) ?></h1>
 
     <form id="editData" onsubmit="event.preventDefault();" onkeydown="return event.key !== 'Enter';">
-        <div class="row">
+        <div class="row u-space-top">
             <div class="twelve columns">
                 <label for="name">Name</label>
                 <input class="u-full-width" type="text" placeholder="<?= $data->getName() ?>" value="<?= $data->getName() ?>" id="name" name="name">
             </div>
         </div>
 
-        <div class="row">
-            <div class="six columns">
+        <div class="row u-space-top">
+            <div class="three columns">
                 <label for="dateCreated">Upload date</label>
                 <input class="u-full-width" type="datetime-local" value="<?= $data->getDateCreated()->format('Y-m-d\TH:i') ?>" id="dateCreated" name="dateCreated" readonly>
             </div>
-            <div class="six columns">
+            <div class="three columns">
+                <label for="dateViewed">date Viewed</label>
+                <input class="u-full-width" type="datetime-local" value="<?= $data->getDateLastViewed()->format('Y-m-d\TH:i') ?>" id="dateViewed" name="dateViewed" readonly>
+            </div>
+            <div class="three columns">
                 <label for="views">Views</label>
                 <input class="u-full-width" type="number" id="views" name="views" min="0" value="<?= $data->getViews() ?>">
             </div>
+            <div class="three columns">
+                <label for="views">Votes</label>
+                <?php buttonDislike($data); ?>
+                <?php buttonLike($data); ?>
+            </div>
         </div>
 
-        <div class="row">
-            <div class="six columns">
-                <?php typeahead('actor', 'Actors', 'actors...', EDataType::ACTOR, $data) ?>
+        <?php if ($data->getType() != EDataType::PLAYLIST) { ?>
+            <div class="row u-space-top">
+                <div class="six columns">
+                    <?php typeahead('actor', 'Actors', 'actors...', EDataType::ACTOR, $data) ?>
+                </div>
+                <div class="six columns">
+                    <?php typeahead('tag', 'Tags', 'tag...', EDataType::TAG, $data) ?>
+                </div>
             </div>
-            <div class="six columns">
-                <?php typeahead('tag', 'Tags', 'tag...', EDataType::TAG, $data) ?>
-            </div>
-        </div>
-        <div class="row">
+        <?php } ?>
+
+        <div class="row u-space-top">
             <button onclick="editData()">Apply</button>
             <?php if ($data->getType() == EDataType::VIDEO) { ?>
                 <button onclick="setPreview()">Set preview</button>
                 <a class="button button-primary" href="<?= App::getLink('video', 'video=' . $data->getId()) ?>">View</a>
-                <canvas id="<?= $data->getSlug() ?>-canvas" class="thumbnail-canvas"></canvas>
+                <canvas id="<?= $data->getId() ?>-video-canvas" class="thumbnail-canvas"></canvas>
             <?php } ?>
             <?php if ($data->getType() == EDataType::GALLERY) { ?>
                 <a class="button button-primary" href="<?= App::getLink('gallery', 'gallery=' . $data->getId()) ?>">View</a>
@@ -55,89 +67,94 @@ App::setDescription('Atoum - Edit-' . $data->getName()); ?>
         image($data);
 
     if ($data->getType() == EDataType::VIDEO)
-        videoPlayer($data);
+        echo '<video id="' . $data->getId() . '-video-player" class="video-player u-padd-top" src="' . FileHandler::getURL($data) . '" controls poster="' . videoPoster($data) . '"></video>';
 
     if ($data->getType() == EDataType::GALLERY) { ?>
-        <button id="bind-images" class="collapse" onclick="toggleCollapse(this)">Bind images</button>
-        <div id="bind-images-data" class="collapse-content">
-            <div id="dataSearchForm">
-                <div class="six columns">
-                    <h3>Linked images</h3>
-                    <div id="linkedImages" class="masonry" style="column-count: 4"></div>
-                </div>
-                <div class="six columns">
-                    <h3>Registered images</h3>
-                    <div class="row">
-                        <div class="twelve columns">
-                            <label for="search">Search</label>
-                            <input type="text" name="search" id="search" class="u-full-width" placeholder="search for..." onkeyup="setParam('search', value)">
-                        </div>
+        <div class="u-space-top">
+            <button id="bind-images" class="collapse" onclick="toggleCollapse(this)">Bind images</button>
+            <div id="bind-images-data" class="collapse-content">
+                <div id="dataSearchForm">
+                    <div class="six columns">
+                        <h3>Linked images</h3>
+                        <div id="linkedImages" class="masonry" style="column-count: 3"></div>
                     </div>
-
-                    <div class="row">
-                        <div class="six columns">
-                            <?php typeahead('actor-filter', 'With actors', 'actors...', EDataType::ACTOR) ?>
+                    <div class="six columns">
+                        <h3>Registered images</h3>
+                        <div class="row">
+                            <div class="twelve columns">
+                                <label for="search">Search</label>
+                                <input type="text" name="search" id="search" class="u-full-width" placeholder="search for..." onkeyup="setParam('search', value)">
+                            </div>
                         </div>
 
-                        <div class="six columns">
-                            <?php typeahead('tag-filter', 'With tags', 'tags...', EDataType::TAG) ?>
+                        <div class="row">
+                            <div class="six columns">
+                                <?php typeahead('actor-filter', 'With actors', 'actors...', EDataType::ACTOR) ?>
+                            </div>
+
+                            <div class="six columns">
+                                <?php typeahead('tag-filter', 'With tags', 'tags...', EDataType::TAG) ?>
+                            </div>
                         </div>
+
+                        <?php pagination(false) ?>
+
+                        <row class="u-full-width">
+                            <button onclick="toggleBetweenParams('orderBy', 'name_ASC', 'name_DESC')" name="orderBy" id="orderBy-name">Name</button>
+                            <button onclick="toggleBetweenParams('orderBy', 'dateCreated_ASC', 'dateCreated_DESC')" name="orderBy" id="orderBy-dateCreated">Date Created</button>
+                        </row>
+
+                        <div id="registeredImages" class="masonry u-space-top" style="column-count: 3"></div>
+
                     </div>
-
-                    <?php pagination(false) ?>
-
-                    <row class="u-full-width">
-                        <button onclick="toggleBetweenParams('orderBy', 'name_ASC', 'name_DESC')" name="orderBy" id="orderBy-name">Name</button>
-                        <button onclick="toggleBetweenParams('orderBy', 'dateCreated_ASC', 'dateCreated_DESC')" name="orderBy" id="orderBy-dateCreated">Date Created</button>
-                    </row>
-
-                    <div id="registeredImages" class="masonry" style="column-count: 4"></div>
-
                 </div>
             </div>
         </div>
     <?php }
 
     if ($data->getType() == EDataType::PLAYLIST) { ?>
-        <button id="bind-videos" class="collapse" onclick="toggleCollapse(this)">Bind videos</button>
-        <div id="bind-videos-data" class="collapse-content">
-            <div id="dataSearchForm">
-                <div class="six columns">
-                    <h3>Linked videos</h3>
-                    <div id="linkedVideos" class="masonry" style="column-count: 4"></div>
-                </div>
-                <div class="six columns">
-                    <h3>Registered videos</h3>
-                    <div class="row">
-                        <div class="twelve columns">
-                            <label for="search">Search</label>
-                            <input type="text" name="search" id="search" class="u-full-width" placeholder="search for..." onkeyup="setParam('search', value)">
-                        </div>
+        <div class="u-space-top">
+            <button id="bind-videos" class="collapse" onclick="toggleCollapse(this)">Bind videos</button>
+            <div id="bind-videos-data" class="collapse-content">
+                <div id="dataSearchForm">
+                    <div class="six columns">
+                        <h3>Linked videos</h3>
+                        <div id="linkedVideos" class="masonry" style="column-count: 4"></div>
                     </div>
-
-                    <div class="row">
-                        <div class="six columns">
-                            <?php typeahead('actor-filter', 'With actors', 'actors...', EDataType::ACTOR) ?>
+                    <div class="six columns">
+                        <h3>Registered videos</h3>
+                        <div class="row">
+                            <div class="twelve columns">
+                                <label for="search">Search</label>
+                                <input type="text" name="search" id="search" class="u-full-width" placeholder="search for..." onkeyup="setParam('search', value)">
+                            </div>
                         </div>
 
-                        <div class="six columns">
-                            <?php typeahead('tag-filter', 'With tags', 'tags...', EDataType::TAG) ?>
+                        <div class="row">
+                            <div class="six columns">
+                                <?php typeahead('actor-filter', 'With actors', 'actors...', EDataType::ACTOR) ?>
+                            </div>
+
+                            <div class="six columns">
+                                <?php typeahead('tag-filter', 'With tags', 'tags...', EDataType::TAG) ?>
+                            </div>
                         </div>
+
+                        <?php pagination(false) ?>
+
+                        <row class="u-full-width">
+                            <button onclick="toggleBetweenParams('orderBy', 'name_ASC', 'name_DESC')" name="orderBy" id="orderBy-name">Name</button>
+                            <button onclick="toggleBetweenParams('orderBy', 'dateCreated_ASC', 'dateCreated_DESC')" name="orderBy" id="orderBy-dateCreated">Date Created</button>
+                        </row>
+
+                        <div id="registeredVideos" class="masonry" style="column-count: 4"></div>
+
                     </div>
-
-                    <?php pagination(false) ?>
-
-                    <row class="u-full-width">
-                        <button onclick="toggleBetweenParams('orderBy', 'name_ASC', 'name_DESC')" name="orderBy" id="orderBy-name">Name</button>
-                        <button onclick="toggleBetweenParams('orderBy', 'dateCreated_ASC', 'dateCreated_DESC')" name="orderBy" id="orderBy-dateCreated">Date Created</button>
-                    </row>
-
-                    <div id="registeredVideos" class="masonry" style="column-count: 4"></div>
-
                 </div>
             </div>
         </div>
     <?php } ?>
+    <div id="feedbacks"></div>
 </div>
 
 <script>
@@ -186,7 +203,7 @@ App::setDescription('Atoum - Edit-' . $data->getName()); ?>
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200)
-                document.getElementById("notifications").innerHTML = request.responseText;
+                document.getElementById("feedbacks").innerHTML = request.responseText;
         }
 
         request.open("GET", destination);
@@ -204,7 +221,7 @@ App::setDescription('Atoum - Edit-' . $data->getName()); ?>
             sendRequest(destination, (request) => {
                 if (request.responseText === "")
                     window.location.href = "<?= App::getLink('uploads') ?>";
-                else document.getElementById("notifications").innerHTML = request.responseText;
+                else document.getElementById("feedbacks").innerHTML = request.responseText;
             });
         }
     }
@@ -219,7 +236,7 @@ App::setDescription('Atoum - Edit-' . $data->getName()); ?>
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200)
-                document.getElementById("notifications").innerHTML = request.responseText;
+                document.getElementById("feedbacks").innerHTML = request.responseText;
         }
 
         request.open("POST", destination);
@@ -229,8 +246,8 @@ App::setDescription('Atoum - Edit-' . $data->getName()); ?>
     <?php if ($data->getType() == EDataType::VIDEO) { ?>
     // Temporary function before implementing a real form to allow the user to download one or more previews
     function setPreview() {
-        const video = document.getElementById("<?= $data->getSlug() ?>");
-        const canvas = document.getElementById("<?= $data->getSlug() ?>".concat("-canvas"));
+        const video = document.getElementById("<?= $data->getId() ?>-video-player");
+        const canvas = document.getElementById("<?= $data->getId() ?>-video-canvas");
 
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
@@ -242,7 +259,7 @@ App::setDescription('Atoum - Edit-' . $data->getName()); ?>
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200)
-                document.getElementById("notifications").innerHTML = request.responseText;
+                document.getElementById("feedbacks").innerHTML = request.responseText;
         }
 
         formData.set("id", <?= $data->getId() ?>);
@@ -297,7 +314,7 @@ App::setDescription('Atoum - Edit-' . $data->getName()); ?>
 
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200)
-                document.getElementById("notifications").innerHTML = request.responseText;
+                document.getElementById("feedbacks").innerHTML = request.responseText;
         }
 
         request.open("GET", destination);

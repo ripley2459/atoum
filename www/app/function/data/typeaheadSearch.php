@@ -10,10 +10,6 @@ $r = RDB::select('contents', 'id', 'type', 'name')
     ->contains($search);
 $data = $r->execute();
 
-?>
-
-<ul>
-    <?php while ($d = $data->fetch(PDO::FETCH_ASSOC)) { ?>
-        <li><?= buttonSearchData($field, $d['name']) ?></li>
-    <?php } ?>
-</ul>
+while ($d = $data->fetch(PDO::FETCH_ASSOC)) { ?>
+    <div class="search-result"><?= buttonSearchData($field, $d['name']) ?></div>
+<?php }

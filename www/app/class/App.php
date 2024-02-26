@@ -6,9 +6,9 @@
 class App
 {
     protected static string $_page;
-    protected static string $_title = '%%TITLE%%';
-    protected static string $_description = '%%DESCRIPTION%%';
-    protected static string $_author = '%%AUTHOR%%';
+    protected static string $_title = 'Default title';
+    protected static string $_description = 'Default description';
+    protected static string $_author = 'Default author';
     protected static array $_searchArguments;
     protected static string $_buffer;
 
@@ -25,7 +25,7 @@ class App
         Auth::set('location', URL . $_SERVER['REQUEST_URI']);
 
         ob_start();
-        self::$_page = R::whitelist($_GET['page'] ?? LANDING_PAGE, ALLOWED_PAGES, UNKNOWN_PAGE);
+        self::$_page = R::whitelist($_GET['page'] ?? LANDING_PAGE, ALLOWED_PAGES, LANDING_PAGE);
 
         require_once path_PUBLIC . 'include/head.php';
         require_once path_PUBLIC . 'include/header.php';
@@ -34,9 +34,9 @@ class App
 
         self::$_buffer = ob_get_contents();
 
-        self::$_buffer = str_replace('%%TITLE%%', self::$_title, self::$_buffer);
-        self::$_buffer = str_replace('%%DESCRIPTION%%', self::$_description, self::$_buffer);
-        self::$_buffer = str_replace('%%AUTHOR%%', self::$_author, self::$_buffer);
+        self::$_buffer = str_replace(self::getTitlePlaceholder(), self::$_title, self::$_buffer);
+        self::$_buffer = str_replace(self::getDescriptionPlaceholder(), self::$_description, self::$_buffer);
+        self::$_buffer = str_replace(self::getAuthorPlaceholder(), self::$_author, self::$_buffer);
 
         ob_end_clean();
         echo self::$_buffer;
@@ -45,9 +45,9 @@ class App
     /**
      * @return string
      */
-    public static function getTitle(): string
+    public static function getTitlePlaceholder(): string
     {
-        return self::$_title;
+        return '%%TITLE%%';
     }
 
     /**
@@ -61,9 +61,9 @@ class App
     /**
      * @return string
      */
-    public static function getDescription(): string
+    public static function getDescriptionPlaceholder(): string
     {
-        return self::$_description;
+        return '%%DESCRIPTION%%';
     }
 
     /**
@@ -77,9 +77,9 @@ class App
     /**
      * @return string
      */
-    public static function getAuthor(): string
+    public static function getAuthorPlaceholder(): string
     {
-        return self::$_author;
+        return '%%AUTHOR%%';
     }
 
     /**

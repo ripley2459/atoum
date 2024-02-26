@@ -20,11 +20,11 @@ App::setDescription('Atoum - Uploads');
 
     <h1>Uploads</h1>
 
-    <div class="row u-padd-top">
+    <div class="row u-space-top">
         <div id="dataUploadForm" class="six columns">
             <label for="filesUploader">Upload</label>
             <input type="file" id="filesUploader" multiple required/>
-            <button class="light" onclick="uploadData()">Upload!</button>
+            <button onclick="uploadData()">Upload!</button>
         </div>
         <div class="six columns">
             <label>Create</label>
@@ -37,14 +37,14 @@ App::setDescription('Atoum - Uploads');
 
     <div id="dataSearchForm">
 
-        <div class="row u-padd-top">
+        <div class="row u-space-top">
             <div class="twelve columns">
                 <label for="search">Search</label>
                 <input type="text" name="search" id="search" class="u-full-width" placeholder="search for..." onkeyup="setParam('search', value)">
             </div>
         </div>
 
-        <div class="row u-padd-top">
+        <div class="row u-space-top">
             <div class="four columns">
                 <?php typeahead('actor-filter', 'With actors', 'actors...', EDataType::ACTOR) ?>
             </div>
@@ -72,13 +72,13 @@ App::setDescription('Atoum - Uploads');
         <thead>
         <tr>
             <th>
-                <button class="light" onclick="toggleBetweenParams('orderBy', 'name_ASC', 'name_DESC')" name="orderBy" id="orderBy-name">Name</button>
+                <button onclick="toggleBetweenParams('orderBy', 'name_ASC', 'name_DESC')" name="orderBy" id="orderBy-name">Name</button>
             </th>
             <th>
-                <button class="light" onclick="toggleBetweenParams('orderBy', 'type_ASC', 'type_DESC')" name="orderBy" id="orderBy-type">Type</button>
+                <button onclick="toggleBetweenParams('orderBy', 'type_ASC', 'type_DESC')" name="orderBy" id="orderBy-type">Type</button>
             </th>
             <th>
-                <button class="light" onclick="toggleBetweenParams('orderBy', 'dateCreated_ASC', 'dateCreated_DESC')" name="orderBy" id="orderBy-dateCreated">Date Created</button>
+                <button onclick="toggleBetweenParams('orderBy', 'dateCreated_ASC', 'dateCreated_DESC')" name="orderBy" id="orderBy-dateCreated">Date Created</button>
             </th>
             <th>Actions</th>
         </tr>
@@ -86,7 +86,6 @@ App::setDescription('Atoum - Uploads');
 
         <tbody id="feedbacks"></tbody>
     </table>
-
 </div>
 
 <script>

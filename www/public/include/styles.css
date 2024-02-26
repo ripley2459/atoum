@@ -1,5 +1,6 @@
-/* Setup
-   ========================================================================== */
+/* ==================================================
+ * Setup
+ */
 
 :root {
     --fon_large: 18px;
@@ -12,12 +13,12 @@
     --pad_light: 5px;
 }
 
-.u-padd-top {
-    padding-top: var(--pad_large)
+.u-space-top {
+    margin-top: var(--pad_large)
 }
 
-.u-padd-bot {
-    padding-bottom: var(--pad_large)
+.u-space-bot {
+    margin-bottom: var(--pad_large)
 }
 
 /* ==================================================
@@ -28,7 +29,6 @@
     margin: 0;
     width: auto;
     padding: var(--pad_huge) 20%;
-    background-color: var(--col_light_1);
 }
 
 /* ==================================================
@@ -117,7 +117,6 @@ h6 {
     margin: 0 0 var(--pad_normal) 0;
     line-height: 1.2;
     text-transform: uppercase;
-    color: var(--col_dark_2);
     font-weight: 700;
 }
 
@@ -179,13 +178,6 @@ h6 {
     border: 1px solid #bbb;
 }
 
-.modal img,
-.modal video {
-    max-height: 360px;
-    width: auto;
-    max-width: 100%;
-}
-
 /* ==================================================
  * Video
  */
@@ -223,9 +215,18 @@ h6 {
     max-width: 100%;
 }
 
-.playlist-videos img {
+.playlist-videos a {
+    text-decoration: none;
+    margin-left: var(--pad_normal);
+}
+
+.playlist-videos a:last-child {
+    margin-left: 0;
+}
+
+.playlist-videos a img {
     display: inline-block;
-    max-width: 8%;
+    max-height: 100px;
 }
 
 /* ==================================================
@@ -235,6 +236,10 @@ h6 {
 .gallery-container {
     width: auto;
     padding: var(--pad_huge);
+}
+
+.gallery-container img {
+    border-radius: 4px;
 }
 
 .gallery-modal {
@@ -281,9 +286,19 @@ h6 {
 
 .gallery-controls {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    background-color: black;
+    border-radius: 4px;
+    padding: var(--pad_large);
     color: white;
+    display: flex;
+    align-items: center;
+}
+
+.gallery-controls > * {
+    margin-right: var(--pad_normal);
 }
 
 .prev:hover ~ .gallery-thumbnails,
@@ -292,11 +307,9 @@ h6 {
     opacity: 1;
 }
 
-.image-button,
 .image-button {
     width: auto;
     height: auto;
-    margin: 0;
     padding: 0;
     font-size: 0;
     line-height: 0;
@@ -330,4 +343,36 @@ table {
 th,
 td {
     padding: var(--pad_light);
+}
+
+/* ==================================================
+ * Data
+ */
+
+.data-container,
+.related-container {
+    padding: var(--pad_huge);
+}
+
+/* ==================================================
+ * Votes
+ */
+
+.vote-main-container {
+    display: flex;
+    align-items: center;
+    gap: var(--pad_normal);
+}
+
+.vote-container {
+    background-color: indianred;
+    height: 12px;
+    width: 200px;
+}
+
+.vote-value {
+    height: 100%;
+    text-align: right;
+    background-color: darkolivegreen;
+    width: 66%;
 }

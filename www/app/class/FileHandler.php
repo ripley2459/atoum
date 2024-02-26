@@ -21,16 +21,26 @@ class FileHandler
         return R::concat('/', URL, 'public', 'data/uploads', $file->getDateCreated()->format(self::DATE_FORMAT), $file->getSlug());
     }
 
-    public static function getPath(Content $file): string
-    {
-        return path_DATA . 'uploads/' . $file->getDateCreated()->format(self::DATE_FORMAT) . '/' . $file->getSlug();
-    }
-
     /**
      * @return string Something like public/uploads/2024/01/01/
      */
     public static function getDefaultPath(): string
     {
         return path_DATA . 'uploads/' . date(self::DATE_FORMAT) . '/';
+    }
+
+    /**
+     * Return true if the provided data has a thumbnail.
+     * @param Content $content
+     * @return bool
+     */
+    public static function hasThumbnail(Content $content): bool
+    {
+        return file_exists(FileHandler::getPath($content) . '.png');
+    }
+
+    public static function getPath(Content $file): string
+    {
+        return path_DATA . 'uploads/' . $file->getDateCreated()->format(self::DATE_FORMAT) . '/' . $file->getSlug();
     }
 }

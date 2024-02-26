@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Configuration and Initialization Script
+ * Configuration and Initialization Script.
  * This script sets up essential constants, includes necessary files, and performs initializations required for the proper functioning of the application.
  */
 
@@ -25,11 +25,15 @@ require_once DIR . 'app/class/' . 'AData.php';
 require_once DIR . 'app/class/' . 'AContent.php';
 require_once DIR . 'app/class/' . 'User.php';
 require_once DIR . 'app/class/' . 'Content.php';
+require_once DIR . 'app/class/' . 'Vote.php';
 require_once DIR . 'app/class/' . 'Relation.php';
 require_once path_PUBLIC . 'include/Widgets.php';
 
 if (file_exists(DIR . 'config.php')) {
     require_once DIR . 'config.php';
+    /**
+     * To prevent connection to a database, delete the following line.
+     */
     RDB::start(['host' => HOST, 'dbname' => DBNAME, 'charset' => CHARSET, 'user' => USER, 'password' => PASSWORD, 'prefix' => PREFIX, 'sqlPath' => MY_SQL_PATH]);
 } else {
     echo '<h1>Unable to reach website\'s settings!</h1>';
@@ -42,4 +46,6 @@ if (file_exists(DIR . 'config.php')) {
 User::checkTable();
 Content::checkTable();
 Relation::checkTable();
+Vote::checkTable();
+
 FileHandler::checkPath(path_DATA);

@@ -1,10 +1,20 @@
 <?php
 
-$data = new Content(R::getParameter('video'));
+$videoId = R::getParameter('video');
 
+if ($videoId == 'random') {
+    $data = RDB::select('contents', 'id')
+        ->where('type', '=', EDataType::VIDEO->value)
+        ->limit(1)
+        ->orderBy('id', 'RAND()')
+        ->execute();
+    while ($d = $data->fetch(PDO::FETCH_ASSOC))
+        $videoId = $d['id'];
+}
+
+$data = new Content($videoId);
 App::setTitle('Atoum - ' . $data->getName());
 App::setDescription($data->getName());
-
 videoPlayer($data);
 dataInfo($data);
 

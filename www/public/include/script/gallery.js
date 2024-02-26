@@ -50,7 +50,9 @@ const setSlide = (n) => {
     let i;
     const slides = document.getElementById(gallery + "-slides").getElementsByTagName("img");
     const thumbnails = document.getElementById(gallery + "-thumbnails").getElementsByTagName("img");
-    const controls = document.getElementById(gallery + "-controls");
+    const controlsPosition = document.getElementById(gallery + "-controls-position");
+    const controlsDuration = document.getElementById(gallery + "-controls-duration");
+    const controlsVotes = document.getElementById(gallery + "-controls").getElementsByClassName("gallery-controls-votes");
 
     autoSlider = setTimeout(changeSlide, timer, 1, gallery);
 
@@ -59,11 +61,16 @@ const setSlide = (n) => {
     if (n < 1)
         slide = slides.length
 
-    for (i = 0; i < slides.length; i++)
+    for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
+        controlsVotes[i].style.display = "none";
+    }
 
-    controls.innerHTML = slide + '/' + slides.length + " | " + timer + "ms";
+    controlsPosition.innerHTML = slide + '/' + slides.length;
+    controlsDuration.innerHTML = timer + "ms";
+
     slides[slide - 1].style.display = "block";
+    controlsVotes[slide - 1].style.display = "block";
 
     for (i = 0; i < slides.length; i++)
         thumbnails[i].classList.remove("active");
@@ -82,6 +89,10 @@ const setSlide = (n) => {
     thumbnails[clamp(slide + 0)].classList.add("active");
     thumbnails[clamp(slide + 1)].classList.add("active");
 }
+
+/* ==================================================
+ * Video
+ */
 
 const videoPreviews = document.querySelectorAll(".video-preview");
 
@@ -123,4 +134,29 @@ videoPreviews.forEach(function (link) {
 
 const showVideo = (id, zone) => {
     setParam('index', id);
+}
+
+/* ==================================================
+ * Votes
+ */
+
+const like = (data) => {
+    applyVote(data, +1);
+}
+
+const dislike = (data) => {
+    applyVote(data, -1);
+}
+
+const applyVote = (data, vote) => {
+    const destination = new URL(func("vote/applyVote"));
+    destination.searchParams.set("data", data);
+    destination.searchParams.set("vote", vote);
+    putFrom(destination, "notifications");
+}
+
+const addView = (data) => {
+    const destination = new URL(func("vote/addView"));
+    destination.searchParams.set("data", data);
+    putFrom(destination, "notifications");
 }

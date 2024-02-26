@@ -7,7 +7,7 @@ App::setDescription('Atoum - Settings'); ?>
 <div class="container settings">
     <h1>Settings</h1>
     <!-- Temporary system for testing and automation! -->
-    <div class="row">
+    <div class="row u-space-bot">
         <button onclick="saveDB('settingsFeedbacks')">Save DB</button>
         <?php foreach (R::recursiveScan(path_DATA . 'scripts/') as $script) {
             if (str_contains($script, 'disabled'))

@@ -8,10 +8,11 @@ $data = [
     $content->getType()->value,
     $content->getStatus(),
     R::getParameter('views'),
+    $content->getDateLastViewed()->format('Y-m-d H:i:s'),
     R::concat('.', R::sanitize($name), R::pathInfo(FileHandler::getPath($content))['extension']),
     $name,
-    R::EMPTY,
-    0
+    $content->getContent(),
+    $content->getParent()
 ];
 
 R::checkArgument($content->update($data), 'Failed to update data!', true);

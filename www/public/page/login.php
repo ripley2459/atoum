@@ -4,6 +4,7 @@ App::setDescription('Atoum - Login'); ?>
 <div class="container settings">
     <h1>Login</h1>
     <form id="formLogin">
+        <?= Auth::getTokenField() ?>
         <label for="username">Username</label>
         <input type="text" id="username" name="username" required/>
         <label for="password">Password</label>
@@ -11,9 +12,8 @@ App::setDescription('Atoum - Login'); ?>
         <button type="submit" name="login">Login</button>
     </form>
     <a href="<?= App::getLink('register') ?>">You don't have an account?</a>
+    <div id="feedbacks"></div>
 </div>
-
-<div id="feedbacks"></div>
 
 <script>
 

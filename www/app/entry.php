@@ -22,6 +22,8 @@ const ALLOWED_FUNCTIONS = [
     'playlist/getVideosNonLinked',
     'relation/createRelation',
     'relation/deleteRelation',
+    'vote/applyVote',
+    'vote/addView',
     'db/saveDB'
 ];
 

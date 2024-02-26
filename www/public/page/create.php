@@ -14,15 +14,13 @@ R::whitelist($type, [EDataType::GALLERY, EDataType::PLAYLIST]);
 
 <div class="container settings">
     <h1>Create - <?php eDataTypeToString($type) ?></h1>
-    <div class="u-padd-bot">
+    <div class="u-space-top u-space-bot">
         <label for="name">Name</label>
-        <input class="u-full-width u-padd-bot" type="text" placeholder="name..." id="name">
+        <input class="u-full-width" type="text" placeholder="name..." id="name">
     </div>
     <button onclick="create()" class="button-primary">Create</button>
-
+    <div id="feedbacks"></div>
 </div>
-
-<div id="feedbacks"></div>
 
 <script>
     const create = () => {

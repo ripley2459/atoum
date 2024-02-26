@@ -1,0 +1,29 @@
+<?php
+
+date_default_timezone_set('Europe/Paris');
+
+const HOST = '';
+const DBNAME = '';
+const CHARSET = '';
+const USER = '';
+const PASSWORD = '';
+const PREFIX = '';
+const MY_SQL_PATH = '';
+
+const LANDING_PAGE = 'welcome';
+const UNKNOWN_PAGE = 'unknown';
+const ALLOWED_PAGES = [
+    LANDING_PAGE,
+    UNKNOWN_PAGE,
+    'home',
+    'login',
+    'logout',
+    'register',
+    'settings',
+    'edit',
+    'uploads',
+    'video',
+    'gallery',
+    'playlist',
+    'create'
+];
