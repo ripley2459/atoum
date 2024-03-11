@@ -9,6 +9,7 @@ const ALLOWED_FUNCTIONS = [
     'auth/login',
     'auth/logout',
     'auth/register',
+
     'data/getData',
     'data/createData',
     'data/deleteData',
@@ -16,14 +17,19 @@ const ALLOWED_FUNCTIONS = [
     'data/uploadData',
     'data/setPreview',
     'data/typeaheadSearch',
+
     'gallery/getImagesLinked',
     'gallery/getImagesNonLinked',
+
     'playlist/getVideosLinked',
     'playlist/getVideosNonLinked',
+
     'relation/createRelation',
     'relation/deleteRelation',
+
     'vote/applyVote',
     'vote/addView',
+
     'db/saveDB'
 ];
 

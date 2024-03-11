@@ -15,6 +15,9 @@
                 <a href="<?= App::getLink('settings') ?>">Settings</a>
             </div>
             <div class="item">
+                <a href="<?= App::getLink('editor') ?>">Editor</a>
+            </div>
+            <div class="item">
                 <a href="<?= App::getLink('login') ?>">Login</a>
             </div>
         </nav>
